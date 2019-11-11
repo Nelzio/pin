@@ -1,34 +1,18 @@
 <template>
   <q-page padding class="flex flex-center">
-    <!-- @detected-condition fires when the connectivity status of the device changes -->
-    <offline @detected-condition="handleConnectivityChange">
-      <!-- Only renders when the device is online -->
-      <div slot="online">
-        <p>It looks like you're online! Here's all the things you can do...</p>
-        ...
-      </div>
-      <!-- Only renders when the device is offline -->
-      <div slot="offline">
-        <h6>You appear to be offline, that's okay!</h6>
-        ...
-      </div>
-    </offline>
+      <h5 v-if="isConected">App Mode: <b class="text-green-8">Internet</b></h5>
+      <h5 v-else>App Mode: <b class="text-red-8">Offline</b></h5>
   </q-page>
 </template>
 
 <script>
-    import offline from 'v-offline';
-
+    import { mapState } from 'vuex'
     export default {
         name: 'PageIndex',
-        components: {
-            offline
-        },
-
-        methods: {
-            handleConnectivityChange(status) {
-                console.log(status);
-            }
+        computed: {
+            ...mapState('settings', [
+                'isConected'
+            ])
         }
     }
 </script>
