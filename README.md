@@ -18,11 +18,9 @@ Aplicação para deficientes
 - Terá vídeos para que os deficientes auditivos possam saber das vagas vendo vídeos em línguas de sinais;
 - Por meio de cliques de 10s em 4 áreas do encrã, o deficiente visual poderá ver vagas, artigos a vendas e outras opções relevantes.
 
-### 4. Haverá espaço para que os deficientes possam esporem os seus trabalhos,
-
-### 5. Módulos do sistema:
+### 4. Módulos do sistema:
 - Registo dos deficientes;
 - Publicação de vagas de emprego (empregradores);
 - Listagem de deficientes e suas habilidades ou formação (deficintes);
-- Exposição de trabalhos ou listagem de artigos a venda.
+- Exposição de trabalhos ou listagem de artigos a venda (deficientes).
 
