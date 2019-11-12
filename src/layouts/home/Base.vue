@@ -44,7 +44,7 @@
       <q-tabs active-color="teal" indicator-color="transparent" class="text-grey">
         <q-route-tab name="home" icon="home" to="/" />
         <q-route-tab name="trabalho" icon="work" to="/work" />
-        <q-route-tab name="search" icon="storefront" to="/search" />
+        <q-route-tab name="store" icon="storefront" to="/store" />
         <q-route-tab name="profile" icon="settings" to="/settings" />
         <!--<q-route-tab name="profile" icon="person" to="/profile" />-->
       </q-tabs>
