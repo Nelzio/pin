@@ -21,6 +21,15 @@
             // ...mapActions ('auth', [
             //     'handleAuthStateChange'
             // ])
+
+            // ============= Generic PlayAudio
+            playSound (audioPath) {
+                if(audioPath) {
+                    var audio = new Audio(audioPath);
+                    audio.play();
+                }
+            },
+
         },
         mounted () {
             // Verificando se o utilizador tem configurações no LocalStorage
@@ -28,6 +37,10 @@
             if (settings) {
                 this.setSettings (settings) //guardando as configurações do user no state (vuex)
             }
+
+            this.$root.$on('playSound', (audioPath) => {
+                this.playSound (audioPath)
+            })
         }
     }
 </script>

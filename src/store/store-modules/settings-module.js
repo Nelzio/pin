@@ -5,7 +5,9 @@ const state = {
     settings: {
         mode: '',
         isNarratorActive: false,
-    }
+    },
+    soundHome: '/statics/audios/home.wav',
+    soundError: '/statics/audios/error.wav'
 }
 
 const mutations = {
@@ -28,8 +30,13 @@ const getters = {
 
 const actions = {
 
-    setIsConected ({commit}, val) {
+    setIsConected ({state, commit, dispatch}, val) {
         commit('setIsConected', val)
+        if (val) {
+            dispatch('playSound', state.soundHome)
+        } else {
+            dispatch('playSound', state.soundError)
+        }
     },
     setSettings ({commit, dispatch}, val) {
         commit('setSettings', val)
@@ -43,7 +50,16 @@ const actions = {
     cacheSettings ({}, val) {
         LocalStorage.set('stgs', val) //stgs - settings key
         console.log('Settings saved in LocalStorage. From pages/settings/PageSettings.vue')
-    }
+    },
+
+    // ===== Audio options
+
+    playSound ({}, audioPath) {
+        if(audioPath) {
+            var audio = new Audio(audioPath);
+            audio.play();
+        }
+    },
 
 }
 

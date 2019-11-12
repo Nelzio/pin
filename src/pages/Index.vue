@@ -6,16 +6,26 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import { mapState, mapActions } from 'vuex'
     export default {
         name: 'PageIndex',
+        data () {
+            return {
+
+            }
+        },
         computed: {
             ...mapState('settings', [
                 'isConected'
-            ])
+            ]),
+        },
+        methods: {
+            ...mapActions('settings', ['playSound'])
         },
         mounted () {
             this.$root.$emit('isHomePage', true) //Coloca o menú do controlo de página inicial activa
-        }
+
+            // this.playSound(this.soundError)
+        },
     }
 </script>
