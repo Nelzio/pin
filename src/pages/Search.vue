@@ -40,15 +40,27 @@
 </template>
 
 <script>
-export default {
-  // name: 'PageName',
-  data () {
-    return {
-      text: '',
+    import { mapState, mapActions } from 'vuex'
+    export default {
+      // name: 'PageName',
+      data () {
+        return {
+          text: '',
+        }
+      },
+        computed: {
+            ...mapState('settings', [
+                'settings'
+            ]),
+        },
+        mounted () {
+            this.$root.$emit('isHomePage', false)
+            if (this.settings.isNarratorActive) {
+                this.playSound('/statics/audios/exposicao.aac')
+            }
+        },
+        methods: {
+            ...mapActions ('settings', ['setSettings', 'playSound'])
+        }
     }
-  },
-    mounted () {
-        this.$root.$emit('isHomePage', false)
-    }
-}
 </script>

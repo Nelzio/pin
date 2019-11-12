@@ -77,9 +77,13 @@
         mounted () {
             this.$root.$emit('isHomePage', false)
             this.localSettings = this.settings //recuperando as configurações do state/store
+
+            if (this.settings.isNarratorActive) {
+                this.playSound('/statics/audios/configs.aac')
+            }
         },
         methods: {
-            ...mapActions ('settings', ['setSettings'])
+            ...mapActions ('settings', ['setSettings', 'playSound'])
         },
     }
 </script>

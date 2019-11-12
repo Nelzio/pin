@@ -66,35 +66,51 @@
 </template>
 
 <script>
-export default {
+    import { mapState, mapActions } from 'vuex'
+    export default {
   // name: 'PageName',
-  data () {
-    return {
-      lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      padding: '',
-      deviceWidth: 375,
-      vacancies: [
+    data () {
+      return {
+        lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        padding: '',
+        deviceWidth: 375,
+        vacancies: [
         {
-          name: 'Vaga de contabilista',
-          company: 'Explicador Inc',
-          desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
-          img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'
+            name: 'Vaga de contabilista',
+            company: 'Explicador Inc',
+            desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+            img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'
         },
-        {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
-        {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
-        {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
-        {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
-        {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
-        {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
-      ]
-    }
-  },
-  mounted () {
-    this.deviceWidth = window.screen.width
-    if(this.$q.screen.gt.sm) this.padding = 'q-pa-sm'
-    // console.log(this.deviceWidth)
+          {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
+          {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
+          {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
+          {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
+          {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
+          {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
+        ]
+      }
+    },
+    computed: {
+        ...mapState('settings', [
+          'settings'
+        ]),
+            // ...mapGetters('settings', [
+            //     'getSettings'
+            // ]),
+    },
+    methods: {
+        ...mapActions ('settings', ['setSettings', 'playSound'])
+    },
+    mounted () {
+      this.deviceWidth = window.screen.width
+      if(this.$q.screen.gt.sm) this.padding = 'q-pa-sm'
+      // console.log(this.deviceWidth)
 
-      this.$root.$emit('isHomePage', false)
+        this.$root.$emit('isHomePage', false)
+
+        if (this.settings.isNarratorActive) {
+            this.playSound('/statics/audios/vagas.aac')
+        }
+    }
   }
-}
 </script>
