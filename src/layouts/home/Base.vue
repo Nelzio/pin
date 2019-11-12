@@ -2,11 +2,11 @@
   <q-layout view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
-    <q-header elevated>
-      <q-toolbar class="bg-grey-3 text-teal">
+    <q-header class="bg-white" elevated>
+      <q-toolbar class="text-teal">
         <q-btn
             @click="$router.go(-1)"
-            v-if="isHome !== 'Início'"
+            v-if="isHome !== 'Início' && isHome !== true"
             flat
             dense
             round
@@ -14,7 +14,7 @@
             aria-label="Menu"
         />
         <span class="text-h6">
-          {{ isHome }}
+          {{ isHome === true ? 'Início' : isHome }}
         </span>
         <q-toolbar-title class="text-center">
 
@@ -40,14 +40,13 @@
 
     </q-header>
 
-    <q-footer elevated class="bg-grey-3 text-black" v-if="!$q.screen.gt.sm">
+    <q-footer elevated class="bg-white text-black" v-if="!$q.screen.gt.sm">
       <q-tabs active-color="teal" indicator-color="transparent" class="text-grey">
         <q-route-tab name="home" icon="home" to="/" />
         <q-route-tab name="trabalho" icon="work" to="/work" />
         <q-route-tab name="search" icon="storefront" to="/search" />
         <q-route-tab name="profile" icon="settings" to="/settings" />
         <!--<q-route-tab name="profile" icon="person" to="/profile" />-->
-
       </q-tabs>
     </q-footer>
 

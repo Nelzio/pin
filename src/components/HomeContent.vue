@@ -1,6 +1,6 @@
 <template>
     <div class="q-pa-md">
-        <div class="flex flex-center text-grey">
+        <div class="flex flex-center text-teal">
             <div
                 class="text-center q-pr-lg"
                 style="height: 180px;border-right: 2px solid rgba(0,0,0,.1);border-bottom: 2px solid rgba(0,0,0,.1)"
@@ -25,7 +25,7 @@
                 <span>Exposição</span>
             </div>
         </div>
-        <div class="flex flex-center text-grey">
+        <div class="flex flex-center text-teal">
             <div
                 class="text-center q-pr-lg q-pt-lg "
                 style="height: 180px;border-right: 2px solid rgba(0,0,0,.1)"
