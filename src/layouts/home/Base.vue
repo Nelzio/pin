@@ -21,6 +21,13 @@
           round
           size="lg"
           dense
+          icon="volume_up"
+        />
+        <q-btn
+          flat
+          round
+          size="lg"
+          dense
           icon="account_circle"
           to="/profile"
         />
