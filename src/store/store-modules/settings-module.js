@@ -6,6 +6,7 @@ const state = {
         mode: '',
         isNarratorActive: false,
         isVibrationActive: true,
+        fontSize: '10pt',
     },
     appMode: {
         modeName:   'light',
