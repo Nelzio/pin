@@ -85,7 +85,7 @@ const actions = {
 
     vibrate ({}, audioPath = null) {
         console.log('Vibration triggered in: /store/modules/settings-module')
-        window.navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
+        window.navigator.vibrate([100, 300, 100, 300, 200, 100]);
     },
 
 }
