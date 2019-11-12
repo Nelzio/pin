@@ -6,16 +6,20 @@
       <q-toolbar class="bg-grey-3 text-teal">
         <q-btn
             @click="$router.go(-1)"
-            v-if="!isHome"
+            v-if="isHome !== 'Início'"
             flat
             dense
             round
             icon="arrow_back"
             aria-label="Menu"
         />
+        <span class="text-h6">
+          {{ isHome }}
+        </span>
         <q-toolbar-title class="text-center">
-          Oportunity
+
         </q-toolbar-title>
+
         <q-btn
           flat
           round
@@ -105,7 +109,7 @@ export default {
       leftDrawer: false,
       tab:"home",
       navtab: "list",
-        isHome: true
+        isHome: 'Início'
     }
   },
     mounted () {

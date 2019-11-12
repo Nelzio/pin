@@ -54,7 +54,8 @@
             ]),
         },
         mounted () {
-            this.$root.$emit('isHomePage', false)
+            this.$root.$emit('isHomePage', 'Exposição')
+
             if (this.settings.isNarratorActive) {
                 this.playSound('/statics/audios/exposicao.aac')
             }

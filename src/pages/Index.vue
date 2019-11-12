@@ -26,13 +26,13 @@
             ...mapActions('settings', ['playSound'])
         },
         mounted () {
-            this.$root.$emit('isHomePage', true) //Coloca o menú do controlo de página inicial activa
+            this.$root.$emit('isHomePage', 'Início') //Coloca o menú do controlo de página inicial activa
 
-            window.navigator.vibrate([100,30,100,30,100,30,200,30,200,30,200,30,100,30,100,30,100]);
+            window.navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
 
             if (this.settings.isNarratorActive) {
                 this.playSound('/statics/audios/home.aac')
             }
-
+        }
     }
 </script>

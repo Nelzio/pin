@@ -25,7 +25,7 @@
 export default {
   // name: 'PageName',
     mounted () {
-        this.$root.$emit('isHomePage', this.$router.currentRoute.path === '/')
+        this.$root.$emit('isHomePage', 'Perfil')
     }
 }
 </script>

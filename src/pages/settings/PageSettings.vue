@@ -75,7 +75,7 @@
             // ]),
         },
         mounted () {
-            this.$root.$emit('isHomePage', false)
+            this.$root.$emit('isHomePage', 'Preferências')
             this.localSettings = this.settings //recuperando as configurações do state/store
 
             if (this.settings.isNarratorActive) {

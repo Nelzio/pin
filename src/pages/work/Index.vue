@@ -8,7 +8,7 @@
           <div style="padding: 10px; background: transparent;">
             <q-avatar text-color="white">
               <q-img src="https://explicador.co.mz/images/explicador%20logo.png" spinner-color="white" />
-              
+
             </q-avatar>
           </div>
             
@@ -36,29 +36,7 @@
     <div v-else>
       <q-list>
         <q-card class="my-card" v-for="(vacancy, i) in vacancies" :key="i">
-          <q-item class="q-mb-sm" clickable>
-            <q-item-section avatar top>
-              <q-avatar>
-                <img :src="vacancy.img">
-              </q-avatar>
-            </q-item-section>
-
-            <q-item-section>
-              <div>
-                <q-item-label>{{ vacancy.name }}</q-item-label>
-                <q-item-label caption lines="4">{{ vacancy.desc }}</q-item-label>
-              </div>
-              <div class="row justify-end q-pt-md">
-                <div>
-                  <q-btn rounded color="white" text-color="black" label="Detalhes" to="/work/details" />
-                </div>
-                <div>
-                  <q-btn round flat icon="speaker_phone" />
-                </div>
-              </div>
-            </q-item-section>
-
-          </q-item>
+          <vacancy-component :vacancy="vacancy"/>
         </q-card>
         
       </q-list>
@@ -68,8 +46,10 @@
 
 <script>
     import { mapState, mapActions } from 'vuex'
+    import VacancyComponent from "../../components/work/VacancyComponent";
     export default {
-  // name: 'PageName',
+        components: {VacancyComponent},
+        // name: 'PageName',
     data () {
       return {
         lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -107,7 +87,7 @@
       if(this.$q.screen.gt.sm) this.padding = 'q-pa-sm'
       // console.log(this.deviceWidth)
 
-        this.$root.$emit('isHomePage', false)
+        this.$root.$emit('isHomePage', 'Vagas')
 
         if (this.settings.isNarratorActive) {
             this.playSound('/statics/audios/vagas.aac')
