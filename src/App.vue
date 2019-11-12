@@ -5,13 +5,13 @@
     <offline @detected-condition="setIsConected">
       <!-- Only renders when the device is online -->
       <div slot="online">
-        <p>It looks like you're online! Here's all the things you can do...</p>
-        ...
+        <!-- <p>It looks like you're online! Here's all the things you can do...</p>
+        ... -->
       </div>
       <!-- Only renders when the device is offline -->
       <div slot="offline">
-        <h6>You appear to be offline, that's okay!</h6>
-        ...
+        <!-- <h6>You appear to be offline, that's okay!</h6>
+        ... -->
       </div>
     </offline>
   </div>

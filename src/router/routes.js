@@ -2,9 +2,19 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MyLayout.vue'),
+    component: () => import('layouts/home/Base.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') }
+      { path: '', component: () => import('pages/Index.vue') },
+      { path: 'search', component: () => import('pages/Search.vue') },
+      { path: 'profile', component: () => import('pages/profile/Index.vue') }
+    ]
+  },
+  {
+    path: '/work',
+    component: () => import('layouts/home/Base.vue'),
+    children: [
+      { path: '', component: () => import('pages/work/Index.vue') },
+      { path: 'details', component: () => import('pages/work/Details.vue') }
     ]
   }
 ]
