@@ -49,6 +49,8 @@ export default {
     this.deviceWidth = window.screen.width
     if(this.deviceWidth > 850) this.padding = 'q-pa-sm'
     // console.log(this.deviceWidth)
+
+      this.$root.$emit('isHomePage', false)
   }
 }
 </script>

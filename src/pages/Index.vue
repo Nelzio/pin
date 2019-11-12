@@ -27,8 +27,6 @@
         },
         mounted () {
             this.$root.$emit('isHomePage', true) //Coloca o menú do controlo de página inicial activa
-
-            // this.playSound(this.soundError)
         },
     }
 </script>

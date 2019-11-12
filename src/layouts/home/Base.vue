@@ -6,6 +6,7 @@
       <q-toolbar class="bg-grey-3 text-teal">
         <q-btn
             @click="$router.go(-1)"
+            v-if="!isHome"
             flat
             dense
             round
