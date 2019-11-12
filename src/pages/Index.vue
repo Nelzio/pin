@@ -27,7 +27,7 @@
         },
         mounted () {
             this.$root.$emit('isHomePage', true) //Coloca o menú do controlo de página inicial activa
-            window.navigator.vibrate([100,30,100,30,100,30,200,30,200,30,200,30,100,30,100,30,100]);
+            // window.navigator.vibrate([100,30,100,30,100,30,200,30,200,30,200,30,100,30,100,30,100]);
         },
     }
 </script>
