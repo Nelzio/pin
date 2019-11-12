@@ -2,7 +2,7 @@
   <q-page
       class="flex flex-center"
       :class="[appMode.textColor, appMode.bgColor]"
-      v-touch-swipe.mouse="handleSwipe"
+      v-touch-swipe.mouse.left.right="handleSwipe"
   >
       <!--<h5 v-if="isConected">App Mode: <b class="text-green-8">Internet</b></h5>-->
       <!--<h5 v-else>App Mode: <b class="text-red-8">Offline</b></h5>-->

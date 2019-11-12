@@ -1,7 +1,7 @@
 <template>
   <q-page
     padding
-    v-touch-swipe.mouse="handleSwipe"
+    v-touch-swipe.mouse.left.right="handleSwipe"
   >
     <!-- content -->
     <div class="row q-gutter-y-md" v-if="$q.screen.gt.sm">

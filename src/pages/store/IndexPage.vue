@@ -2,7 +2,7 @@
   <q-page
     padding
     style="padding-bottom: 80px;"
-    v-touch-swipe.mouse="handleSwipe"
+    v-touch-swipe.mouse.left.right="handleSwipe"
   >
     <!-- content -->
     <div class="row">
