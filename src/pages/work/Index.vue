@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <!-- content -->
-    <div class="row q-gutter-y-md">
+    <div class="row q-gutter-y-md" v-if="$q.screen.gt.sm">
       <div class="col-sm-12 col-md-4" :class="padding" v-for="i in 30" :key="i">
         <q-card class="my-card">
           <q-img src="https://cdn.quasar.dev/img/mountains.jpg">
@@ -32,6 +32,36 @@
         </q-card>
       </div>
     </div>
+
+    <div v-else>
+      <q-list>
+        <q-card class="my-card" v-for="(vacancy, i) in vacancies" :key="i">
+          <q-item class="q-mb-sm" clickable v-ripple>
+            <q-item-section avatar top>
+              <q-avatar>
+                <img :src="vacancy.img">
+              </q-avatar>
+            </q-item-section>
+
+            <q-item-section>
+              <div>
+                <q-item-label>{{ vacancy.name }}</q-item-label>
+                <q-item-label caption lines="4">{{ vacancy.desc }}</q-item-label>
+              </div>
+              <div>
+                <q-btn flat round color="teal" icon="pan_tool" />
+                <q-btn flat round color="teal" icon="thumb_up" />
+                <q-btn flat round color="teal" icon="share" />
+                <q-btn flat round color="teal" icon="more_horiz" to="/work/details" />
+                
+              </div>
+            </q-item-section>
+
+          </q-item>
+        </q-card>
+        
+      </q-list>
+    </div>
   </q-page>
 </template>
 
@@ -43,11 +73,25 @@ export default {
       lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       padding: '',
       deviceWidth: 375,
+      vacancies: [
+        {
+          name: 'Vaga de contabilista',
+          company: 'Explicador Inc',
+          desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+          img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'
+        },
+        {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
+        {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
+        {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
+        {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
+        {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
+        {name: 'Vaga de contabilista', company: 'Explicador Inc', desc: 'Vaga para um contabilista junior', img: 'https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg'},
+      ]
     }
   },
   mounted () {
     this.deviceWidth = window.screen.width
-    if(this.deviceWidth > 850) this.padding = 'q-pa-sm'
+    if(this.$q.screen.gt.sm) this.padding = 'q-pa-sm'
     // console.log(this.deviceWidth)
   }
 }
