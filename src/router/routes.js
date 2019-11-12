@@ -17,6 +17,13 @@ const routes = [
       { path: '', component: () => import('pages/work/Index.vue') },
       { path: 'details', component: () => import('pages/work/Details.vue') }
     ]
+  },
+  {
+    path: '/account',
+    component: () => import('layouts/Clean.vue'),
+    children: [
+      { path: '', component: () => import('pages/account/Login.vue') },
+    ]
   }
 ]
 
