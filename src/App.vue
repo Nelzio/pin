@@ -15,10 +15,19 @@
             offline
         },
         methods: {
-            ...mapActions ('settings', ['setIsConected'])
-            // setConection(status) {
-            //     console.log(status);
-            // }
+            ...mapActions ('settings', [
+                'setSettings', 'setIsConected'
+            ]),
+            // ...mapActions ('auth', [
+            //     'handleAuthStateChange'
+            // ])
+        },
+        mounted () {
+            // Verificando se o utilizador tem configurações no LocalStorage
+            let settings = this.$q.localStorage.getItem('stgs');
+            if (settings) {
+                this.setSettings (settings) //guardando as configurações do user no state (vuex)
+            }
         }
     }
 </script>

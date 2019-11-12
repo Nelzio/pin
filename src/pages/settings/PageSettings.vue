@@ -1,6 +1,6 @@
 <template>
-    <div class="q-pa-md" style="max-width: 350px">
-        <q-list padding>
+    <div class="">
+        <q-list>
 
             <q-item-label header>Modo da app:</q-item-label>
 
@@ -9,7 +9,7 @@
                     <q-item-label>Light Mode</q-item-label>
                 </q-item-section>
                 <q-item-section side >
-                    <q-radio v-model="settings.mode" checked-icon="check" val="light" />
+                    <q-radio v-model="localSettings.mode" checked-icon="check" val="light" />
                 </q-item-section>
             </q-item>
 
@@ -19,36 +19,68 @@
                     <!--<q-item-label caption>Allow notification</q-item-label>-->
                 </q-item-section>
                 <q-item-section side top>
-                    <q-radio v-model="settings.mode" checked-icon="check" val="dark" />
-                    <!--<q-toggle-->
-                        <!--color="green"-->
-                        <!--v-model="settings.mode"-->
-                        <!--checked-icon="check"-->
-                        <!--unchecked-icon="clear"-->
-                        <!--val="dark"-->
-                    <!--/>-->
+                    <q-radio v-model="localSettings.mode" checked-icon="check" val="dark" />
                 </q-item-section>
             </q-item>
 
         </q-list>
 
         <q-separator />
+
+        <q-list item="inset">
+
+            <q-item-label header>Som de navegação:</q-item-label>
+
+            <q-item tag="label" v-ripple>
+                <q-item-section>
+                    <q-item-label>Narrar as páginas</q-item-label>
+                </q-item-section>
+                <q-item-section side >
+                    <q-toggle
+                        v-model="localSettings.isNarratorActive"
+                    />
+                </q-item-section>
+            </q-item>
+
+        </q-list>
+
+        <div class="q-pa-md">
+            <q-btn
+               label="Actualizar"
+               color="primary"
+               dense
+               rounded
+               @click="setSettings (localSettings)"
+               class="full-width relative-position float-right q-mt-xl"
+            />
+        </div>
     </div>
 </template>
 
 <script>
+    import { mapActions, mapState, mapGetters } from 'vuex'
     export default {
         name: "PageSettings",
         data () {
             return {
-                settings: {
-                    mode: ''
-                }
+                localSettings: {} //Veja a estrutura desse objecto no state do /store/store-modules/settings-module.js
             }
+        },
+        computed: {
+            ...mapState('settings', [
+                'settings'
+            ]),
+            // ...mapGetters('settings', [
+            //     'getSettings'
+            // ]),
         },
         mounted () {
             this.$root.$emit('isHomePage', false)
-        }
+            this.localSettings = this.settings //recuperando as configurações do state/store
+        },
+        methods: {
+            ...mapActions ('settings', ['setSettings'])
+        },
     }
 </script>
 

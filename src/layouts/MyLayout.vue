@@ -120,7 +120,7 @@ export default {
         this.$root.$on('isHomePage', (val) => {
             this.isHome = val
         })
-        this.isHome = true
+        this.$root.$emit('isHomePage', this.$router.currentRoute.path === '/')
     },
 }
 </script>
