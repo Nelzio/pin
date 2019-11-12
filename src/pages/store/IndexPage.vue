@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page padding style="padding-bottom: 80px;">
     <!-- content -->
     <div class="row">
       <div class="col-6 q-pa-sm" v-for="i in 16" :key="i">
@@ -16,11 +16,35 @@
         </q-card>
       </div>
     </div>
+
+    <AddItemComponent
+    :modal="addModal"
+    @close-dialog="addModal = false"
+    />
+
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn fab icon="add" color="teal" @click="modalEmit({modal: 'addStore', val: true})" />
+    </q-page-sticky>
   </q-page>
 </template>
 
 <script>
+import AddItemComponent from "components/store/dialogs/AddItemComponent.vue"
 export default {
   // name: 'PageName',
+  data () {
+    return {
+      addModal: false
+    }
+  },
+  methods: {
+    modalEmit(modal) {
+      /**emit to open modal */
+      this.$root.$emit(modal.modal, modal.val);
+    },
+  },
+  components: {
+    AddItemComponent
+  }
 }
 </script>
