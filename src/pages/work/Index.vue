@@ -36,7 +36,7 @@
     <div v-else>
       <q-list>
         <q-card class="my-card" v-for="(vacancy, i) in vacancies" :key="i">
-          <q-item class="q-mb-sm" clickable v-ripple>
+          <q-item class="q-mb-sm" clickable>
             <q-item-section avatar top>
               <q-avatar>
                 <img :src="vacancy.img">
@@ -48,12 +48,13 @@
                 <q-item-label>{{ vacancy.name }}</q-item-label>
                 <q-item-label caption lines="4">{{ vacancy.desc }}</q-item-label>
               </div>
-              <div>
-                <q-btn flat round color="teal" icon="pan_tool" />
-                <q-btn flat round color="teal" icon="thumb_up" />
-                <q-btn flat round color="teal" icon="share" />
-                <q-btn flat round color="teal" icon="more_horiz" to="/work/details" />
-                
+              <div class="row justify-end q-pt-md">
+                <div>
+                  <q-btn rounded color="white" text-color="black" label="Detalhes" to="/work/details" />
+                </div>
+                <div>
+                  <q-btn round flat icon="speaker_phone" />
+                </div>
               </div>
             </q-item-section>
 
