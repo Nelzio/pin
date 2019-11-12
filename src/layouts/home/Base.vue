@@ -1,8 +1,8 @@
 <template>
-  <q-layout view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
+  <q-layout :class="[appMode.textColor, appMode.bgColor]" view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
-    <q-header class="bg-white" elevated>
+    <q-header class="bg-white" :class="[appMode.textColor, appMode.bgColor]" elevated>
       <q-toolbar class="text-teal">
         <q-btn
             @click="$router.go(-1)"
@@ -40,7 +40,7 @@
 
     </q-header>
 
-    <q-footer elevated class="bg-white text-black" v-if="!$q.screen.gt.sm">
+    <q-footer :class="[appMode.textColor, appMode.bgColor]" elevated class="bg-white text-black" v-if="!$q.screen.gt.sm">
       <q-tabs active-color="teal" indicator-color="transparent" class="text-grey">
         <q-route-tab name="home" icon="home" to="/" />
         <q-route-tab name="trabalho" icon="work" to="/work" />
@@ -100,6 +100,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
 export default {
   // name: 'LayoutName',
 
@@ -111,6 +112,9 @@ export default {
         isHome: 'Início'
     }
   },
+    computed: {
+        ...mapState('settings', ['appMode'])
+    },
     mounted () {
         this.$root.$on('isHomePage', (val) => {
             this.isHome = val

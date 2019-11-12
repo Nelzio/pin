@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="" :class="[appMode.textColorOptional, appMode.bgColor]">
         <q-list>
 
             <q-item-label header>Modo da app:</q-item-label>
@@ -16,10 +16,13 @@
             <q-item tag="label" v-ripple>
                 <q-item-section>
                     <q-item-label>Dark Mode</q-item-label>
-                    <!--<q-item-label caption>Allow notification</q-item-label>-->
                 </q-item-section>
                 <q-item-section side top>
-                    <q-radio v-model="localSettings.mode" checked-icon="check" val="dark" />
+                    <q-radio
+                       v-model="localSettings.mode"
+                       checked-icon="check"
+                       val="dark"
+                    />
                 </q-item-section>
             </q-item>
 
@@ -50,6 +53,7 @@
                         v-model="localSettings.isVibrationActive"
                     />
                 </q-item-section>
+            </q-item>
 
         </q-list>
 
@@ -77,7 +81,7 @@
         },
         computed: {
             ...mapState('settings', [
-                'settings'
+                'settings', 'appMode'
             ]),
             // ...mapGetters('settings', [
             //     'getSettings'

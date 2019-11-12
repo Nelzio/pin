@@ -5,6 +5,13 @@ const state = {
     settings: {
         mode: '',
         isNarratorActive: false,
+        isVibrationActive: true,
+    },
+    appMode: {
+        modeName:   'light',
+        bgColor:     'bg-white',
+        textColor:   'text-teal',
+        textColorOptional:   'text-black',
     },
     soundHome: '/statics/audios/home.wav',
     soundError: '/statics/audios/error.wav'
@@ -41,15 +48,27 @@ const actions = {
     setSettings ({commit, dispatch}, val) {
         commit('setSettings', val)
         dispatch('cacheSettings', val)
-        console.log('Action setSettings called good.')
     },
 
 
     // ===== Cache actions
 
-    cacheSettings ({}, val) {
+    cacheSettings ({state}, val) {
+
+        if (val.mode === 'dark') {
+            state.appMode.modeName  = 'dark'
+            state.appMode.bgColor    = 'bg-grey-10'
+            state.appMode.textColor = 'text-white'
+            state.appMode.textColorOptional = 'text-white'
+        } else {
+            state.appMode.modeName  = 'light'
+            state.appMode.bgColor    = 'bg-white'
+            state.appMode.textColor =  'text-teal'
+            state.appMode.textColorOptional =  'text-black'
+        }
+
         LocalStorage.set('stgs', val) //stgs - settings key
-        console.log('Settings saved in LocalStorage. From pages/settings/PageSettings.vue')
+        LocalStorage.set('appMode', state.appMode) //stgs - settings key
     },
 
     // ===== Audio options
@@ -59,6 +78,13 @@ const actions = {
             var audio = new Audio(audioPath);
             audio.play();
         }
+    },
+
+    // ===== Vibration options
+
+    vibrate ({}, audioPath = null) {
+        console.log('Vibration triggered in: /store/modules/settings-module')
+        window.navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
     },
 
 }
