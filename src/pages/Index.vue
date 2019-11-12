@@ -1,5 +1,9 @@
 <template>
-  <q-page class="flex flex-center" :class="[appMode.textColor, appMode.bgColor]">
+  <q-page
+      class="flex flex-center"
+      :class="[appMode.textColor, appMode.bgColor]"
+      v-touch-swipe.mouse="handleSwipe"
+  >
       <!--<h5 v-if="isConected">App Mode: <b class="text-green-8">Internet</b></h5>-->
       <!--<h5 v-else>App Mode: <b class="text-red-8">Offline</b></h5>-->
       <home-content :appMode="appMode"/>
@@ -23,7 +27,12 @@
             ]),
         },
         methods: {
-            ...mapActions('settings', ['playSound', 'vibrate'])
+            ...mapActions('settings', ['playSound', 'vibrate']),
+            handleSwipe (val) {
+                if (val.direction === 'left') {
+                    this.$router.push('/work')
+                }
+            }
         },
         mounted () {
             this.$root.$emit('isHomePage', 'Início') //Coloca o menú do controlo de página inicial activa

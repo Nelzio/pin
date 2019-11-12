@@ -51,18 +51,18 @@
     </q-footer>
 
     <!-- (Optional) A Drawer; you can add one more with side="right" or change this one's side -->
-    <q-drawer
-      v-model="leftDrawer"
-      side="left"
-      bordered
-      behavior="mobile"
-      content-class="bg-grey-2"
-    >
-      <!-- QScrollArea is optional -->
-      <q-scroll-area class="fit q-pa-sm">
-        <!-- Content here -->
-      </q-scroll-area>
-    </q-drawer>
+    <!--<q-drawer-->
+      <!--v-model="leftDrawer"-->
+      <!--side="left"-->
+      <!--bordered-->
+      <!--behavior="mobile"-->
+      <!--content-class="bg-grey-2"-->
+    <!--&gt;-->
+      <!--&lt;!&ndash; QScrollArea is optional &ndash;&gt;-->
+      <!--<q-scroll-area class="fit q-pa-sm">-->
+        <!--&lt;!&ndash; Content here &ndash;&gt;-->
+      <!--</q-scroll-area>-->
+    <!--</q-drawer>-->
 
     <q-page-container class="GPL__page-container">
       <!-- This is where pages get injected -->

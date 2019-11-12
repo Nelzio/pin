@@ -1,5 +1,8 @@
 <template>
-  <q-page padding>
+  <q-page
+    padding
+    v-touch-swipe.mouse="handleSwipe"
+  >
     <!-- content -->
     <div class="row q-gutter-y-md" v-if="$q.screen.gt.sm">
       <div class="col-sm-12 col-md-4" :class="padding" v-for="i in 30" :key="i">
@@ -80,7 +83,18 @@
             // ]),
     },
     methods: {
-        ...mapActions ('settings', ['setSettings', 'playSound', 'vibrate'])
+        ...mapActions ('settings', ['setSettings', 'playSound', 'vibrate']),
+
+        handleSwipe (val) {
+            if (val.direction === 'left') {
+                this.$router.push('/store')
+            }
+
+            if (val.direction === 'right') {
+                this.$router.push('/')
+            }
+        }
+
     },
     mounted () {
       this.deviceWidth = window.screen.width
