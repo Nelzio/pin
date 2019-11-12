@@ -56,12 +56,17 @@
         mounted () {
             this.$root.$emit('isHomePage', 'Exposição')
 
+            // Vibração
+            if (this.settings.isVibrationActive) {
+                this.vibrate ()
+            }
+            // Play do áudio
             if (this.settings.isNarratorActive) {
                 this.playSound('/statics/audios/exposicao.aac')
             }
         },
         methods: {
-            ...mapActions ('settings', ['setSettings', 'playSound'])
+            ...mapActions ('settings', ['setSettings', 'playSound', 'vibrate'])
         }
     }
 </script>

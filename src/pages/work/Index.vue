@@ -80,7 +80,7 @@
             // ]),
     },
     methods: {
-        ...mapActions ('settings', ['setSettings', 'playSound'])
+        ...mapActions ('settings', ['setSettings', 'playSound', 'vibrate'])
     },
     mounted () {
       this.deviceWidth = window.screen.width
@@ -89,6 +89,11 @@
 
         this.$root.$emit('isHomePage', 'Vagas')
 
+        // Vibração
+        if (this.settings.isVibrationActive) {
+            this.vibrate ()
+        }
+        // Play do áudio
         if (this.settings.isNarratorActive) {
             this.playSound('/statics/audios/vagas.aac')
         }

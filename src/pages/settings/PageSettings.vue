@@ -29,11 +29,11 @@
 
         <q-list item="inset">
 
-            <q-item-label header>Som de navegação:</q-item-label>
+            <q-item-label header>Som e vibração:</q-item-label>
 
             <q-item tag="label" v-ripple>
                 <q-item-section>
-                    <q-item-label>Narrar as páginas</q-item-label>
+                    <q-item-label>Narrar as telas</q-item-label>
                 </q-item-section>
                 <q-item-section side >
                     <q-toggle
@@ -41,6 +41,15 @@
                     />
                 </q-item-section>
             </q-item>
+            <q-item tag="label" v-ripple>
+                <q-item-section>
+                    <q-item-label>Vibrar ao abrir tela</q-item-label>
+                </q-item-section>
+                <q-item-section side >
+                    <q-toggle
+                        v-model="localSettings.isVibrationActive"
+                    />
+                </q-item-section>
 
         </q-list>
 
@@ -78,12 +87,18 @@
             this.$root.$emit('isHomePage', 'Preferências')
             this.localSettings = this.settings //recuperando as configurações do state/store
 
+
+            // Vibração
+            if (this.settings.isVibrationActive) {
+                this.vibrate ()
+            }
+            // Play do áudio
             if (this.settings.isNarratorActive) {
                 this.playSound('/statics/audios/configs.aac')
             }
         },
         methods: {
-            ...mapActions ('settings', ['setSettings', 'playSound'])
+            ...mapActions ('settings', ['setSettings', 'playSound', 'vibrate'])
         },
     }
 </script>
