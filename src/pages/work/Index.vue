@@ -48,7 +48,7 @@
                 <q-item-label>{{ vacancy.name }}</q-item-label>
                 <q-item-label caption lines="4">{{ vacancy.desc }}</q-item-label>
               </div>
-              <div class="row justify-between q-pt-md">
+              <div class="row justify-end q-pt-md">
                 <div>
                   <q-btn rounded color="white" text-color="black" label="Detalhes" to="/work/details" />
                 </div>
