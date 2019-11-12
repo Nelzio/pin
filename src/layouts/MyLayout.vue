@@ -3,6 +3,7 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn
+          v-if="isHome"
           flat
           dense
           round
@@ -10,12 +11,28 @@
           icon="menu"
           aria-label="Menu"
         />
+        <q-btn
+          v-else
+          @click="$router.go(-1)"
+          flat
+          dense
+          round
+          icon="arrow_back"
+          aria-label="Menu"
+        />
 
         <q-toolbar-title>
           Quasar App
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>
+          <q-btn
+              icon="settings"
+              flat
+              round
+              to="/settings"
+          />
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -93,11 +110,17 @@
 <script>
 export default {
   name: 'MyLayout',
-
   data () {
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen: false,
+        isHome: true
     }
-  }
+  },
+    mounted () {
+        this.$root.$on('isHomePage', (val) => {
+            this.isHome = val
+        })
+        this.isHome = true
+    },
 }
 </script>

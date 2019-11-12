@@ -13,6 +13,9 @@
             ...mapState('settings', [
                 'isConected'
             ])
+        },
+        mounted () {
+            this.$root.$emit('isHomePage', true) //Coloca o menú do controlo de página inicial activa
         }
     }
 </script>
