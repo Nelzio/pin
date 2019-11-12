@@ -1,7 +1,7 @@
 <template>
-  <q-page padding style="padding-bottom: 80px;">
+  <q-page padding>
     <!-- content -->
-    <div class="row justify-center q-gutter-y-md">
+    <div class="row q-gutter-y-md">
 
       <q-card class="my-card col-12" style="padding: 0;">
         <q-video
@@ -9,6 +9,16 @@
         />
         <!-- <iframe width="960" height="540" src="https://www.youtube.com/embed/Raa0vBXA8OQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
       </q-card>
+
+      <div class="col-12 row justify-between">
+        <div>
+          <q-btn rounded color="teal" label="Candidatar-se" @click="submit" icon="done_all" />
+        </div>
+        <q-space />
+        <div>
+          <q-btn round outline color="teal" icon="share" />
+        </div>
+      </div>
       
 
       <q-card bordered class="my-card col-sm-12">
@@ -105,12 +115,21 @@
     
 
 
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+    <!-- <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-fab color="teal" icon="keyboard_arrow_up" direction="up">
         <q-fab-action color="primary" icon="share" @click="socialNet = true" />
         <q-fab-action color="secondary" icon="done_all" />
       </q-fab>
-    </q-page-sticky>
+    </q-page-sticky> -->
+    <div class="col-12 row justify-between q-pt-md">
+      <div>
+        <q-btn rounded color="teal" label="Candidatar-se" @click="submit" icon="done_all" />
+      </div>
+      <q-space />
+      <div>
+        <q-btn round outline color="teal" icon="share" @click="socialNet = true" />
+      </div>
+    </div>
 
   </q-page>
 </template>
@@ -121,6 +140,12 @@ export default {
   data () {
     return {
       socialNet: false,
+      apply: false
+    }
+  },
+  methods: {
+    submit () {
+      alert("submeteu vaga")
     }
   },
     mounted () {
