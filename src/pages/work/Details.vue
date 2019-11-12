@@ -10,14 +10,9 @@
         <!-- <iframe width="960" height="540" src="https://www.youtube.com/embed/Raa0vBXA8OQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
       </q-card>
 
-      <div class="col-12 row justify-between">
-        <div>
-          <q-btn rounded color="teal" label="Candidatar-se" @click="submit" icon="done_all" />
-        </div>
-        <q-space />
-        <div>
-          <q-btn round outline color="teal" icon="share" />
-        </div>
+      <div class="col-12 row justify-end q-gutter-x-md">
+        <q-btn rounded color="teal" label="Candidatar-se" @click="submit" icon="done_all" />
+        <q-btn round outline color="teal" icon="share" />
       </div>
       
 
@@ -121,14 +116,9 @@
         <q-fab-action color="secondary" icon="done_all" />
       </q-fab>
     </q-page-sticky> -->
-    <div class="col-12 row justify-between q-pt-md">
-      <div>
-        <q-btn rounded color="teal" label="Candidatar-se" @click="submit" icon="done_all" />
-      </div>
-      <q-space />
-      <div>
-        <q-btn round outline color="teal" icon="share" @click="socialNet = true" />
-      </div>
+    <div class="col-12 row justify-end q-gutter-x-md q-pt-md">
+      <q-btn rounded color="teal" label="Candidatar-se" @click="submit" icon="done_all" />
+      <q-btn round outline color="teal" icon="share" @click="socialNet = true" />
     </div>
 
   </q-page>
