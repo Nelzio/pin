@@ -62,5 +62,8 @@
 <script>
 export default {
   // name: 'PageName',
+    mounted () {
+        this.$root.$emit('isHomePage', false)
+    }
 }
 </script>

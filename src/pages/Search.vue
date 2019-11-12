@@ -46,6 +46,9 @@ export default {
     return {
       text: '',
     }
-  }
+  },
+    mounted () {
+        this.$root.$emit('isHomePage', false)
+    }
 }
 </script>

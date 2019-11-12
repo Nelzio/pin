@@ -24,5 +24,8 @@
 <script>
 export default {
   // name: 'PageName',
+    mounted () {
+        this.$root.$emit('isHomePage', this.$router.currentRoute.path === '/')
+    }
 }
 </script>
