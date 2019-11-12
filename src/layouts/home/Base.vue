@@ -4,44 +4,38 @@
     <!-- (Optional) The Header -->
     <q-header elevated>
       <q-toolbar class="bg-grey-3 text-teal">
-        <!-- <q-btn
-          flat
-          round
-          dense
-          icon="menu"
-          @click="leftDrawer = !leftDrawer"
-        /> -->
+        <q-btn
+            @click="$router.go(-1)"
+            flat
+            dense
+            round
+            icon="arrow_back"
+            aria-label="Menu"
+        />
         <q-toolbar-title class="text-center">
-          <!-- <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
-          </q-avatar> -->
           Oportunity
         </q-toolbar-title>
+        <q-btn
+          flat
+          round
+          size="lg"
+          dense
+          icon="account_circle"
+          to="/profile"
+        />
+
       </q-toolbar>
 
-      <!-- <q-tabs class="bg-grey-3 text-teal" v-model="navtab">
-        <q-route-tab
-          to="/"
-          replace
-          label="List"
-          name="list"
-        />
-        <q-route-tab
-          to="/some/other/route"
-          replace
-          label="Map"
-          name="map"
-        />
-      </q-tabs> -->
     </q-header>
 
     <q-footer elevated class="bg-grey-3 text-black" v-if="!$q.screen.gt.sm">
       <q-tabs active-color="teal" indicator-color="transparent" class="text-grey">
         <q-route-tab name="home" icon="home" to="/" />
         <q-route-tab name="trabalho" icon="work" to="/work" />
-        <q-route-tab name="search" icon="search" to="/search" />
-        <q-route-tab name="profile" icon="person" to="/profile" />
-        
+        <q-route-tab name="search" icon="storefront" to="/search" />
+        <q-route-tab name="profile" icon="settings" to="/settings" />
+        <!--<q-route-tab name="profile" icon="person" to="/profile" />-->
+
       </q-tabs>
     </q-footer>
 
@@ -102,9 +96,16 @@ export default {
     return {
       leftDrawer: false,
       tab:"home",
-      navtab: "list"
+      navtab: "list",
+        isHome: true
     }
-  }
+  },
+    mounted () {
+        this.$root.$on('isHomePage', (val) => {
+            this.isHome = val
+        })
+        this.$root.$emit('isHomePage', this.$router.currentRoute.path === '/')
+    },
 }
 </script>
 

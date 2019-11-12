@@ -1,14 +1,17 @@
 <template>
-  <q-page padding class="flex flex-center">
-      <h5 v-if="isConected">App Mode: <b class="text-green-8">Internet</b></h5>
-      <h5 v-else>App Mode: <b class="text-red-8">Offline</b></h5>
+  <q-page class="flex flex-center">
+      <!--<h5 v-if="isConected">App Mode: <b class="text-green-8">Internet</b></h5>-->
+      <!--<h5 v-else>App Mode: <b class="text-red-8">Offline</b></h5>-->
+      <home-content />
   </q-page>
 </template>
 
 <script>
     import { mapState, mapActions } from 'vuex'
+    import HomeContent from "../components/HomeContent";
     export default {
         name: 'PageIndex',
+        components: {HomeContent},
         data () {
             return {
 
