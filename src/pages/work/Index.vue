@@ -50,7 +50,7 @@
               </div>
               <div class="row justify-between q-pt-md">
                 <div>
-                  <q-btn rounded color="white" text-color="black" label="Detalhes" />
+                  <q-btn rounded color="white" text-color="black" label="Detalhes" to="/work/details" />
                 </div>
                 <div>
                   <q-btn round flat icon="speaker_phone" />
