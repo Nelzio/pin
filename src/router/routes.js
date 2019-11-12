@@ -19,6 +19,14 @@ const routes = [
     ]
   },
   {
+    path: '/store',
+    component: () => import('layouts/home/Base.vue'),
+    children: [
+      { path: '', component: () => import('pages/store/IndexPage.vue') },
+      { path: 'details', component: () => import('pages/store/DetailsPage.vue') },
+    ]
+  },
+  {
     path: '/account',
     component: () => import('layouts/Clean.vue'),
     children: [
