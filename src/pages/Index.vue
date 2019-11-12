@@ -1,11 +1,18 @@
 <template>
-  <q-page class="flex flex-center">
-    <img alt="Quasar logo" src="~assets/quasar-logo-full.svg">
+  <q-page padding class="flex flex-center">
+      <h5 v-if="isConected">App Mode: <b class="text-green-8">Internet</b></h5>
+      <h5 v-else>App Mode: <b class="text-red-8">Offline</b></h5>
   </q-page>
 </template>
 
 <script>
-export default {
-  name: 'PageIndex'
-}
+    import { mapState } from 'vuex'
+    export default {
+        name: 'PageIndex',
+        computed: {
+            ...mapState('settings', [
+                'isConected'
+            ])
+        }
+    }
 </script>
