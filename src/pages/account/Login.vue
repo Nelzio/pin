@@ -59,13 +59,17 @@
                 </div>
 
                 <q-item>
-                  <q-item-section>
+                  <!-- <q-item-section>
                     <q-checkbox v-model="teal" label="Remenber me" />
-                  </q-item-section>
+                  </q-item-section> -->
+                    <q-item-section>
+                      <q-btn rounded outline size="sm" color="white" text-color="black" label="Criar conta" @click="tab = 'create'" />
+                    </q-item-section>
                   <q-item-section>
                     <router-link to="/">
                       Recuperar senha
                     </router-link>
+                    
                   </q-item-section>
                 </q-item>
               </q-form>
@@ -128,8 +132,9 @@
                     />
                   </template>
                 </q-input>
-                <div>
-                  <q-btn label="login" type="login" color="primary" class="full-width"/>
+                <div class="q-gutter-y-md">
+                  <q-btn rounded label="Registar" type="login" color="primary" class="full-width"/>
+                  <q-btn rounded outline label="Entrar" type="login" color="primary" class="full-width" @click="tab = 'login'"/>
                 </div>
 
                 <!-- <q-item>
