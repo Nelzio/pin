@@ -10,9 +10,10 @@ const state = {
     },
     appMode: {
         modeName:   'light',
+        modeColor:   '#075e54',
         bgColor:     'bg-white',
         textColor:   'text-teal',
-        textColorOptional:   'text-black',
+        textColorOptional: 'text-black',
     },
     soundHome: '/statics/audios/home.wav',
     soundError: '/statics/audios/error.wav'
@@ -24,6 +25,9 @@ const mutations = {
     },
     setSettings (state, val) {
         state.settings = val
+    },
+    setAppMode (state, val) {
+        state.appMode = val
     }
 
 }
@@ -50,6 +54,9 @@ const actions = {
         commit('setSettings', val)
         dispatch('cacheSettings', val)
     },
+    setAppMode ({commit, dispatch}, val) {
+        commit('setAppMode', val)
+    },
 
 
     // ===== Cache actions
@@ -58,11 +65,13 @@ const actions = {
 
         if (val.mode === 'dark') {
             state.appMode.modeName  = 'dark'
+            state.appMode.modeColor = '#212121'
             state.appMode.bgColor    = 'bg-grey-10'
             state.appMode.textColor = 'text-white'
             state.appMode.textColorOptional = 'text-white'
         } else {
             state.appMode.modeName  = 'light'
+            state.appMode.modeColor = '#075e54'
             state.appMode.bgColor    = 'bg-white'
             state.appMode.textColor =  'text-teal'
             state.appMode.textColorOptional =  'text-black'
@@ -73,7 +82,6 @@ const actions = {
     },
 
     // ===== Audio options
-
     playSound ({}, audioPath) {
         if(audioPath) {
             var audio = new Audio(audioPath);
@@ -82,7 +90,6 @@ const actions = {
     },
 
     // ===== Vibration options
-
     vibrate ({}, audioPath = null) {
         console.log('Vibration triggered in: /store/modules/settings-module')
         window.navigator.vibrate([100, 300, 100, 300, 200, 100]);
