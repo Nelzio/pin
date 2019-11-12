@@ -63,7 +63,7 @@
                     <q-checkbox v-model="teal" label="Remenber me" />
                   </q-item-section> -->
                     <q-item-section>
-                      <q-btn rounded outline size="sm" color="white" text-color="black" label="Criar conta" @click="tab = 'create'" />
+                      <q-btn rounded outline size="sm" color="primary" label="Criar conta" @click="tab = 'create'" />
                     </q-item-section>
                   <q-item-section>
                     <router-link to="/">
