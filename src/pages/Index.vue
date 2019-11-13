@@ -6,7 +6,7 @@
   >
       <!--<h5 v-if="isConected">App Mode: <b class="text-green-8">Internet</b></h5>-->
       <!--<h5 v-else>App Mode: <b class="text-red-8">Offline</b></h5>-->
-      <home-content :appMode="appMode"/>
+      <home-content :appMode="appMode" v-if="!$q.screen.gt.sm"/>
   </q-page>
 </template>
 

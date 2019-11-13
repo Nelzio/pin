@@ -50,10 +50,11 @@
           aria-label="Menu"
           icon="menu"
           class="q-mx-md"
+          v-if="$q.screen.gt.sm"
         />
 
         <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap">
-          Superativo Negocio
+          Superativo
         </q-toolbar-title>
 
         <q-space />
@@ -107,7 +108,7 @@
         </q-toolbar>
 
         <q-list padding>
-          <q-item v-for="link in links1" :key="link.text" clickable class="GPL__drawer-item">
+          <q-item v-for="link in links1" :key="link.text" :to="link.to" clickable class="GPL__drawer-item">
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
