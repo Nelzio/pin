@@ -2,40 +2,40 @@
     <div class="row login justify-center q-gutter-y-lg">
         <div class="col-12">
         <q-icon color="blue-9"
-                size="100px" name="person_add"
-            />
+					size="100px" name="person_add"
+        />
         </div>
         <!-- <div class="col-12">
           Entrar ou se Inscrever
         </div> -->
         <div class="bg-grey-3 q-pa-lg shadow-10 col-md-4 col-12">
             <q-form
-                    ref="loginForm"
-                    @submit="onSubmit"
-                    @reset="onReset"
-                    class="q-gutter-md"
+							ref="loginForm"
+							@submit="onSubmit"
+							@reset="onReset"
+							class="q-gutter-md"
             >
                 <q-input
-                        standout="bg-grey"
-                        color="blue-9"
-                        dense
-                        v-model="authObject.name"
-                        ref="name"
-                        label="Nome completo"
-                        lazy-rules
-                        :rules="[ val => val && val.length > 0 || 'Por favor, indique o su nome']"
+									standout="bg-grey"
+									color="blue-9"
+									dense
+									v-model="authObject.name"
+									ref="name"
+									label="Nome completo"
+									lazy-rules
+									:rules="[ val => val && val.length > 0 || 'Por favor, indique o su nome']"
                 />
 
                 <q-input
-                        standout="bg-grey"
-                        color="blue-9"
-                        dense
-                        type="email"
-                        ref="email"
-                        v-model="authObject.email"
-                        label="Email"
-                        lazy-rules
-                        :rules="[ val => isEmailValid(val) || 'Por favor, indique um email válido!']"
+									standout="bg-grey"
+									color="blue-9"
+									dense
+									type="email"
+									ref="email"
+									v-model="authObject.email"
+									label="Email"
+									lazy-rules
+									:rules="[ val => isEmailValid(val) || 'Por favor, indique um email válido!']"
                 />
 
                 <q-input

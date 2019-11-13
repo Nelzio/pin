@@ -5,20 +5,20 @@
 
   >
     <!-- content -->
-    <div class="row q-gutter-y-md" v-if="$q.screen.gt.sm">
-      <div class="col-sm-12 col-md-4" :class="padding" v-for="i in 30" :key="i">
-        <vacancy-desktop-component :lorem="lorem"/>
+    <div class="row q-gutter-y-md">
+      <div class="col-12 col-md-4" :class="padding" v-for="(vacancy, i) in vacancies" :key="i">
+        <vacancy-desktop-component :lorem="lorem" :vacancy="vacancy"/>
       </div>
-    </div>
+  </div>
 
-    <div v-else>
+    <!-- <div v-else>
       <q-list>
         <q-card class="my-card" v-for="(vacancy, i) in vacancies" :key="i">
           <vacancy-component :vacancy="vacancy"/>
         </q-card>
         
       </q-list>
-    </div>
+    </div> -->
   </q-page>
 </template>
 
