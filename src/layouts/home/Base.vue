@@ -43,6 +43,15 @@
     <q-header elevated class="bg-white text-grey-8" height-hint="64">
       <q-toolbar class="GPL__toolbar" style="height: 64px">
         <q-btn
+            @click="$router.go(-1)"
+            v-if="isHome !== 'Início' && isHome !== true"
+            flat
+            dense
+            round
+            icon="arrow_back"
+            aria-label="Menu"
+        />
+        <q-btn
           flat
           dense
           round
