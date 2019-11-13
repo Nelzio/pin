@@ -3,20 +3,27 @@
     <!-- content -->
     <div class="row q-gutter-y-md">
 
-      <q-card class="my-card col-12" style="padding: 0;">
+      <q-card class="my-card col-12" style="padding: 0;height: 300px">
         <q-video
+          style="padding: 0;height: 300px"
           src="https://www.youtube.com/embed/Raa0vBXA8OQ"
         />
-        <!-- <iframe width="960" height="540" src="https://www.youtube.com/embed/Raa0vBXA8OQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
       </q-card>
 
       <div class="col-12 row justify-end q-gutter-x-md">
-        <q-btn rounded color="teal" label="Candidatar-se" @click="submit" icon="done_all" />
+        <q-btn
+            rounded
+            color="teal"
+            label="Candidatar-se"
+            size="md"
+            @click="submit"
+            icon="done_all"
+        />
         <q-btn round outline color="teal" icon="share" />
       </div>
       
 
-      <q-card bordered class="my-card col-sm-12">
+      <q-card bordered class="my-card col-sm-12" :class="[appMode.bgColor, appMode.textColorOptional]">
         <q-card-section>
           <div class="text-h6">Descricao</div>
         </q-card-section>
@@ -33,7 +40,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card bordered class="my-card col-sm-12">
+      <q-card bordered class="my-card col-sm-12" :class="[appMode.bgColor, appMode.textColorOptional]">
         <q-card-section>
           <div class="text-h6">Funções</div>
         </q-card-section>
@@ -50,7 +57,7 @@
         </q-card-section>
       </q-card>
       
-      <q-card bordered class="my-card col-sm-12">
+      <q-card bordered class="my-card col-sm-12" :class="[appMode.bgColor, appMode.textColorOptional]">
         <q-card-section>
           <div class="text-h6">Requisitos</div>
         </q-card-section>
@@ -107,16 +114,7 @@
         
       </q-card>
     </q-dialog>
-    
-
-
-    <!-- <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-fab color="teal" icon="keyboard_arrow_up" direction="up">
-        <q-fab-action color="primary" icon="share" @click="socialNet = true" />
-        <q-fab-action color="secondary" icon="done_all" />
-      </q-fab>
-    </q-page-sticky> -->
-    <div class="col-12 row justify-end q-gutter-x-md q-pt-md">
+    <div class="col-12 row justify-end q-gutter-x-md q-pt-md q-mb-lg">
       <q-btn rounded color="teal" label="Candidatar-se" @click="submit" icon="done_all" />
       <q-btn round outline color="teal" icon="share" @click="socialNet = true" />
     </div>
@@ -125,6 +123,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
 export default {
   // name: 'PageName',
   data () {
@@ -133,13 +132,16 @@ export default {
       apply: false
     }
   },
+  computed: {
+      ...mapState ('settings', ['appMode'])
+  },
   methods: {
     submit () {
-      alert("submeteu vaga")
+      alert("A sua candidatura foi submetida com sucesso!!")
     }
   },
     mounted () {
-        this.$root.$emit('isHomePage', false)
+        this.$root.$emit('isHomePage', 'Descrição da vaga')
     }
 }
 </script>

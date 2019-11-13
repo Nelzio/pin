@@ -14,9 +14,12 @@
         components: {
             offline
         },
+        computed: {
+            ...mapState('settings', ['appMode'])
+        },
         methods: {
             ...mapActions ('settings', [
-                'setSettings', 'setIsConected'
+                'setSettings', 'setIsConected', 'setAppMode'
             ]),
             // ...mapActions ('auth', [
             //     'handleAuthStateChange'
@@ -31,12 +34,18 @@
             },
 
         },
-        mounted () {
+        created () {
             // Verificando se o utilizador tem configurações no LocalStorage
             let settings = this.$q.localStorage.getItem('stgs');
-            if (settings) {
-                this.setSettings (settings) //guardando as configurações do user no state (vuex)
-            }
+            let appMode = this.$q.localStorage.getItem('appMode');
+
+            if (settings) { this.setSettings (settings) } //guardando as configurações do user no state (vuex)
+
+            if (appMode) { this.setAppMode (appMode) }
+
+            this.$q.addressbarColor.set(this.appMode.modeColor)
+        },
+        mounted () {
 
             this.$root.$on('playSound', (audioPath) => {
                 this.playSound (audioPath)

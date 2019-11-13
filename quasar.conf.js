@@ -44,7 +44,9 @@ module.exports = function (ctx) {
       all: 'auto',
 
       components: ['QSpace'],
-      directives: [],
+      directives: [
+          'TouchSwipe'
+      ],
 
       // Quasar plugins
       plugins: [

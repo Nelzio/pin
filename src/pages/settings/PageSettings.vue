@@ -1,5 +1,9 @@
 <template>
-    <div class="" :class="[appMode.textColorOptional, appMode.bgColor]">
+    <div
+        class=""
+        v-touch-swipe.mouse="handleSwipe"
+        :class="[appMode.textColorOptional, appMode.bgColor]"
+    >
         <q-list>
 
             <q-item-label header>Modo da app:</q-item-label>
@@ -145,7 +149,13 @@
             }
         },
         methods: {
-            ...mapActions ('settings', ['setSettings', 'playSound', 'vibrate'])
+            ...mapActions ('settings', ['setSettings', 'playSound', 'vibrate']),
+
+            handleSwipe (val) {
+                if (val.direction === 'right') {
+                    this.$router.push('/store')
+                }
+            }
         },
         watch: {
             snap (val) {

@@ -4,7 +4,7 @@
             <div
                 class="text-center q-pr-lg"
                 style="height: 180px;border-right: 2px solid rgba(0,0,0,.1);border-bottom: 2px solid rgba(0,0,0,.1)"
-
+                @click="$router.push('/work')"
             >
                 <q-icon
                     size="100px"
@@ -16,6 +16,7 @@
             <div
                 class="text-center q-pl-lg"
                 style="height: 180px;border-bottom: 2px solid rgba(0,0,0,.1)"
+                @click="$router.push('/store')"
             >
                 <q-icon
                     size="100px"
@@ -33,6 +34,7 @@
                 <q-icon
                     size="100px"
                     name="account_circle"
+                    @click="$router.push('/profile')"
                 />
                 <br>
                 <span>Perfil</span>
@@ -41,6 +43,7 @@
                 <q-icon
                     size="100px"
                     name="settings"
+                    @click="$router.push('/settings')"
                 />
                 <br>
                 <span>Preferências</span>
