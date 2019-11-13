@@ -21,9 +21,9 @@
             ...mapActions ('settings', [
                 'setSettings', 'setIsConected', 'setAppMode'
             ]),
-            // ...mapActions ('auth', [
-            //     'handleAuthStateChange'
-            // ])
+            ...mapActions ('auth', [
+                'handleAuthStateChange'
+            ]),
 
             // ============= Generic PlayAudio
             playSound (audioPath) {
@@ -44,6 +44,9 @@
             if (appMode) { this.setAppMode (appMode) }
 
             this.$q.addressbarColor.set(this.appMode.modeColor)
+
+            this.handleAuthStateChange ()
+
         },
         mounted () {
 
