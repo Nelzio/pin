@@ -1,8 +1,10 @@
 <template>
     <div class="row login justify-center q-gutter-y-lg">
+        <div class="col-12">
         <q-icon color="blue-9"
                 size="100px" name="person_add"
-        />
+            />
+        </div>
         <!-- <div class="col-12">
           Entrar ou se Inscrever
         </div> -->
