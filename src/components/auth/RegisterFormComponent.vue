@@ -17,10 +17,11 @@
                         standout="bg-grey"
                         color="blue-9"
                         dense
-                        v-model="user"
+                        v-model="authObject.name"
+                        ref="name"
                         label="Nome completo"
                         lazy-rules
-                        :rules="[ val => val && val.length > 0 || 'Please type something']"
+                        :rules="[ val => val && val.length > 0 || 'Por favor, indique o su nome']"
                 />
 
                 <q-input
@@ -28,10 +29,11 @@
                         color="blue-9"
                         dense
                         type="email"
-                        v-model="email"
+                        ref="email"
+                        v-model="authObject.email"
                         label="Email"
                         lazy-rules
-                        :rules="[ val => val && val.length > 0 || 'Please type something']"
+                        :rules="[ val => isEmailValid(val) || 'Por favor, indique um email válido!']"
                 />
 
                 <q-input
@@ -40,34 +42,39 @@
                         @keyup.enter="login_account"
                         dense
                         placeholder="password"
-                        v-model="password"
+                        ref="password"
+                        v-model="authObject.password"
                         :type="isPwd ? 'password' : 'text'"
                         lazy-rules
-                        :rules="[ val => val && val.length > 0 || 'Please type pass']"
+                        :rules="[ val => val && val.length > 0 || 'Por favor, insira uma senha válida']"
                 >
                     <template v-slot:append>
                         <q-icon
-                                :name="isPwd ? 'visibility_off' : 'visibility'"
-                                class="cursor-pointer"
-                                @click="isPwd = !isPwd"
+                            :name="isPwd ? 'visibility_off' : 'visibility'"
+                            class="cursor-pointer"
+                            @click="isPwd = !isPwd"
                         />
                     </template>
                 </q-input>
                 <div class="q-gutter-y-md">
-                    <q-btn rounded label="Registar" type="login" color="primary" class="full-width"/>
-                    <q-btn rounded outline label="Entrar" type="login" color="primary" class="full-width" @click="tab = 'login'"/>
+                    <q-btn
+                        rounded
+                        label="Registar"
+                        type="login"
+                        color="primary"
+                        class="full-width"
+                    />
+                    <q-btn
+                       rounded
+                       outline
+                       label="Entrar"
+                       type="login"
+                       color="primary"
+                       class="full-width"
+                       @click="$emit('tab', 'login')"
+                    />
                 </div>
 
-                <!-- <q-item>
-                  <q-item-section>
-                    <q-checkbox v-model="teal" label="Remenber me" />
-                  </q-item-section>
-                  <q-item-section>
-                    <router-link to="/">
-                      Recuperar senha
-                    </router-link>
-                  </q-item-section>
-                </q-item> -->
             </q-form>
         </div>
     </div>
@@ -80,9 +87,11 @@
         data () {
             return {
                 authObject: {
+                    name: '',
                     email: '',
                     password: '',
-                }
+                },
+                isPwd: true,
             }
         },
 
@@ -92,11 +101,14 @@
                 'registerUser',
             ]),
 
-            isPasswordValid (email) {
+            isEmailValid (email) {
                 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                 return re.test(String(email).toLowerCase())
             },
 
+            onReset () {
+                alert('must reset form.')
+            },
             onSubmit () {
 
                 this.$refs.email.validate ()
@@ -104,15 +116,7 @@
 
                 if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
 
-                    if (this.tab === 'login') {
-
-                        this.loginUser (this.authObject)
-
-                    } else {
-
-                        this.registerUser (this.authObject)
-
-                    }
+                    this.$emit('loginUser', this.authObject)
 
                 }
 

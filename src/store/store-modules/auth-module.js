@@ -1,4 +1,4 @@
-import { LocalStorage, Loading } from 'quasar'
+import { LocalStorage, Loading, Notify } from 'quasar'
 import { firebaseAuth } from "../../boot/firebase";
 import { showErrorMessage } from "../../functions/handle-error-messages";
 
@@ -27,6 +27,8 @@ const actions = {
         firebaseAuth.createUserWithEmailAndPassword(payload.email, payload.password)
             .then(user => {
                 commit('setIsUserAuth', true)
+                this.$router.push('/profile')
+                Notify.create('A sua conta foi criada com sucesso!')
                 Loading.hide()
             })
             .catch(error => {
@@ -38,6 +40,8 @@ const actions = {
         firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
             .then(user => {
                 commit('setIsUserAuth', true)
+                Notify.create('Sessão iniciada com sucesso!')
+                this.$router.push('/profile')
                 Loading.hide()
             })
             .catch(error => {
@@ -45,6 +49,7 @@ const actions = {
             })
     },
     handleAuthStateChange ({ commit, dispatch }) {
+
         commit('setIsUserAuth', LocalStorage.getItem('isUserAuth'))
 
         firebaseAuth.onAuthStateChanged(user => {

@@ -11,11 +11,18 @@
         class="text-center"
       >
         <q-tab-panel name="login">
-          <login-forms-component />
+          <login-forms-component
+              @tab="tab = $event"
+              @loginUser="loginUser"
+          />
         </q-tab-panel>
 
         <q-tab-panel name="create">
+          <register-form-component
+              @tab="tab = $event"
+              @loginUser="registerUser"
 
+          />
         </q-tab-panel>
       </q-tab-panels>
     </div>
@@ -24,32 +31,26 @@
 </template>
 
 <script>
+  import { mapActions, mapState } from 'vuex'
 import LoginFormsComponent from "../../components/auth/LoginFormsComponent";
+import RegisterFormComponent from "../../components/auth/RegisterFormComponent";
 export default {
   // name: 'PageName',
   data (){
     return {
       teal: false,
-      user: '',
-      email: '',
-      password: '',
-      isPwd: true,
       dialogLogin: false,
       tab: 'login'
     }
   },
   components: {
+      RegisterFormComponent,
       LoginFormsComponent
     
   },
   methods: {
-    onSubmit () {
-      console.log("submited")
-    },
-    onReset () {
-      this.password = ''
-      this.user = ''
-    }
+      ...mapActions('auth', ['registerUser', 'loginUser'])
+
   },
   mounted () {
     
