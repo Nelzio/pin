@@ -33,17 +33,15 @@
       </div>
 
       <div class="row no-wrap items-center q-gutter-md q-pa-md">
-          <div class="col-auto q-gutter-x-md q-ml-0">
-              <q-btn class="shadow-4" color="red" flat round icon="favorite" />
-              <q-btn class="shadow-4" color="blue" flat round icon="share" />
+          <div class="col-auto">
+            <q-btn class="shadow-4" color="primary" label="Comprar" />
+              <!-- <q-btn class="shadow-4" color="red" flat round icon="favorite" /> -->
+              <!-- <q-btn class="shadow-4" color="blue" flat round icon="share" /> -->
           </div>
-          <div class="col-auto text-grey">
+          <!-- <div class="col-auto text-grey">
               <q-icon color="blue-8" name="share" /> 14
-              <!-- <q-icon color="warning" name="tag_faces" /> 25 -->
               <q-icon color="red" name="favorite" /> 65
-              <!-- <q-icon color="yellow" name="star" /> 65 -->
-              <!-- <q-icon color="green" name="done_all" /> 65 -->
-          </div>
+          </div> -->
       </div>
 
       <q-list>
@@ -85,8 +83,6 @@
 
         <q-separator spaced inset="item" />
         
-
-        <q-separator spaced inset="item" />
 
         <q-item>
         <q-item-section top avatar>

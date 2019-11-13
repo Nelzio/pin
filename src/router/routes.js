@@ -32,6 +32,17 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/account/Login.vue') },
     ]
+  },
+  {
+    path: '/company',
+    component: () => import('layouts/home/Base.vue'),
+    children: [
+      { path: 'employees', component: () => import('pages/company/Employees.vue') },
+      { path: 'employee', component: () => import('pages/company/Employee.vue') },
+      { path: 'interviews', component: () => import('pages/company/Interviews.vue') },
+      { path: 'vacancies', component: () => import('pages/company/Vacancies.vue') },
+      { path: 'vacancy', component: () => import('pages/company/VacancyDetail.vue') },
+    ]
   }
 ]
 

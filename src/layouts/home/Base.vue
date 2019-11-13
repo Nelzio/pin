@@ -2,7 +2,7 @@
   <q-layout :class="[appMode.textColor, appMode.bgColor]" view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
-    <q-header class="bg-white" :class="[appMode.textColor, appMode.bgColor]" elevated>
+    <!-- <q-header class="bg-white" :class="[appMode.textColor, appMode.bgColor]" elevated>
       <q-toolbar class="text-teal">
         <q-btn
             @click="$router.go(-1)"
@@ -38,6 +38,47 @@
 
       </q-toolbar>
 
+    </q-header> -->
+
+    <q-header elevated class="bg-white text-grey-8" height-hint="64">
+      <q-toolbar class="GPL__toolbar" style="height: 64px">
+        <q-btn
+          flat
+          dense
+          round
+          @click="leftDrawerOpen = !leftDrawerOpen"
+          aria-label="Menu"
+          icon="menu"
+          class="q-mx-md"
+        />
+
+        <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap">
+          Superativo Negocio
+        </q-toolbar-title>
+
+        <q-space />
+
+
+        <q-space />
+
+        <div class="q-gutter-sm row items-center no-wrap">
+          <q-btn round dense flat color="grey-8" icon="volume_up">
+            <q-tooltip>Som</q-tooltip>
+          </q-btn>
+          <q-btn round dense flat color="grey-8" icon="notifications">
+            <q-badge color="red" text-color="white" floating>
+              2
+            </q-badge>
+            <q-tooltip>Notifications</q-tooltip>
+          </q-btn>
+          <q-btn round flat>
+            <q-avatar size="26px">
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            </q-avatar>
+            <q-tooltip>Account</q-tooltip>
+          </q-btn>
+        </div>
+      </q-toolbar>
     </q-header>
 
     <q-footer :class="[appMode.textColor, appMode.bgColor]" elevated class="bg-white text-black" v-if="!$q.screen.gt.sm">
@@ -51,18 +92,32 @@
     </q-footer>
 
     <!-- (Optional) A Drawer; you can add one more with side="right" or change this one's side -->
-    <!--<q-drawer-->
-      <!--v-model="leftDrawer"-->
-      <!--side="left"-->
-      <!--bordered-->
-      <!--behavior="mobile"-->
-      <!--content-class="bg-grey-2"-->
-    <!--&gt;-->
-      <!--&lt;!&ndash; QScrollArea is optional &ndash;&gt;-->
-      <!--<q-scroll-area class="fit q-pa-sm">-->
-        <!--&lt;!&ndash; Content here &ndash;&gt;-->
-      <!--</q-scroll-area>-->
-    <!--</q-drawer>-->
+    <q-drawer
+      v-model="leftDrawerOpen"
+      bordered
+      behavior="mobile"
+      @click="leftDrawerOpen = false"
+    >
+      <q-scroll-area class="fit">
+        <q-toolbar class="GPL__toolbar">
+          <q-toolbar-title class="row items-center text-grey-8">
+            <!-- <img class="q-pl-md" src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg"> -->
+            <span class="q-ml-sm">Superativo Negocio</span>
+          </q-toolbar-title>
+        </q-toolbar>
+
+        <q-list padding>
+          <q-item v-for="link in links1" :key="link.text" clickable class="GPL__drawer-item">
+            <q-item-section avatar>
+              <q-icon :name="link.icon" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ link.text }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
+    </q-drawer>
 
     <q-page-container class="GPL__page-container">
       <!-- This is where pages get injected -->
@@ -80,9 +135,9 @@
             <div class="GPL__side-btn__label">Vagas</div>
           </q-btn>
 
-          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn" to="/search">
-            <q-icon size="22px" name="search" />
-            <div class="GPL__side-btn__label">Pesquisar</div>
+          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn" to="/store">
+            <q-icon size="22px" name="storefront" />
+            <div class="GPL__side-btn__label">Loja</div>
             <!-- <q-badge floating color="red" text-color="white" style="top: 8px; right: 16px">
               1
             </q-badge> -->
@@ -107,9 +162,15 @@ export default {
   data () {
     return {
       leftDrawer: false,
+      leftDrawerOpen: false,
       tab:"home",
       navtab: "list",
-        isHome: 'Início'
+      isHome: 'Início',
+      links1: [
+        { icon: 'work', text: 'Vagas', to: "/company/vacancies" },
+        { icon: 'group', text: 'Candidatos', to: "/company/employees" },
+        { icon: 'mic', text: 'Entrevistas', to: "/company/interviews" },
+      ],
     }
   },
     computed: {
