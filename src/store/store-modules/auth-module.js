@@ -62,10 +62,10 @@ const actions = {
 
                 this.$router.push('/')
             } else {
-                commit('task/clearTasks', null, { root: true })
-                commit('task/setTasksDownloaded', false, { root: true })
+                // commit('task/clearTasks', null, { root: true })
+                // commit('task/setTasksDownloaded', false, { root: true })
                 commit('setIsUserAuth', false)
-                this.$router.push('/auth')
+                this.$router.push('/account')
             }
         })
     },

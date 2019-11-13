@@ -1,45 +1,5 @@
 <template>
   <q-layout :class="[appMode.textColor, appMode.bgColor]" view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
-
-    <!-- (Optional) The Header -->
-    <!-- <q-header class="bg-white" :class="[appMode.textColor, appMode.bgColor]" elevated>
-      <q-toolbar class="text-teal">
-        <q-btn
-            @click="$router.go(-1)"
-            v-if="isHome !== 'Início' && isHome !== true"
-            flat
-            dense
-            round
-            icon="arrow_back"
-            aria-label="Menu"
-        />
-        <span class="text-h6">
-          {{ isHome === true ? 'Início' : isHome }}
-        </span>
-        <q-toolbar-title class="text-center">
-
-        </q-toolbar-title>
-
-        <q-btn
-          flat
-          round
-          size="lg"
-          dense
-          icon="volume_up"
-        />
-        <q-btn
-          flat
-          round
-          size="lg"
-          dense
-          icon="account_circle"
-          to="/profile"
-        />
-
-      </q-toolbar>
-
-    </q-header> -->
-
     <q-header elevated class="bg-white text-grey-8" height-hint="64">
       <q-toolbar class="GPL__toolbar" style="height: 64px">
         <q-btn
@@ -59,7 +19,6 @@
 
         <q-space />
 
-
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap">
@@ -75,12 +34,36 @@
           <q-btn
             round
             flat
-            :to="isUserAuth ? '/profile' : '/account'"
           >
             <q-avatar size="26px">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png">
             </q-avatar>
             <q-tooltip>Account</q-tooltip>
+            <q-menu
+                transition-show="jump-down"
+                transition-hide="jump-up"
+            >
+              <q-list style="min-width: 100px">
+                <template v-if="isUserAuth">
+                  <q-item to="/profile" clickable>
+                    <q-item-section>Perfil</q-item-section>
+                  </q-item>
+                  <q-separator />
+                  <q-item
+                      @click="logoutUser"
+                      clickable>
+                    <q-item-section>Sair</q-item-section>
+                  </q-item>
+                </template>
+                <q-item
+                   v-else
+                   to="/account"
+                   clickable>
+                  <q-item-section>Entrar</q-item-section>
+                </q-item>
+
+              </q-list>
+            </q-menu>
           </q-btn>
         </div>
       </q-toolbar>
@@ -160,7 +143,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
 export default {
   // name: 'LayoutName',
 
@@ -188,6 +171,9 @@ export default {
         })
         this.$root.$emit('isHomePage', this.$router.currentRoute.path === '/')
     },
+    methods: {
+        ...mapActions ('auth', ['logoutUser'])
+    }
 }
 </script>
 
