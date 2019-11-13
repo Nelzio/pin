@@ -4,7 +4,7 @@
         v-touch-swipe.mouse="handleSwipe"
         :class="[appMode.textColorOptional, appMode.bgColor]"
     >
-        <q-list>
+        <!-- <q-list>
 
             <q-item-label header>Modo da app:</q-item-label>
 
@@ -30,11 +30,11 @@
                 </q-item-section>
             </q-item>
 
-        </q-list>
+        </q-list> -->
 
         <q-separator />
 
-        <q-list item="inset">
+        <!-- <q-list item="inset">
 
             <q-item-label header>Som e vibração:</q-item-label>
 
@@ -59,11 +59,11 @@
                 </q-item-section>
             </q-item>
 
-        </q-list>
+        </q-list> -->
 
         <q-separator />
 
-        <q-list item="inset">
+        <!-- <q-list item="inset">
 
             <q-item-label header>Tamanho de letras e cores:</q-item-label>
 
@@ -72,7 +72,6 @@
                     <q-item-label>Tamanho de fonte</q-item-label>
                 </q-item-section>
                 <q-item-section>
-                    <!--v-model="localSettings.fontSize"-->
 
                     <q-range
                         v-model="snap"
@@ -84,31 +83,90 @@
                     />
                 </q-item-section>
             </q-item>
-            <!--<q-item tag="label" v-ripple>-->
-                <!--<q-item-section>-->
-                    <!--<q-item-label>Vibrar ao abrir tela</q-item-label>-->
-                <!--</q-item-section>-->
-                <!--<q-item-section side >-->
-                    <!--<q-toggle-->
-                        <!--v-model="localSettings.isVibrationActive"-->
-                    <!--/>-->
-                <!--</q-item-section>-->
-            <!--</q-item>-->
 
-        </q-list>
+        </q-list> -->
+
+        <q-list>
+					<q-item>
+						<q-item-section avatar>
+							<q-icon color="primary" name="highlight" />
+						</q-item-section>
+
+						<q-item-section>
+							<q-item-label class="text-h6">Modo claro</q-item-label>
+						</q-item-section>
+
+						<q-item-section side>
+							<q-toggle
+								v-model="localSettings.mode"
+							/>
+						</q-item-section>
+					</q-item>
+
+					<q-separator spaced inset="item" />
+
+					<q-item>
+						<q-item-section avatar>
+							<q-icon color="primary" name="volume_up" />
+						</q-item-section>
+
+						<q-item-section>
+							<q-item-label class="text-h6">Naração das telas</q-item-label>
+						</q-item-section>
+
+						<q-item-section side>
+							<q-toggle
+								v-model="localSettings.isNarratorActive"
+							/>
+						</q-item-section>
+					</q-item>
+
+					<q-separator spaced inset="item" />
+
+					<q-item>
+						<q-item-section avatar>
+							<q-icon color="primary" name="vibration" />
+						</q-item-section>
+
+						<q-item-section>
+							<q-item-label class="text-h6">Vibrador</q-item-label>
+						</q-item-section>
+
+						<q-item-section side>
+							<q-toggle
+								v-model="localSettings.isVibrationActive"
+							/>
+						</q-item-section>
+					</q-item>
+					
+
+					<q-item>
+						<q-item-section avatar>
+							<q-icon color="primary" name="format_size" />
+						</q-item-section>
+
+						<q-item-section>
+							<!-- <q-item-label class="text-h6">Tamanho do texto</q-item-label> -->
+							<q-select v-model="fontSize" :options="fontText" label="Tamanho de texto" />
+						</q-item-section>
+
+					</q-item>
+				</q-list>
+
+        
 
 
 
-        <div class="q-pa-md">
-            <q-btn
-               label="Actualizar"
-               color="primary"
-               dense
-               rounded
-               @click="setSettings (localSettings)"
-               class="full-width relative-position float-right q-mt-xl"
-            />
-        </div>
+			<div class="q-pa-md">
+				<q-btn
+					label="Actualizar"
+					color="primary"
+					dense
+					rounded
+					@click="setSettings (localSettings)"
+					class="full-width relative-position float-right q-mt-xl"
+				/>
+			</div>
     </div>
 </template>
 
@@ -117,7 +175,12 @@
     export default {
         name: "PageSettings",
         data () {
+            
             return {
+                fontSize: '',
+                fontText: [
+                    'Pequeno', 'Medio', 'Grande',
+                ],
                 snap: {
                     min: 2,
                     max: 12
