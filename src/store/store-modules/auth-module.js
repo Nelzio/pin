@@ -1,6 +1,6 @@
 import { LocalStorage, Loading } from 'quasar'
-import { firebaseAuth } from "../boot/firebase";
-import {showErrorMessage} from "../functions/handle-error-messages";
+import { firebaseAuth } from "../../boot/firebase";
+import { showErrorMessage } from "../../functions/handle-error-messages";
 
 const state = {
     isUserAuth: false,
