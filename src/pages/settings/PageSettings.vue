@@ -89,7 +89,7 @@
         <q-list>
 					<q-item>
 						<q-item-section avatar>
-							<q-icon color="blue-9" name="highlight" />
+							<q-icon color="primary" name="highlight" />
 						</q-item-section>
 
 						<q-item-section>
@@ -107,7 +107,7 @@
 
 					<q-item>
 						<q-item-section avatar>
-							<q-icon color="blue-9" name="volume_up" />
+							<q-icon color="primary" name="volume_up" />
 						</q-item-section>
 
 						<q-item-section>
@@ -125,7 +125,7 @@
 
 					<q-item>
 						<q-item-section avatar>
-							<q-icon color="blue-9" name="vibration" />
+							<q-icon color="primary" name="vibration" />
 						</q-item-section>
 
 						<q-item-section>
@@ -142,7 +142,7 @@
 
 					<q-item>
 						<q-item-section avatar>
-							<q-icon color="blue-9" name="format_size" />
+							<q-icon color="primary" name="format_size" />
 						</q-item-section>
 
 						<q-item-section>
