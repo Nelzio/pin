@@ -52,7 +52,12 @@ module.exports = function (ctx) {
       plugins: [
           'LocalStorage',
           'AddressbarColor',
-      ]
+          'Loading',
+      ],
+      
+      config: {
+        loading: { /* Loading defaults */ }
+      }
     },
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
