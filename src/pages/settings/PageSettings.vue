@@ -147,7 +147,7 @@
 
 						<q-item-section>
 							<!-- <q-item-label class="text-h6">Tamanho do texto</q-item-label> -->
-							<q-select v-model="model" :options="fontText" label="Tamanho de texto" />
+							<q-select v-model="fontSize" :options="fontText" label="Tamanho de texto" />
 						</q-item-section>
 
 					</q-item>
@@ -175,16 +175,18 @@
     export default {
         name: "PageSettings",
         data () {
-					return {
-						fontText: [
-							'Pequeno', 'Medio', 'Grande',
-						],
-						snap: {
-							min: 2,
-							max: 12
-						},
-						localSettings: {} //Veja a estrutura desse objecto no state do /store/store-modules/settings-module.js
-					}
+            
+            return {
+                fontSize: '',
+                fontText: [
+                    'Pequeno', 'Medio', 'Grande',
+                ],
+                snap: {
+                    min: 2,
+                    max: 12
+                },
+                localSettings: {} //Veja a estrutura desse objecto no state do /store/store-modules/settings-module.js
+            }
         },
         computed: {
             ...mapState('settings', [
