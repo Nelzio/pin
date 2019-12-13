@@ -16,7 +16,7 @@
 						class="q-gutter-md"
 					>
 						<q-input
-							standout="bg-grey"
+							outlined
 							color="blue-9"
 							dense
 							ref="email"
@@ -27,7 +27,7 @@
 						/>
 
 						<q-input
-							standout="bg-grey"
+							outlined
 							color="blue-9"
 							@keyup.enter="login_account"
 							dense
