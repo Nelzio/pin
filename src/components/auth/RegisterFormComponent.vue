@@ -1,7 +1,7 @@
 <template>
     <div class="row login justify-center q-gutter-y-lg">
         <div class="col-12">
-        <q-icon color="blue-9"
+        <q-icon color="primary"
 					size="100px" name="person_add"
         />
         </div>
@@ -17,7 +17,7 @@
             >
                 <q-input
                     outlined
-                    color="blue-9"
+                    color="primary"
                     dense
                     v-model="authObject.name"
                     ref="name"
@@ -28,7 +28,7 @@
 
                 <!-- <q-input
                     outlined
-                    color="blue-9"
+                    color="primary"
                     dense
                     type="email"
                     ref="email"
@@ -39,7 +39,7 @@
                 /> -->
                 <q-input
                     outlined
-                    color="blue-9"
+                    color="primary"
                     dense
                     ref="email"
                     v-model="authObject.email"
@@ -51,7 +51,7 @@
 
                 <q-input
                     outlined
-                    color="blue-9"
+                    color="primary"
                     @keyup.enter="login_account"
                     dense
                     placeholder="password"
