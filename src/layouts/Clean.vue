@@ -10,7 +10,7 @@
             round
             icon="home"
             aria-label="Menu"
-            size="210px"
+            size="20px"
         />
         <q-toolbar-title class="text-center">
           Superativo | Conta
