@@ -6,7 +6,7 @@
   >
     <!-- content -->
     <div class="row">
-      <div class="col-6 col-md-3 q-pa-sm" v-for="i in 16" :key="i">
+      <div class="col-12 col-md-3 q-pa-sm" v-for="i in 16" :key="i">
         <q-card class="my-card" :class="[appMode.textColorOptional, appMode.bgColor]">
           <q-img src="https://cdn.awsli.com.br/600x1000/60/60876/produto/28035638/9e1cebfb32.jpg" spinner-color="white" />
           <q-card-section>
@@ -15,20 +15,20 @@
           </q-card-section>
           <q-card-actions align="right">
             <q-btn
-               size="xs"
+               size="md"
                outline
                rounded
                :text-color="appMode.modeName === 'dark' ? 'white' : 'primary'"
                label="Detalhes"
                to="/store/details"
             />
-            <q-btn
+            <!-- <q-btn
                size="xs"
                round
                :color="appMode.modeName === 'dark' ? 'white' : 'primary'"
                outline
                icon="volume_up"
-            />
+            /> -->
           </q-card-actions> 
         </q-card>
       </div>

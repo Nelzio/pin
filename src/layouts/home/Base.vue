@@ -25,6 +25,9 @@
         <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap">
           Superativo
         </q-toolbar-title>
+        <q-toolbar-title shrink color="primary" class="row items-center text-primary no-wrap">
+          Superativo
+        </q-toolbar-title>
 
         <q-space />
 

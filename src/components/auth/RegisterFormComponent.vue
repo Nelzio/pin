@@ -26,7 +26,7 @@
                     :rules="[ val => val && val.length > 0 || 'Por favor, indique o su nome']"
                 />
 
-                <q-input
+                <!-- <q-input
                     outlined
                     color="blue-9"
                     dense
@@ -36,6 +36,17 @@
                     label="Email"
                     lazy-rules
                     :rules="[ val => isEmailValid(val) || 'Por favor, indique um email válido!']"
+                /> -->
+                <q-input
+                    outlined
+                    color="blue-9"
+                    dense
+                    ref="email"
+                    v-model="authObject.email"
+                    label="Numero de telefone"
+                    mask="#########"
+                    lazy-rules
+                    :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
                 />
 
                 <q-input

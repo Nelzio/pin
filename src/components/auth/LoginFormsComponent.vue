@@ -21,9 +21,11 @@
 							dense
 							ref="email"
 							v-model="authObject.email"
-							label="Email"
+							label="Numero de telefone"
+							placeholder="Numero de telefone"
+							mask="#########"
 							lazy-rules
-							:rules="[ val => val && val.length > 0 || 'Please type something']"
+							:rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
 						/>
 
 						<q-input
@@ -32,11 +34,12 @@
 							@keyup.enter="login_account"
 							dense
 							ref="password"
-							placeholder="password"
+							label="Senha"
+							placeholder="Senha"
 							v-model="authObject.password"
 							:type="isPwd ? 'password' : 'text'"
 							lazy-rules
-							:rules="[ val => val && val.length > 0 || 'Please type pass']"
+							:rules="[ val => val && val.length > 0 || 'Introduza a sua senha']"
 						>
 							<template v-slot:append>
 								<q-icon
@@ -48,7 +51,7 @@
 						</q-input>
 						<div>
 							<q-btn
-								label="login"
+								label="Entrar"
 								type="submit"
 								color="primary"
 								class="full-width"

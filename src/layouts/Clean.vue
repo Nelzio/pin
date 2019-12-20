@@ -10,17 +10,18 @@
             round
             icon="home"
             aria-label="Menu"
+            size="210px"
         />
         <q-toolbar-title class="text-center">
           Superativo | Conta
         </q-toolbar-title>
-        <q-btn
+        <!-- <q-btn
           flat
           round
           size="lg"
           dense
           icon="volume_up"
-        />
+        /> -->
 
       </q-toolbar>
 
