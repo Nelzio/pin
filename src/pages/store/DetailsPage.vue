@@ -3,7 +3,7 @@
     <!-- content -->
     <div class="row justify-center">
       <div class="col-12 col-md-8">
-        <q-carousel
+        <!-- <q-carousel
           swipeable
           animated
           arrows
@@ -28,29 +28,37 @@
               />
             </q-carousel-control>
           </template>
-        </q-carousel>
+        </q-carousel> -->
+
+        <q-tab-panels
+          v-model="panelPics"
+          animated
+          swipeable
+          infinite
+          class="rounded-borders"
+          
+        >
+          <q-tab-panel v-for="i in 4" :key="i" :name="''+i" style="padding: 0;">
+            <q-card class="my-card">
+              <img src="https://cdn.awsli.com.br/600x1000/60/60876/produto/28035638/9e1cebfb32.jpg" alt="">
+            </q-card>
+            
+          </q-tab-panel>
+        </q-tab-panels>
 
         <div class="row no-wrap items-center">
           <div class="col text-h6 ellipsis">Sandalias de Cabdal</div>
         </div>
 
-        <div class="row no-wrap items-center q-pa-md">
+        <!-- <div class="row no-wrap items-center q-pa-md">
           <div class="col-auto row q-gutter-x-md">
             <q-btn class="shadow-4" color="primary" label="Comprar" @click="mPesa = true" />
             <div class="row text-center q-gutter-x-md">
               <q-icon size="40px" name="img:https://upload.wikimedia.org/wikipedia/commons/0/03/M-pesa-logo.png" />
               <q-icon size="40px" name="img:http://www.gotadeagua.com.br/wp-content/uploads/2017/05/o-que-Visa-Electron.jpg" />
             </div>
-            
-            
-              <!-- <q-btn class="shadow-4" color="red" flat round icon="favorite" /> -->
-              <!-- <q-btn class="shadow-4" color="blue" flat round icon="share" /> -->
           </div>
-            <!-- <div class="col-auto text-grey">
-                <q-icon color="blue-8" name="share" /> 14
-                <q-icon color="red" name="favorite" /> 65
-            </div> -->
-        </div>
+        </div> -->
 
         <q-list>
           <q-item>
@@ -58,7 +66,7 @@
               <q-icon color="primary" name="attach_money" />
           </q-item-section>
               <q-item-section>
-              <q-item-label class="text-h5">
+              <q-item-label class="text-h5 text-black">
                   {{totalVal}} mt
               </q-item-label>
               </q-item-section>
@@ -67,10 +75,10 @@
           <q-separator spaced inset="item" />
 
           <q-item>
-          <q-item-section avatar top>
-              <q-icon color="primary" name="place" />
-          </q-item-section>
-              <q-item-section>
+            <q-item-section avatar top>
+                <q-icon color="primary" name="place" />
+            </q-item-section>
+            <q-item-section class="text-black">
               <q-item-label class="text-h6">
                 Local de entrega
               </q-item-label>
@@ -86,7 +94,7 @@
               <q-item-label class="text-body2">
                 Associacao
               </q-item-label>
-              </q-item-section>
+            </q-item-section>
           </q-item>
 
           <q-separator spaced inset="item" />
@@ -97,7 +105,7 @@
               <q-icon color="primary" name="description" />
           </q-item-section>
 
-          <q-item-section>
+          <q-item-section class="text-black">
               <q-item-label class="text-h6">Descrição</q-item-label>
               <q-item-label>
               Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
@@ -105,7 +113,7 @@
           </q-item-section>
           </q-item>
         </q-list>
-        <q-toolbar class="bg-white text-black">
+        <q-toolbar class="bg-white text-primary">
           <q-toolbar-title>Comentarios</q-toolbar-title>
         </q-toolbar>
         <q-list>
@@ -128,7 +136,7 @@
             </q-item-section>
 
             <q-item-section side top>
-            <q-item-label caption>5 min ago</q-item-label>
+            <q-item-label caption>5 minutos</q-item-label>
             </q-item-section>
           </q-item>
           <q-item>
@@ -150,7 +158,7 @@
             </q-item-section>
 
             <q-item-section side top>
-              <q-item-label caption>9 min ago</q-item-label>
+              <q-item-label caption>9 minutos</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -204,6 +212,7 @@ export default {
   // name: 'PageName',
   data () {
     return {
+      panelPics: '1',
       slide: 1,
       number: null,
       sucessPay: false,

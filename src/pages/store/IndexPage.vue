@@ -1,10 +1,35 @@
 <template>
   <q-page
     style="padding-bottom: 80px;"
-    v-touch-swipe.mouse.left.right="handleSwipe"
   >
+  <!-- componet Filters-->
+  <div>
+    <div class="q-pl-sm text-h6">
+      Filtrar
+    </div>
+    <div>
+      <q-scroll-area
+        horizontal
+        class="bg-grey-1"
+      >
+        <div class="row no-wrap q-pa-sm q-gutter-sm">
+          <!-- <div v-for="n in 10" :key="n" style="width: 150px" class="q-pa-sm">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto fuga quae veritatis blanditiis sequi id expedita amet esse aspernatur! Iure, doloribus!
+          </div> -->
+          <q-card v-for="n in 10" :key="n" class="my-card bg-primary">
+            <!-- <q-card-section>
+              test card
+            </q-card-section> -->
+            <q-icon name="style" color="white" size="70px" />
+            
+          </q-card>
+          
+        </div>
+      </q-scroll-area>
+    </div>
+  </div>
     <!-- content -->
-    <div class="row">
+    <div class="row" v-touch-swipe.mouse.left.right="handleSwipe">
       <div class="col-12 col-md-3 q-pa-sm" v-for="i in 16" :key="i">
         <q-card class="my-card" :class="[appMode.textColorOptional, appMode.bgColor]">
           <q-img src="https://cdn.awsli.com.br/600x1000/60/60876/produto/28035638/9e1cebfb32.jpg" spinner-color="white" />
