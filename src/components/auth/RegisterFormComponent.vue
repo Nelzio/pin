@@ -16,6 +16,7 @@
                 class="q-gutter-md"
             >
                 <q-input
+                    rounded
                     outlined
                     color="primary"
                     dense
@@ -38,6 +39,7 @@
                     :rules="[ val => isEmailValid(val) || 'Por favor, indique um email válido!']"
                 /> -->
                 <q-input
+                    rounded
                     outlined
                     color="primary"
                     dense
@@ -50,6 +52,7 @@
                 />
 
                 <q-input
+                    rounded
                     outlined
                     color="primary"
                     @keyup.enter="login_account"

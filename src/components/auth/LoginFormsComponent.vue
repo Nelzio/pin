@@ -16,6 +16,7 @@
 						class="q-gutter-md"
 					>
 						<q-input
+							rounded
 							outlined
 							color="primary"
 							dense
@@ -29,6 +30,7 @@
 						/>
 
 						<q-input
+							rounded
 							outlined
 							color="primary"
 							@keyup.enter="login_account"
@@ -51,6 +53,7 @@
 						</q-input>
 						<div>
 							<q-btn
+								rounded
 								label="Entrar"
 								type="submit"
 								color="primary"

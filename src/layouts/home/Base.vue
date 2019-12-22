@@ -1,7 +1,7 @@
 <template>
   <q-layout :class="[appMode.textColor, appMode.bgColor]" view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
     <q-header elevated class="bg-white text-grey-8" height-hint="64">
-      <q-toolbar class="GPL__toolbar" style="height: 64px">
+      <q-toolbar class="bg-primary text-white GPL__toolbar" style="height: 64px">
         <q-btn
             @click="$router.go(-1)"
             v-if="isHome !== 'Início' && isHome !== true"
@@ -34,10 +34,10 @@
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn round dense flat color="grey-8" icon="volume_up">
+          <q-btn round dense flat color="white" icon="volume_up">
             <q-tooltip>Som</q-tooltip>
           </q-btn>
-          <q-btn round dense flat color="grey-8" icon="notifications">
+          <q-btn round dense flat color="white" icon="notifications">
             <q-badge color="red" text-color="white" floating>
               2
             </q-badge>
@@ -78,6 +78,15 @@
             </q-menu>
           </q-btn>
         </div>
+      </q-toolbar>
+      <!-- rounded-borders -->
+      <q-toolbar class="bg-primary text-white">
+        <q-input dark dense standout v-model="search" input-class="text-right" class="full-width">
+          <template v-slot:append>
+            <q-icon v-if="search === ''" name="search" />
+            <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
+          </template>
+        </q-input>
       </q-toolbar>
     </q-header>
 
@@ -161,6 +170,7 @@ export default {
 
   data () {
     return {
+      search: '',
       leftDrawer: false,
       leftDrawerOpen: false,
       tab:"home",
