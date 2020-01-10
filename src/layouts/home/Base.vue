@@ -202,7 +202,6 @@ export default {
   watch: {
     $route(to, from) {
       // react to route changes...
-
       this.toSearch = false
       if(to.path == '/work' || to.path == '/store') this.toSearch = true
     }

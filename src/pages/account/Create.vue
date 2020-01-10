@@ -64,8 +64,15 @@
     </div>
 
     <div class="row justify-center">
-      <div class="col-12 q-pa-md">
-         <q-btn class="full-width animated infinite bounce" rounded outline color="primary" label="Arastar criar conta" icon="arrow_back" />
+      <div class="col-12 q-pa-lg">
+         <q-btn
+           class="full-width"
+           rounded
+           outline
+           color="primary"
+           label="Entrar na conta"
+           icon="arrow_back"
+           to="/account" />
       </div>
     </div>
   </q-page>

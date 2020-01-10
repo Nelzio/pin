@@ -36,13 +36,11 @@
           swipeable
           infinite
           class="rounded-borders"
-          
         >
           <q-tab-panel v-for="i in 4" :key="i" :name="''+i" style="padding: 0;">
             <q-card class="my-card">
               <img src="https://cdn.awsli.com.br/600x1000/60/60876/produto/28035638/9e1cebfb32.jpg" alt="">
             </q-card>
-            
           </q-tab-panel>
         </q-tab-panels>
 
