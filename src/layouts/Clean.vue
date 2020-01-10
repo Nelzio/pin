@@ -3,15 +3,12 @@
   <q-header elevated>
       <q-toolbar class="bg-white text-teal">
         <q-btn
-            to="/"
-            v-if="!isHome"
-            flat
-            dense
-            round
-            icon="home"
-            aria-label="Menu"
-            size="20px"
-        />
+          icon="arrow_back"
+          flat
+          round
+          dense
+          @click="$router.go(-1)"
+          v-if="backPage" />
         <q-toolbar-title class="text-center">
           Superativo | Conta
         </q-toolbar-title>
@@ -41,6 +38,17 @@ export default {
 
   data () {
     return {
+      backPage: false,
+    }
+  },
+  mounted () {
+    if(this.$route.path !== '/account') this.backPage = true
+  },
+  watch: {
+    $route(to, from) {
+      // react to route changes...
+      this.backPage = false
+      if(to.path !== '/account') this.backPage = true
     }
   }
 }

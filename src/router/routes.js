@@ -31,6 +31,10 @@ const routes = [
     component: () => import('layouts/Clean.vue'),
     children: [
       { path: '', component: () => import('pages/account/Login.vue') },
+      { path: 'create', component: () => import('pages/account/Create.vue') },
+      { path: 'resetpwd', component: () => import('pages/account/ResetPassWD.vue') },
+      { path: 'resetpwd2', component: () => import('pages/account/ResetPassWDStep2.vue') },
+      { path: 'edit', component: () => import('pages/account/ResetProfile.vue') },
     ]
   },
   {

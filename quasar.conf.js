@@ -63,6 +63,9 @@ module.exports = function (ctx) {
       }
     },
 
+    // embedding all animations
+    animations: 'all',
+
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: false,
 

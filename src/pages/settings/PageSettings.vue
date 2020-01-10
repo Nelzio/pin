@@ -87,77 +87,104 @@
         </q-list> -->
 
         <q-list>
-					<q-item>
-						<q-item-section avatar>
-							<q-icon color="primary" name="highlight" />
-						</q-item-section>
+            <q-expansion-item expand-separator icon="settings_applications" label="Definições do app">
+							<q-card>
+								<q-item>
+									<q-item-section avatar>
+										<q-icon color="primary" name="highlight" />
+									</q-item-section>
 
-						<q-item-section>
-							<q-item-label class="text-h6">Modo claro</q-item-label>
-						</q-item-section>
+									<q-item-section>
+										<q-item-label class="text-h6">Modo claro</q-item-label>
+									</q-item-section>
 
-						<q-item-section side>
-							<q-toggle
-								v-model="localSettings.mode"
-							/>
-						</q-item-section>
-					</q-item>
+									<q-item-section side>
+										<q-toggle
+											v-model="localSettings.mode"
+										/>
+									</q-item-section>
+								</q-item>
 
-					<q-separator spaced inset="item" />
+								<q-separator spaced inset="item" />
 
-					<q-item>
-						<q-item-section avatar>
-							<q-icon color="primary" name="volume_up" />
-						</q-item-section>
+								<q-item>
+									<q-item-section avatar>
+										<q-icon color="primary" name="volume_up" />
+									</q-item-section>
 
-						<q-item-section>
-							<q-item-label class="text-h6">Naração das telas</q-item-label>
-						</q-item-section>
+									<q-item-section>
+										<q-item-label class="text-h6">Naração das telas</q-item-label>
+									</q-item-section>
 
-						<q-item-section side>
-							<q-toggle
-								v-model="localSettings.isNarratorActive"
-							/>
-						</q-item-section>
-					</q-item>
+									<q-item-section side>
+										<q-toggle
+											v-model="localSettings.isNarratorActive"
+										/>
+									</q-item-section>
+								</q-item>
 
-					<q-separator spaced inset="item" />
+								<q-separator spaced inset="item" />
 
-					<q-item>
-						<q-item-section avatar>
-							<q-icon color="primary" name="vibration" />
-						</q-item-section>
+								<q-item>
+									<q-item-section avatar>
+										<q-icon color="primary" name="vibration" />
+									</q-item-section>
 
-						<q-item-section>
-							<q-item-label class="text-h6">Vibrador</q-item-label>
-						</q-item-section>
+									<q-item-section>
+										<q-item-label class="text-h6">Vibrador</q-item-label>
+									</q-item-section>
 
-						<q-item-section side>
-							<q-toggle
-								v-model="localSettings.isVibrationActive"
-							/>
-						</q-item-section>
-					</q-item>
-					
+									<q-item-section side>
+										<q-toggle
+											v-model="localSettings.isVibrationActive"
+										/>
+									</q-item-section>
+								</q-item>
 
-					<q-item>
-						<q-item-section avatar>
-							<q-icon color="primary" name="format_size" />
-						</q-item-section>
+								<q-item>
+									<q-item-section avatar>
+										<q-icon color="primary" name="format_size" />
+									</q-item-section>
 
-						<q-item-section>
-							<!-- <q-item-label class="text-h6">Tamanho do texto</q-item-label> -->
-							<q-select v-model="fontSize" :options="fontText" label="Tamanho de texto" />
-						</q-item-section>
+									<q-item-section>
+										<!-- <q-item-label class="text-h6">Tamanho do texto</q-item-label> -->
+										<q-select v-model="fontSize" :options="fontText" label="Tamanho de texto" />
+									</q-item-section>
 
-					</q-item>
+								</q-item>
+							</q-card>
+            </q-expansion-item>
+
+						<q-expansion-item expand-separator icon="perm_identity" label="Definições de conta" caption="John Doe">
+							<q-card>
+								<q-item clickable v-ripple to="/account/edit">
+									<q-item-section avatar>
+										<q-icon color="primary" name="edit" />
+									</q-item-section>
+
+									<q-item-section>
+										<q-item-label class="text-h6">Editar conta</q-item-label>
+									</q-item-section>
+								</q-item>
+
+								<q-item clickable v-ripple @click="deletDialog = true">
+									<q-item-section avatar>
+										<q-icon color="primary" name="delete_forever" />
+									</q-item-section>
+
+									<q-item-section>
+										<q-item-label class="text-h6">Remover conta</q-item-label>
+									</q-item-section>
+								</q-item>
+							</q-card>
+						</q-expansion-item>
 				</q-list>
 
         
 
 
 
-			<div class="q-pa-md">
+			<!-- <div class="q-pa-md">
 				<q-btn
 					label="Actualizar"
 					color="primary"
@@ -166,6 +193,24 @@
 					@click="setSettings (localSettings)"
 					class="full-width relative-position float-right q-mt-xl"
 				/>
+			</div> -->
+
+			<div>
+				<q-dialog v-model="deletDialog">
+					<q-card class="text-red">
+						<q-card-section>
+							<div class="text-h6">Atençao</div>
+						</q-card-section>
+						<q-card-section>
+							Tem a certeza de que quer deletar a conta?
+						</q-card-section>
+						<q-card-actions align="right">
+							<q-btn rounded label="Deletar conta" color="red" v-close-popup />
+							<q-btn rounded outline label="Cancelar" color="grey" v-close-popup />
+						</q-card-actions>
+					</q-card>
+				</q-dialog>
+				
 			</div>
     </div>
 </template>
@@ -177,6 +222,7 @@
         data () {
             
             return {
+							deletDialog: false,
                 fontSize: '',
                 fontText: [
                     'Pequeno', 'Medio', 'Grande',

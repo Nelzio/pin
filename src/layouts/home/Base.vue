@@ -80,7 +80,7 @@
         </div>
       </q-toolbar>
       <!-- rounded-borders -->
-      <q-toolbar class="bg-primary text-white">
+      <q-toolbar class="bg-primary text-white" v-if="toSearch">
         <q-input dark dense standout v-model="search" input-class="text-right" class="full-width">
           <template v-slot:append>
             <q-icon v-if="search === ''" name="search" />
@@ -173,6 +173,7 @@ export default {
       search: '',
       leftDrawer: false,
       leftDrawerOpen: false,
+      toSearch: false,
       tab:"home",
       navtab: "list",
       isHome: 'Início',
@@ -183,19 +184,29 @@ export default {
       ],
     }
   },
-    computed: {
-        ...mapState('settings', ['appMode']),
-        ...mapState('auth', ['isUserAuth']),
-    },
-    mounted () {
-        this.$root.$on('isHomePage', (val) => {
-            this.isHome = val
-        })
-        this.$root.$emit('isHomePage', this.$router.currentRoute.path === '/')
-    },
-    methods: {
-        ...mapActions ('auth', ['logoutUser'])
+  computed: {
+    ...mapState('settings', ['appMode']),
+    ...mapState('auth', ['isUserAuth']),
+  },
+  mounted () {
+    this.$root.$on('isHomePage', (val) => {
+      this.isHome = val
+    })
+    this.$root.$emit('isHomePage', this.$router.currentRoute.path === '/')
+
+    if(this.$route.path == '/store' || this.$route.path == '/work') this.toSearch = true
+  },
+  methods: {
+    ...mapActions ('auth', ['logoutUser'])
+  },
+  watch: {
+    $route(to, from) {
+      // react to route changes...
+
+      this.toSearch = false
+      if(to.path == '/work' || to.path == '/store') this.toSearch = true
     }
+  }
 }
 </script>
 

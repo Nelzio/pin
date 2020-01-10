@@ -2,7 +2,7 @@
   <q-page
       class="flex flex-center"
       :class="[appMode.textColor, appMode.bgColor]"
-      v-touch-swipe.mouse.left.right="handleSwipe"
+      v-touch-swipe.mouse.left.right.down="handleSwipe"
   >
 		<!--<h5 v-if="isConected">App Mode: <b class="text-green-8">Internet</b></h5>-->
 		<!--<h5 v-else>App Mode: <b class="text-red-8">Offline</b></h5>-->
@@ -47,40 +47,43 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex'
-    import HomeContent from "../components/HomeContent";
-    export default {
-        name: 'PageIndex',
-        components: {HomeContent},
-        data () {
-					return {
-						lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-    			}
-        },
-        computed: {
-            ...mapState('settings', [
-                'isConected', 'settings', 'appMode'
-            ]),
-        },
-        methods: {
-            ...mapActions('settings', ['playSound', 'vibrate']),
-            handleSwipe (val) {
-                if (val.direction === 'left') {
-                    this.$router.push('/work')
-                }
-            }
-        },
-        mounted () {
-            this.$root.$emit('isHomePage', 'Início') //Coloca o menú do controlo de página inicial activa
+	import { mapState, mapActions } from 'vuex'
+	import HomeContent from "../components/HomeContent";
+	export default {
+		name: 'PageIndex',
+		components: {HomeContent},
+		data () {
+			return {
+				lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+			}
+		},
+		computed: {
+			...mapState('settings', [
+				'isConected', 'settings', 'appMode'
+			]),
+		},
+		methods: {
+			...mapActions('settings', ['playSound', 'vibrate']),
+			handleSwipe (val) {
+				if (val.direction === 'left') {
+					this.$router.push('/work')
+				}
+				if (val.direction === 'down') {
+					this.$router.push('/account')
+				}
+			}
+		},
+		mounted () {
+			this.$root.$emit('isHomePage', 'Início') //Coloca o menú do controlo de página inicial activa
 
-            if (this.settings.isVibrationActive) {
-                this.vibrate ()
-            }
+			if (this.settings.isVibrationActive) {
+				this.vibrate ()
+			}
 
-            if (this.settings.isNarratorActive) {
-                this.playSound('/statics/audios/home.aac')
-            }
-        }
-    }
+			if (this.settings.isNarratorActive) {
+				this.playSound('/statics/audios/home.aac')
+			}
+		}
+	}
 </script>
 

@@ -97,55 +97,55 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex'
-    export default {
-        name: "RegisterFormComponent",
-        data () {
-            return {
-                authObject: {
-                    name: '',
-                    email: '',
-                    password: '',
-                },
-                isPwd: true,
-            }
-        },
+	import { mapActions } from 'vuex'
+	export default {
+		name: "RegisterFormComponent",
+		data () {
+			return {
+				authObject: {
+					name: '',
+					email: '',
+					password: '',
+				},
+				isPwd: true,
+			}
+		},
 
-        methods: {
-            ...mapActions ('auth', [
-                'loginUser',
-                'registerUser',
-            ]),
+		methods: {
+			...mapActions ('auth', [
+				'loginUser',
+				'registerUser',
+			]),
 
-            isEmailValid (email) {
-                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                return re.test(String(email).toLowerCase())
-            },
+			isEmailValid (email) {
+				var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+				return re.test(String(email).toLowerCase())
+			},
 
-            onReset () {
-                alert('must reset form.')
-            },
-            onSubmit () {
+			onReset () {
+				alert('must reset form.')
+			},
+			onSubmit () {
 
-                this.$refs.email.validate ()
-                this.$refs.password.validate ()
+				this.$refs.email.validate ()
+				this.$refs.password.validate ()
 
-                if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
+				if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
 
-                    this.$emit('loginUser', this.authObject)
+					this.$emit('loginUser', this.authObject)
 
-                }
+				}
 
-            }
+			}
 
-        },
+		},
 
-        filters: {
-            captalizeFirstLetter (val) {
-                return val.charAt(0).toUpperCase() + '' + val.slice(1)
-            }
-        }
-    }
+		filters: {
+			captalizeFirstLetter (val) {
+				return val.charAt(0).toUpperCase() + '' + val.slice(1)
+			}
+		}
+	}
 </script>
 
 <style scoped>

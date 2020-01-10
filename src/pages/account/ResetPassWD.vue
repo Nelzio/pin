@@ -1,11 +1,13 @@
 <template>
+  <q-page v-touch-swipe.mouse.right.left.down="accountSwipe">
+    <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
-			<div class="col-12">
+			<div class="col-12 text-center">
         <q-icon color="primary"
-			size="100px" name="account_circle"
+			  size="100px" name="account_circle"
         />
 			</div>
-        <div class="bg-grey-3 q-pa-lg shadow-10 col-md-4 col-12">
+        <div class="q-pa-lg col-md-4 col-12">
 					<q-form
 						ref="loginForm"
 						@submit="onSubmit"
@@ -26,58 +28,21 @@
 							:rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
 						/>
 
-						<q-input
-							rounded
-							outlined
-							color="primary"
-							@keyup.enter="login_account"
-							dense
-							ref="password"
-							label="Senha"
-							placeholder="Senha"
-							v-model="authObject.password"
-							:type="isPwd ? 'password' : 'text'"
-							lazy-rules
-							:rules="[ val => val && val.length > 0 || 'Introduza a sua senha']"
-						>
-							<template v-slot:append>
-								<q-icon
-									:name="isPwd ? 'visibility_off' : 'visibility'"
-									class="cursor-pointer"
-									@click="isPwd = !isPwd"
-								/>
-							</template>
-						</q-input>
 						<div>
 							<q-btn
 								rounded
-								label="Entrar"
-								type="submit"
+								label="Enviar"
 								color="primary"
 								class="full-width"
+                to="resetpwd2"
 							/>
 						</div>
-
-						<q-item>
-							<q-item-section>
-								<q-btn
-									rounded
-									outline
-									size="sm"
-									color="primary"
-									label="Criar conta"
-									@click="$emit('tab', 'create')"
-								/>
-							</q-item-section>
-							<q-item-section>
-								<router-link to="/">
-									Recuperar senha
-								</router-link>
-							</q-item-section>
-						</q-item>
 					</q-form>
         </div>
     </div>
+
+    
+  </q-page>
 </template>
 
 <script>
@@ -120,7 +85,19 @@
 
 				}
 
-			}
+      },
+      accountSwipe (val) {
+        if (val.direction === 'left') {
+          this.$router.push('/account/create')
+          }
+
+        if (val.direction === 'right') {
+          this.$router.push('/')
+        }
+        if (val.direction === 'down') {
+          this.$router.push('/')
+        }
+      }
 
 		},
 
@@ -132,6 +109,5 @@
 	}
 </script>
 
-<style scoped>
-
+<style lang="sass">
 </style>
