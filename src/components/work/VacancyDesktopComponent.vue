@@ -20,19 +20,18 @@
 				<q-btn
 					rounded
 					outline
-					size="sm"
 					:text-color="appMode.modeName === 'dark' ? 'white' : 'teal'"
 					label="Detalhes"
 					to="/work/details"
 				/>
-				<q-btn
+				<!-- <q-btn
 					round
 					outline
 					size="sm"
 					flat
 					:color="appMode.modeName === 'dark' ? 'white' : ''"
 					icon="volume_up"
-				/>
+				/> -->
 			</q-card-actions>
     </q-card>
 </template>
