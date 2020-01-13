@@ -44,11 +44,11 @@ const actions = {
 
     setIsConected ({state, commit, dispatch}, val) {
         commit('setIsConected', val)
-        if (val) {
-            dispatch('playSound', state.soundHome)
-        } else {
-            dispatch('playSound', state.soundError)
-        }
+        // if (val) {
+        //     dispatch('playSound', state.soundHome)
+        // } else {
+        //     dispatch('playSound', state.soundError)
+        // }
     },
     setSettings ({commit, dispatch}, val) {
         commit('setSettings', val)
