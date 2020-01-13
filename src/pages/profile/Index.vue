@@ -222,9 +222,10 @@
                 />
                 <q-card-section>Vaga para pedreiro</q-card-section>
                 <q-card-actions align="right">
-                  <q-btn outline rounded color="white" text-color="black" label="Detalhes" />
+                  <q-btn outline rounded color="white" text-color="black" label="Detalhes" to="/profile/vacancy/details" />
                   <q-btn outline rounded color="primary" icon="edit" />
                   <q-btn outline rounded color="red" icon="delete" />
+                  <q-btn outline rounded color="black" :icon="isPublic ? 'visibility_off' : 'visibility'" @click="isPublic = !isPublic" />
                 </q-card-actions>
               </q-card>
             </div>
@@ -243,7 +244,8 @@ export default {
   // name: 'PageName',
   data() {
     return {
-      tab: "bio"
+      tab: "bio",
+      isPublic: true,
     };
   },
   mounted() {

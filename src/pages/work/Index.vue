@@ -19,8 +19,8 @@
     </div>-->
 
     <div>
-      <q-dialog v-model="addVacancy">
-        <q-card style="width: 700px; max-width: 80vw;">
+      <q-dialog v-model="addVacancy" :maximized="maximizedToggle">
+        <q-card>
           <q-card-section class="row items-center">
             <div class="text-h6">Adicionar Vaga</div>
             <q-space />
@@ -63,6 +63,7 @@ export default {
       lorem:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       padding: "",
+      maximizedToggle: true,
       deviceWidth: 375,
       addVacancy: false,
       vacancies: [

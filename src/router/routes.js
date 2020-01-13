@@ -5,9 +5,17 @@ const routes = [
     component: () => import('layouts/home/Base.vue'),
     children: [
       { path: '', component: () => import('pages/Index.vue') },
-      { path: '/settings', component: () => import('pages/settings/PageSettings') },
+      { path: 'settings', component: () => import('pages/settings/PageSettings') },
       { path: 'search', component: () => import('pages/Search.vue') },
-      { path: 'profile', component: () => import('pages/profile/Index.vue') }
+    ]
+  },
+  {
+    path: '/profile',
+    component: () => import('layouts/home/Base.vue'),
+    children: [
+      { path: '', component: () => import('pages/profile/Index.vue') },
+      { path: 'vacancy/details', component: () => import('pages/profile/work/Details') },
+      { path: 'vacancy/details/employee', component: () => import('pages/profile/work/EmployeeProfile') },
     ]
   },
   {
