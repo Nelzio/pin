@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 82vh; width: 100vw;">
+  <div style="height: 80vh; width: 100vw;">
     <div class="flex flex-center" style="height: 50%;">
       <div
         class="text-center q-pr-lg"

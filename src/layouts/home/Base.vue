@@ -1,8 +1,8 @@
 <template>
   <q-layout view="hHh Lpr fFf">
     <!-- Be sure to play with the Layout demo on docs -->
-    <q-header elevated class="bg-white text-black" height-hint="64">
-      <q-toolbar class="bg-white GPL__toolbar" style="height: 64px">
+    <q-header elevated height-hint="64">
+      <q-toolbar class="bg-black GPL__toolbar" style="height: 64px">
         <q-btn
           @click="$router.go(-1)"
           v-if="isHome !== 'Início' && isHome !== true"
@@ -74,7 +74,6 @@
     </q-header>
 
     <q-footer
-      :class="[appMode.textColor, appMode.bgColor]"
       elevated
       class="bg-white text-black"
       v-if="!$q.screen.gt.sm"
@@ -208,8 +207,10 @@ export default {
     });
     this.$root.$emit("isHomePage", this.$router.currentRoute.path === "/");
 
-    if (this.$route.path == "/store" || this.$route.path == "/work")
-      this.toSearch = true;
+    if (this.$route.path == "/store" || this.$route.path == "/work") this.toSearch = true;
+
+    this.$q.dark.set(true)
+
   },
   methods: {
     ...mapActions("auth", ["logoutUser"])

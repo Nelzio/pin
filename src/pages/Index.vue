@@ -66,7 +66,6 @@ export default {
     }
   },
   mounted() {
-    this.$root.$emit("isHomePage", "Início"); //Coloca o menú do controlo de página inicial activa
 
     if (this.settings.isVibrationActive) {
       this.vibrate();
@@ -74,7 +73,9 @@ export default {
 
     if (this.settings.isNarratorActive) {
       this.playSound("/statics/audios/home.aac");
-    }
+		}
+		
+		
   }
 };
 </script>

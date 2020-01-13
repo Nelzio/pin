@@ -100,7 +100,7 @@
 
 									<q-item-section side>
 										<q-toggle
-											v-model="localSettings.mode"
+											v-model="appMode"
 										/>
 									</q-item-section>
 								</q-item>
@@ -222,6 +222,7 @@
         data () {
             
             return {
+							appMode: true,
 							deletDialog: false,
                 fontSize: '',
                 fontText: [
@@ -264,7 +265,14 @@
                 if (val.direction === 'right') {
                     this.$router.push('/store')
                 }
-            }
+						},
+						darkMode () {
+							if (appMode) {
+								this.localSettings.settings.appMode = 1
+							} else {
+								this.localSettings.settings.appMode = 0
+							}
+						}
         },
         watch: {
             snap (val) {

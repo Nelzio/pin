@@ -3,17 +3,10 @@ import { LocalStorage } from 'quasar'
 const state = {
     isConected: false, //verifica se está conectado á internet,
     settings: {
-        mode: '',
+        appMode: 1,
         isNarratorActive: false,
         isVibrationActive: true,
         fontSize: '10pt',
-    },
-    appMode: {
-        modeName:   'light',
-        modeColor:   '#075e54',
-        bgColor:     'bg-white',
-        textColor:   'text-teal',
-        textColorOptional: 'text-black',
     },
     soundHome: '/statics/audios/home.wav',
     soundError: '/statics/audios/error.wav'
@@ -61,25 +54,9 @@ const actions = {
 
     // ===== Cache actions
 
-    cacheSettings ({state}, val) {
+    // cacheSettings ({state}, val) {
 
-        if (val.mode === 'dark') {
-            state.appMode.modeName  = 'dark'
-            state.appMode.modeColor = '#212121'
-            state.appMode.bgColor    = 'bg-grey-10'
-            state.appMode.textColor = 'text-white'
-            state.appMode.textColorOptional = 'text-white'
-        } else {
-            state.appMode.modeName  = 'light'
-            state.appMode.modeColor = '#075e54'
-            state.appMode.bgColor    = 'bg-white'
-            state.appMode.textColor =  'text-teal'
-            state.appMode.textColorOptional =  'text-black'
-        }
-
-        LocalStorage.set('stgs', val) //stgs - settings key
-        LocalStorage.set('appMode', state.appMode) //stgs - settings key
-    },
+    // },
 
     // ===== Audio options
     playSound ({}, audioPath) {
