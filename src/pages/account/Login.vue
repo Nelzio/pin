@@ -3,16 +3,16 @@
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
-        <q-icon color="primary" size="100px" name="account_circle" />
+        <q-icon size="100px" name="account_circle" />
       </div>
       <div class="q-pa-lg col-md-4 col-12">
         <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-md">
           <q-input
             rounded
             outlined
-            color="primary"
             dense
-            ref="email"
+            :color="darkModeConf.color"
+            ref="number"
             v-model="authObject.email"
             label="Numero de telefone"
             placeholder="Numero de telefone"
@@ -24,9 +24,9 @@
           <q-input
             rounded
             outlined
-            color="primary"
             @keyup.enter="login_account"
             dense
+            :color="darkModeConf.color"
             ref="password"
             label="Senha"
             placeholder="Senha"
@@ -44,7 +44,13 @@
             </template>
           </q-input>
           <div>
-            <q-btn rounded label="Entrar" type="submit" color="primary" class="full-width" />
+            <q-btn
+              rounded
+              label="Entrar"
+              type="submit"
+              :color="darkModeConf.color"
+              class="full-width"
+              :class="darkModeConf.textBtn" />
           </div>
 
 					<div>
@@ -66,7 +72,6 @@
           class="full-width animated infinite bounce"
           rounded
           outline
-          color="primary"
           label="Criar conta"
           icon-right="arrow_forward"
 					to="/account/create"
@@ -77,7 +82,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex"
 export default {
   name: "LoginFormsComponent",
   data() {
@@ -90,7 +95,9 @@ export default {
       isPwd: true
     };
   },
-
+  computed: {
+    ...mapState("settings", ["appMode", "darkModeConf"])
+  },
   methods: {
     ...mapActions("auth", ["loginUser", "registerUser"]),
 

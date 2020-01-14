@@ -10,7 +10,8 @@
         <q-btn
           v-if="!vacancyDone"
           rounded
-          color="teal"
+          :color="darkModeConf.color"
+          :class="darkModeConf.textBtn"
           label="Candidatar-se"
           icon="done_all"
           @click="apply = true"
@@ -41,48 +42,6 @@
       </q-card>
     </div>
 
-    <!-- <q-dialog v-model="socialNet">
-      <q-card style="width: 80vw;">
-        <q-list bordered separator>
-          <q-item clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon name="ion-logo-facebook" />
-            </q-item-section>
-            
-            <q-item-section>
-              Facebook
-            </q-item-section>
-          </q-item>
-          <q-item clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon name="ion-logo-whatsapp" />
-            </q-item-section>
-            
-            <q-item-section>
-              Whatsapp
-            </q-item-section>
-          </q-item>
-          <q-item clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon name="ion-logo-linkedin" />
-            </q-item-section>
-            
-            <q-item-section>
-              Linkedin
-            </q-item-section>
-          </q-item>
-        </q-list>
-      </q-card>
-    </q-dialog>-->
-
-    <!-- <q-dialog v-model="apply">
-      <q-card class="my-card">
-      <q-card-section>
-      test card
-      </q-card-section>
-      </q-card>
-      
-    </q-dialog>-->
     <div>
       <q-dialog v-model="apply">
         <q-card style="width: 700px; max-width: 80vw;">
@@ -104,7 +63,8 @@
       <q-btn
         v-if="!vacancyDone"
         rounded
-        color="teal"
+        :color="darkModeConf.color"
+        :class="darkModeConf.textBtn"
         label="Candidatar-se"
         icon="done_all"
         @click="apply = true"
@@ -127,7 +87,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("settings", ["appMode"])
+    ...mapState("settings", ["appMode", "darkModeConf"])
   },
   methods: {
     submit() {

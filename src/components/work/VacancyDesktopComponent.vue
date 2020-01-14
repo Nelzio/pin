@@ -20,7 +20,8 @@
 				<q-btn
 					rounded
 					outline
-					:text-color="appMode.modeName === 'dark' ? 'white' : 'teal'"
+					:color="darkModeConf.colorBtn"
+					:text-color="darkModeConf.textBtn"
 					label="Detalhes"
 					to="/work/details"
 				/>
@@ -43,7 +44,8 @@
 				props: ['lorem', 'vacancy'],
         computed: {
             ...mapState('settings', [
-                'appMode'
+								'appMode',
+								'darkModeConf'
             ])
         }
     }

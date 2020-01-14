@@ -3,7 +3,7 @@
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
-        <q-icon color="primary" size="100px" name="person_add" />
+        <q-icon size="100px" name="person_add" />
       </div>
       <!-- <div class="col-12">
           Entrar ou se Inscrever
@@ -13,8 +13,8 @@
           <q-input
             rounded
             outlined
-            color="primary"
             dense
+            :color="darkModeConf.color"
             v-model="authObject.name"
             ref="name"
             label="Nome completo"
@@ -24,8 +24,8 @@
           <q-input
             rounded
             outlined
-            color="primary"
             dense
+            :color="darkModeConf.color"
             ref="email"
             v-model="authObject.email"
             label="Numero de telefone"
@@ -37,9 +37,9 @@
           <q-input
             rounded
             outlined
-            color="primary"
             @keyup.enter="login_account"
             dense
+            :color="darkModeConf.color"
             placeholder="password"
             ref="password"
             v-model="authObject.password"
@@ -56,7 +56,13 @@
             </template>
           </q-input>
           <div class="q-gutter-y-md">
-            <q-btn rounded label="Registar" type="login" color="primary" class="full-width" />
+            <q-btn
+              rounded
+              label="Registar"
+              type="login"
+              :color="darkModeConf.color"
+              :class="darkModeConf.textBtn"
+              class="full-width" />
             
           </div>
         </q-form>
@@ -69,7 +75,6 @@
            class="full-width"
            rounded
            outline
-           color="primary"
            label="Entrar na conta"
            icon="arrow_back"
            to="/account" />
@@ -79,7 +84,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex"
 export default {
   name: "RegisterFormComponent",
   data() {
@@ -92,7 +97,9 @@ export default {
       isPwd: true
     };
   },
-
+  computed: {
+    ...mapState("settings", ["appMode", "darkModeConf"])
+  },
   methods: {
     ...mapActions("auth", ["loginUser", "registerUser"]),
 

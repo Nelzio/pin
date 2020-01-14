@@ -26,9 +26,9 @@
             <q-tabs
               v-model="tab"
               dense
+              :active-color="darkModeConf.color"
+              :indicator-color="darkModeConf.color"
               class="text-grey"
-              active-color="primary"
-              indicator-color="primary"
               align="justify"
               narrow-indicator
             >
@@ -43,10 +43,10 @@
                 <q-list>
                   <q-item class="text-left">
                     <q-item-section top avatar>
-                      <q-icon color="primary" name="phone" />
+                      <q-icon name="phone" />
                     </q-item-section>
 
-                    <q-item-section class="text-black">
+                    <q-item-section>
                       <q-item-label class="text-h6">Telefone</q-item-label>
                       <q-item-label>+258 84 122 4724</q-item-label>
                     </q-item-section>
@@ -56,10 +56,10 @@
 
                   <q-item class="text-left">
                     <q-item-section top avatar>
-                      <q-icon color="primary" name="email" />
+                      <q-icon name="email" />
                     </q-item-section>
 
-                    <q-item-section class="text-black">
+                    <q-item-section>
                       <q-item-label class="text-h6">Email</q-item-label>
                       <q-item-label>nelziositoe@gmail.com</q-item-label>
                     </q-item-section>
@@ -69,9 +69,9 @@
 
                   <q-item class="text-left">
                     <q-item-section avatar top>
-                      <q-icon color="primary" name="place" />
+                      <q-icon name="place" />
                     </q-item-section>
-                    <q-item-section class="text-black">
+                    <q-item-section>
                       <q-item-label class="text-h6">Endereço</q-item-label>
                       <q-item-label class="text-body2">Maputo</q-item-label>
                       <q-item-label class="text-body2">Bairro Laulane</q-item-label>
@@ -88,10 +88,10 @@
                 <q-list>
                   <q-item class="text-left">
                     <q-item-section top avatar>
-                      <q-icon color="primary" name="phone" />
+                      <q-icon name="phone" />
                     </q-item-section>
 
-                    <q-item-section class="text-black">
+                    <q-item-section>
                       <q-item-label class="text-h6">Profissão</q-item-label>
                       <q-item-label>Contabilista</q-item-label>
                     </q-item-section>
@@ -101,10 +101,10 @@
 
                   <q-item class="text-left">
                     <q-item-section top avatar>
-                      <q-icon color="primary" name="email" />
+                      <q-icon name="email" />
                     </q-item-section>
 
-                    <q-item-section class="text-black">
+                    <q-item-section>
                       <q-item-label class="text-h6">Experiencia</q-item-label>
                       <q-item-label>12</q-item-label>
                     </q-item-section>
@@ -114,9 +114,9 @@
 
                   <q-item class="text-left">
                     <q-item-section avatar top>
-                      <q-icon color="primary" name="place" />
+                      <q-icon name="place" />
                     </q-item-section>
-                    <q-item-section class="text-black">
+                    <q-item-section>
                       <q-item-label class="text-h6">Formação</q-item-label>
                       <q-item-label class="text-body2">Licenciatura em contabilidade</q-item-label>
                       <q-item-label class="text-body2">Especialização em direito</q-item-label>
@@ -133,14 +133,14 @@
 
         <!-- btn conect -->
         <div class="row justify-center q-pa-md">
-          <q-btn rounded class="full-width" color="primary" label="Contratar" />
+          <q-btn rounded class="full-width" :color="darkModeConf.color" :class="darkModeConf.textBtn" label="Contactar" />
         </div>
 
         <q-separator />
 
         <!-- sec4 -->
         <div>
-          <q-toolbar class="bg-primary text-white">
+          <q-toolbar :class="darkModeConf.bgColor">
             <q-toolbar-title>Produtos</q-toolbar-title>
             <q-btn flat round dense icon="add" />
           </q-toolbar>
@@ -158,15 +158,15 @@
                   </div>
                 </q-card-section>
                 <q-card-actions align="right">
-                  <q-btn outline rounded color="primary" label="Detalhes" />
-                  <q-btn outline rounded color="primary" icon="edit" />
+                  <q-btn outline rounded label="Detalhes" />
+                  <q-btn outline rounded icon="edit" />
                   <q-btn outline rounded color="red" icon="delete" />
                 </q-card-actions>
               </q-card>
             </div>
           </div>
           <div class="q-pa-sm">
-            <q-btn outline rounded class="full-width" color="primary" label="Ver todos" />
+            <q-btn outline rounded class="full-width" label="Ver todos" />
           </div>
         </div>
 
@@ -175,7 +175,7 @@
         <q-separator />
 
         <div>
-          <q-toolbar class="bg-primary text-white">
+          <q-toolbar :class="darkModeConf.bgColor">
             <q-toolbar-title>Serviços</q-toolbar-title>
             <q-btn flat round dense icon="add" />
           </q-toolbar>
@@ -192,15 +192,15 @@
                   </div>
                 </q-card-section>
                 <q-card-actions align="right">
-                  <q-btn outline rounded color="white" text-color="black" label="Detalhes" />
-                  <q-btn outline rounded color="primary" icon="edit" />
+                  <q-btn outline rounded label="Detalhes" />
+                  <q-btn outline rounded icon="edit" />
                   <q-btn outline rounded color="red" icon="delete" />
                 </q-card-actions>
               </q-card>
             </div>
           </div>
           <div class="q-pa-sm">
-            <q-btn outline rounded class="full-width" color="primary" label="Ver todos" />
+            <q-btn outline rounded class="full-width" label="Ver todos" />
           </div>
         </div>
 
@@ -208,7 +208,7 @@
         <!-- sec 6 -->
         <div>
           <!-- <div class="text-h5 q-pl-md col-12">Vagas de emprego</div> -->
-          <q-toolbar class="bg-primary text-white">
+          <q-toolbar :class="darkModeConf.bgColor">
             <q-toolbar-title>Vagas de emprego</q-toolbar-title>
             <q-btn flat round dense icon="add" />
           </q-toolbar>
@@ -222,16 +222,16 @@
                 />
                 <q-card-section>Vaga para pedreiro</q-card-section>
                 <q-card-actions align="right">
-                  <q-btn outline rounded color="white" text-color="black" label="Detalhes" to="/profile/vacancy/details" />
-                  <q-btn outline rounded color="primary" icon="edit" />
+                  <q-btn outline rounded label="Detalhes" to="/profile/vacancy/details" />
+                  <q-btn outline rounded icon="edit" />
                   <q-btn outline rounded color="red" icon="delete" />
-                  <q-btn outline rounded color="black" :icon="isPublic ? 'visibility_off' : 'visibility'" @click="isPublic = !isPublic" />
+                  <q-btn outline rounded :icon="isPublic ? 'visibility_off' : 'visibility'" @click="isPublic = !isPublic" />
                 </q-card-actions>
               </q-card>
             </div>
           </div>
           <div class="q-pa-sm">
-            <q-btn outline rounded class="full-width" color="primary" label="Ver todas" />
+            <q-btn outline rounded class="full-width" label="Ver todas" />
           </div>
         </div>
       </div>
@@ -240,6 +240,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   // name: 'PageName',
   data() {
@@ -247,6 +248,9 @@ export default {
       tab: "bio",
       isPublic: true,
     };
+  },
+  computed: {
+    ...mapState("settings", ["appMode", "darkModeConf"])
   },
   mounted() {
     this.$root.$emit("isHomePage", "Perfil");

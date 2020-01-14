@@ -2,7 +2,7 @@
   <q-layout view="hHh Lpr fFf">
     <!-- Be sure to play with the Layout demo on docs -->
     <q-header elevated height-hint="64">
-      <q-toolbar class="bg-black GPL__toolbar" style="height: 64px">
+      <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" class="GPL__toolbar" style="height: 64px">
         <q-btn
           @click="$router.go(-1)"
           v-if="isHome !== 'Início' && isHome !== true"
@@ -63,8 +63,8 @@
         </div>
       </q-toolbar>
       <!-- rounded-borders -->
-      <q-toolbar class="bg-primary text-white" v-if="toSearch">
-        <q-input dark dense standout v-model="search" input-class="text-right" class="full-width">
+      <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" v-if="toSearch">
+        <q-input :color="darkModeConf.color" dense outlined rounded v-model="search" input-class="text-right" class="full-width" placeholder="Pesquisar">
           <template v-slot:append>
             <q-icon v-if="search === ''" name="search" />
             <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
@@ -75,10 +75,10 @@
 
     <q-footer
       elevated
-      class="bg-white text-black"
+      :class="[darkModeConf.bgColor, darkModeConf.textColor]"
       v-if="!$q.screen.gt.sm"
     >
-      <q-tabs active-color="black" indicator-color="transparent" class="text-grey">
+      <q-tabs :active-color="darkModeConf.color" indicator-color="transparent" class="text-grey">
         <q-route-tab name="home" icon="home" to="/" />
         <q-route-tab name="trabalho" icon="work" to="/work" />
         <q-route-tab name="store" icon="storefront" to="/store" />
@@ -177,12 +177,13 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex"
 export default {
   // name: 'LayoutName',
 
   data() {
     return {
+      textColor: "text-black",
       search: "",
       leftDrawer: false,
       leftDrawerOpen: false,
@@ -198,18 +199,23 @@ export default {
     };
   },
   computed: {
-    ...mapState("settings", ["appMode"]),
+    ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapState("auth", ["isUserAuth"])
   },
   mounted() {
-    this.$root.$on("isHomePage", val => {
-      this.isHome = val;
-    });
-    this.$root.$emit("isHomePage", this.$router.currentRoute.path === "/");
+    if(this.appMode) {
+      this.$q.dark.set(false)
+      } else {
+      this.$q.dark.set(true)
+    }
+
+    // this.$root.$on("isHomePage", val => {
+    //   this.isHome = val;
+    // });
+    // this.$root.$emit("isHomePage", this.$router.currentRoute.path === "/");
 
     if (this.$route.path == "/store" || this.$route.path == "/work") this.toSearch = true;
 
-    this.$q.dark.set(true)
 
   },
   methods: {
@@ -220,6 +226,13 @@ export default {
       // react to route changes...
       this.toSearch = false;
       if (to.path == "/work" || to.path == "/store") this.toSearch = true;
+    },
+    appMode (val) {
+      if(val) {
+        this.$q.dark.set(false)
+        } else {
+        this.$q.dark.set(true)
+      }
     }
   }
 };

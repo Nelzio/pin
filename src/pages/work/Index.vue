@@ -29,32 +29,33 @@
 
           <q-card-section>
             <q-form class="q-gutter-md">
-              <q-input rounded outlined v-model="text" label="Nome" />
-              <!-- <q-input rounded outlined v-model="text" label="Square outlined" />
-              <q-input rounded outlined v-model="text" label="Square outlined" />
-              <q-input rounded outlined v-model="text" label="Square outlined" />
-              <q-input rounded outlined v-model="text" label="Square outlined" />-->
-              <q-editor v-model="description" min-height="8rem" />
+              <q-input :color="darkModeConf.color" rounded outlined v-model="text" label="Nome" />
+              <q-editor :color="darkModeConf.color" v-model="description" min-height="8rem" />
             </q-form>
           </q-card-section>
 
-          <q-card-actions align="right" class="bg-white text-teal">
-            <q-btn rounded color="primary" label="Enviar" v-close-popup />
+          <q-card-actions align="right">
+            <q-btn rounded :color="darkModeConf.color" :class="darkModeConf.textBtn" class="full-width" label="Enviar" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
     </div>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" color="primary" @click="addVacancy = true" />
+      <q-btn
+        fab
+        icon="add"
+        :color="darkModeConf.color"
+        :class="darkModeConf.textBtn"
+        @click="addVacancy = true" />
     </q-page-sticky>
   </q-page>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import VacancyComponent from "../../components/work/VacancyComponent";
-import VacancyDesktopComponent from "../../components/work/VacancyDesktopComponent";
+import { mapState, mapActions } from "vuex"
+import VacancyComponent from "../../components/work/VacancyComponent"
+import VacancyDesktopComponent from "../../components/work/VacancyDesktopComponent"
 export default {
   components: { VacancyDesktopComponent, VacancyComponent },
   // name: 'PageName',
@@ -117,17 +118,19 @@ export default {
           img:
             "https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg"
         }
-      ]
+      ],
+      text: '',
+      description: '',
     };
   },
   computed: {
-    ...mapState("settings", ["settings", "appMode"])
+    ...mapState("settings", ["settings", "appMode", "darkModeConf"])
     // ...mapGetters('settings', [
     //     'getSettings'
     // ]),
   },
   methods: {
-    ...mapActions("settings", ["setSettings", "playSound", "vibrate"]),
+    // ...mapActions("settings", ["setSettings", "playSound", "vibrate"]),
 
     handleSwipe(val) {
       if (val.direction === "left") {

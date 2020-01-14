@@ -2,7 +2,6 @@
     <div
         class=""
         v-touch-swipe.mouse="handleSwipe"
-        :class="[appMode.textColorOptional, appMode.bgColor]"
     >
         <!-- <q-list>
 
@@ -100,7 +99,7 @@
 
 									<q-item-section side>
 										<q-toggle
-											v-model="appMode"
+											v-model="mode"
 										/>
 									</q-item-section>
 								</q-item>
@@ -222,7 +221,7 @@
         data () {
             
             return {
-							appMode: true,
+							mode: true,
 							deletDialog: false,
                 fontSize: '',
                 fontText: [
@@ -246,8 +245,11 @@
         },
         mounted () {
             this.$root.$emit('isHomePage', 'Preferências')
-            this.localSettings = this.settings //recuperando as configurações do state/store
-
+						this.localSettings = this.settings //recuperando as configurações do state/store
+						
+						console.log(this.localSettings)
+						
+						this.darkMode()
 
             // Vibração
             if (this.settings.isVibrationActive) {
@@ -259,7 +261,7 @@
             }
         },
         methods: {
-            ...mapActions ('settings', ['setSettings', 'playSound', 'vibrate']),
+            ...mapActions ('settings', ['setSettings', 'playSound', 'vibrate', 'setAppMode']),
 
             handleSwipe (val) {
                 if (val.direction === 'right') {
@@ -267,17 +269,21 @@
                 }
 						},
 						darkMode () {
-							if (appMode) {
-								this.localSettings.settings.appMode = 1
+							if (this.mode) {
+								this.setAppMode (1)
 							} else {
-								this.localSettings.settings.appMode = 0
+								this.setAppMode (0)
 							}
 						}
         },
         watch: {
             snap (val) {
                 console.log('Fonte: ', val)
-            }
+						},
+						
+						mode () {
+							this.darkMode ()
+						}
         }
     }
 </script>

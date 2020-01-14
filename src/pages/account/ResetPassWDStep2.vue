@@ -3,7 +3,7 @@
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
-        <q-icon color="primary" size="100px" name="person_add" />
+        <q-icon size="100px" name="person_add" />
       </div>
       <!-- <div class="col-12">
           Entrar ou se Inscrever
@@ -14,7 +14,7 @@
           <q-input
             rounded
             outlined
-            color="primary"
+            :color="darkModeConf.color"
             @keyup.enter="login_account"
             dense
             placeholder="password"
@@ -36,7 +36,7 @@
           <q-input
             rounded
             outlined
-            color="primary"
+            :color="darkModeConf.color"
             @keyup.enter="login_account"
             dense
             placeholder="Confirmar senha"
@@ -59,7 +59,8 @@
               rounded
               label="Enviar"
               type="login"
-              color="primary"
+              :color="darkModeConf.color"
+              :class="darkModeConf.textBtn"
               class="full-width"
               @click="$emit('tab', 'login')"
             />
@@ -71,7 +72,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex"
 export default {
   name: "RegisterFormComponent",
   data() {
@@ -84,7 +85,9 @@ export default {
       isPwd: true
     };
   },
-
+  computed: {
+    ...mapState("settings", ["appMode", "darkModeConf"])
+  },
   methods: {
     ...mapActions("auth", ["loginUser", "registerUser"]),
 
