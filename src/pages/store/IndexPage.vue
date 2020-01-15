@@ -10,7 +10,6 @@
     <div>
       <q-scroll-area
         horizontal
-        class="bg-grey-1"
       >
         <div class="row no-wrap q-pa-sm q-gutter-sm">
           <!-- <div v-for="n in 10" :key="n" style="width: 150px" class="q-pa-sm">
@@ -42,7 +41,6 @@
                size="md"
                outline
                rounded
-               :text-color="appMode.modeName === 'dark' ? 'white' : 'primary'"
                label="Detalhes"
                to="/store/details"
             />
@@ -64,7 +62,7 @@
     />
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" color="teal" @click="modalEmit({modal: 'addStore', val: true})" />
+      <q-btn fab icon="add" :color="darkModeConf.color" :class="darkModeConf.textBtn" @click="modalEmit({modal: 'addStore', val: true})" />
     </q-page-sticky>
   </q-page>
 </template>
@@ -81,7 +79,7 @@
     },
       computed: {
           ...mapState('settings', [
-              'settings', 'appMode'
+              'settings', 'appMode', 'darkModeConf'
           ]),
       },
     methods: {

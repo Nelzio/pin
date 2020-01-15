@@ -7,16 +7,28 @@
       </div>
       <div class="q-pa-lg col-md-4 col-12">
         <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-          <q-input
+          <!-- <q-input
             rounded
             outlined
             dense
             :color="darkModeConf.color"
             ref="number"
-            v-model="authObject.email"
+            v-model="authObject.number"
             label="Numero de telefone"
-            placeholder="Numero de telefone"
+            placeholder=8xxxxxxxxx"
             mask="#########"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
+          /> -->
+          <q-input
+            rounded
+            outlined
+            dense
+            :color="darkModeConf.color"
+            ref="email"
+            v-model="authObject.email"
+            label="Email do usuario"
+            placeholder="Email do usuario"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
           />
@@ -93,7 +105,7 @@ export default {
         password: ""
       },
       isPwd: true
-    };
+    }
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"])
@@ -102,41 +114,41 @@ export default {
     ...mapActions("auth", ["loginUser", "registerUser"]),
 
     isPasswordValid(email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(String(email).toLowerCase());
+      var re = /^(([^<>()\[\]\\.,:\s@"]+(\.[^<>()\[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return re.test(String(email).toLowerCase())
     },
 
     onReset() {
-      alert("must reset form.");
+      alert("must reset form.")
     },
     onSubmit() {
-      this.$refs.email.validate();
-      this.$refs.password.validate();
+      this.$refs.email.validate()
+      this.$refs.password.validate()
 
       if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
-        this.$emit("loginUser", this.authObject);
+        this.loginUser(this.authObject)
       }
     },
     accountSwipe(val) {
       if (val.direction === "left") {
-        this.$router.push("/account/create");
+        this.$router.push("/account/create")
       }
 
       if (val.direction === "right") {
-        this.$router.push("/");
+        this.$router.push("/")
       }
       if (val.direction === "up") {
-        this.$router.push("/");
+        this.$router.push("/")
       }
     }
   },
 
   filters: {
     captalizeFirstLetter(val) {
-      return val.charAt(0).toUpperCase() + "" + val.slice(1);
+      return val.charAt(0).toUpperCase() + "" + val.slice(1)
     }
   }
-};
+}
 </script>
 
 <style lang="sass">

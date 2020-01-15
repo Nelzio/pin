@@ -4,13 +4,13 @@ import "firebase/auth";
 import "firebase/database";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAX5Uog-5hAYc8Aa26OkgnlTRrsG3R6niQ",
-    authDomain: "hackathon-d2-1aa62.firebaseapp.com",
-    databaseURL: "https://hackathon-d2-1aa62.firebaseio.com",
-    projectId: "hackathon-d2-1aa62",
-    storageBucket: "hackathon-d2-1aa62.appspot.com",
-    messagingSenderId: "12994905891",
-    appId: "1:12994905891:web:2330f7c983045b3be76e96"
+    apiKey: "AIzaSyCw9ow5P77vpoV6yMB_ZcuFhf_f13BL8mM",
+    authDomain: "hack-a2a7b.firebaseapp.com",
+    databaseURL: "https://hack-a2a7b.firebaseio.com",
+    projectId: "hack-a2a7b",
+    storageBucket: "hack-a2a7b.appspot.com",
+    messagingSenderId: "147221850544",
+    appId: "1:147221850544:web:c9c96cfe62f0665df28e75"
 };
 
 let firebaseApp = firebase.initializeApp(firebaseConfig)

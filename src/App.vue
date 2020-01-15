@@ -45,7 +45,7 @@
 
             this.$q.addressbarColor.set(this.appMode.modeColor)
 
-            this.handleAuthStateChange ()
+            // this.handleAuthStateChange ()
 
         },
         mounted () {

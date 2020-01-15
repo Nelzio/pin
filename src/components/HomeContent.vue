@@ -32,7 +32,7 @@
         style="height: 100%; width: 50vw; border-right: 2px solid rgba(0,0,0,.1); padding-top: 15%;"
       >
         <div>
-          <q-icon size="100px" name="account_circle" @click="$router.push('/profile')" />
+          <q-icon size="100px" name="account_circle" @click="profile()" />
         </div>
         <div class="text-h6">
           Perfil
@@ -51,9 +51,24 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   name: "HomeContent",
-  mounted() {
+  computed: {
+    ...mapState ('auth', ['isUserAuth'])
+  },
+  methods: {
+    ...mapActions ('auth', [
+      'handleAuthStateChange'
+    ]),
+    profile () {
+      this.handleAuthStateChange()
+      if(this.isUserAuth) {
+        this.$router.push('/profile')
+      } else {
+        this.$router.push('/account')
+      }
+    }
   }
 };
 </script>

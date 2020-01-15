@@ -5,7 +5,7 @@
       <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" class="GPL__toolbar" style="height: 64px">
         <q-btn
           @click="$router.go(-1)"
-          v-if="isHome !== 'Início' && isHome !== true"
+          v-if="backIcon"
           flat
           dense
           round
@@ -29,7 +29,7 @@
           class="row items-center no-wrap"
           v-else
         >
-        <img src="/statics/app-logo-128x128.png" style="height: 50px;" alt="">
+        <img src="/statics/app-logo-128x128.png" style="height: 50px" alt="">
         Superativo</q-toolbar-title>
 
         <q-space />
@@ -76,7 +76,7 @@
     <q-footer
       elevated
       :class="[darkModeConf.bgColor, darkModeConf.textColor]"
-      v-if="!$q.screen.gt.sm"
+      v-if="!$q.screen.gt.sm && !backIcon"
     >
       <q-tabs :active-color="darkModeConf.color" indicator-color="transparent" class="text-grey">
         <q-route-tab name="home" icon="home" to="/" />
@@ -87,7 +87,7 @@
       </q-tabs>
     </q-footer>
 
-    <!-- (Optional) A Drawer; you can add one more with side="right" or change this one's side -->
+    <!-- (Optional) A Drawer you can add one more with side="right" or change this one's side -->
     <q-drawer v-model="leftDrawerOpen" bordered behavior="mobile" @click="leftDrawerOpen = false">
       <q-scroll-area class="fit">
         <q-toolbar class="GPL__toolbar">
@@ -153,7 +153,7 @@
           >
             <q-icon size="22px" name="storefront" />
             <div class="GPL__side-btn__label">Loja</div>
-            <!-- <q-badge floating color="red" text-color="white" style="top: 8px; right: 16px">
+            <!-- <q-badge floating color="red" text-color="white" style="top: 8px right: 16px">
               1
             </q-badge>-->
           </q-btn>
@@ -188,6 +188,7 @@ export default {
       leftDrawer: false,
       leftDrawerOpen: false,
       toSearch: false,
+      backIcon: false,
       tab: "home",
       navtab: "list",
       isHome: "Início",
@@ -196,11 +197,20 @@ export default {
         { icon: "group", text: "Candidatos", to: "/company/employees" },
         { icon: "mic", text: "Entrevistas", to: "/company/interviews" }
       ]
-    };
+    }
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapState("auth", ["isUserAuth"])
+  },
+  methods: {
+    ...mapActions("auth", ["logoutUser"]),
+    backIconFunc (to) {
+      // active/ deactivate icon
+      this.backIcon = false
+      if (to.path !== "/" && to.path !== "/work" && to.path !== "/store" && to.path !== "/settings") this.backIcon = true
+    }
+    
   },
   mounted() {
     if(this.appMode) {
@@ -209,23 +219,16 @@ export default {
       this.$q.dark.set(true)
     }
 
-    // this.$root.$on("isHomePage", val => {
-    //   this.isHome = val;
-    // });
-    // this.$root.$emit("isHomePage", this.$router.currentRoute.path === "/");
+    this.backIconFunc(this.$route.path)
+    if (this.$route.path == "/store" || this.$route.path == "/work") this.toSearch = true
 
-    if (this.$route.path == "/store" || this.$route.path == "/work") this.toSearch = true;
-
-
-  },
-  methods: {
-    ...mapActions("auth", ["logoutUser"])
   },
   watch: {
     $route(to, from) {
       // react to route changes...
-      this.toSearch = false;
-      if (to.path == "/work" || to.path == "/store") this.toSearch = true;
+      this.toSearch = false
+      if (this.$route.path == "/store" || this.$route.path == "/work") this.toSearch = true
+      this.backIconFunc(to)
     },
     appMode (val) {
       if(val) {
@@ -235,7 +238,7 @@ export default {
       }
     }
   }
-};
+}
 </script>
 
 <style lang="sass">

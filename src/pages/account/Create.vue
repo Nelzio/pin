@@ -26,10 +26,22 @@
             outlined
             dense
             :color="darkModeConf.color"
-            ref="email"
-            v-model="authObject.email"
+            ref="number"
+            v-model="authObject.number"
             label="Numero de telefone"
             mask="#########"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
+          />
+
+          <q-input
+            rounded
+            outlined
+            dense
+            :color="darkModeConf.color"
+            ref="email"
+            v-model="authObject.email"
+            label="Email"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
           />
@@ -59,7 +71,7 @@
             <q-btn
               rounded
               label="Registar"
-              type="login"
+              type="submit"
               :color="darkModeConf.color"
               :class="darkModeConf.textBtn"
               class="full-width" />
@@ -91,6 +103,7 @@ export default {
     return {
       authObject: {
         name: "",
+        number: null,
         email: "",
         password: ""
       },
@@ -114,10 +127,12 @@ export default {
     onSubmit() {
       this.$refs.email.validate();
       this.$refs.password.validate();
-
+      console.log("Ola")
       if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
-        this.$emit("loginUser", this.authObject);
+        // this.$emit("registerUser", {email: this.authObject.email, password: this.authObject.password});
+        this.registerUser({email: this.authObject.email, password: this.authObject.password})
       }
+      // this.$emit("registerUser", {email: this.authObject.email, password: this.authObject.password})
     },
     accountSwipe (val) {
         if (val.direction === 'right') {
