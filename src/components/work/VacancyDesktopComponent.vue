@@ -9,11 +9,11 @@
 			</q-img>
 
 			<q-card-section>
-					<div class="text-h5">{{ vacancy.name }}</div>
+					<div class="text-h5">{{ vacancy.title }}</div>
 			</q-card-section>
 
 			<q-card-section>
-				{{ vacancy.desc }}
+				{{ vacancy.description }}
 			</q-card-section>
 
 			<q-card-actions align="right">

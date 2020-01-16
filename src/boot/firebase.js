@@ -1,4 +1,5 @@
 import * as firebase from 'firebase/app'
+import firestore from 'firebase/firestore'
 
 import "firebase/auth";
 import "firebase/database";
@@ -13,9 +14,22 @@ const firebaseConfig = {
     appId: "1:147221850544:web:c9c96cfe62f0665df28e75"
 };
 
-let firebaseApp = firebase.initializeApp(firebaseConfig)
+const settings = {timestampsInSnapshots: true}; // firebase
 
-let firebaseAuth = firebaseApp.auth()
-let firebaseDb = firebaseApp.database()
+// let firebaseApp = firebase.initializeApp(firebaseConfig)
 
-export { firebaseAuth, firebaseDb }
+// let firebaseDb = firebaseApp.database()
+
+// firestoreDb.settings(settings)
+
+firebase.initializeApp(firebaseConfig);
+
+// firebase.firestore().settings(settings);
+
+let firebaseAuth = firebase.auth()
+let firestoreDb = firebase.firestore()
+
+// export default firebase;
+
+
+export { firebaseAuth, firestoreDb }

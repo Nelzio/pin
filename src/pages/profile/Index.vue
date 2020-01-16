@@ -214,16 +214,16 @@
           </q-toolbar>
 
           <div class="row">
-            <div class="col-12 col-md-6 q-pa-sm" v-for="i in 4" :key="i">
+            <div class="col-12 col-md-6 q-pa-sm" v-for="vacancy in vacancies" :key="vacancy.key">
               <q-card class="my-card">
                 <q-img
                   src="https://cdn.awsli.com.br/600x1000/60/60876/produto/28035638/9e1cebfb32.jpg"
                   spinner-color="white"
                 />
-                <q-card-section>Vaga para pedreiro</q-card-section>
+                <q-card-section>{{ vacancy.title}}</q-card-section>
                 <q-card-actions align="right">
-                  <q-btn outline rounded label="Detalhes" to="/profile/vacancy/details" />
-                  <q-btn outline rounded icon="edit" />
+                  <q-btn outline rounded label="Detalhes" :to="'/profile/vacancy/details/'+vacancy.key" />
+                  <q-btn outline rounded icon="edit" :to="'/profile/vacancy/edit/'+vacancy.key" />
                   <q-btn outline rounded color="red" icon="delete" />
                   <q-btn outline rounded :icon="isPublic ? 'visibility_off' : 'visibility'" @click="isPublic = !isPublic" />
                 </q-card-actions>
@@ -240,7 +240,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   // name: 'PageName',
   data() {
@@ -250,7 +250,14 @@ export default {
     };
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"])
+    ...mapState("settings", ["appMode", "darkModeConf"]),
+    ...mapState("vacancy", ["vacancies", "vacancy"]),
+  },
+  methods: {
+    ...mapActions("vacancy", ["listVacancy", "createVacancy", "detailVacancy", "updateVacancy", "deleteVacancy"]),
+  },
+  created () {
+    this.listVacancy()
   },
   mounted() {
     this.$root.$emit("isHomePage", "Perfil");

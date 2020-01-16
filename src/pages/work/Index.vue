@@ -3,7 +3,7 @@
     <!-- content -->
     <div class="q-pb-xl">
       <div class="row q-gutter-y-md">
-        <div class="col-12 col-md-4" :class="padding" v-for="(vacancy, i) in vacancies" :key="i">
+        <div class="col-12 col-md-4" :class="padding" v-for="vacancy in getVacancies()" :key="vacancy.id">
           <vacancy-desktop-component :lorem="lorem" :vacancy="vacancy" />
         </div>
       </div>
@@ -48,12 +48,17 @@
         :color="darkModeConf.color"
         :class="darkModeConf.textBtn"
         @click="addVacancy = true" />
+        <q-btn
+        fab
+        icon="add"
+        color="red"
+        @click="createVacancy()" />
     </q-page-sticky>
   </q-page>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapState, mapActions, mapGetters } from "vuex"
 import VacancyComponent from "../../components/work/VacancyComponent"
 import VacancyDesktopComponent from "../../components/work/VacancyDesktopComponent"
 export default {
@@ -67,70 +72,21 @@ export default {
       maximizedToggle: true,
       deviceWidth: 375,
       addVacancy: false,
-      vacancies: [
-        {
-          name: "Vaga de contabilista",
-          company: "Explicador Inc",
-          desc:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-          img:
-            "https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg"
-        },
-        {
-          name: "Vaga de contabilista",
-          company: "Explicador Inc",
-          desc: "Vaga para um contabilista junior",
-          img:
-            "https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg"
-        },
-        {
-          name: "Vaga de contabilista",
-          company: "Explicador Inc",
-          desc: "Vaga para um contabilista junior",
-          img:
-            "https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg"
-        },
-        {
-          name: "Vaga de contabilista",
-          company: "Explicador Inc",
-          desc: "Vaga para um contabilista junior",
-          img:
-            "https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg"
-        },
-        {
-          name: "Vaga de contabilista",
-          company: "Explicador Inc",
-          desc: "Vaga para um contabilista junior",
-          img:
-            "https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg"
-        },
-        {
-          name: "Vaga de contabilista",
-          company: "Explicador Inc",
-          desc: "Vaga para um contabilista junior",
-          img:
-            "https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg"
-        },
-        {
-          name: "Vaga de contabilista",
-          company: "Explicador Inc",
-          desc: "Vaga para um contabilista junior",
-          img:
-            "https://www.contabeis.com.br/assets/img/news/a_5368_574ebc151c3252c2eb93d6504efdc5ab.jpg"
-        }
-      ],
+      vacancies: [],
       text: '',
       description: '',
     };
   },
   computed: {
-    ...mapState("settings", ["settings", "appMode", "darkModeConf"])
-    // ...mapGetters('settings', [
-    //     'getSettings'
-    // ]),
+    ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
+    ...mapState("vacancy", ["vacancies", "vacancy"]),
+    ...mapGetters('vacancy', [
+        'getVacancies', 'getVacancy'
+    ]),
   },
   methods: {
     // ...mapActions("settings", ["setSettings", "playSound", "vibrate"]),
+    ...mapActions("vacancy", ["listVacancy", "createVacancy"]),
 
     handleSwipe(val) {
       if (val.direction === "left") {
@@ -141,6 +97,9 @@ export default {
         this.$router.push("/");
       }
     }
+  },
+  created () {
+    this.listVacancy()
   },
   mounted() {
     this.deviceWidth = window.screen.width;
@@ -157,6 +116,8 @@ export default {
     if (this.settings.isNarratorActive) {
       this.playSound("/statics/audios/vagas.aac");
     }
+    console.log("Nelzio")
+    console.log(this.listVacancy())
   }
 };
 </script>

@@ -14,7 +14,9 @@ const routes = [
     component: () => import('layouts/home/Base.vue'),
     children: [
       { path: '', component: () => import('pages/profile/Index.vue') },
-      { path: 'vacancy/details', component: () => import('pages/profile/work/Details') },
+      { path: 'vacancy/details/:id', component: () => import('pages/profile/work/Details') },
+      { path: 'vacancy/edit/:idEdit', component: () => import('pages/profile/work/EditVacancy') },
+      { path: 'vacancy/add', component: () => import('pages/profile/work/AddVacancy') },
       { path: 'vacancy/details/employee', component: () => import('pages/profile/work/EmployeeProfile') },
     ]
   },
@@ -23,7 +25,7 @@ const routes = [
     component: () => import('layouts/home/Base.vue'),
     children: [
       { path: '', component: () => import('pages/work/Index.vue') },
-      { path: 'details', component: () => import('pages/work/Details.vue') }
+      { path: 'details/:id', component: () => import('pages/work/Details.vue') }
     ]
   },
   {
