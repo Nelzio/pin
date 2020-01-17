@@ -49,21 +49,30 @@ const actions = {
     // },
 
     createVacancy ({ commit }, val) { // done
-      // let vaga = {
-      //   title: "Tecnico de informatica",
-      //   user: "nelziositoe@gmail.com",
-      //   description: "Vaga para um bom tecnico de informatica",
-      //   img: ""
-      // }
-      // commit('addVacancies', val)
+      Loading.show()
       const ref = firestoreDb.collection('vagas')
       ref.add(val).then((docRef) => {
           console.log("Inserido")
           console.log(docRef)
+          Loading.hide()
         })
         .catch((error) => {
+          Loading.hide()
           alert("Error adding document: ", error)
         })
+    },
+
+    updateVacancy ({ commit }, payload) { // test
+      Loading.show()
+      const updateRef = firestoreDb.collection('vagas').doc(payload.id);
+      updateRef.set(payload.data).then((docRef) => {
+        console.log("Updated")
+        Loading.hide()
+      })
+      .catch((error) => {
+        Loading.hide()
+        alert("Error adding document: ", error);
+      });
     },
 
     listVacancy ({ commit }) { // done
@@ -91,6 +100,7 @@ const actions = {
     },
 
     detailVacancy ({ commit }, val) { // test
+      Loading.show()
       const ref = firestoreDb.collection('vagas').doc(val);
       let data = {}
       ref.get().then((doc) => {
@@ -104,33 +114,23 @@ const actions = {
           }
           console.log(data)
           commit('vacancy', data)
+          Loading.hide()
         } else {
+          Loading.hide()
           console.log("No such document!")
         }
       });
     },
 
-    updateVacancy ({ commit }, id, data) { // test
-      // let data = {
-      //   title: "Tecnicos de informaticas",
-      //   user: "nelziositoe@gmail.com",
-      //   description: "Vaga para um bom tecnico de informatica",
-      //   img: ""
-      // }
-      const updateRef = firestoreDb.collection('vagas').doc(id);
-      updateRef.set(data).then((docRef) => {
-        console.log("Updated")
-        console.log(docRef)
-      })
-      .catch((error) => {
-        alert("Error adding document: ", error);
-      });
-    },
+    
 
-    deleteVacancy (id) { // test
+    deleteVacancy ({ commit }, id) { // test
+      Loading.show()
       firestoreDb.collection('vagas').doc(id).delete().then(() => {
         console.log("Deleted")
+        Loading.hide()
       }).catch((error) => {
+        Loading.hide()
         alert("Error removing document: ", error);
       });
     }

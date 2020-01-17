@@ -205,6 +205,7 @@ export default {
   },
   methods: {
     ...mapActions("auth", ["logoutUser"]),
+    
     backIconFunc (to) {
       // active/ deactivate icon
       this.backIcon = false
@@ -219,7 +220,8 @@ export default {
       this.$q.dark.set(true)
     }
 
-    this.backIconFunc(this.$route.path)
+    this.backIconFunc(this.$route)
+
     if (this.$route.path == "/store" || this.$route.path == "/work") this.toSearch = true
 
   },

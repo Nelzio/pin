@@ -5,9 +5,9 @@
      <q-btn color="white" text-color="black" label="Standard" @click="proccessFile()" /> -->
     
     <q-form class="q-gutter-md">
-      <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.title" label="Titulo" />
-      <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.description" label="Descricao" />
-      <!-- <q-editor :color="darkModeConf.color" v-model="vacancy.description" min-height="8rem" /> -->
+      <q-input :color="darkModeConf.color" rounded outlined v-model="vacancyData.title" label="Titulo" />
+      <!-- <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
+      <q-editor :color="darkModeConf.color" v-model="vacancyData.description" min-height="8rem" />
       <div>
         <q-btn rounded class="full-width" :color="darkModeConf.color" :class="darkModeConf.textBtn" label="Enviar" @click="updateVacancyThis()" />
       </div>
@@ -21,11 +21,11 @@ export default {
   // name: 'PageName',
   data () {
     return {
-      vacancy: {
-        title: "",
-        user: "nelzio@gmail.com",
+      vacancyData: {
         description: "",
-        img: ""
+        img: "",
+        user: "nelzio@gmail.com",
+        title: "",
       }
     }
   },
@@ -36,7 +36,7 @@ export default {
   methods: {
     ...mapActions("vacancy", ["listVacancy", "createVacancy", "detailVacancy", "updateVacancy"]),
     updateVacancyThis () {
-      this.updateVacancy(this.$route.params.idEdit, this.vacancy)
+      this.updateVacancy({id: this.$route.params.idEdit, data: this.vacancyData})
     },
 
     proccessFile () {
@@ -47,7 +47,7 @@ export default {
   
   created () {
     this.detailVacancy(this.$route.params.idEdit)
-    this.vacancy = this.vacancyDtl
+    this.vacancyData = this.vacancyDtl
   },
 }
 </script>

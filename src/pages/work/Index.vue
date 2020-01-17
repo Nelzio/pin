@@ -3,7 +3,7 @@
     <!-- content -->
     <div class="q-pb-xl">
       <div class="row q-gutter-y-md">
-        <div class="col-12 col-md-4" :class="padding" v-for="vacancy in getVacancies()" :key="vacancy.id">
+        <div class="col-12 col-md-4" :class="padding" v-for="vacancy in vacancies" :key="vacancy.key">
           <vacancy-desktop-component :lorem="lorem" :vacancy="vacancy" />
         </div>
       </div>
@@ -47,12 +47,7 @@
         icon="add"
         :color="darkModeConf.color"
         :class="darkModeConf.textBtn"
-        @click="addVacancy = true" />
-        <q-btn
-        fab
-        icon="add"
-        color="red"
-        @click="createVacancy()" />
+        to="/profile/vacancy/add" />
     </q-page-sticky>
   </q-page>
 </template>
@@ -72,7 +67,6 @@ export default {
       maximizedToggle: true,
       deviceWidth: 375,
       addVacancy: false,
-      vacancies: [],
       text: '',
       description: '',
     };

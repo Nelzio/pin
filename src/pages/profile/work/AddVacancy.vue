@@ -6,8 +6,8 @@
     
     <q-form class="q-gutter-md">
       <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.title" label="Titulo" />
-      <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.description" label="Descricao" />
-      <!-- <q-editor :color="darkModeConf.color" v-model="vacancy.description" min-height="8rem" /> -->
+      <!-- <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
+      <q-editor :color="darkModeConf.color" v-model="vacancy.description" min-height="8rem" />
       <div>
         <q-btn rounded class="full-width" :color="darkModeConf.color" :class="darkModeConf.textBtn" label="Enviar" @click="addVacancy()" />
       </div>

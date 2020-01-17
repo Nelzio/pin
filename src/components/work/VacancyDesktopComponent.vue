@@ -1,9 +1,9 @@
 <template>
     <q-card class="my-card">
-			<q-img :src="vacancy.img">
+			<q-img src="statics/img/01-11.jpg">
 				<div style="padding: 10px; background: transparent;">
 					<q-avatar text-color="white">
-						<q-img src="https://explicador.co.mz/images/explicador%20logo.png" spinner-color="white" />
+						<q-img src="statics/app-logo-128x128.png" spinner-color="white" />
 					</q-avatar>
 				</div>
 			</q-img>
@@ -23,7 +23,7 @@
 					:color="darkModeConf.colorBtn"
 					:text-color="darkModeConf.textBtn"
 					label="Detalhes"
-					to="/work/details"
+					:to="'/work/details/'+vacancy.key"
 				/>
 				<!-- <q-btn
 					round

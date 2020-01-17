@@ -26,18 +26,18 @@
         :class="[appMode.bgColor, appMode.textColorOptional]"
       >
         <q-card-section>
-          <div class="text-h6">Descricao</div>
+          <div class="text-h6">Descrição</div>
         </q-card-section>
 
         <q-separator dark inset />
 
-        <q-card-section class="row" v-for="i in 4" :key="i">
+        <q-card-section class="row">
           <div class="col text-center">
             <q-icon name="arrow_forward_ios" />
           </div>
           <div
             class="col-11 text-body1"
-          >Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure animi adipisci itaque deleniti error ipsam blanditiis nostrum maxime, pariatur, corporis architecto consequuntur. Voluptates quis rerum quam ex eos. Corrupti, ipsam!</div>
+          >{{ vacancyDtl.description }}</div>
         </q-card-section>
       </q-card>
     </div>
@@ -75,21 +75,28 @@
   </q-page>
 </template>
 
+
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex"
 export default {
   // name: 'PageName',
   data() {
     return {
+      tab: "details",
       socialNet: false,
       apply: false,
       vacancyDone: false
     };
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"])
+    ...mapState("settings", ["appMode", "darkModeConf"]),
+    ...mapState("vacancy", ["vacancies", "vacancyDtl"]),
+    ...mapGetters('vacancy', [
+        'getVacancies', 'getVacancy'
+    ]),
   },
   methods: {
+    ...mapActions("vacancy", ["listVacancy", "createVacancy", "detailVacancy", "updateVacancy", "deleteVacancy"]),
     submit() {
       this.vacancyDone = !this.vacancyDone;
       if (!this.vacancyDone) {
@@ -99,8 +106,9 @@ export default {
       }
     }
   },
-  mounted() {
-    this.$root.$emit("isHomePage", "Descrição da vaga");
-  }
+  created () {
+    // this.listVacancy()
+    this.detailVacancy(this.$route.params.id)
+  },
 };
 </script>

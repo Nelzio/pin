@@ -2,7 +2,7 @@
   <q-page class="q-pt-lg">
     <!-- content -->
     <div class="q-mt-lg">
-      <q-tab-panels v-model="tab" animated swipeable class="bg-white">
+      <q-tab-panels v-model="tab" animated swipeable>
         <q-tab-panel name="details" style="padding: 0;">
           <q-card bordered class="my-card col-sm-12">
             <q-card-section>
@@ -23,21 +23,26 @@
         </q-tab-panel>
 
         <q-tab-panel name="aplayed" style="padding: 0;">
-          <q-list separator>
-            <q-item clickable v-ripple to="/profile/vacancy/details/employee">
-              <q-item-section avatar>
-                <q-icon name="person" />
-              </q-item-section>
-              <q-item-section>Antonio Armando</q-item-section>
-            </q-item>
-          </q-list>
+          <div class="q-pa-sm" v-for="i in 5" :key="i">
+            <q-card class="my-card">
+              <q-item clickable v-ripple to="/profile/vacancy/details/employee">
+                <q-item-section avatar>
+                  <q-avatar>
+                    <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section><div class="text-bold">Antonio Armando {{ i }}</div><div>Tecnico de eletricidade</div> </q-item-section>
+                <q-item-section side><div>22</div><div>anos</div></q-item-section>
+              </q-item>
+            </q-card>
+          </div>
         </q-tab-panel>
       </q-tab-panels>
     </div>
 
-    <q-page-sticky expand position="top" class="bg-white">
+    <q-page-sticky expand position="top" :class="darkModeConf.bgColor">
       <div class="shadow-2" style="width: 100vw;">
-        <q-tabs v-model="tab" class="text-teal" align="justify">
+        <q-tabs v-model="tab" align="justify">
           <q-tab name="details" label="Detalhes" />
           <q-tab name="aplayed" label="Candidatos" />
         </q-tabs>

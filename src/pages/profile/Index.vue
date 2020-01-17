@@ -210,7 +210,7 @@
           <!-- <div class="text-h5 q-pl-md col-12">Vagas de emprego</div> -->
           <q-toolbar :class="darkModeConf.bgColor">
             <q-toolbar-title>Vagas de emprego</q-toolbar-title>
-            <q-btn flat round dense icon="add" />
+            <q-btn flat round dense icon="add" to="/profile/vacancy/add" />
           </q-toolbar>
 
           <div class="row">
@@ -220,7 +220,7 @@
                   src="https://cdn.awsli.com.br/600x1000/60/60876/produto/28035638/9e1cebfb32.jpg"
                   spinner-color="white"
                 />
-                <q-card-section>{{ vacancy.title}}</q-card-section>
+                <q-card-section>{{ vacancy.title }}</q-card-section>
                 <q-card-actions align="right">
                   <q-btn outline rounded label="Detalhes" :to="'/profile/vacancy/details/'+vacancy.key" />
                   <q-btn outline rounded icon="edit" :to="'/profile/vacancy/edit/'+vacancy.key" />
