@@ -224,7 +224,7 @@
                 <q-card-actions align="right">
                   <q-btn outline rounded label="Detalhes" :to="'/profile/vacancy/details/'+vacancy.key" />
                   <q-btn outline rounded icon="edit" :to="'/profile/vacancy/edit/'+vacancy.key" />
-                  <q-btn outline rounded color="red" icon="delete" />
+                  <q-btn outline rounded color="red" icon="delete" @click="vacancyDtlFunc(vacancy.key)" />
                   <q-btn outline rounded :icon="isPublic ? 'visibility_off' : 'visibility'" @click="isPublic = !isPublic" />
                 </q-card-actions>
               </q-card>
@@ -235,6 +235,22 @@
           </div>
         </div>
       </div>
+      <div>
+      <q-dialog v-model="confirDelete">
+        <q-card style="width: 700px; max-width: 80vw;">
+          <q-card-section>
+            <div class="text-h5">Confirmar</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none text-h6">Deletar vaga de {{ vacancyDel.title }}?</q-card-section>
+
+          <q-card-actions align="right" class="bg-white text-teal">
+            <q-btn rounded outline color="red" label="Deletar" @click="deleteVacancyThis(vacancyDel.key)" />
+            <q-btn rounded outline color="grey" label="Cancelar" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </div>
     </div>
   </q-page>
 </template>
@@ -246,15 +262,33 @@ export default {
   data() {
     return {
       tab: "bio",
+      confirDelete: false,
       isPublic: true,
+      vacancyDel: {
+        title: '',
+        key: null
+      }
     };
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapState("vacancy", ["vacancies", "vacancy"]),
+    ...mapState("vacancy", ["vacancies", "vacancyDtl"]),
+    
   },
   methods: {
     ...mapActions("vacancy", ["listVacancy", "createVacancy", "detailVacancy", "updateVacancy", "deleteVacancy"]),
+    deleteVacancyThis (id) {
+      this.deleteVacancy(id)
+      this.confirDelete = false
+    },
+    vacancyDtlFunc (id) {
+      console.log(id)
+      this.detailVacancy(id)
+      console.log("Nelzio Sitoe delll")
+      console.log(this.vacancyDtl)
+      this.vacancyDel = this.vacancyDtl
+      this.confirDelete = true
+    }
   },
   created () {
     this.listVacancy()
