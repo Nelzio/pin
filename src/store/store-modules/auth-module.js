@@ -1,5 +1,5 @@
 import { LocalStorage, Loading, Notify } from 'quasar'
-import { firebaseAuth } from "../../boot/firebase";
+import { firebaseAuth, firebase } from "../../boot/firebase";
 import { showErrorMessage } from "../../functions/handle-error-messages";
 
 const state = {
@@ -9,59 +9,68 @@ const state = {
 
 const mutations = {
 
-    setIsUserAuth (state, val) {
+    SET_AUTH_USER(state, val) {
         state.isUserAuth = val
         LocalStorage.set('isUserAuth', val)
-        console.log('User Status set: ', val)
     },
-    authUser (state, val) {
+    AUTH_USER(state, val) {
         state.authUser = val // isto é desnecessario, but...
         LocalStorage.set('authUser', state.authUser)
     }
-
 }
 
 const getters = {
-
+    user(state){
+        return state.authUser
+    }
 }
 
 const actions = {
 
-    registerUser ({ commit }, payload) {
+    registerUser({ commit }, payload) {
         Loading.show()
         firebaseAuth.createUserWithEmailAndPassword(payload.email, payload.password)
             .then(user => {
-                commit('setIsUserAuth', true)
-                commit('authUser', user)
+                commit('SET_AUTH_USER', true)
+                commit('AUTH_USER', user)
                 this.$router.push('/profile')
                 Notify.create('A sua conta foi criada com sucesso!')
                 Loading.hide()
             })
             .catch(error => {
+                commit("AUTH_USER", null)
                 Loading.hide()
                 showErrorMessage(error.message)
             })
     },
 
+    googleSingIn() {
+        const provider = new firebase.auth.GoogleAuthProvider()
+        firebase.auth().signInWithPopup(provider).then((result) => {
+            //   this.user = result.user
+            console.log(result.user)
+            const userData = {
+                displayName: result.user.displayName,
+                email: result.user.email,
+                emailVerified: result.user.emailVerified,
+                phoneNumber: result.user.phoneNumber,
+                photoURL: result.user.photoURL,
+                refreshToken: result.user.refreshToken,
+                uid: result.user.uid
+            }
+            commit('AUTH_USER', userData)
+            commit('SET_AUTH_USER', true)
+            Notify.create('Sessão iniciada com sucesso!')
+            this.$router.push('/profile')
+        }).catch(err => console.log(err))
+    },
 
-    // createUser () {
-    //     Auth.createUserWithEmailAndPassword(this.email, this.password)
-    //       .then((created) => {
-    //         created.user.sendEmailVerification().then(() => {
-    //           this.$router.push('/user/profile');
-    //         });
-    //       }).catch((error) => {
-    //         this.errors.push(error.message);
-    //       });
-    // },
-
-
-    loginUser ({ commit }, payload) {
+    loginUser({ commit }, payload) {
         Loading.show()
         firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
             .then(user => {
-                commit('setIsUserAuth', true)
-                commit('authUser', user)
+                commit('SET_AUTH_USER', true)
+                commit('AUTH_USER', user)
                 Notify.create('Sessão iniciada com sucesso!')
                 this.$router.push('/profile')
                 Loading.hide()
@@ -77,11 +86,11 @@ const actions = {
     //         .catch(err => this.errors.push(err.message));
     // },
 
-    handleAuthStateChange ({ commit, dispatch }) {
-        // commit('setIsUserAuth', LocalStorage.getItem('isUserAuth'))
+    handleAuthStateChange({ commit, dispatch }) {
+        // commit('SET_AUTH_USER', LocalStorage.getItem('isUserAuth'))
         firebaseAuth.onAuthStateChanged(user => {
             if (user) {
-                commit('setIsUserAuth', true)
+                commit('SET_AUTH_USER', true)
                 //Calling the action 'firebaseReadTasks' in module 'task'
                 //This action listen to diferent events
                 // dispatch('task/firebaseReadTasks', null, {root: true})
@@ -90,17 +99,17 @@ const actions = {
             } else {
                 // commit('task/clearTasks', null, { root: true })
                 // commit('task/setTasksDownloaded', false, { root: true })
-                commit('setIsUserAuth', false)
+                commit('SET_AUTH_USER', false)
                 // this.$router.push('/account')
                 // // console.log("Nao autenticado")
             }
         })
     },
 
-    logoutUser ({ commit }) {
+    logoutUser({ commit }) {
         firebaseAuth.signOut();
-        commit('setIsUserAuth', false)
-        commit('authUser', null)
+        commit('SET_AUTH_USER', false)
+        commit('AUTH_USER', null)
         this.$router.push('/')
     }
 

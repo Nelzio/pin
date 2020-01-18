@@ -32,4 +32,4 @@ let firestoreDb = firebase.firestore()
 // export default firebase;
 
 
-export { firebaseAuth, firestoreDb }
+export { firebaseAuth, firestoreDb, firebase }

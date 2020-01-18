@@ -1,25 +1,12 @@
 <template>
-  <q-page v-touch-swipe.mouse.right.left.up="accountSwipe">
+  <q-page v-touch-swipe.mouse.right.up="accountSwipe">
     <!-- content -->
-    <div class="row login justify-center q-gutter-y-lg">
+    <!-- <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
         <q-icon size="100px" name="account_circle" />
       </div>
       <div class="q-pa-lg col-md-4 col-12">
         <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-          <!-- <q-input
-            rounded
-            outlined
-            dense
-            :color="darkModeConf.color"
-            ref="number"
-            v-model="authObject.number"
-            label="Numero de telefone"
-            placeholder=8xxxxxxxxx"
-            mask="#########"
-            lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
-          /> -->
           <q-input
             rounded
             outlined
@@ -75,10 +62,23 @@
 						/>
 					</div>
         </q-form>
-      </div>
-    </div>
 
-    <div class="row justify-center">
+         <q-btn color="white" text-color="black" label="Standard" @click="googleSingIn()" />
+        
+      </div>
+    </div> -->
+
+    <div class="row justify-center q-pa-md" style="padding-top: 60%;">
+      <q-btn
+        align="between"
+        rounded
+        size="lg"
+        class="full-width btn-fixed-width"
+        label="Entrar com google"
+        icon="img:https://imagepng.org/wp-content/uploads/2019/08/google-icon-1.png"
+        @click="googleSingIn()" />
+    </div>
+    <!-- <div class="row justify-center">
       <div class="col-12 q-pa-lg">
         <q-btn
           class="full-width animated infinite bounce"
@@ -89,7 +89,7 @@
 					to="/account/create"
         />
       </div>
-    </div>
+    </div> -->
   </q-page>
 </template>
 
@@ -111,7 +111,7 @@ export default {
     ...mapState("settings", ["appMode", "darkModeConf"])
   },
   methods: {
-    ...mapActions("auth", ["loginUser", "registerUser"]),
+    ...mapActions("auth", ["loginUser", "registerUser", "googleSingIn"]),
 
     isPasswordValid(email) {
       var re = /^(([^<>()\[\]\\.,:\s@"]+(\.[^<>()\[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -130,9 +130,9 @@ export default {
       }
     },
     accountSwipe(val) {
-      if (val.direction === "left") {
-        this.$router.push("/account/create")
-      }
+      // if (val.direction === "left") {
+      //   this.$router.push("/account/create")
+      // }
 
       if (val.direction === "right") {
         this.$router.push("/")

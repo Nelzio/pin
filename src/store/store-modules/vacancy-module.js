@@ -37,8 +37,8 @@ const actions = {
     //     Loading.show()
     //     firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
     //         .then(user => {
-    //             commit('setIsUserAuth', true)
-    //             commit('authUser', user)
+    //             commit('SET_AUTH_USER', true)
+    //             commit('AUTH_USER', user)
     //             Notify.create('Sessão iniciada com sucesso!')
     //             this.$router.push('/profile')
     //             Loading.hide()

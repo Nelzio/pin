@@ -8,12 +8,12 @@
         <div class="text-center">
           <q-avatar size="100px">
             <q-img
-              src="https://www.correio24horas.com.br/fileadmin/_processed_/8/1/csm_samai_cunha_quanta_8cdb15efa4.jpg"
+              :src="user.photoURL"
               spinner-color="white"
             />
           </q-avatar>
 
-          <div class="text-h5">Antonio Velas</div>
+          <div class="text-h5">{{ user.displayName }}</div>
           <!-- <div class="text-caption">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas excepturi unde vitae eaque labore
           </div>-->
@@ -61,7 +61,7 @@
 
                     <q-item-section>
                       <q-item-label class="text-h6">Email</q-item-label>
-                      <q-item-label>nelziositoe@gmail.com</q-item-label>
+                      <q-item-label>{{ user.email }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
@@ -217,7 +217,7 @@
             <div class="col-12 col-md-6 q-pa-sm" v-for="vacancy in vacancies" :key="vacancy.key">
               <q-card class="my-card">
                 <q-img
-                  src="https://cdn.awsli.com.br/600x1000/60/60876/produto/28035638/9e1cebfb32.jpg"
+                  src="statics/img/01-11.jpg"
                   spinner-color="white"
                 />
                 <q-card-section>{{ vacancy.title }}</q-card-section>
@@ -273,6 +273,9 @@ export default {
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapState("vacancy", ["vacancies", "vacancyDtl"]),
+    ...mapGetters({
+      user: "user"
+    })
     
   },
   methods: {

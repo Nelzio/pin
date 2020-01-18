@@ -1,8 +1,8 @@
 {
   "name": "hackathon-prep",
   "version": "0.0.1",
-  "description": "App para ajuda aos deficientes",
-  "productName": "App para ajuda aos deficientes",
+  "description": "Superactive",
+  "productName": "Superactive",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
   "author": "Jose Seie <joseeugenioseie@hotmail.com>",

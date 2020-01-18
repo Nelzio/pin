@@ -105,9 +105,9 @@ module.exports = function (ctx) {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
       manifest: {
-        // name: 'App para ajuda aos deficientes',
-        // short_name: 'App para ajuda aos deficientes',
-        // description: 'App para ajuda aos deficientes',
+        // name: 'Superactive',
+        // short_name: 'Superactive',
+        // description: 'Superactive',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
