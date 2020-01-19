@@ -32,8 +32,8 @@
               align="justify"
               narrow-indicator
             >
-              <q-tab name="bio" label="Contacto" icon="assignment_ind" />
-              <q-tab name="ocupacao" label="Sobre" icon="work" />
+              <q-tab name="bio" label="Contacto" icon="contacts" />
+              <q-tab name="ocupacao" label="Sobre" icon="assignment_ind" />
             </q-tabs>
 
             <q-separator />
@@ -48,7 +48,7 @@
 
                     <q-item-section>
                       <q-item-label class="text-h6">Telefone</q-item-label>
-                      <q-item-label>+258 84 122 4724</q-item-label>
+                      <q-item-label>{{ userData.telephone }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
@@ -73,10 +73,7 @@
                     </q-item-section>
                     <q-item-section>
                       <q-item-label class="text-h6">Endereço</q-item-label>
-                      <q-item-label class="text-body2">Maputo</q-item-label>
-                      <q-item-label class="text-body2">Bairro Laulane</q-item-label>
-                      <q-item-label class="text-body2">Rua 10, Q 14, casa 65</q-item-label>
-                      <q-item-label class="text-body2">Associacao</q-item-label>
+                      <q-item-label class="text-body2">{{ userData.adress }}</q-item-label>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -88,25 +85,12 @@
                 <q-list>
                   <q-item class="text-left">
                     <q-item-section top avatar>
-                      <q-icon name="phone" />
+                      <q-icon name="work" />
                     </q-item-section>
 
                     <q-item-section>
                       <q-item-label class="text-h6">Profissão</q-item-label>
-                      <q-item-label>Contabilista</q-item-label>
-                    </q-item-section>
-                  </q-item>
-
-                  <q-separator spaced inset="item" />
-
-                  <q-item class="text-left">
-                    <q-item-section top avatar>
-                      <q-icon name="email" />
-                    </q-item-section>
-
-                    <q-item-section>
-                      <q-item-label class="text-h6">Experiencia</q-item-label>
-                      <q-item-label>12</q-item-label>
+                      <q-item-label>{{ userData.profission }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
@@ -114,13 +98,11 @@
 
                   <q-item class="text-left">
                     <q-item-section avatar top>
-                      <q-icon name="place" />
+                      <q-icon name="school" />
                     </q-item-section>
                     <q-item-section>
                       <q-item-label class="text-h6">Formação</q-item-label>
-                      <q-item-label class="text-body2">Licenciatura em contabilidade</q-item-label>
-                      <q-item-label class="text-body2">Especialização em direito</q-item-label>
-                      <q-item-label class="text-body2">Curso de culinaria</q-item-label>
+                      <q-item-label class="text-body2">{{ userData.education }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
@@ -133,13 +115,21 @@
 
         <!-- btn conect -->
         <div class="row justify-center q-pa-md">
-          <q-btn rounded class="full-width" :color="darkModeConf.color" :class="darkModeConf.textBtn" label="Contactar" />
+          <!-- <q-btn rounded class="full-width" :color="darkModeConf.color" :class="darkModeConf.textBtn" label="Contactar" /> -->
+          <q-btn
+            rounded
+            class="full-width"
+            :color="darkModeConf.color"
+            :class="darkModeConf.textBtn"
+            label="Editar perfil"
+            left-icon="edit"
+            to="account/edit" />
         </div>
 
         <q-separator />
 
         <!-- sec4 -->
-        <div>
+        <!-- <div>
           <q-toolbar :class="darkModeConf.bgColor">
             <q-toolbar-title>Produtos</q-toolbar-title>
             <q-btn flat round dense icon="add" />
@@ -168,11 +158,11 @@
           <div class="q-pa-sm">
             <q-btn outline rounded class="full-width" label="Ver todos" />
           </div>
-        </div>
+        </div> -->
 
         <!-- sec 5 -->
 
-        <q-separator />
+        <!-- <q-separator />
 
         <div>
           <q-toolbar :class="darkModeConf.bgColor">
@@ -204,7 +194,7 @@
           </div>
         </div>
 
-        <q-separator />
+        <q-separator /> -->
         <!-- sec 6 -->
         <div>
           <!-- <div class="text-h5 q-pl-md col-12">Vagas de emprego</div> -->
@@ -273,13 +263,13 @@ export default {
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapState("vacancy", ["vacancies", "vacancyDtl"]),
-    ...mapGetters({
-      user: "user"
-    })
+    ...mapGetters('auth', [
+        'user', 'userData'])
     
   },
   methods: {
     ...mapActions("vacancy", ["listVacancy", "createVacancy", "detailVacancy", "updateVacancy", "deleteVacancy"]),
+    ...mapActions("auth", ["detailUser"]),
     deleteVacancyThis (id) {
       this.deleteVacancy(id)
       this.confirDelete = false
@@ -297,7 +287,7 @@ export default {
     this.listVacancy()
   },
   mounted() {
-    this.$root.$emit("isHomePage", "Perfil");
+    this.detailUser(this.user.email)
   }
 };
 </script>

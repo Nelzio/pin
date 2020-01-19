@@ -22,7 +22,7 @@
                 'setSettings', 'setIsConected', 'setAppMode'
             ]),
             ...mapActions ('auth', [
-                'handleAuthStateChange'
+                'checkAuthUser'
             ]),
 
             // ============= Generic PlayAudio
@@ -45,7 +45,7 @@
 
             this.$q.addressbarColor.set(this.appMode.modeColor)
 
-            // this.handleAuthStateChange ()
+            // this.checkAuthUser ()
 
         },
         mounted () {

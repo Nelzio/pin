@@ -50,7 +50,7 @@
                     <q-item-section>Perfil</q-item-section>
                   </q-item>
                   <q-separator />
-                  <q-item @click="logoutUser" clickable>
+                  <q-item @click="signOut" clickable>
                     <q-item-section>Sair</q-item-section>
                   </q-item>
                 </template>
@@ -204,7 +204,7 @@ export default {
     ...mapState("auth", ["isUserAuth"])
   },
   methods: {
-    ...mapActions("auth", ["logoutUser"]),
+    ...mapActions("auth", ["signOut"]),
     
     backIconFunc (to) {
       // active/ deactivate icon

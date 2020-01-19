@@ -59,15 +59,17 @@ export default {
   },
   methods: {
     ...mapActions ('auth', [
-      'handleAuthStateChange'
+      'checkAuthUser'
     ]),
     profile () {
-      this.handleAuthStateChange()
-      if(this.isUserAuth) {
-        this.$router.push('/profile')
-      } else {
-        this.$router.push('/account')
-      }
+      this.checkAuthUser().then(user => {
+        if(this.isUserAuth) {
+          this.$router.push('/profile')
+        } else {
+          this.$router.push('/account')
+        }
+      })
+      
     }
   }
 };

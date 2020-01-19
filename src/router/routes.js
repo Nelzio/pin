@@ -14,6 +14,7 @@ const routes = [
     component: () => import('layouts/home/Base.vue'),
     children: [
       { path: '', component: () => import('pages/profile/Index.vue') },
+      { path: 'edit', component: () => import('pages/profile/EditProfile.vue') },
       { path: 'vacancy/details/:id', component: () => import('pages/profile/work/Details') },
       { path: 'vacancy/edit/:idEdit', component: () => import('pages/profile/work/EditVacancy') },
       { path: 'vacancy/add', component: () => import('pages/profile/work/AddVacancy') },
