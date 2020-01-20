@@ -173,7 +173,7 @@ module.exports = function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        // appId: 'hackathon-prep'
+        // appId: 'Superactive'
       }
     }
   }

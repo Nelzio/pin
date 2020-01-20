@@ -52,8 +52,9 @@ const actions = {
     //         })
     // },
 
-    
+
     googleSingIn({ commit }) {
+        Loading.show()
         const provider = new firebase.auth.GoogleAuthProvider()
         firebase.auth().signInWithPopup(provider).then((result) => {
             //   this.user = result.user
@@ -70,8 +71,13 @@ const actions = {
             commit('AUTH_USER', userData)
             commit('SET_AUTH_USER', true)
             Notify.create('Sessão iniciada com sucesso!')
+            this.$router.push('/')
             this.$router.push('/profile')
-        }).catch(err => console.log(err))
+            Loading.hide()
+        }).catch(err => {
+            console.log(err)
+            Loading.hide()
+        })
     },
 
     editUser({ commit }, payload) {
@@ -80,42 +86,42 @@ const actions = {
         const ref = firestoreDb.collection('users').doc(payload.id) // email is the key
         ref.set(payload.data).then((docRef) => {
             console.log("Updated")
-            console.log(docRef)
+            this.$router.go(-1)
             Loading.hide()
-          })
-          .catch((error) => {
-            Loading.hide()
-            alert("Error adding document: ", error)
-          })
+        })
+            .catch((error) => {
+                Loading.hide()
+                alert("Error adding document: ", error)
+            })
     },
 
-    detailUser ({ commit }, id) {
+    detailUser({ commit }, id) {
         // Details of a user
-      const ref = firestoreDb.collection('users').doc(id)
-      let data = {}
-      ref.get().then((doc) => {
-        if (doc.exists) {
-          data = {
-            id: doc.id,
-            telephone: doc.data().telephone,
-            adress: doc.data().adress,
-            profission: doc.data().profission,
-            education: doc.data().education
-          }
-          console.log(data)
-          commit('SET_USER_DATA', data)
-        } else {
-            // If user desen't exist
-            data = {
-                id: null,
-                telephone: "Não definido",
-                adress: "Não definido",
-                profission: "Não definido",
-                education: "Não definido"
-              }
-              commit('SET_USER_DATA', data)
-        }
-      })
+        const ref = firestoreDb.collection('users').doc(id)
+        let data = {}
+        ref.get().then((doc) => {
+            if (doc.exists) {
+                data = {
+                    id: doc.id,
+                    telephone: doc.data().telephone,
+                    adress: doc.data().adress,
+                    profission: doc.data().profission,
+                    education: doc.data().education
+                }
+                console.log(data)
+                commit('SET_USER_DATA', data)
+            } else {
+                // If user desen't exist
+                data = {
+                    id: null,
+                    telephone: "Não definido",
+                    adress: "Não definido",
+                    profission: "Não definido",
+                    education: "Não definido"
+                }
+                commit('SET_USER_DATA', data)
+            }
+        })
     },
 
     // loginUser({ commit }, payload) {
@@ -160,12 +166,42 @@ const actions = {
     signOut({ commit }) {
         Loading.show()
         firebaseAuth.signOut()
-        .then(() => {
-            commit('SET_AUTH_USER', false)
-            commit('AUTH_USER', null)
-            this.$router.push('/')
-            Loading.hide()
-        })
+            .then(() => {
+                commit('SET_AUTH_USER', false)
+                commit('AUTH_USER', null)
+                this.$router.push('/')
+                Loading.hide()
+            })
+    },
+
+    deleteUser({ commit }, id) {
+        // Loading.show()
+        var user
+        const provider = new firebase.auth.GoogleAuthProvider()
+        firebase.auth().signInWithPopup(provider).then((result) => {
+            user = firebaseAuth.currentUser
+            firestoreDb.collection('users').doc(id).delete().then(() => {
+                user.delete().then(function () {
+                    // User deleted.
+                    commit('SET_AUTH_USER', false)
+                    commit('AUTH_USER', null)
+                    commit('SET_USER_DATA', null)
+                    Notify.create('Usuario Excluido')
+                    this.$router.push('/')
+                    Loading.hide()
+                }).catch(function (error) {
+                    // An error happened.
+                    Notify.create('Erro ao deletar')
+                    Loading.hide()
+                })
+            }).catch((error) => {
+                Loading.hide()
+                alert("Error removing document: ", error);
+            });
+        }).catch(err => console.log(err))
+        
+
+        
     }
 
 }

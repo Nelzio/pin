@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-gutter-y-md">
+  <q-page class="q-gutter-y-md q-pt-md">
     <!-- content -->
 
     <div class="row justify-center">

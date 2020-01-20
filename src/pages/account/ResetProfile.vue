@@ -3,21 +3,53 @@
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
-        <q-icon color="primary" size="100px" name="edit" />
+        <q-icon size="100px" name="edit" />
       </div>
       <!-- <div class="col-12">
           Entrar ou se Inscrever
       </div>-->
       <div class="q-pa-lg col-md-4 col-12">
-        <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-              <q-input rounded outlined v-model="userEdit.telephone" label="Telefone" icon="phone" />
-              <q-input rounded outlined v-model="userEdit.adress" label="Endereço" icon="place" />
-              <q-input rounded outlined v-model="userEdit.profission" label="Profissão" />
-              <q-input rounded outlined v-model="userEdit.education" label="Ensino Primario" />
+        <q-form ref="loginForm" @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
+              <q-input
+                rounded
+                outlined
+                :color="darkModeConf.color"
+                v-model="userEdit.telephone"
+                label="Telefone"
+                icon="phone"
+                placeholeder="800000000"
+                mask="#########"
+                lazy-rules :rules="[ val => val && val.length > 0 && val.length == 9 || 'Introduza o seu numero de telefone']" />
+              <q-input
+                rounded
+                outlined
+                :color="darkModeConf.color"
+                v-model="userEdit.adress"
+                label="Endereço"
+                icon="place"
+                placeholeder="Cidade de xai-xai, bairro exemplo"
+                lazy-rules :rules="[ val => val && val.length > 0 || 'Introduza o seu bairro']" />
+              <q-input
+                rounded
+                outlined
+                :color="darkModeConf.color"
+                v-model="userEdit.profission"
+                label="Profissão"
+                placeholeder="Canalizador"
+                lazy-rules :rules="[ val => val && val.length > 0 || 'Introduza a sua profissão']" />
+              <q-input
+                rounded
+                outlined
+                :color="darkModeConf.color"
+                v-model="userEdit.education"
+                label="Educação"
+                placeholeder="Licenciatura em Gestão, curso de informática"
+                lazy-rules :rules="[ val => val && val.length > 0 || 'Introduza a sua formação']" />
           <div class="q-gutter-y-md">
-            <q-btn rounded label="Enviar" type="login" color="primary" class="full-width" />
+            <q-btn rounded label="Enviar" type="login" :color="darkModeConf.color" :class="darkModeConf.textBtn" class="full-width" />
           </div>
         </q-form>
+        
       </div>
     </div>
   </q-page>
@@ -55,13 +87,12 @@ export default {
 
     getUser () {
       // first get user
-      this.detailUser(this.user.email)
-      if(this.userData) {
+      this.detailUser(this.user.email).then(() => {
         this.userEdit.telephone = this.userData.telephone
         this.userEdit.adress = this.userData.adress
         this.userEdit.profission = this.userData.profission
         this.userEdit.education = this.userData.education
-      }
+      });
     },
 
     isEmailValid(email) {
@@ -70,10 +101,21 @@ export default {
     },
 
     onReset() {
-      alert("must reset form.");
+      this.userEdit.telephone = null
+      this.userEdit.adress = null
+      this.userEdit.profission = null
+      this.userEdit.education = null
+
+      this.$refs.loginForm.resetValidation()
     },
     onSubmit() {
-      this.editUser({id: this.user.email, data: this.userEdit})
+      this.$refs.loginForm.validate()
+      if (this.$refs.loginForm.hasError) {
+        this.formHasError = true
+      }
+      else {
+        this.editUser({id: this.user.email, data: this.userEdit})
+      }
     },
     accountSwipe (val) {
         if (val.direction === 'right') {
