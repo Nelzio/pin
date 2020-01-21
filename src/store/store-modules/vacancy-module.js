@@ -51,8 +51,9 @@ const getters = {
 
 const actions = {
 
-  uploadAuxFunc(payload) {
+  uploadAuxFunc: ({commit}, payload) => {
     // Upload file and metadata to the object
+    var storageRef = fireStorage.ref();
     var uploadTask = storageRef.child('vacancies/' + payload.id).put(payload.img);
 
     // Listen for state changes, errors, and completion of the upload.

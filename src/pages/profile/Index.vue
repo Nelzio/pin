@@ -215,7 +215,7 @@
                 <q-card-actions align="right">
                   <q-btn outline rounded label="Detalhes" :to="'/profile/vacancy/details/'+vacancy.key" />
                   <q-btn outline rounded icon="edit" :to="'/profile/vacancy/edit/'+vacancy.key" />
-                  <q-btn outline rounded color="red" icon="delete" @click="vacancyDtlFunc(vacancy.key), confirDeleteAux = true" />
+                  <q-btn outline rounded color="red" icon="delete" @click="vacancyDtlFunc(vacancy.key)" />
                   <q-btn outline rounded :icon="vacancy.public ? 'visibility' : 'visibility_off'" @click="makePublic(vacancy.key, vacancy)" />
                 </q-card-actions>
               </q-card>
