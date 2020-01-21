@@ -19,10 +19,10 @@
         @click="$router.push('/store')"
       >
         <div>
-          <q-icon size="100px" name="storefront" />
+          <q-icon size="100px" name="store" />
         </div>
         <div class="text-h6">
-          Exposição
+          Produtos e Serviços
         </div>
       </div>
     </div>
@@ -43,7 +43,7 @@
           <q-icon size="100px" name="settings" @click="$router.push('/settings')" />
         </div>
         <div class="text-h6">
-          Preferências
+          Definições
         </div>
       </div>
     </div>

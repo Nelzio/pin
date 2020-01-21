@@ -1,12 +1,29 @@
 <template>
   <q-page padding>
     <!-- content -->
-    <div class="row q-gutter-y-md">
-      <q-card class="my-card col-12" style="padding: 0;height: 300px">
-        <q-video style="padding: 0;height: 300px" src="https://www.youtube.com/embed/Raa0vBXA8OQ" />
-      </q-card>
+    <div class="q-gutter-y-md">
+      <div>
+        <q-card class="my-card col-12" style="padding: 0;">
+          <!-- <q-video style="padding: 0;height: 300px" src="https://www.youtube.com/embed/Raa0vBXA8OQ" /> -->
+          <q-img :src="getVacancy.img" spinner-color="white" style="min-height: 200px;" />
+          <q-card-section>
+            <div class="text-h5">
+              {{ getVacancy.title }}
+            </div>
+          </q-card-section>
+          <q-card-section class="row">
+            <div class="col text-center">
+              <q-icon name="arrow_forward_ios" />
+            </div>
+            <div
+              class="col-11 text-body1"
+            >{{ getVacancy.description }}</div>
+          </q-card-section>
+        </q-card>
+      </div>
 
-      <div class="col-12 row justify-end q-gutter-x-md">
+
+      <div class="row justify-end q-gutter-x-md">
         <q-btn
           v-if="!vacancyDone"
           rounded
@@ -19,27 +36,6 @@
         <q-btn v-else rounded color="red" label="Cancelar" icon="close" @click="apply = true" />
         <!-- <q-btn round outline color="teal" icon="share" /> -->
       </div>
-
-      <q-card
-        bordered
-        class="my-card col-sm-12"
-        :class="[appMode.bgColor, appMode.textColorOptional]"
-      >
-        <q-card-section>
-          <div class="text-h6">Descrição</div>
-        </q-card-section>
-
-        <q-separator dark inset />
-
-        <q-card-section class="row">
-          <div class="col text-center">
-            <q-icon name="arrow_forward_ios" />
-          </div>
-          <div
-            class="col-11 text-body1"
-          >{{ vacancyDtl.description }}</div>
-        </q-card-section>
-      </q-card>
     </div>
 
     <div>
@@ -58,19 +54,6 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
-    </div>
-    <div class="col-12 row justify-end q-gutter-x-md q-pt-md q-mb-lg">
-      <q-btn
-        v-if="!vacancyDone"
-        rounded
-        :color="darkModeConf.color"
-        :class="darkModeConf.textBtn"
-        label="Candidatar-se"
-        icon="done_all"
-        @click="apply = true"
-      />
-      <q-btn v-else rounded color="red" label="Cancelar" icon="close" @click="apply = true" />
-      <!-- <q-btn round outline color="teal" icon="share" @click="socialNet = true" /> -->
     </div>
   </q-page>
 </template>

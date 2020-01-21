@@ -197,7 +197,6 @@
         <q-separator /> -->
         <!-- sec 6 -->
         <div>
-          <!-- <div class="text-h5 q-pl-md col-12">Vagas de emprego</div> -->
           <q-toolbar :class="darkModeConf.bgColor">
             <q-toolbar-title>Vagas de emprego</q-toolbar-title>
             <q-btn flat round dense icon="add" to="/profile/vacancy/add" />
@@ -207,15 +206,17 @@
             <div class="col-12 col-md-6 q-pa-sm" v-for="vacancy in vacancies" :key="vacancy.key">
               <q-card class="my-card">
                 <q-img
-                  src="statics/img/01-11.jpg"
+                  v-if="vacancy.img"
+                  :src="vacancy.img"
                   spinner-color="white"
+                  style="min-height: 200px;"
                 />
                 <q-card-section>{{ vacancy.title }}</q-card-section>
                 <q-card-actions align="right">
                   <q-btn outline rounded label="Detalhes" :to="'/profile/vacancy/details/'+vacancy.key" />
                   <q-btn outline rounded icon="edit" :to="'/profile/vacancy/edit/'+vacancy.key" />
-                  <q-btn outline rounded color="red" icon="delete" @click="vacancyDtlFunc(vacancy.key)" />
-                  <q-btn outline rounded :icon="isPublic ? 'visibility_off' : 'visibility'" @click="isPublic = !isPublic" />
+                  <q-btn outline rounded color="red" icon="delete" @click="vacancyDtlFunc(vacancy.key), confirDeleteAux = true" />
+                  <q-btn outline rounded :icon="vacancy.public ? 'visibility' : 'visibility_off'" @click="makePublic(vacancy.key, vacancy)" />
                 </q-card-actions>
               </q-card>
             </div>
@@ -232,14 +233,26 @@
             <div class="text-h5">Confirmar</div>
           </q-card-section>
 
-          <q-card-section class="q-pt-none text-h6">Deletar vaga de {{ vacancyDel.title }}?</q-card-section>
+          <q-card-section class="q-pt-none text-h6">Deletar vaga de {{ vacancyDtl.title }}?</q-card-section>
 
           <q-card-actions align="right" class="bg-white text-teal">
-            <q-btn rounded outline color="red" label="Deletar" @click="deleteVacancyThis(vacancyDel.key)" />
+            <q-btn rounded outline color="red" label="Deletar" @click="deleteVacancyThis(vacancyDtl.key)" />
             <q-btn rounded outline color="grey" label="Cancelar" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
+
+      <q-dialog v-model="confirDeleteSuccess">
+      <q-card>
+        <q-card-section class="text-h5 text-green">
+          Vaga deletada com sucesso
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="OK" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
     </div>
     </div>
   </q-page>
@@ -252,7 +265,9 @@ export default {
   data() {
     return {
       tab: "bio",
+      confirDeleteSuccess: false,
       confirDelete: false,
+      confirDeleteAux: false,
       isPublic: true,
       vacancyDel: {
         title: '',
@@ -262,7 +277,7 @@ export default {
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapState("vacancy", ["vacancies", "vacancyDtl"]),
+    ...mapState("vacancy", ["vacancies", "vacancyDtl", "vacancyDeleted", "vacancyUploaded", "vacancyDetail"]),
     ...mapGetters('auth', [
         'user', 'userData'])
     
@@ -271,16 +286,33 @@ export default {
     ...mapActions("vacancy", ["listVacancy", "createVacancy", "detailVacancy", "updateVacancy", "deleteVacancy"]),
     ...mapActions("auth", ["detailUser"]),
     deleteVacancyThis (id) {
-      this.deleteVacancy(id)
-      this.confirDelete = false
+      const vm = this
+      
+      this.deleteVacancy(id).then(function () {
+        vm.confirDeleteAux = false
+        vm.confirDelete = false
+      })
+      
     },
     vacancyDtlFunc (id) {
       console.log(id)
       this.detailVacancy(id)
       console.log("Nelzio Sitoe delll")
-      console.log(this.vacancyDtl)
-      this.vacancyDel = this.vacancyDtl
-      this.confirDelete = true
+      
+    },
+    makePublic (id, data) {
+      let dataAux = {
+        title: data.title,
+        user: data.user,
+        description: data.description,
+        img: data.img,
+        public: !data.public
+      }
+      this.updateVacancy({
+        id: id,
+        data: dataAux,
+        img: ""
+      })
     }
   },
   created () {
@@ -288,6 +320,18 @@ export default {
   },
   mounted() {
     this.detailUser(this.user.email)
+  },
+  watch: {
+    vacancyDetail () {
+      if(this.vacancyDetail) {
+        this.confirDelete = true
+      }
+    },
+    vacancyDeleted () {
+      if(this.vacancyDeleted) {
+        this.confirDeleteSuccess = true
+      }
+    }
   }
 };
 </script>

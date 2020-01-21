@@ -39,8 +39,9 @@
             <q-badge color="red" text-color="white" floating>2</q-badge>
           </q-btn>
           <q-btn round flat>
-            <q-avatar size="26px">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+            <q-avatar>
+              <img v-if="isUserAuth" :src="user.photoURL" />
+              <img v-else src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
             <q-tooltip>Account</q-tooltip>
             <q-menu transition-show="jump-down" transition-hide="jump-up">
@@ -177,7 +178,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapState, mapActions, mapGetters } from "vuex"
 export default {
   // name: 'LayoutName',
 
@@ -201,7 +202,7 @@ export default {
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapState("auth", ["isUserAuth"])
+    ...mapGetters("auth", ["isUserAuth", "user"])
   },
   methods: {
     ...mapActions("auth", ["signOut"]),

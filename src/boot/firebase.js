@@ -1,5 +1,6 @@
 import * as firebase from 'firebase/app'
 import firestore from 'firebase/firestore'
+import storage from 'firebase/storage'
 
 import "firebase/auth";
 import "firebase/database";
@@ -9,10 +10,11 @@ const firebaseConfig = {
     authDomain: "hack-a2a7b.firebaseapp.com",
     databaseURL: "https://hack-a2a7b.firebaseio.com",
     projectId: "hack-a2a7b",
-    storageBucket: "hack-a2a7b.appspot.com",
+    storageBucket: "gs://hack-a2a7b.appspot.com",
     messagingSenderId: "147221850544",
-    appId: "1:147221850544:web:c9c96cfe62f0665df28e75"
+    appId: "1:147221850544:web:c9c96cfe62f0665df28e75",
 };
+// storageBucket: "hack-a2a7b.appspot.com",
 
 const settings = {timestampsInSnapshots: true}; // firebase
 
@@ -28,8 +30,9 @@ firebase.initializeApp(firebaseConfig);
 
 let firebaseAuth = firebase.auth()
 let firestoreDb = firebase.firestore()
+let fireStorage = firebase.storage();
 
 // export default firebase;
 
 
-export { firebaseAuth, firestoreDb, firebase }
+export { firebaseAuth, firestoreDb, firebase, fireStorage }

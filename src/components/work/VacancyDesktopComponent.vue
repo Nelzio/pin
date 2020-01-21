@@ -1,6 +1,6 @@
 <template>
     <q-card class="my-card">
-			<q-img src="statics/img/01-11.jpg">
+			<q-img v-if="vacancy.img" :src="vacancy.img" style="min-height: 200px;">
 				<div style="padding: 10px; background: transparent;">
 					<q-avatar text-color="white">
 						<q-img src="statics/app-logo-128x128.png" spinner-color="white" />

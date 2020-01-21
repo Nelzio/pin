@@ -30,6 +30,9 @@ const getters = {
     },
     userData(state) {
         return state.userData
+    },
+    isUserAuth(state) {
+        return state.isUserAuth
     }
 }
 

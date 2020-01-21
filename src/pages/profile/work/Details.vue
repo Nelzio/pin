@@ -5,8 +5,9 @@
       <q-tab-panels v-model="tab" animated swipeable>
         <q-tab-panel name="details" style="padding: 0;">
           <q-card bordered class="my-card col-sm-12">
+            <q-img v-if="getVacancy.img" :src="getVacancy.img" style="min-height: 200px;" />
             <q-card-section>
-              <div class="text-h6">Descricao</div>
+              <div class="text-h6">{{ getVacancy.title }}</div>
             </q-card-section>
 
             <q-separator dark inset />
@@ -17,7 +18,7 @@
               </div>
               <div
                 class="col-11 text-body1"
-              >{{ vacancyDtl.description }}</div>
+              >{{ getVacancy.description }}</div>
             </q-card-section>
           </q-card>
         </q-tab-panel>
