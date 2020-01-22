@@ -85,6 +85,17 @@
                 <q-list>
                   <q-item class="text-left">
                     <q-item-section top avatar>
+                      <q-icon name="calendar_today" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      <q-item-label class="text-h6">Data de nascimento</q-item-label>
+                      <q-item-label>{{ userData.date }}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item class="text-left">
+                    <q-item-section top avatar>
                       <q-icon name="work" />
                     </q-item-section>
 
@@ -222,7 +233,7 @@
             </div>
           </div>
           <div class="q-pa-sm">
-            <q-btn outline rounded class="full-width" label="Ver todas" />
+            <q-btn outline rounded class="full-width" label="Ver todas" to="/profile/vacancies" />
           </div>
         </div>
       </div>
@@ -260,6 +271,7 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
+import { firebaseAuth } from "boot/firebase"
 export default {
   // name: 'PageName',
   data() {
@@ -283,8 +295,9 @@ export default {
     
   },
   methods: {
-    ...mapActions("vacancy", ["listVacancy", "createVacancy", "detailVacancy", "updateVacancy", "deleteVacancy"]),
-    ...mapActions("auth", ["detailUser"]),
+    ...mapActions("vacancy", ["listVacancy", "listVacancyMy", "createVacancy", "detailVacancy", "updateVacancy", "deleteVacancy"]),
+    ...mapActions("auth", ["detailUser", "checkAuthUser"]),
+
     deleteVacancyThis (id) {
       const vm = this
       
@@ -316,10 +329,12 @@ export default {
     }
   },
   created () {
-    this.listVacancy()
+    
   },
   mounted() {
     this.detailUser(this.user.email)
+    this.listVacancyMy(this.user.email)
+    this.checkAuthUser()
   },
   watch: {
     vacancyDetail () {

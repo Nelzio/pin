@@ -4,7 +4,7 @@
       <div
         class="text-center q-pr-lg"
         style="height: 100%; width: 50vw; border-right: 2px solid rgba(0,0,0,.1); padding-top: 15%; border-bottom: 2px solid rgba(0,0,0,.1)"
-        @click="$router.push('/work')"
+        @click="$router.push('/vacancies')"
       >
         <div>
           <q-icon size="100px" name="work" />
@@ -30,9 +30,10 @@
       <div
         class="text-center"
         style="height: 100%; width: 50vw; border-right: 2px solid rgba(0,0,0,.1); padding-top: 15%;"
+        @click="$router.push('/profile')"
       >
         <div>
-          <q-icon size="100px" name="account_circle" @click="profile()" />
+          <q-icon size="100px" name="account_circle" />
         </div>
         <div class="text-h6">
           Perfil
@@ -61,16 +62,6 @@ export default {
     ...mapActions ('auth', [
       'checkAuthUser'
     ]),
-    profile () {
-      this.checkAuthUser().then(user => {
-        if(this.isUserAuth) {
-          this.$router.push('/profile')
-        } else {
-          this.$router.push('/account')
-        }
-      })
-      
-    }
   }
 };
 </script>

@@ -16,24 +16,28 @@
               <div class="col text-center">
                 <q-icon name="arrow_forward_ios" />
               </div>
-              <div
-                class="col-11 text-body1"
-              >{{ getVacancy.description }}</div>
+              <div class="col-11 text-body1">{{ getVacancy.description }}</div>
             </q-card-section>
           </q-card>
         </q-tab-panel>
 
         <q-tab-panel name="aplayed" style="padding: 0;">
-          <div class="q-pa-sm" v-for="i in 5" :key="i">
+          <div class="q-pa-sm" v-for="candidate in candidates" :key="candidate.id">
             <q-card class="my-card">
-              <q-item clickable v-ripple to="/profile/vacancy/details/employee">
+              <q-item :class="darkModeConf.textColor" clickable @click="detailUser(candidate)" v-ripple>
                 <q-item-section avatar>
                   <q-avatar>
-                    <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+                    <img :src="candidate.photoURL" />
                   </q-avatar>
                 </q-item-section>
-                <q-item-section><div class="text-bold">Antonio Armando {{ i }}</div><div>Tecnico de eletricidade</div> </q-item-section>
-                <q-item-section side><div>22</div><div>anos</div></q-item-section>
+                <q-item-section>
+                  <div class="text-bold">{{ candidate.displayName}}</div>
+                  <div>{{ candidate.profission }}</div>
+                </q-item-section>
+                <q-item-section side>
+                  <div class="text-black">{{ yearsOld(candidate.date) }}</div>
+                  <div>anos</div>
+                </q-item-section>
               </q-item>
             </q-card>
           </div>
@@ -53,27 +57,67 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex"
+import { mapState, mapActions, mapGetters } from "vuex";
+import { firestoreDb } from "boot/firebase";
+import offline from "v-offline";
 export default {
   // name: 'PageName',
   data() {
     return {
-      tab: "details"
+      tab: "details",
+      candidates: []
     };
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapState("vacancy", ["vacancies", "vacancyDtl"]),
-    ...mapGetters('vacancy', [
-        'getVacancies', 'getVacancy'
-    ]),
+    ...mapGetters("vacancy", ["getVacancies", "getVacancy"])
   },
   methods: {
-    ...mapActions("vacancy", ["listVacancy", "createVacancy", "detailVacancy", "updateVacancy", "deleteVacancy"]),
+    ...mapActions("vacancy", [
+      "listVacancy",
+      "createVacancy",
+      "detailVacancy",
+      "updateVacancy",
+      "deleteVacancy"
+    ]),
+    ...mapActions("user", ["detailUser"]),
+    getCandidates() {
+      if (!offline.data().isOnline) {
+        return alert("Sem internet");
+      }
+      const vm = this
+      const ref = firestoreDb
+        .collection("vacancies")
+        .doc(this.$route.params.id)
+        .collection("candidates");
+      var candidates = [];
+      ref.get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          candidates.push({
+            id: doc.id,
+            photoURL: doc.data().photoURL,
+            displayName: doc.data().displayName,
+            telephone: doc.data().telephone,
+            email: doc.data().email,
+            adress: doc.data().adress,
+            profission: doc.data().profission,
+            education: doc.data().education,
+            date: doc.data().date
+          });
+        });
+        vm.candidates = candidates;
+      });
+    },
+    yearsOld (date) {
+      var today = new Date()
+      return today.getFullYear() - parseInt(date.split("/")[date.split("/").length -1 ])
+    }
   },
-  created () {
+  created() {
     // this.listVacancy()
-    this.detailVacancy(this.$route.params.id)
-  },
+    this.getCandidates();
+    this.detailVacancy(this.$route.params.id);
+  }
 };
 </script>

@@ -74,8 +74,7 @@ const actions = {
             commit('AUTH_USER', userData)
             commit('SET_AUTH_USER', true)
             Notify.create('Sessão iniciada com sucesso!')
-            this.$router.push('/')
-            this.$router.push('/profile')
+            this.$router.go(-1)
             Loading.hide()
         }).catch(err => {
             console.log(err)
@@ -109,9 +108,9 @@ const actions = {
                     telephone: doc.data().telephone,
                     adress: doc.data().adress,
                     profission: doc.data().profission,
-                    education: doc.data().education
+                    education: doc.data().education,
+                    date: doc.data().date
                 }
-                console.log(data)
                 commit('SET_USER_DATA', data)
             } else {
                 // If user desen't exist
@@ -120,7 +119,8 @@ const actions = {
                     telephone: "Não definido",
                     adress: "Não definido",
                     profission: "Não definido",
-                    education: "Não definido"
+                    education: "Não definido",
+                    date: "01/01/2000",
                 }
                 commit('SET_USER_DATA', data)
             }
@@ -155,6 +155,7 @@ const actions = {
             } else {
                 commit('SET_AUTH_USER', false)
                 commit('AUTH_USER', null)
+                this.$router.push('/account')
             }
         })
     },

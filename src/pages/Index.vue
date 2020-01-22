@@ -58,7 +58,7 @@ export default {
     ...mapActions("settings", ["playSound", "vibrate"]),
     handleSwipe(val) {
       if (val.direction === "left") {
-        this.$router.push("/work");
+        this.$router.push("/vacancies");
       }
       if (val.direction === "down") {
         this.$router.push("/account");

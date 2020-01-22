@@ -1,84 +1,98 @@
 <template>
   <q-page padding>
     <!-- content -->
-    
 
-     
+    <q-card class="my-card">
+      <img :src="imageUrl" alt />
+      <q-card-actions>
+        <q-btn
+          rounded
+          :color="darkModeConf.color"
+          :class="darkModeConf.textBtn"
+          class="full-width"
+          label="Inserir imagem"
+          @click="proccessFile()"
+        />
+      </q-card-actions>
+    </q-card>
 
-     <q-card class="my-card">
-     <img :src="imageUrl" alt="">
-     <q-card-actions>
-       <q-btn
-         rounded
-         :color="darkModeConf.color"
-         :class="darkModeConf.textBtn"
-         class="full-width"
-         label="Inserir imagem"
-         @click="proccessFile()" />
-     </q-card-actions>
-     </q-card>
-     
-    
     <q-form class="q-gutter-md" ref="vacancyForm">
-      <input
-      id="fileInput"
-      type="file"
-      hidden
-      ref="fileImg"
-      accept="image/*"
-      @change="onChangeImg">
-     
+      <input id="fileInput" type="file" hidden ref="fileImg" accept="image/*" @change="onChangeImg" />
+
       <q-input
         :color="darkModeConf.color"
         rounded
         outlined
         v-model="vacancy.title"
         label="Titulo"
-        lazy-rules :rules="[ val => val && val.length > 0 || 'Introduza O título']" />
+        lazy-rules
+        :rules="[ val => val && val.length > 0 || 'Introduza O título']"
+      />
       <!-- <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
+      <q-select
+        rounded
+        outlined
+        :color="darkModeConf.color"
+        v-model="vacancy.category"
+        :options="categories"
+        label="Categoria"
+      />
+      <q-select
+        rounded
+        outlined
+        :color="darkModeConf.color"
+        v-model="vacancy.place"
+        :options="places"
+        label="Província"
+      />
       <q-editor
         :color="darkModeConf.color"
         v-model="vacancy.description"
         min-height="8rem"
-        lazy-rules :rules="[ val => val && val.length > 0 || 'Introduza uma descrição']" />
+        lazy-rules
+        :rules="[ val => val && val.length > 0 || 'Introduza uma descrição']"
+      />
       <div>
-        <q-btn rounded class="full-width" :color="darkModeConf.color" :class="darkModeConf.textBtn" label="Enviar" @click="addVacancy()" />
+        <q-btn
+          rounded
+          class="full-width"
+          :color="darkModeConf.color"
+          :class="darkModeConf.textBtn"
+          label="Enviar"
+          @click="addVacancy()"
+        />
       </div>
     </q-form>
 
     <div>
       <q-dialog v-model="confirmInsert">
-      <q-card>
-        <q-card-section class="text-h5 text-green">
-          Vaga inserida com sucesso
-        </q-card-section>
+        <q-card>
+          <q-card-section class="text-h5 text-green">Vaga inserida com sucesso</q-card-section>
 
-        <q-card-actions align="right">
-          <q-btn flat label="OK" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+          <q-card-actions align="right">
+            <q-btn flat label="OK" color="primary" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
 
-    <q-dialog v-model="errorFileDialog">
-      <q-card>
-        <q-card-section class="text-h5 text-red">
-          Por favor, insira uma imagem válida.
-        </q-card-section>
+      <q-dialog v-model="errorFileDialog">
+        <q-card>
+          <q-card-section class="text-h5 text-red">Por favor, insira uma imagem válida.</q-card-section>
 
-        <q-card-actions align="right">
-          <q-btn flat label="OK" color="red" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+          <q-card-actions align="right">
+            <q-btn flat label="OK" color="red" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </q-page>
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex"
+import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   // name: 'PageName',
-  data () {
+  data() {
     return {
       confirmInsert: false,
       errorFileDialog: false,
@@ -87,10 +101,55 @@ export default {
         user: "",
         description: "",
         img: "",
-        public: false
+        public: false,
+        category: "",
+        place: ""
       },
-      imageUrl: ""
-    }
+      imageUrl: "",
+      places: [
+        "Cabo Delgado",
+        "Gaza",
+        "Inhambane",
+        "Manica",
+        "Maputo",
+        "Matola",
+        "Nampula",
+        "Niassa",
+        "Sofala",
+        "Tete",
+        "Zambézia"
+      ],
+      categories: [
+        "Administração e Secretariado",
+        "Agricultura e Pescas",
+        "Aquisições e Procurement",
+        "Assistente",
+        "Auditoria e Consultoria",
+        "Comercial e Vendas",
+        "Comunicação Social",
+        "Design e Multimédia",
+        "Engenheiro Electrotécnico",
+        "Engenheiro Mecânico",
+        "Estágios e Bolsas",
+        "Finanças e Contabilidade",
+        "Gastronomia",
+        "Gestão de Dados",
+        "Gestão de Projectos",
+        "Gestão e Programação",
+        "Gestão Financeira",
+        "Informática e Programação",
+        "Monitoria e Avaliação",
+        "Oficial Técnico",
+        "Operador",
+        "Recursos Humanos",
+        "Relações Públicas",
+        "Saúde",
+        "Supervisão e Coordenação",
+        "Técnico",
+        "Transportes e Logística",
+        "Vendas"
+      ]
+    };
   },
   computed: {
     ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
@@ -99,53 +158,50 @@ export default {
   },
   methods: {
     ...mapActions("vacancy", ["listVacancy", "createVacancy"]),
-    addVacancy () {
+    addVacancy() {
       // console.log(this.vacancy)
-      this.vacancy.user = this.user.email
-      this.$refs.vacancyForm.validate()
+      this.vacancy.user = this.user.email;
+      this.$refs.vacancyForm.validate();
       if (this.$refs.vacancyForm.hasError) {
-        this.formHasError = true
+        this.formHasError = true;
+      } else {
+        this.createVacancy(this.vacancy);
       }
-      else {
-        this.createVacancy(this.vacancy)
-        
-      }
-      
     },
-    proccessFile () {
+    proccessFile() {
       // document.getElementById("fileInput").click()
-      this.$refs.fileImg.click()
-      console.log(document.getElementById("fileInput"))
+      this.$refs.fileImg.click();
+      console.log(document.getElementById("fileInput"));
     },
-    onChangeImg (event) {
-      const files = event.target.files
-      let filename = files[0].name
-      let file = files[0]
-      if(!(file && file['type'].split('/')[0] === 'image')) {
-        return this.errorFileDialog = true
+    onChangeImg(event) {
+      const files = event.target.files;
+      let filename = files[0].name;
+      let file = files[0];
+      if (!(file && file["type"].split("/")[0] === "image")) {
+        return (this.errorFileDialog = true);
       }
-      const fileReader = new FileReader()
-      fileReader.addEventListener('load', () => {
-        this.imageUrl = fileReader.result
-      })
-      fileReader.readAsDataURL(files[0])
-      this.vacancy.img = files[0]
+      const fileReader = new FileReader();
+      fileReader.addEventListener("load", () => {
+        this.imageUrl = fileReader.result;
+      });
+      fileReader.readAsDataURL(files[0]);
+      this.vacancy.img = files[0];
     }
   },
   watch: {
-    vacancyDtl () {
-      if(!this.vacancyDtl.title) {
+    vacancyDtl() {
+      if (!this.vacancyDtl.title) {
         this.vacancy = {
           title: "",
           user: "",
           description: "",
           img: ""
-        }
-        this.imageUrl = ""
-        this.$refs.vacancyForm.resetValidation()
-        this.confirmInsert = true
+        };
+        this.imageUrl = "";
+        this.$refs.vacancyForm.resetValidation();
+        this.confirmInsert = true;
       }
     }
   }
-}
+};
 </script>

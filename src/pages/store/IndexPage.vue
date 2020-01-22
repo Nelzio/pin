@@ -94,7 +94,7 @@
             }
 
             if (val.direction === 'right') {
-                this.$router.push('/work')
+                this.$router.push('/vacancies')
             }
         }
     },

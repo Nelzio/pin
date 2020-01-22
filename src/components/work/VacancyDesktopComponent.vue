@@ -23,7 +23,7 @@
 					:color="darkModeConf.colorBtn"
 					:text-color="darkModeConf.textBtn"
 					label="Detalhes"
-					:to="'/work/details/'+vacancy.key"
+					:to="'/vacancies/details/'+vacancy.key"
 				/>
 				<!-- <q-btn
 					round

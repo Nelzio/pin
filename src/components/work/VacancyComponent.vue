@@ -28,7 +28,7 @@
                         size="sm"
                         :text-color="appMode.modeName === 'dark' ? 'white' : 'teal'"
                         label="Detalhes"
-                        to="/work/details"
+                        to="/vacancies/details"
                     />
                 </div>
                 <div class="q-ml-xs"

@@ -7,6 +7,7 @@ const routes = [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'settings', component: () => import('pages/settings/PageSettings') },
       { path: 'search', component: () => import('pages/Search.vue') },
+      { path: 'user/:idUser', component: () => import('pages/user/Profile.vue') },
     ]
   },
   {
@@ -15,14 +16,15 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/profile/Index.vue') },
       { path: 'edit', component: () => import('pages/profile/EditProfile.vue') },
-      { path: 'vacancy/details/:id', component: () => import('pages/profile/work/Details') },
-      { path: 'vacancy/edit/:idEdit', component: () => import('pages/profile/work/EditVacancy') },
-      { path: 'vacancy/add', component: () => import('pages/profile/work/AddVacancy') },
-      { path: 'vacancy/details/employee', component: () => import('pages/profile/work/EmployeeProfile') },
+      { path: 'vacancies', component: () => import('pages/profile/work/Vacancies.vue') },
+      { path: 'vacancy/details/:id', component: () => import('pages/profile/work/Details.vue') },
+      { path: 'vacancy/edit/:idEdit', component: () => import('pages/profile/work/EditVacancy.vue') },
+      { path: 'vacancy/add', component: () => import('pages/profile/work/AddVacancy.vue') },
+      { path: 'vacancy/details/employee', component: () => import('pages/profile/work/EmployeeProfile.vue') },
     ]
   },
   {
-    path: '/work',
+    path: '/vacancies',
     component: () => import('layouts/home/Base.vue'),
     children: [
       { path: '', component: () => import('pages/work/Index.vue') },

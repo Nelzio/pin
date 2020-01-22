@@ -2,8 +2,14 @@
   <q-page padding v-touch-swipe.mouse.left.right="handleSwipe" class="q-pb-xl">
     <!-- content -->
     <div class="q-pb-xl">
-      <div class="row q-gutter-y-md">
+      
+      <div v-if="!val_search && !filterVal" class="row q-gutter-y-md">
         <div class="col-12 col-md-4" :class="padding" v-for="vacancy in vacancies" :key="vacancy.key">
+          <vacancy-desktop-component :lorem="lorem" :vacancy="vacancy" />
+        </div>
+      </div>
+      <div v-else class="row q-gutter-y-md">
+        <div class="col-12 col-md-4" :class="padding" v-for="vacancy in data_var" :key="vacancy.key">
           <vacancy-desktop-component :lorem="lorem" :vacancy="vacancy" />
         </div>
       </div>
@@ -58,7 +64,8 @@ import VacancyComponent from "../../components/work/VacancyComponent"
 import VacancyDesktopComponent from "../../components/work/VacancyDesktopComponent"
 export default {
   components: { VacancyDesktopComponent, VacancyComponent },
-  // name: 'PageName',
+  name: 'Vacancies',
+  props: ['val_search', 'filterVal'],
   data() {
     return {
       lorem:
@@ -69,6 +76,10 @@ export default {
       addVacancy: false,
       text: '',
       description: '',
+      valSearch: '',
+
+
+      data_var: []
     };
   },
   computed: {
@@ -89,6 +100,45 @@ export default {
 
       if (val.direction === "right") {
         this.$router.push("/");
+      }
+    },
+    search(val) {
+      if(val != ''){
+      var temp =  new RegExp(".*"+val+".*")
+      var items = []
+      var vacancies = this.vacancies
+      for(var i in vacancies){
+        var value = vacancies[i]["title"].match(temp)
+        var valueDesc = vacancies[i]["description"].match(temp)
+        var valuePlace = vacancies[i]["place"].match(temp)
+        var valueCategory = vacancies[i]["category"].match(temp)
+        if(value != null && valueDesc != null){
+          if(vacancies[i]["title"] == value[0] && vacancies[i]["description"] == valueDesc[0]){
+            items.push(vacancies[i])
+          }
+        } else if(value != null){
+          if(vacancies[i]["title"] == value[0]){
+            items.push(vacancies[i])
+          }
+        } else if(valueDesc != null){
+          if(vacancies[i]["description"] == valueDesc[0]){
+            items.push(vacancies[i])
+          }
+        } else if(valuePlace != null){
+          if(vacancies[i]["place"] == valuePlace[0]){
+            items.push(vacancies[i])
+          }
+        } else if(valueCategory != null){
+          if(vacancies[i]["category"] == valueCategory[0]){
+            items.push(vacancies[i])
+          }
+        }
+      }
+      this.data_var = items.slice(0, 2)
+      console.log(this.data_var)
+      }
+      else{
+        this.data_var = []
       }
     }
   },
@@ -111,7 +161,17 @@ export default {
       this.playSound("/statics/audios/vagas.aac");
     }
     console.log("Nelzio")
-    console.log(this.listVacancy())
+    // this.listVacancy()
+
+    // this.$on("valueSearch") 
+  },
+  watch: {
+    val_search (val) {
+      this.search(val)
+    },
+    filterVal (val) {
+      this.search(val)
+    },
   }
 };
 </script>

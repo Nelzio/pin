@@ -1,5 +1,5 @@
 import { LocalStorage, Loading, Notify } from 'quasar'
-import { firestoreDb, fireStorage, firebase } from "../../boot/firebase"
+import { firebaseAuth, firestoreDb, fireStorage, firebase } from "boot/firebase"
 import { showErrorMessage } from "../../functions/handle-error-messages"
 import offline from 'v-offline'
 
@@ -51,7 +51,7 @@ const getters = {
 
 const actions = {
 
-  uploadAuxFunc: ({commit}, payload) => {
+  uploadAuxFunc: ({ commit }, payload) => {
     // Upload file and metadata to the object
     var storageRef = fireStorage.ref();
     var uploadTask = storageRef.child('vacancies/' + payload.id).put(payload.img);
@@ -107,6 +107,7 @@ const actions = {
         });
       });
   },
+
 
   createVacancy({ commit }, payload) { // done
     if (!offline.data().isOnline) {
@@ -223,6 +224,7 @@ const actions = {
 
   },
 
+
   updateVacancy({ commit, dispatch }, payload) {
     Loading.show()
     commit("SET_VACANCY_CHANGE", false)
@@ -258,31 +260,57 @@ const actions = {
   },
 
 
-
   listVacancy({ commit }) { // done
     var storageRef = fireStorage.ref()
-    if (offline.data().isOnline) {
-      const ref = firestoreDb.collection('vacancies')
-      var vacancies = []
-      ref.onSnapshot((querySnapshot) => {
-        vacancies = []
-        querySnapshot.forEach((doc) => {
+    if (!offline.data().isOnline) {
+      return alert("Sem internet")
+    }
+    const ref = firestoreDb.collection('vacancies')
+    var vacancies = []
+
+    ref.where("public", "==", true)
+      .get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
           vacancies.push({
             key: doc.id,
             title: doc.data().title,
             user: doc.data().user,
             description: doc.data().description,
             img: doc.data().img,
-            public: doc.data().public
+            public: doc.data().public,
+            place: doc.data().place,
+            category: doc.data().category
           })
-        })
-        console.log("Nelzio vacancies")
-        commit('SET_VACANCIES', vacancies)
-        console.log(vacancies)
-      })
-    } else {
-      alert("Sem internet")
+          commit('SET_VACANCIES', vacancies)
+        });
+      });
+  },
+
+
+  listVacancyMy({ commit }, user) { // done
+    var storageRef = fireStorage.ref()
+    if (!offline.data().isOnline) {
+      return alert("Sem internet")
     }
+    const ref = firestoreDb.collection('vacancies')
+    var vacancies = []
+    ref.where("user", "==", user)
+      .get().then(function (querySnapshot) {
+        // vacancies = []
+        querySnapshot.forEach(function (doc) {
+          vacancies.push({
+            key: doc.id,
+            title: doc.data().title,
+            user: doc.data().user,
+            description: doc.data().description,
+            img: doc.data().img,
+            public: doc.data().public,
+            place: doc.data().place,
+            category: doc.data().category
+          })
+        });
+        commit('SET_VACANCIES', vacancies)
+      });
   },
 
   detailVacancy({ commit }, id) { // test
@@ -319,7 +347,6 @@ const actions = {
   },
 
 
-
   deleteVacancy({ commit }, id) {
     Loading.show()
     commit("SET_VACANCY_DELETED", false)
@@ -345,8 +372,7 @@ const actions = {
       Loading.hide()
       alert("Error removing document: ", error);
     });
-  }
-
+  },
 }
 
 export default {

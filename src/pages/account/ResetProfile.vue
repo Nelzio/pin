@@ -9,54 +9,82 @@
           Entrar ou se Inscrever
       </div>-->
       <div class="q-pa-lg col-md-4 col-12">
-        <q-form ref="loginForm" @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
-              <q-input
-                rounded
-                outlined
-                :color="darkModeConf.color"
-                v-model="userEdit.telephone"
-                label="Telefone"
-                icon="phone"
-                placeholeder="800000000"
-                mask="#########"
-                lazy-rules :rules="[ val => val && val.length > 0 && val.length == 9 || 'Introduza o seu numero de telefone']" />
-              <q-input
-                rounded
-                outlined
-                :color="darkModeConf.color"
-                v-model="userEdit.adress"
-                label="Endereço"
-                icon="place"
-                placeholeder="Cidade de xai-xai, bairro exemplo"
-                lazy-rules :rules="[ val => val && val.length > 0 || 'Introduza o seu bairro']" />
-              <q-input
-                rounded
-                outlined
-                :color="darkModeConf.color"
-                v-model="userEdit.profission"
-                label="Profissão"
-                placeholeder="Canalizador"
-                lazy-rules :rules="[ val => val && val.length > 0 || 'Introduza a sua profissão']" />
-              <q-input
-                rounded
-                outlined
-                :color="darkModeConf.color"
-                v-model="userEdit.education"
-                label="Educação"
-                placeholeder="Licenciatura em Gestão, curso de informática"
-                lazy-rules :rules="[ val => val && val.length > 0 || 'Introduza a sua formação']" />
+        <q-form
+          ref="loginForm"
+          @submit.prevent.stop="onSubmit"
+          @reset.prevent.stop="onReset"
+          class="q-gutter-md"
+        >
+          <q-input
+            rounded
+            outlined
+            :color="darkModeConf.color"
+            v-model="userEdit.telephone"
+            label="Telefone"
+            icon="phone"
+            placeholeder="800000000"
+            mask="#########"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 && val.length == 9 || 'Introduza o seu numero de telefone']"
+          />
+          <q-input
+            rounded
+            outlined
+            :color="darkModeConf.color"
+            v-model="userEdit.adress"
+            label="Endereço"
+            icon="place"
+            placeholeder="Cidade de xai-xai, bairro exemplo"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Introduza o seu bairro']"
+          />
+          <q-input :color="darkModeConf.color" rounded outlined v-model="userEdit.date" mask="##/##/####" :rules="[ val => val && val.length > 0 || 'Introduza a sua data de nascimento']">
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date :color="darkModeConf.color" v-model="userEdit.date" @input="() => $refs.qDateProxy.hide()" mask="DD/MM/YYYY" />
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+          <q-input
+            rounded
+            outlined
+            :color="darkModeConf.color"
+            v-model="userEdit.profission"
+            label="Profissão"
+            placeholeder="Canalizador"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Introduza a sua profissão']"
+          />
+          <q-input
+            rounded
+            outlined
+            :color="darkModeConf.color"
+            v-model="userEdit.education"
+            label="Educação"
+            placeholeder="Licenciatura em Gestão, curso de informática"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Introduza a sua formação']"
+          />
           <div class="q-gutter-y-md">
-            <q-btn rounded label="Enviar" type="login" :color="darkModeConf.color" :class="darkModeConf.textBtn" class="full-width" />
+            <q-btn
+              rounded
+              label="Enviar"
+              type="login"
+              :color="darkModeConf.color"
+              :class="darkModeConf.textBtn"
+              class="full-width"
+            />
           </div>
         </q-form>
-        
       </div>
     </div>
   </q-page>
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex"
+import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   name: "RegisterFormComponent",
   data() {
@@ -72,26 +100,27 @@ export default {
         adress: "",
         profission: "",
         education: "",
+        date: "01/01/2000"
       },
       isPwd: true
     };
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapGetters('auth', [
-        'user', 'userData'])
+    ...mapGetters("auth", ["user", "userData"])
   },
 
   methods: {
     ...mapActions("auth", ["editUser", "detailUser"]),
 
-    getUser () {
+    getUser() {
       // first get user
       this.detailUser(this.user.email).then(() => {
-        this.userEdit.telephone = this.userData.telephone
-        this.userEdit.adress = this.userData.adress
-        this.userEdit.profission = this.userData.profission
-        this.userEdit.education = this.userData.education
+        this.userEdit.telephone = this.userData.telephone;
+        this.userEdit.adress = this.userData.adress;
+        this.userEdit.profission = this.userData.profission;
+        this.userEdit.education = this.userData.education;
+        this.userEdit.date = this.userData.date;
       });
     },
 
@@ -101,39 +130,38 @@ export default {
     },
 
     onReset() {
-      this.userEdit.telephone = null
-      this.userEdit.adress = null
-      this.userEdit.profission = null
-      this.userEdit.education = null
+      this.userEdit.telephone = null;
+      this.userEdit.adress = null;
+      this.userEdit.profission = null;
+      this.userEdit.education = null;
 
-      this.$refs.loginForm.resetValidation()
+      this.$refs.loginForm.resetValidation();
     },
     onSubmit() {
-      this.$refs.loginForm.validate()
+      this.$refs.loginForm.validate();
       if (this.$refs.loginForm.hasError) {
-        this.formHasError = true
-      }
-      else {
-        this.editUser({id: this.user.email, data: this.userEdit})
+        this.formHasError = true;
+      } else {
+        this.editUser({ id: this.user.email, data: this.userEdit });
       }
     },
-    accountSwipe (val) {
-        if (val.direction === 'right') {
-          this.$router.push('/account')
-        }
-
-        // if (val.direction === 'left') {
-        //   this.$router.push('/account/reset')
-        // }
-
-        if (val.direction === 'down') {
-          this.$router.push('/')
-        }
+    accountSwipe(val) {
+      if (val.direction === "right") {
+        this.$router.push("/account");
       }
+
+      // if (val.direction === 'left') {
+      //   this.$router.push('/account/reset')
+      // }
+
+      if (val.direction === "down") {
+        this.$router.push("/");
+      }
+    }
   },
 
-  mounted () {
-    this.getUser()
+  mounted() {
+    this.getUser();
   },
 
   filters: {

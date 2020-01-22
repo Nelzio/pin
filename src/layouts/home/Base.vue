@@ -13,6 +13,15 @@
           aria-label="Menu"
         />
         <q-btn
+          @click="drowerFilter = !drowerFilter"
+          v-if="$route.path == '/vacancies'"
+          flat
+          dense
+          round
+          icon="filter_list"
+          aria-label="Menu"
+        />
+        <q-btn
           flat
           dense
           round
@@ -65,10 +74,10 @@
       </q-toolbar>
       <!-- rounded-borders -->
       <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" v-if="toSearch">
-        <q-input :color="darkModeConf.color" dense outlined rounded v-model="search" input-class="text-right" class="full-width" placeholder="Pesquisar">
+        <q-input :color="darkModeConf.color" dense outlined rounded v-model="valueSearch" input-class="text-right" class="full-width" placeholder="Pesquisar">
           <template v-slot:append>
-            <q-icon v-if="search === ''" name="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
+            <q-icon v-if="valueSearch === ''" name="search" />
+            <q-icon v-else name="clear" class="cursor-pointer" @click="valueSearch = ''" />
           </template>
         </q-input>
       </q-toolbar>
@@ -79,21 +88,20 @@
       :class="[darkModeConf.bgColor, darkModeConf.textColor]"
       v-if="!$q.screen.gt.sm && !backIcon"
     >
-      <q-tabs :active-color="darkModeConf.color" indicator-color="transparent" class="text-grey">
+      <q-tabs :active-color="darkModeConf.color" align="justify" indicator-color="transparent" class="text-grey">
         <q-route-tab name="home" icon="home" to="/" />
-        <q-route-tab name="trabalho" icon="work" to="/work" />
+        <q-route-tab name="trabalho" icon="work" to="/vacancies" />
         <q-route-tab name="store" icon="storefront" to="/store" />
-        <q-route-tab name="profile" icon="settings" to="/settings" />
+        <q-route-tab name="settings" icon="settings" to="/settings" />
         <!--<q-route-tab name="profile" icon="person" to="/profile" />-->
       </q-tabs>
     </q-footer>
 
     <!-- (Optional) A Drawer you can add one more with side="right" or change this one's side -->
-    <q-drawer v-model="leftDrawerOpen" bordered behavior="mobile" @click="leftDrawerOpen = false">
+    <!-- <q-drawer v-model="leftDrawerOpen" bordered behavior="mobile" @click="leftDrawerOpen = false">
       <q-scroll-area class="fit">
         <q-toolbar class="GPL__toolbar">
           <q-toolbar-title class="row items-center text-grey-8">
-            <!-- <img class="q-pl-md" src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg"> -->
             <span class="q-ml-sm">Superativo Negocio</span>
           </q-toolbar-title>
         </q-toolbar>
@@ -115,11 +123,61 @@
           </q-item>
         </q-list>
       </q-scroll-area>
+    </q-drawer> -->
+
+    <q-drawer v-model="drowerFilter" bordered behavior="mobile" @click="drowerFilter = false">
+      <q-scroll-area class="fit">
+        <q-toolbar class="GPL__toolbar">
+          <q-toolbar-title class="row items-center text-grey-8">
+            <span class="q-ml-sm">Filtrar vagas</span>
+          </q-toolbar-title>
+        </q-toolbar>
+
+        <q-list padding>
+          <q-item
+            clickable v-ripple
+            @click="filterVal = '', drowerFilter = false"
+          >
+          <q-item-section avatar>
+            <q-icon name="list" />
+          </q-item-section>
+            
+            <q-item-section>
+              <q-item-label :class="darkModeConf.textColor">Todas vagas</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-expansion-item expand-separator icon="group_work" label="Categorias">
+          <q-item
+            clickable v-ripple
+            v-for="(item, idx) in categories" :key="idx"
+            @click="filterVal = item, drowerFilter = false"
+          >
+            <q-item-section>
+              <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          </q-expansion-item>
+          <q-expansion-item expand-separator icon="place" label="Provincias">
+          <q-item
+            clickable v-ripple
+            v-for="(item, idx) in places" :key="idx"
+            @click="filterVal = item, drowerFilter = false"
+          >
+            <q-item-section>
+              <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          </q-expansion-item>
+          
+          
+        </q-list>
+      </q-scroll-area>
     </q-drawer>
 
     <q-page-container class="GPL__page-container">
       <!-- This is where pages get injected -->
-      <router-view />
+      <router-view v-if="toSearch" :val_search="valueSearch" :filterVal="filterVal" />
+      <router-view v-else />
 
       <q-page-sticky v-if="$q.screen.gt.sm" expand position="left">
         <div class="fit q-pt-xl q-px-sm column">
@@ -136,7 +194,7 @@
             no-caps
             size="26px"
             class="GPL__side-btn"
-            to="/work"
+            to="/vacancies"
           >
             <q-icon size="22px" name="work" />
             <div class="GPL__side-btn__label">Vagas</div>
@@ -185,8 +243,10 @@ export default {
   data() {
     return {
       textColor: "text-black",
-      search: "",
+      valueSearch: "",
+      filterVal: "",
       leftDrawer: false,
+      drowerFilter: false,
       leftDrawerOpen: false,
       toSearch: false,
       backIcon: false,
@@ -197,6 +257,49 @@ export default {
         { icon: "work", text: "Vagas", to: "/company/vacancies" },
         { icon: "group", text: "Candidatos", to: "/company/employees" },
         { icon: "mic", text: "Entrevistas", to: "/company/interviews" }
+      ],
+      places: [
+        "Cabo Delgado",
+        "Gaza",
+        "Inhambane",
+        "Manica",
+        "Maputo",
+        "Matola",
+        "Nampula",
+        "Niassa",
+        "Sofala",
+        "Tete",
+        "Zambézia"
+      ],
+      categories: [
+        "Administração e Secretariado",
+        "Agricultura e Pescas",
+        "Aquisições e Procurement",
+        "Assistente",
+        "Auditoria e Consultoria",
+        "Comercial e Vendas",
+        "Comunicação Social",
+        "Design e Multimédia",
+        "Engenheiro Electrotécnico",
+        "Engenheiro Mecânico",
+        "Estágios e Bolsas",
+        "Finanças e Contabilidade",
+        "Gastronomia",
+        "Gestão de Dados",
+        "Gestão de Projectos",
+        "Gestão e Programação",
+        "Gestão Financeira",
+        "Informática e Programação",
+        "Monitoria e Avaliação",
+        "Oficial Técnico",
+        "Operador",
+        "Recursos Humanos",
+        "Relações Públicas",
+        "Saúde",
+        "Supervisão e Coordenação",
+        "Técnico",
+        "Transportes e Logística",
+        "Vendas"
       ]
     }
   },
@@ -210,8 +313,8 @@ export default {
     backIconFunc (to) {
       // active/ deactivate icon
       this.backIcon = false
-      if (to.path !== "/" && to.path !== "/work" && to.path !== "/store" && to.path !== "/settings") this.backIcon = true
-    }
+      if (to.path !== "/" && to.path !== "/vacancies" && to.path !== "/store" && to.path !== "/settings") this.backIcon = true
+    },
     
   },
   mounted() {
@@ -223,14 +326,14 @@ export default {
 
     this.backIconFunc(this.$route)
 
-    if (this.$route.path == "/store" || this.$route.path == "/work") this.toSearch = true
+    if (this.$route.path == "/store" || this.$route.path == "/vacancies") this.toSearch = true
 
   },
   watch: {
     $route(to, from) {
       // react to route changes...
       this.toSearch = false
-      if (this.$route.path == "/store" || this.$route.path == "/work") this.toSearch = true
+      if (this.$route.path == "/store" || this.$route.path == "/vacancies") this.toSearch = true
       this.backIconFunc(to)
     },
     appMode (val) {
