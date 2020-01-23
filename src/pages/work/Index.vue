@@ -15,6 +15,33 @@
       </div>
     </div>
 
+    <div v-if="!vacancies.length" class="row justify-center">
+      <div class="col-12 col-md-8 q-pa-md" v-for="i in 6" :key="i">
+        <q-card>
+          <q-item>
+            <q-item-section avatar>
+              <q-skeleton type="QAvatar" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>
+                <q-skeleton type="text" />
+              </q-item-label>
+              <q-item-label caption>
+                <q-skeleton type="text" />
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-skeleton height="500px" square />
+
+          <q-card-actions align="right" class="q-gutter-md">
+            <q-skeleton type="QBtn" />
+          </q-card-actions>
+        </q-card>
+      </div>
+    </div>
+
     <!-- <div v-else>
       <q-list>
         <q-card class="my-card" v-for="(vacancy, i) in vacancies" :key="i">
