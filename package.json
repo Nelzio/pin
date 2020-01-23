@@ -1,11 +1,11 @@
 {
-  "name": "Superactive",
+  "name": "superactive",
   "version": "0.0.1",
-  "description": "Superactive",
+  "description": "App de inclusão no mercado de oportunidades",
   "productName": "Superactive",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
-  "author": "Jose Seie <joseeugenioseie@hotmail.com>",
+  "author": "Nélzio Sitoe <nelziositoe@gmail.com>",
   "private": true,
   "scripts": {
     "test": "echo \"No test specified\" && exit 0"
@@ -15,7 +15,7 @@
     "animate.css": "^3.7.2",
     "axios": "^0.18.1",
     "firebase": "^7.3.0",
-    "quasar": "^1.0.0",
+    "quasar": "^1.8.0",
     "v-offline": "^1.1.0",
     "vue-pdf": "^4.0.7"
   },

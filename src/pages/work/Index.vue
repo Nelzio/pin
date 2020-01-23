@@ -3,13 +3,13 @@
     <!-- content -->
     <div class="q-pb-xl">
       
-      <div v-if="!val_search && !filterVal" class="row q-gutter-y-md">
-        <div class="col-12 col-md-4" :class="padding" v-for="vacancy in vacancies" :key="vacancy.key">
+      <div v-if="!val_search && !filterVal" class="row q-gutter-y-md justify-center">
+        <div class="col-12 col-md-8" :class="padding" v-for="vacancy in vacancies" :key="vacancy.key">
           <vacancy-desktop-component :lorem="lorem" :vacancy="vacancy" />
         </div>
       </div>
-      <div v-else class="row q-gutter-y-md">
-        <div class="col-12 col-md-4" :class="padding" v-for="vacancy in data_var" :key="vacancy.key">
+      <div v-else class="row q-gutter-y-md justify-center">
+        <div class="col-12 col-md-8" :class="padding" v-for="vacancy in data_var" :key="vacancy.key">
           <vacancy-desktop-component :lorem="lorem" :vacancy="vacancy" />
         </div>
       </div>
@@ -23,29 +23,6 @@
         
       </q-list>
     </div>-->
-
-    <div>
-      <q-dialog v-model="addVacancy" :maximized="maximizedToggle">
-        <q-card>
-          <q-card-section class="row items-center">
-            <div class="text-h6">Adicionar Vaga</div>
-            <q-space />
-            <q-btn icon="close" flat round dense v-close-popup />
-          </q-card-section>
-
-          <q-card-section>
-            <q-form class="q-gutter-md">
-              <q-input :color="darkModeConf.color" rounded outlined v-model="text" label="Nome" />
-              <q-editor :color="darkModeConf.color" v-model="description" min-height="8rem" />
-            </q-form>
-          </q-card-section>
-
-          <q-card-actions align="right">
-            <q-btn rounded :color="darkModeConf.color" :class="darkModeConf.textBtn" class="full-width" label="Enviar" v-close-popup />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
-    </div>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn
@@ -92,6 +69,7 @@ export default {
   methods: {
     // ...mapActions("settings", ["setSettings", "playSound", "vibrate"]),
     ...mapActions("vacancy", ["listVacancy", "createVacancy"]),
+    ...mapActions("user", ["detailUser"]),
 
     handleSwipe(val) {
       if (val.direction === "left") {
@@ -135,7 +113,6 @@ export default {
         }
       }
       this.data_var = items.slice(0, 2)
-      console.log(this.data_var)
       }
       else{
         this.data_var = []

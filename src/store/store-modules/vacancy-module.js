@@ -12,7 +12,9 @@ const state = {
     user: "",
     description: "",
     img: "",
-    public: false
+    public: false,
+    place: "",
+    category: "",
   },
   vacancyUploaded: false,
   vacancyDetail: false,
@@ -208,8 +210,6 @@ const actions = {
                 });
             });
           });
-        console.log(docRef)
-        Loading.hide()
       }
     })
       .catch((error) => {
@@ -266,12 +266,12 @@ const actions = {
       return alert("Sem internet")
     }
     const ref = firestoreDb.collection('vacancies')
-    var vacancies = []
+    var vacanciesData = []
 
     ref.where("public", "==", true)
       .get().then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
-          vacancies.push({
+          vacanciesData.push({
             key: doc.id,
             title: doc.data().title,
             user: doc.data().user,
@@ -281,8 +281,8 @@ const actions = {
             place: doc.data().place,
             category: doc.data().category
           })
-          commit('SET_VACANCIES', vacancies)
         });
+        commit('SET_VACANCIES', vacanciesData)
       });
   },
 
@@ -322,7 +322,9 @@ const actions = {
       user: "",
       description: "",
       img: "",
-      public: false
+      public: false,
+      palce: "",
+      category: "",
     }
     commit('SET_VACANCY', data)
     commit('SET_VACANCY_DTL_CHANGE', false)
@@ -334,7 +336,9 @@ const actions = {
           user: doc.data().user,
           description: doc.data().description,
           img: doc.data().img,
-          public: doc.data().public
+          public: doc.data().public,
+          place: doc.data().place,
+          category: doc.data().category,
         }
         commit('SET_VACANCY', data)
         commit('SET_VACANCY_DTL_CHANGE', true)

@@ -1,35 +1,46 @@
 <template>
   <q-page padding>
     <!-- content -->
-    <div class="q-gutter-y-md">
-      <div>
-        <q-card class="my-card col-12" style="padding: 0;">
-          <!-- <q-video style="padding: 0;height: 300px" src="https://www.youtube.com/embed/Raa0vBXA8OQ" /> -->
-          <q-img :src="getVacancy.img" spinner-color="white" style="min-height: 200px;" />
-          <q-card-section>
-            <div class="text-h5">{{ getVacancy.title }}</div>
-          </q-card-section>
-          <q-card-section class="row">
-            <div class="col text-center">
-              <q-icon name="arrow_forward_ios" />
-            </div>
-            <div class="col-11 text-body1">{{ getVacancy.description }}</div>
-          </q-card-section>
-        </q-card>
-      </div>
+    <div class="row justify-center">
+      <div class="q-gutter-y-md col-12 col-md-8">
+        <div>
+          <q-card class="my-card col-12" style="padding: 0;">
+            <!-- <q-video style="padding: 0;height: 300px" src="https://www.youtube.com/embed/Raa0vBXA8OQ" /> -->
+            <q-img :src="getVacancy.img" spinner-color="white" style="min-height: 200px;" />
+            <q-card-section>
+              <div class="text-h5">{{ getVacancy.title }}</div>
+            </q-card-section>
+            <q-card-section class="row q-pt-none">
+              <div class="col text-center">
+                <q-icon name="place" size="lg" />
+              </div>
+              <div class="col-10 text-body1">{{ getVacancy.place }}</div>
+            </q-card-section>
+            <q-card-section class="row q-pt-none">
+              <div class="col text-center">
+                <q-icon name="filter_list" size="lg" />
+              </div>
+              <div class="col-10 text-body1">{{ getVacancy.category }}</div>
+            </q-card-section>
+            <q-card-section class="row q-pt-none">
+              <div class="col-12 text-body1">{{ getVacancy.description }}</div>
+            </q-card-section>
+          </q-card>
+        </div>
 
-      <div class="row justify-end q-gutter-x-md">
-        <q-btn
-          v-if="!vacancyDone"
-          rounded
-          :color="darkModeConf.color"
-          :class="darkModeConf.textBtn"
-          label="Candidatar-se"
-          icon="done_all"
-          @click="apply = true"
-        />
-        <q-btn v-else rounded color="red" label="Cancelar" icon="close" @click="apply = true" />
-        <!-- <q-btn round outline color="teal" icon="share" /> -->
+        <div class="row justify-end q-gutter-x-md">
+          <q-btn
+            v-if="!vacancyDone"
+            rounded
+            :color="darkModeConf.color"
+            :class="darkModeConf.textBtn"
+            label="Candidatar-se"
+            icon="done_all"
+            @click="apply = true"
+          />
+          <q-btn v-else rounded color="red" label="Cancelar" icon="close" @click="apply = true" />
+          <!-- <q-btn round outline color="teal" icon="share" /> -->
+        </div>
       </div>
     </div>
 

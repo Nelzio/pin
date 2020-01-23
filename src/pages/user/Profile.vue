@@ -117,6 +117,42 @@
         </div>
         <q-separator />
       </div>
+
+    </div>
+    <!-- sec 6 -->
+    <div v-if="vacancies.length" class="row justify-center">
+      <div class="col-12 col-md-8">
+        <q-toolbar class="shadow-1" :class="darkModeConf.bgColor">
+          <q-toolbar-title>Vagas de emprego</q-toolbar-title>
+        </q-toolbar>
+
+        <div class="row">
+          <div class="col-12 col-md-6 q-pa-sm" v-for="vacancy in vacancies" :key="vacancy.key">
+            <q-card class="my-card">
+              <q-img
+                v-if="vacancy.img"
+                :src="vacancy.img"
+                spinner-color="white"
+                style="min-height: 200px;"
+              />
+              
+              <q-card-section class="q-pb-none">
+                <div class="text-h5">{{ vacancy.title }}</div>
+              </q-card-section>
+
+              <q-card-section class="q-pt-none q-pb-none">{{ vacancy.description }}</q-card-section>
+              <q-card-actions align="right">
+                <q-btn
+                  outline
+                  rounded
+                  label="Detalhes"
+                  :to="'/vacancies/details/'+vacancy.key"
+                />
+              </q-card-actions>
+            </q-card>
+          </div>
+        </div>
+      </div>
     </div>
   </q-page>
 </template>
@@ -124,11 +160,13 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { firestoreDb } from "boot/firebase";
+import offline from 'v-offline'
 export default {
   // name: 'PageName',
   data() {
     return {
-      tab: "bio"
+      tab: "bio",
+      vacancies: [],
     };
   },
   computed: {
@@ -136,24 +174,37 @@ export default {
     ...mapGetters("user", ["getUser"])
   },
   methods: {
-      ...mapActions("user", ["detailUser"])
-    // getUserProfile(email) {
-    //   firestoreDb
-    //     .collection("users")
-    //     .where("email", "==", email)
-    //     .get()
-    //     .then(function(querySnapshot) {
-    //       querySnapshot.forEach(function(doc) {
-    //         // doc.data() is never undefined for query doc snapshots
-    //         console.log(doc.id, " => ", doc.data());
-    //       });
-    //     })
-    //     .catch(function(error) {
-    //       console.log("Error getting documents: ", error);
-    //     });
-    // }
+    ...mapActions("user", ["detailUser"]),
+
+    listVacancy(user) { // done
+    if (!offline.data().isOnline) {
+      return alert("Sem internet")
+    }
+    const ref = firestoreDb.collection('vacancies')
+    var vacancies = []
+    const vm = this
+    ref.where("user", "==", user).where("public", "==", true)
+      .get().then(function (querySnapshot) {
+        // vacancies = []
+        querySnapshot.forEach(function (doc) {
+          vacancies.push({
+            key: doc.id,
+            title: doc.data().title,
+            user: doc.data().user,
+            description: doc.data().description,
+            img: doc.data().img,
+            public: doc.data().public,
+            place: doc.data().place,
+            category: doc.data().category
+          })
+        });
+        vm.vacancies = vacancies
+      });
+  },
   },
   created() {},
-  mounted() {}
+  mounted() {
+    this.listVacancy(this.$route.params.idUser)
+  }
 };
 </script>

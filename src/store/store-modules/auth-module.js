@@ -59,6 +59,7 @@ const actions = {
     googleSingIn({ commit }) {
         Loading.show()
         const provider = new firebase.auth.GoogleAuthProvider()
+        const ref = firestoreDb.collection('users').doc(payload.id) // email is the key
         firebase.auth().signInWithPopup(provider).then((result) => {
             //   this.user = result.user
             const userData = {
@@ -70,12 +71,34 @@ const actions = {
                 refreshToken: result.user.refreshToken,
                 uid: result.user.uid
             }
-            console.log(userData)
+
             commit('AUTH_USER', userData)
             commit('SET_AUTH_USER', true)
             Notify.create('Sessão iniciada com sucesso!')
-            this.$router.go(-1)
-            Loading.hide()
+            // this.$router.go(-1)
+            // Loading.hide()
+
+            const dataUser = {
+                displayName: result.user.displayName,
+                email: result.user.email,
+                photoURL: result.user.photoURL,
+                telephone: "",
+                adress: "",
+                profission: "",
+                education: "",
+                date: ""
+            }
+
+            ref.set(dataUser).then((docRef) => {
+                console.log("Updated")
+                this.$router.go(-1)
+                Loading.hide()
+            })
+                .catch((error) => {
+                    Loading.hide()
+                    alert("Error adding document: ", error)
+                })
+
         }).catch(err => {
             console.log(err)
             Loading.hide()
@@ -105,6 +128,9 @@ const actions = {
             if (doc.exists) {
                 data = {
                     id: doc.id,
+                    displayName: doc.data().displayName,
+                    email: doc.data().email,
+                    photoURL: doc.data().photoURL,
                     telephone: doc.data().telephone,
                     adress: doc.data().adress,
                     profission: doc.data().profission,
@@ -116,11 +142,14 @@ const actions = {
                 // If user desen't exist
                 data = {
                     id: null,
-                    telephone: "Não definido",
-                    adress: "Não definido",
-                    profission: "Não definido",
-                    education: "Não definido",
-                    date: "01/01/2000",
+                    displayName: "",
+                    email: "",
+                    photoURL: "",
+                    telephone: "",
+                    adress: "",
+                    profission: "",
+                    education: "",
+                    date: ""
                 }
                 commit('SET_USER_DATA', data)
             }
@@ -155,6 +184,7 @@ const actions = {
             } else {
                 commit('SET_AUTH_USER', false)
                 commit('AUTH_USER', null)
+                commit('SET_USER_DATA', null)
                 this.$router.push('/account')
             }
         })
@@ -173,6 +203,7 @@ const actions = {
             .then(() => {
                 commit('SET_AUTH_USER', false)
                 commit('AUTH_USER', null)
+                commit('SET_USER_DATA', null)
                 this.$router.push('/')
                 Loading.hide()
             })
@@ -203,9 +234,9 @@ const actions = {
                 alert("Error removing document: ", error);
             });
         }).catch(err => console.log(err))
-        
 
-        
+
+
     }
 
 }

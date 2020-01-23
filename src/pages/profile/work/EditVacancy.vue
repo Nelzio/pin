@@ -3,67 +3,69 @@
     <!-- content -->
     <!-- <input id="fileInput" type="file">
     <q-btn color="white" text-color="black" label="Standard" @click="proccessFile()" />-->
-    <div class="q-gutter-y-md">
-      <q-card class="my-card">
-        <img :src="imageUrl" alt />
-        <q-card-actions>
-          <q-btn
-            rounded
-            :color="darkModeConf.color"
-            :class="darkModeConf.textBtn"
-            class="full-width"
-            label="Trocar imagem"
-            @click="proccessFile()"
-          />
-        </q-card-actions>
-      </q-card>
+    <div class="row justify-center">
+      <div class="q-gutter-y-md col-12 col-md-8">
+        <q-card class="my-card">
+          <img :src="imageUrl" alt />
+          <q-card-actions>
+            <q-btn
+              rounded
+              :color="darkModeConf.color"
+              :class="darkModeConf.textBtn"
+              class="full-width"
+              label="Trocar imagem"
+              @click="proccessFile()"
+            />
+          </q-card-actions>
+        </q-card>
 
-      <q-form class="q-gutter-md">
-        <input
-          id="fileInput"
-          type="file"
-          hidden
-          ref="fileImg"
-          accept="image/*"
-          @change="onChangeImg"
-        />
-        <q-input
-          ref="titleInput"
-          :color="darkModeConf.color"
-          rounded
-          outlined
-          label="Titulo"
-          v-model="vacancyData.title"
-        />
-        <!-- <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
-        <q-select
-          rounded
-          outlined
-          :color="darkModeConf.color"
-          v-model="vacancyData.category"
-          :options="categories"
-          label="Categoria"
-        />
-        <q-select
-          rounded
-          outlined
-          :color="darkModeConf.color"
-          v-model="vacancyData.place"
-          :options="places"
-          label="Província"
-        />
-        <q-editor :color="darkModeConf.color" v-model="vacancyData.description" min-height="8rem" />
-        <div>
-          <q-btn
-            rounded
-            class="full-width"
-            :color="darkModeConf.color"
-            :class="darkModeConf.textBtn"
-            label="Enviar"
-            @click="updateVacancyThis()"
+        <q-form class="q-gutter-md">
+          <input
+            id="fileInput"
+            type="file"
+            hidden
+            ref="fileImg"
+            accept="image/*"
+            @change="onChangeImg"
           />
-        </div>
-      </q-form>
+          <q-input
+            ref="titleInput"
+            :color="darkModeConf.color"
+            rounded
+            outlined
+            label="Titulo"
+            v-model="vacancyData.title"
+          />
+          <!-- <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
+          <q-select
+            rounded
+            outlined
+            :color="darkModeConf.color"
+            v-model="vacancyData.category"
+            :options="categories"
+            label="Categoria"
+          />
+          <q-select
+            rounded
+            outlined
+            :color="darkModeConf.color"
+            v-model="vacancyData.place"
+            :options="places"
+            label="Província"
+          />
+          <q-editor :color="darkModeConf.color" v-model="vacancyData.description" min-height="8rem" />
+          <div>
+            <q-btn
+              rounded
+              class="full-width"
+              :color="darkModeConf.color"
+              :class="darkModeConf.textBtn"
+              label="Enviar"
+              @click="updateVacancyThis()"
+            />
+          </div>
+        </q-form>
+      </div>
     </div>
     <div>
       <q-dialog v-model="confirmInsert">

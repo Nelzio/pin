@@ -10,7 +10,7 @@
           @click="$router.go(-1)"
           v-if="backPage" />
         <q-toolbar-title class="text-center">
-          Superativo | Conta
+          Superactive | Conta
         </q-toolbar-title>
         <!-- <q-btn
           flat

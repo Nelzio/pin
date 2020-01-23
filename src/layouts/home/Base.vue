@@ -11,6 +11,17 @@
           round
           icon="arrow_back"
           aria-label="Menu"
+          size="lg"
+        />
+        <q-btn
+          to="/home"
+          v-if="$route.path == '/'"
+          flat
+          dense
+          round
+          icon="home"
+          aria-label="Home"
+          size="lg"
         />
         <q-btn
           @click="drowerFilter = !drowerFilter"
@@ -19,33 +30,33 @@
           dense
           round
           icon="filter_list"
-          aria-label="Menu"
-        />
-        <q-btn
-          flat
-          dense
-          round
-          @click="leftDrawerOpen = !leftDrawerOpen"
-          aria-label="Menu"
-          icon="menu"
-          class="q-mx-md"
-          v-if="$q.screen.gt.sm"
+          aria-label="DowrerFilter"
+          size="lg"
         />
 
-        <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap">Superativo</q-toolbar-title>
+        <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap"><img src="/statics/app-logo-128x128.png" style="height: 50px" alt=""> Superactive</q-toolbar-title>
         <q-toolbar-title
           shrink
           class="row items-center no-wrap"
           v-else
         >
         <img src="/statics/app-logo-128x128.png" style="height: 50px" alt="">
-        Superativo</q-toolbar-title>
+        Superactive</q-toolbar-title>
+
+        <q-space />
+
+        <q-input v-if="$q.screen.gt.sm && toSearch" :color="darkModeConf.color" outlined rounded v-model="valueSearch" input-class="text-right" placeholder="Pesquisar" style="width: 50%;">
+          <template v-slot:append>
+            <q-icon v-if="valueSearch === ''" name="search" />
+            <q-icon v-else name="clear" class="cursor-pointer" @click="valueSearch = ''" />
+          </template>
+        </q-input>
 
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap">
           <q-btn round dense flat icon="notifications">
-            <q-badge color="red" text-color="white" floating>2</q-badge>
+            <q-badge color="primary" text-color="white" floating>2</q-badge>
           </q-btn>
           <q-btn round flat>
             <q-avatar>
@@ -73,7 +84,7 @@
         </div>
       </q-toolbar>
       <!-- rounded-borders -->
-      <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" v-if="toSearch">
+      <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" v-if="toSearch && !$q.screen.gt.sm">
         <q-input :color="darkModeConf.color" dense outlined rounded v-model="valueSearch" input-class="text-right" class="full-width" placeholder="Pesquisar">
           <template v-slot:append>
             <q-icon v-if="valueSearch === ''" name="search" />
@@ -86,10 +97,10 @@
     <q-footer
       elevated
       :class="[darkModeConf.bgColor, darkModeConf.textColor]"
-      v-if="!$q.screen.gt.sm && !backIcon"
+      v-if="!$q.screen.gt.sm && !backIcon && $route.path !== '/'"
     >
       <q-tabs :active-color="darkModeConf.color" align="justify" indicator-color="transparent" class="text-grey">
-        <q-route-tab name="home" icon="home" to="/" />
+        <q-route-tab name="home" icon="home" to="/home" />
         <q-route-tab name="trabalho" icon="work" to="/vacancies" />
         <q-route-tab name="store" icon="storefront" to="/store" />
         <q-route-tab name="settings" icon="settings" to="/settings" />
@@ -102,7 +113,7 @@
       <q-scroll-area class="fit">
         <q-toolbar class="GPL__toolbar">
           <q-toolbar-title class="row items-center text-grey-8">
-            <span class="q-ml-sm">Superativo Negocio</span>
+            <span class="q-ml-sm">Superactive Negocio</span>
           </q-toolbar-title>
         </q-toolbar>
 
@@ -125,7 +136,7 @@
       </q-scroll-area>
     </q-drawer> -->
 
-    <q-drawer v-model="drowerFilter" bordered behavior="mobile" @click="drowerFilter = false">
+    <q-drawer v-if="$route.path == '/vacancies'" v-model="drowerFilter" bordered behavior="mobile" @click="drowerFilter = false">
       <q-scroll-area class="fit">
         <q-toolbar class="GPL__toolbar">
           <q-toolbar-title class="row items-center text-grey-8">
@@ -181,8 +192,8 @@
 
       <q-page-sticky v-if="$q.screen.gt.sm" expand position="left">
         <div class="fit q-pt-xl q-px-sm column">
-          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn" to="/">
-            <q-icon size="22px" name="home" />
+          <q-btn round flat color="grey-8" stack no-caps size="40px" class="GPL__side-btn" to="/">
+            <q-icon size="lg" name="home" />
             <div class="GPL__side-btn__label">Home</div>
           </q-btn>
 
@@ -192,11 +203,11 @@
             color="grey-8"
             stack
             no-caps
-            size="26px"
+            size="40px"
             class="GPL__side-btn"
             to="/vacancies"
           >
-            <q-icon size="22px" name="work" />
+            <q-icon size="lg" name="work" />
             <div class="GPL__side-btn__label">Vagas</div>
           </q-btn>
 
@@ -206,12 +217,12 @@
             color="grey-8"
             stack
             no-caps
-            size="26px"
+            size="40px"
             class="GPL__side-btn"
             to="/store"
           >
-            <q-icon size="22px" name="storefront" />
-            <div class="GPL__side-btn__label">Loja</div>
+            <q-icon size="lg" name="store" />
+            <div class="GPL__side-btn__label">Exposição</div>
             <!-- <q-badge floating color="red" text-color="white" style="top: 8px right: 16px">
               1
             </q-badge>-->
@@ -222,11 +233,11 @@
             color="grey-8"
             stack
             no-caps
-            size="26px"
+            size="40px"
             class="GPL__side-btn"
             to="/profile"
           >
-            <q-icon size="22px" name="person" />
+            <q-icon size="lg" name="person" />
             <div class="GPL__side-btn__label">Perfil</div>
           </q-btn>
         </div>
@@ -313,7 +324,7 @@ export default {
     backIconFunc (to) {
       // active/ deactivate icon
       this.backIcon = false
-      if (to.path !== "/" && to.path !== "/vacancies" && to.path !== "/store" && to.path !== "/settings") this.backIcon = true
+      if (to.path !== "/" && to.path !== "/vacancies" && to.path !== "/home" && to.path !== "/store" && to.path !== "/settings") this.backIcon = true
     },
     
   },
@@ -381,10 +392,10 @@ export default {
 
   &__side-btn
     &__label
-      font-size: 12px
+      font-size: 18px
       line-height: 24px
       letter-spacing: .01785714em
-      font-weight: 500
+      font-weight: 3000
 
   @media (min-width: 1024px)
     &__page-container

@@ -181,7 +181,7 @@ export default {
       // console.log(this.selected)
       this.gridCol = 'col-12'
       if(this.selected.length > 1){
-        this.gridCol = 'col-6'
+        this.gridCol = 'col-8'
       }
       this.selected.forEach(element => {
         this.totalVal += element.value

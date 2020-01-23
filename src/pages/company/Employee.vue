@@ -119,7 +119,7 @@
           :content-style="contentStyle"
           :content-active-style="contentActiveStyle"
           style="height: 80vh;"
-          class="col-7 q-mt-lg"
+          class="col-8 q-mt-lg"
         >
           <pdf src="statics/nelziocv.pdf" style="width:100%"></pdf>
       </q-scroll-area>

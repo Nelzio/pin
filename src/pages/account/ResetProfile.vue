@@ -8,7 +8,7 @@
       <!-- <div class="col-12">
           Entrar ou se Inscrever
       </div>-->
-      <div class="q-pa-lg col-md-4 col-12">
+      <div class="q-pa-lg col-md-8 col-12">
         <q-form
           ref="loginForm"
           @submit.prevent.stop="onSubmit"
@@ -142,6 +142,9 @@ export default {
       if (this.$refs.loginForm.hasError) {
         this.formHasError = true;
       } else {
+        this.userEdit.displayName = this.user.displayName
+        this.userEdit.email = this.user.email
+        this.userEdit.photoURL = this.user.photoURL
         this.editUser({ id: this.user.email, data: this.userEdit });
       }
     },

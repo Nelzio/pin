@@ -146,7 +146,7 @@
             <q-btn flat round dense icon="add" />
           </q-toolbar>
           <div class="row">
-            <div class="col-12 col-md-6 q-pa-sm" v-for="i in 4" :key="i">
+            <div class="col-12 col-md-8 q-pa-sm" v-for="i in 4" :key="i">
               <q-card class="my-card">
                 <q-img
                   src="https://cdn.awsli.com.br/600x1000/60/60876/produto/28035638/9e1cebfb32.jpg"
@@ -154,8 +154,8 @@
                 />
                 <q-card-section>
                   <div class="row">
-                    <div class="col-6">Chinelos de pneu.</div>
-                    <div class="col-6 text-right">800 mt</div>
+                    <div class="col-8">Chinelos de pneu.</div>
+                    <div class="col-8 text-right">800 mt</div>
                   </div>
                 </q-card-section>
                 <q-card-actions align="right">
@@ -181,7 +181,7 @@
             <q-btn flat round dense icon="add" />
           </q-toolbar>
           <div class="row">
-            <div class="col-12 col-md-6 q-pa-sm" v-for="i in 4" :key="i">
+            <div class="col-12 col-md-8 q-pa-sm" v-for="i in 4" :key="i">
               <q-card class="my-card">
                 <q-img
                   src="https://cdn.awsli.com.br/600x1000/60/60876/produto/28035638/9e1cebfb32.jpg"
@@ -319,6 +319,8 @@ export default {
         user: data.user,
         description: data.description,
         img: data.img,
+        place: data.place,
+        category: data.category,
         public: !data.public
       }
       this.updateVacancy({
@@ -345,7 +347,11 @@ export default {
     vacancyDeleted () {
       if(this.vacancyDeleted) {
         this.confirDeleteSuccess = true
+        this.listVacancyMy(this.user.email)
       }
+    },
+    vacancyUploaded () {
+      this.listVacancyMy(this.user.email)
     }
   }
 };
