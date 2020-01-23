@@ -7,7 +7,9 @@ module.exports = function (ctx) {
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
-      'axios'
+      'axios',
+      'addressbar-color',
+      'firebase',
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -17,7 +19,7 @@ module.exports = function (ctx) {
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
-      // 'ionicons-v4',
+      'ionicons-v4',
       // 'mdi-v4',
       // 'fontawesome-v5',
       // 'eva-icons',
@@ -42,12 +44,27 @@ module.exports = function (ctx) {
       //            (not treeshaking Quasar; biggest bundle size; convenient)
       all: 'auto',
 
-      components: [],
-      directives: [],
+      components: ['QSpace'],
+      directives: [
+          'TouchSwipe'
+      ],
 
       // Quasar plugins
-      plugins: []
+      plugins: [
+          'LocalStorage',
+          'AddressbarColor',
+          'Loading',
+          'Dialog',
+          'Notify',
+      ],
+      
+      config: {
+        loading: { /* Loading defaults */ }
+      }
     },
+
+    // embedding all animations
+    animations: 'all',
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: false,
@@ -71,7 +88,7 @@ module.exports = function (ctx) {
     devServer: {
       // https: true,
       // port: 8080,
-      open: true // opens browser window automatically
+      open: false // opens browser window automatically
     },
 
     // animations: 'all', // --- includes all animations
@@ -88,9 +105,9 @@ module.exports = function (ctx) {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
       manifest: {
-        // name: 'App para ajuda aos deficientes',
-        // short_name: 'App para ajuda aos deficientes',
-        // description: 'App para ajuda aos deficientes',
+        // name: 'Superactive',
+        // short_name: 'Superactive',
+        // description: 'Superactive',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -156,7 +173,7 @@ module.exports = function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        // appId: 'hackathon-prep'
+        // appId: 'Superactive'
       }
     }
   }

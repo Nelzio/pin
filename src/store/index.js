@@ -2,6 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 // import example from './module-example'
+import settings from './store-modules/settings-module'
+import auth from './store-modules/auth-module'
+import vacancy from './store-modules/vacancy-module'
+import user from './store-modules/user-module'
 
 Vue.use(Vuex)
 
@@ -13,7 +17,10 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      // example
+        settings,
+        auth,
+        vacancy,
+        user
     },
 
     // enable strict mode (adds overhead!)

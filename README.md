@@ -24,3 +24,15 @@ Aplicação para deficientes
 - Listagem de deficientes e suas habilidades ou formação (deficintes);
 - Exposição de trabalhos ou listagem de artigos a venda (deficientes).
 
+# Importante
+
+No projecto estão descritas todas as actividades a serem feitar. Grande áreas e sub áreas.
+
+### Cada um em issues referenciando o project deve descrever as tarefas que tem dependencia para que o seu colega tome como prioridade.
+
+### (No progecto temos como membros:
+Bernardo Mungoi - Designer (Cria prototipo visual do app)
+Nélzio Sitoe - UI (Trabalha em questões de usuabilidade do app, implementa UI e trabalha na UX)
+José Seie - Backend (Trabalha nas funcionalidades do app)
+
+Caso um dos membros precisar de ajuda de outro, deverá informar em forma de issue e mencionar o membro que dele precisa de ajuda.
