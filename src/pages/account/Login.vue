@@ -1,5 +1,5 @@
 <template>
-  <q-page v-touch-swipe.mouse.right.up="accountSwipe">
+  <q-page v-touch-swipe.mouse.right.up="accountSwipe" class="flex flex-center">
     <!-- content -->
     <!-- <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
@@ -68,7 +68,7 @@
       </div>
     </div> -->
 
-    <div class="row justify-center q-pa-md" style="padding-top: 60%;">
+    <div class="row justify-center q-pa-md">
       <q-btn
         align="between"
         rounded

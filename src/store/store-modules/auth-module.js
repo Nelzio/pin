@@ -78,26 +78,43 @@ const actions = {
             // this.$router.go(-1)
             // Loading.hide()
 
-            const dataUser = {
-                displayName: result.user.displayName,
-                email: result.user.email,
-                photoURL: result.user.photoURL,
-                telephone: "",
-                adress: "",
-                profission: "",
-                education: "",
-                date: ""
-            }
-
-            ref.set(dataUser).then((docRef) => {
-                console.log("Updated")
-                this.$router.go(-1)
-                Loading.hide()
-            })
-                .catch((error) => {
+            ref.get().then((doc) => {
+                if (doc.exists) {
+                    this.$router.go(-1)
                     Loading.hide()
-                    alert("Error adding document: ", error)
-                })
+                } else {
+                    // If user desen't exist
+                    const dataUser = {
+                        displayName: result.user.displayName,
+                        email: result.user.email,
+                        photoURL: result.user.photoURL,
+                        telephone: "",
+                        adress: "",
+                        profission: "",
+                        education: "",
+                        date: ""
+                    }
+
+                    ref.set(dataUser).then((docRef) => {
+                        console.log("Updated")
+                        this.$router.go(-1)
+                        Loading.hide()
+                    })
+                        .catch((error) => {
+                            Loading.hide()
+                            alert("Error adding document: ", error)
+                        })
+                }
+            })
+
+
+
+
+
+
+
+
+
 
         }).catch(err => {
             console.log(err)
