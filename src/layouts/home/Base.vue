@@ -34,13 +34,19 @@
           size="lg"
         />
 
-        <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap"><img src="/statics/app-logo-128x128.png" style="height: 50px" alt=""> Superactive</q-toolbar-title>
+        <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap">
+           <q-btn flat round to="/">
+          
+          <img src="/statics/app-logo-128x128.png" style="height: 50px" alt="">
+           </q-btn> Superactive</q-toolbar-title>
         <q-toolbar-title
           shrink
           class="row items-center no-wrap"
           v-else
         >
-        <img src="/statics/app-logo-128x128.png" style="height: 50px" alt="">
+        <q-btn flat round to="/">
+          <img src="/statics/app-logo-128x128.png" style="height: 50px" alt="">
+        </q-btn>
         Superactive</q-toolbar-title>
 
         <q-space />
@@ -102,7 +108,7 @@
       <q-tabs :active-color="darkModeConf.color" align="justify" indicator-color="transparent" class="text-grey">
         <q-route-tab name="home" icon="home" to="/home" />
         <q-route-tab name="trabalho" icon="work" to="/vacancies" />
-        <q-route-tab name="store" icon="storefront" to="/store" />
+        <q-route-tab name="store" icon="store" to="/store" />
         <q-route-tab name="settings" icon="settings" to="/settings" />
         <!--<q-route-tab name="profile" icon="person" to="/profile" />-->
       </q-tabs>
@@ -168,7 +174,7 @@
             </q-item-section>
           </q-item>
           </q-expansion-item>
-          <q-expansion-item expand-separator icon="place" label="Provincias">
+          <q-expansion-item default-opened expand-separator icon="place" label="Provincias">
           <q-item
             clickable v-ripple
             v-for="(item, idx) in places" :key="idx"
@@ -192,7 +198,7 @@
 
       <q-page-sticky v-if="$q.screen.gt.sm" expand position="left">
         <div class="fit q-pt-xl q-px-sm column">
-          <q-btn round flat color="grey-8" stack no-caps size="40px" class="GPL__side-btn" to="/">
+          <q-btn round flat stack no-caps size="40px" class="GPL__side-btn" to="/">
             <q-icon size="lg" name="home" />
             <div class="GPL__side-btn__label">Home</div>
           </q-btn>
@@ -200,7 +206,6 @@
           <q-btn
             round
             flat
-            color="grey-8"
             stack
             no-caps
             size="40px"
@@ -214,7 +219,6 @@
           <q-btn
             round
             flat
-            color="grey-8"
             stack
             no-caps
             size="40px"
@@ -230,7 +234,6 @@
           <q-btn
             round
             flat
-            color="grey-8"
             stack
             no-caps
             size="40px"
@@ -239,6 +242,18 @@
           >
             <q-icon size="lg" name="person" />
             <div class="GPL__side-btn__label">Perfil</div>
+          </q-btn>
+          <q-btn
+            round
+            flat
+            stack
+            no-caps
+            size="40px"
+            class="GPL__side-btn"
+            to="/settings"
+          >
+            <q-icon size="lg" name="settings" />
+            <div class="GPL__side-btn__label">Definições</div>
           </q-btn>
         </div>
       </q-page-sticky>
@@ -344,8 +359,14 @@ export default {
     $route(to, from) {
       // react to route changes...
       this.toSearch = false
-      if (this.$route.path == "/store" || this.$route.path == "/vacancies") this.toSearch = true
+      if (this.$route.path == "/store" || this.$route.path == "/vacancies") {
+        this.toSearch = true
+        this.valueSearch = ''
+        this.filterVal = ''
+        
+        }
       this.backIconFunc(to)
+
     },
     appMode (val) {
       if(val) {

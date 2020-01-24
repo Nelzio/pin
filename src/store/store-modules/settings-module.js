@@ -39,6 +39,9 @@ const getters = {
 
     getSettings (state) {
         return state.settings
+    },
+    getMode (state) {
+        return state.appMode
     }
 
 }
@@ -119,16 +122,16 @@ const actions = {
 
     // ===== Audio options
     playSound ({}, audioPath) {
-        if(audioPath) {
-            var audio = new Audio(audioPath);
-            audio.play();
-        }
+        // if(audioPath) {
+        //     var audio = new Audio(audioPath);
+        //     audio.play();
+        // }
     },
 
     // ===== Vibration options
     vibrate ({}, audioPath = null) {
         console.log('Vibration triggered in: /store/modules/settings-module')
-        window.navigator.vibrate(200);
+        window.navigator.vibrate(100);
     },
 
 }

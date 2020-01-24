@@ -104,7 +104,7 @@ export default {
       }
 
       if (val.direction === "right") {
-        this.$router.push("/");
+        this.$router.push("/home");
       }
     },
     search(val) {

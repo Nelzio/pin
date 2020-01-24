@@ -7,52 +7,69 @@
 </template>
 
 <script>
-    import offline from 'v-offline';
-    import { mapState, mapActions } from 'vuex'
-    export default {
-        name: 'App',
-        components: {
-            offline
-        },
-        computed: {
-            ...mapState('settings', ['appMode'])
-        },
-        methods: {
-            ...mapActions ('settings', [
-                'setSettings', 'setIsConected', 'setAppMode'
-            ]),
-            ...mapActions ('auth', [
-                'checkAuthUser'
-            ]),
+import offline from "v-offline";
+import { mapState, mapActions } from "vuex";
+export default {
+  name: "App",
+  components: {
+    offline
+  },
+  data() {
+    return {
+      barCode: "#ffffff"
+    };
+  },
+  computed: {
+    ...mapState("settings", ["appMode", "darkModeConf"])
+  },
+  methods: {
+    ...mapActions("settings", ["setSettings", "setIsConected", "setAppMode"]),
+    ...mapActions("auth", ["checkAuthUser"]),
 
-            // ============= Generic PlayAudio
-            playSound (audioPath) {
-                if(audioPath) {
-                    var audio = new Audio(audioPath);
-                    audio.play();
-                }
-            },
-
-        },
-        created () {
-            // Verificando se o utilizador tem configurações no LocalStorage
-            let settings = this.$q.localStorage.getItem('stgs');
-            let appMode = this.$q.localStorage.getItem('appMode');
-
-            if (settings) { this.setSettings (settings) } //guardando as configurações do user no state (vuex)
-
-            if (appMode) { this.setAppMode (appMode) }
-
-            this.$q.addressbarColor.set(this.appMode.modeColor)
-
-            // this.checkAuthUser ()
-
-        },
-        mounted () {
-
-            this.$root.$on('playSound', (audioPath) => {
-                this.playSound (audioPath)
-            })
-        }
+    // ============= Generic PlayAudio
+    playSound(audioPath) {
+      if (audioPath) {
+        var audio = new Audio(audioPath);
+        audio.play();
+      }
     }
+  },
+  created() {
+    // Verificando se o utilizador tem configurações no LocalStorage
+    let settings = this.$q.localStorage.getItem("stgs");
+    let appMode = this.$q.localStorage.getItem("appMode");
+
+    if (this.darkModeConf.bgColor == "bg-white") {
+      this.barCode = "#ffffff";
+    } else {
+      this.barCode = "#000000";
+    }
+
+    if (settings) {
+      this.setSettings(settings);
+    } //guardando as configurações do user no state (vuex)
+
+    if (appMode) {
+      this.setAppMode(appMode);
+    }
+
+    this.$q.addressbarColor.set(this.barCode);
+
+    // this.checkAuthUser ()
+  },
+  mounted() {
+    // this.$root.$on("playSound", audioPath => {
+    //   this.playSound(audioPath);
+    // });
+  },
+  watch: {
+    darkModeConf() {
+      if (this.darkModeConf.bgColor == "bg-white") {
+        this.barCode = "#eeeeee";
+      } else {
+        this.barCode = "#000000";
+      }
+    }
+  }
+};
 </script>

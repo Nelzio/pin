@@ -1,202 +1,211 @@
 <template>
-    <div
-			class=""
-			v-touch-swipe.mouse="handleSwipe"
-    >
-    <q-list>
-			<q-expansion-item expand-separator icon="settings_applications" label="Definições do app">
-				<q-card>
-					<q-item>
-						<q-item-section avatar>
-							<q-icon name="highlight" />
-						</q-item-section>
+  <div class v-touch-swipe.mouse.left.right="handleSwipe">
+    <div class="row justify-center">
+      <div class="col-12 col-md-8">
+        <q-list>
+          <q-expansion-item
+            expand-separator
+            default-opened
+            icon="settings_applications"
+            label="Definições do app"
+          >
+            <q-card>
+              <q-item>
+                <q-item-section avatar>
+                  <q-icon name="highlight" />
+                </q-item-section>
 
-						<q-item-section>
-							<q-item-label class="text-h6">Modo claro</q-item-label>
-						</q-item-section>
+                <q-item-section>
+                  <q-item-label class="text-h6">Modo claro</q-item-label>
+                </q-item-section>
 
-						<q-item-section side>
-							<q-toggle
-								:color="darkModeConf.color"
-								v-model="mode"
-							/>
-						</q-item-section>
-					</q-item>
+                <q-item-section side>
+                  <q-toggle :color="darkModeConf.color" v-model="mode" />
+                </q-item-section>
+              </q-item>
 
-					<q-separator spaced inset="item" />
+              <q-separator spaced inset="item" />
 
-					<q-item>
-						<q-item-section avatar>
-							<q-icon name="volume_up" />
-						</q-item-section>
+              <q-item>
+                <q-item-section avatar>
+                  <q-icon name="volume_up" />
+                </q-item-section>
 
-						<q-item-section>
-							<q-item-label class="text-h6">Naração das telas</q-item-label>
-						</q-item-section>
+                <q-item-section>
+                  <q-item-label class="text-h6">Naração das telas</q-item-label>
+                </q-item-section>
 
-						<q-item-section side>
-							<q-toggle
-								:color="darkModeConf.color"
-								v-model="localSettings.isNarratorActive"
-							/>
-						</q-item-section>
-					</q-item>
+                <q-item-section side>
+                  <q-toggle :color="darkModeConf.color" v-model="localSettings.isNarratorActive" />
+                </q-item-section>
+              </q-item>
 
-					<q-separator spaced inset="item" />
+              <q-separator spaced inset="item" />
 
-					<q-item>
-						<q-item-section avatar>
-							<q-icon name="vibration" />
-						</q-item-section>
+              <q-item>
+                <q-item-section avatar>
+                  <q-icon name="vibration" />
+                </q-item-section>
 
-						<q-item-section>
-							<q-item-label class="text-h6">Vibrador</q-item-label>
-						</q-item-section>
+                <q-item-section>
+                  <q-item-label class="text-h6">Vibrador</q-item-label>
+                </q-item-section>
 
-						<q-item-section side>
-							<q-toggle
-								:color="darkModeConf.color"
-								v-model="localSettings.isVibrationActive"
-							/>
-						</q-item-section>
-					</q-item>
+                <q-item-section side>
+                  <q-toggle :color="darkModeConf.color" v-model="localSettings.isVibrationActive" />
+                </q-item-section>
+              </q-item>
 
-					<q-item>
-						<q-item-section avatar>
-							<q-icon name="format_size" />
-						</q-item-section>
+              <q-item>
+                <q-item-section avatar>
+                  <q-icon name="format_size" />
+                </q-item-section>
 
-						<q-item-section>
-							<!-- <q-item-label class="text-h6">Tamanho do texto</q-item-label> -->
-							<q-select v-model="fontSize" :options="fontText" label="Tamanho de texto" />
-						</q-item-section>
+                <q-item-section>
+                  <!-- <q-item-label class="text-h6">Tamanho do texto</q-item-label> -->
+                  <q-select v-model="fontSize" :options="fontText" label="Tamanho de texto" />
+                </q-item-section>
+              </q-item>
+            </q-card>
+          </q-expansion-item>
 
-					</q-item>
-				</q-card>
-			</q-expansion-item>
+          <q-expansion-item
+            expand-separator
+            default-opened
+            icon="perm_identity"
+            label="Definições de conta"
+            caption="John Doe"
+          >
+            <q-card>
+              <q-item clickable v-ripple to="/account/edit">
+                <q-item-section avatar>
+                  <q-icon name="edit" />
+                </q-item-section>
 
-			<q-expansion-item expand-separator icon="perm_identity" label="Definições de conta" caption="John Doe">
-				<q-card>
-					<q-item clickable v-ripple to="/account/edit">
-						<q-item-section avatar>
-							<q-icon name="edit" />
-						</q-item-section>
+                <q-item-section>
+                  <q-item-label class="text-h6">Editar conta</q-item-label>
+                </q-item-section>
+              </q-item>
 
-						<q-item-section>
-							<q-item-label class="text-h6">Editar conta</q-item-label>
-						</q-item-section>
-					</q-item>
+              <q-item clickable v-ripple @click="deletDialog = true">
+                <q-item-section avatar>
+                  <q-icon name="delete_forever" />
+                </q-item-section>
 
-					<q-item clickable v-ripple @click="deletDialog = true">
-						<q-item-section avatar>
-							<q-icon name="delete_forever" />
-						</q-item-section>
-
-						<q-item-section>
-							<q-item-label class="text-h6">Remover conta</q-item-label>
-						</q-item-section>
-					</q-item>
-				</q-card>
-			</q-expansion-item>
-		</q-list>
-
-		<div>
-			<q-dialog v-model="deletDialog">
-				<q-card class="text-red">
-					<q-card-section>
-						<div class="text-h6">Atençao</div>
-					</q-card-section>
-					<q-card-section>
-						Tem a certeza de que quer deletar a conta?
-					</q-card-section>
-					<q-card-actions align="right">
-						<q-btn rounded label="Deletar conta" color="red" @click="deleteUser(user.email)" />
-						<q-btn rounded outline label="Cancelar" color="grey" v-close-popup />
-					</q-card-actions>
-				</q-card>
-			</q-dialog>
-				
-			</div>
+                <q-item-section>
+                  <q-item-label class="text-h6">Remover conta</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card>
+          </q-expansion-item>
+        </q-list>
+      </div>
     </div>
+
+    <div>
+      <q-dialog v-model="deletDialog">
+        <q-card class="text-red">
+          <q-card-section>
+            <div class="text-h6">Atençao</div>
+          </q-card-section>
+          <q-card-section>Tem a certeza de que quer deletar a conta?</q-card-section>
+          <q-card-actions align="right">
+            <q-btn rounded label="Deletar conta" color="red" @click="deleteUser(user.email)" />
+            <q-btn rounded outline label="Cancelar" color="grey" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </div>
+  </div>
 </template>
 
 <script>
-    import { mapActions, mapState, mapGetters } from 'vuex'
-    export default {
-        name: "PageSettings",
-        data () {
-            
-            return {
-							mode: true,
-							deletDialog: false,
-                fontSize: '',
-                fontText: [
-                    'Pequeno', 'Medio', 'Grande',
-                ],
-                snap: {
-                    min: 2,
-                    max: 12
-                },
-                localSettings: {} //Veja a estrutura desse objecto no state do /store/store-modules/settings-module.js
-            }
-        },
-        computed: {
-            ...mapState('settings', [
-                'settings', 'appMode', 'darkModeConf'
-						]),
-						...mapGetters('auth', [
-        			'user', 'userData'])
+import { mapActions, mapState, mapGetters } from "vuex";
+export default {
+  name: "PageSettings",
+  data() {
+    return {
+      mode: true,
+      deletDialog: false,
+      fontSize: "",
+      fontText: ["Pequeno", "Medio", "Grande"],
+      snap: {
+        min: 2,
+        max: 12
+      },
+      localSettings: {} //Veja a estrutura desse objecto no state do /store/store-modules/settings-module.js
+    };
+  },
+  computed: {
+    ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
+    ...mapGetters("settings", ["getMode"]),
+    ...mapGetters("auth", ["user", "userData"])
 
-            // ...mapGetters('settings', [
-            //     'getSettings'
-            // ]),
-        },
-        mounted () {
-            this.$root.$emit('isHomePage', 'Preferências')
-						this.localSettings = this.settings //recuperando as configurações do state/store
-						
-						console.log(this.localSettings)
-						
-						this.darkMode()
+    // ...mapGetters('settings', [
+    //     'getSettings'
+    // ]),
+  },
+  mounted() {
+    this.$root.$emit("isHomePage", "Preferências");
+    this.localSettings = this.settings; //recuperando as configurações do state/store
 
-            // Vibração
-            if (this.settings.isVibrationActive) {
-                this.vibrate ()
-            }
-            // Play do áudio
-            if (this.settings.isNarratorActive) {
-                this.playSound('/statics/audios/configs.aac')
-            }
-        },
-        methods: {
-						...mapActions ('settings', ['setSettings', 'playSound', 'vibrate', 'setAppMode']),
-						...mapActions("auth", ["detailUser", "deleteUser"]),
+    console.log(this.localSettings);
 
-            handleSwipe (val) {
-                if (val.direction === 'right') {
-                    this.$router.push('/store')
-                }
-						},
-						darkMode () {
-							if (this.mode) {
-								this.setAppMode (1)
-							} else {
-								this.setAppMode (0)
-							}
-						}
-        },
-        watch: {
-            snap (val) {
-                console.log('Fonte: ', val)
-						},
-						
-						mode () {
-							this.darkMode ()
-						}
-        }
+    this.darkMode();
+
+    // Vibração
+    if (this.settings.isVibrationActive) {
+      this.vibrate();
     }
+    // Play do áudio
+    if (this.settings.isNarratorActive) {
+      this.playSound("/statics/audios/configs.aac");
+    }
+  },
+  methods: {
+    ...mapActions("settings", [
+      "setSettings",
+      "playSound",
+      "vibrate",
+      "setAppMode"
+    ]),
+    ...mapActions("auth", ["detailUser", "deleteUser"]),
+
+    handleSwipe(val) {
+      if (val.direction === "right") {
+        this.$router.push("/store");
+      }
+
+      // if (val.direction === "right") {
+      //   this.$router.push("/home");
+      // }
+    },
+    darkMode() {
+      if (this.mode) {
+        this.setAppMode(1);
+      } else {
+        this.setAppMode(0);
+      }
+    }
+  },
+  created() {
+    if (this.getMode == 1) {
+      this.mode = true;
+    } else {
+      this.mode = false;
+    }
+  },
+  watch: {
+    snap(val) {
+      console.log("Fonte: ", val);
+    },
+
+    mode() {
+      this.darkMode();
+    }
+  }
+};
 </script>
 
 <style scoped>
-
 </style>
