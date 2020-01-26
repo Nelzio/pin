@@ -2,20 +2,40 @@
   <q-page padding v-touch-swipe.mouse.right.left.up="accountSwipe">
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
-      <div class="col-12 text-center">
-        <q-icon size="100px" name="person_add" />
-      </div>
       <!-- <div class="col-12">
           Entrar ou se Inscrever
       </div>-->
       <div class="q-pa-lg col-md-4 col-12">
+        <div class="col-12 text-center q-mb-xl">
+          <q-btn v-if="!imageUrl" round size="40px" icon="person_add" @click="proccessFile()">
+            <q-badge floating :color="darkModeConf.color">
+              <q-icon name="insert_photo" />
+            </q-badge>
+          </q-btn>
+          <q-btn v-else round @click="proccessFile()">
+            <q-avatar size="120px">
+              <img :src="imageUrl" />
+            </q-avatar>
+            <q-badge floating :color="darkModeConf.color">
+              <q-icon name="insert_photo" />
+            </q-badge>
+          </q-btn>
+        </div>
+
         <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+          <input
+            id="fileInput"
+            type="file"
+            hidden
+            ref="fileImg"
+            accept="image/*"
+            @change="onChangeImg"
+          />
           <q-input
             rounded
             outlined
-            dense
             :color="darkModeConf.color"
-            v-model="authObject.name"
+            v-model="authObject.displayName"
             ref="name"
             label="Nome completo"
             lazy-rules
@@ -24,10 +44,9 @@
           <q-input
             rounded
             outlined
-            dense
             :color="darkModeConf.color"
             ref="number"
-            v-model="authObject.number"
+            v-model="authObject.telephone"
             label="Numero de telefone"
             mask="#########"
             lazy-rules
@@ -37,7 +56,6 @@
           <q-input
             rounded
             outlined
-            dense
             :color="darkModeConf.color"
             ref="email"
             v-model="authObject.email"
@@ -46,11 +64,20 @@
             :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
           />
 
+          <q-input :color="darkModeConf.color" rounded outlined v-model="authObject.date" mask="##/##/####" :rules="[ val => val && val.length > 0 || 'Introduza a sua data de nascimento']">
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date :color="darkModeConf.color" v-model="authObject.date" @input="() => $refs.qDateProxy.hide()" mask="DD/MM/YYYY" />
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+
           <q-input
             rounded
             outlined
             @keyup.enter="login_account"
-            dense
             :color="darkModeConf.color"
             placeholder="password"
             ref="password"
@@ -74,39 +101,43 @@
               type="submit"
               :color="darkModeConf.color"
               :class="darkModeConf.textBtn"
-              class="full-width" />
-            
+              class="full-width"
+            />
+          </div>
+          <div>
+            <q-btn
+              class="full-width"
+              rounded
+              outline
+              label="Entrar na conta"
+              icon="arrow_back"
+              to="/account"
+            />
           </div>
         </q-form>
-      </div>
-    </div>
-
-    <div class="row justify-center">
-      <div class="col-12 q-pa-lg">
-         <q-btn
-           class="full-width"
-           rounded
-           outline
-           label="Entrar na conta"
-           icon="arrow_back"
-           to="/account" />
       </div>
     </div>
   </q-page>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapState, mapActions } from "vuex";
 export default {
   name: "RegisterFormComponent",
   data() {
     return {
       authObject: {
-        name: "",
-        number: null,
+        displayName: "",
+        telephone: "",
         email: "",
-        password: ""
+        password: "",
+        img: "",
+        adress: "",
+        profission: "",
+        education: "",
+        date: ""
       },
+      imageUrl: "",
       isPwd: true
     };
   },
@@ -127,26 +158,44 @@ export default {
     onSubmit() {
       this.$refs.email.validate();
       this.$refs.password.validate();
-      console.log("Ola")
+      console.log("Ola");
       if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
         // this.$emit("registerUser", {email: this.authObject.email, password: this.authObject.password});
-        this.registerUser({email: this.authObject.email, password: this.authObject.password})
+        this.registerUser(this.authObject);
       }
       // this.$emit("registerUser", {email: this.authObject.email, password: this.authObject.password})
     },
-    accountSwipe (val) {
-        if (val.direction === 'right') {
-          this.$router.push('/account')
-        }
-
-        // if (val.direction === 'left') {
-        //   this.$router.push('/account/reset')
-        // }
-
-        if (val.direction === 'up') {
-          this.$router.push('/')
-        }
+    accountSwipe(val) {
+      if (val.direction === "right") {
+        this.$router.push("/account");
       }
+
+      // if (val.direction === 'left') {
+      //   this.$router.push('/account/reset')
+      // }
+
+      if (val.direction === "up") {
+        this.$router.push("/");
+      }
+    },
+
+    proccessFile() {
+      this.$refs.fileImg.click();
+    },
+    onChangeImg(event) {
+      const files = event.target.files;
+      let filename = files[0].name;
+      let file = files[0];
+      if (!(file && file["type"].split("/")[0] === "image")) {
+        return (this.errorFileDialog = true);
+      }
+      const fileReader = new FileReader();
+      fileReader.addEventListener("load", () => {
+        this.imageUrl = fileReader.result;
+      });
+      fileReader.readAsDataURL(files[0]);
+      this.authObject.img = files[0];
+    }
   },
 
   filters: {

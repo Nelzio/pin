@@ -53,7 +53,7 @@
             <q-img class="rounded-borders" src="statics/img/home/inclusive.png" />
           </q-card-section>
           <q-card-section class="q-pt-xs">
-            <div class="text-h5 q-mt-sm q-mb-xs">Negocio</div>
+            <div class="text-h5 q-mt-sm q-mb-xs">Inclusão</div>
             <div
               class="text-body1"
             >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>

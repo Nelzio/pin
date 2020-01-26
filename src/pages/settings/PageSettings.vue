@@ -24,7 +24,7 @@
                 </q-item-section>
               </q-item>
 
-              <q-separator spaced inset="item" />
+              <!-- <q-separator spaced inset="item" />
 
               <q-item>
                 <q-item-section avatar>
@@ -38,7 +38,7 @@
                 <q-item-section side>
                   <q-toggle :color="darkModeConf.color" v-model="localSettings.isNarratorActive" />
                 </q-item-section>
-              </q-item>
+              </q-item> -->
 
               <q-separator spaced inset="item" />
 
@@ -52,7 +52,7 @@
                 </q-item-section>
 
                 <q-item-section side>
-                  <q-toggle :color="darkModeConf.color" v-model="localSettings.isVibrationActive" />
+                  <q-toggle :color="darkModeConf.color" v-model="vibrateMode" />
                 </q-item-section>
               </q-item>
 
@@ -126,6 +126,7 @@ export default {
   data() {
     return {
       mode: true,
+      vibrateMode: false,
       deletDialog: false,
       fontSize: "",
       fontText: ["Pequeno", "Medio", "Grande"],
@@ -137,7 +138,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
+    ...mapState("settings", ["settings", "appMode", "darkModeConf", "vibrateState"]),
     ...mapGetters("settings", ["getMode"]),
     ...mapGetters("auth", ["user", "userData"])
 
@@ -147,26 +148,23 @@ export default {
   },
   mounted() {
     this.$root.$emit("isHomePage", "Preferências");
-    this.localSettings = this.settings; //recuperando as configurações do state/store
-
-    console.log(this.localSettings);
 
     this.darkMode();
 
     // Vibração
-    if (this.settings.isVibrationActive) {
-      this.vibrate();
+    if (this.vibrateState) {
+      window.navigator.vibrate(200);
     }
     // Play do áudio
-    if (this.settings.isNarratorActive) {
-      this.playSound("/statics/audios/configs.aac");
-    }
+    // if (this.settings.isNarratorActive) {
+    //   this.playSound("/statics/audios/configs.aac");
+    // }
   },
   methods: {
     ...mapActions("settings", [
       "setSettings",
       "playSound",
-      "vibrate",
+      "setVibrate",
       "setAppMode"
     ]),
     ...mapActions("auth", ["detailUser", "deleteUser"]),
@@ -186,6 +184,14 @@ export default {
       } else {
         this.setAppMode(0);
       }
+    },
+    vibrateApp() {
+      if (this.vibrateMode) {
+        this.setVibrate(1)
+      } else {
+        this.setVibrate(0)
+      }
+      
     }
   },
   created() {
@@ -193,6 +199,12 @@ export default {
       this.mode = true;
     } else {
       this.mode = false;
+    }
+
+    if (this.vibrateState == 1) {
+      this.vibrateMode = true;
+    } else {
+      this.vibrateMode = false;
     }
   },
   watch: {
@@ -202,6 +214,10 @@ export default {
 
     mode() {
       this.darkMode();
+    },
+
+    vibrateMode () {
+      this.vibrateApp()
     }
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page padding v-touch-hold:300.mouse="handleHold">
     <!-- content -->
     <div class="row justify-center">
       <div class="q-gutter-y-md col-12 col-md-8">
@@ -97,7 +97,10 @@ export default {
       tab: "details",
       socialNet: false,
       apply: false,
-      vacancyDone: false
+      vacancyDone: false,
+      pitch: 1,
+      rate: 1,
+      synth: window.speechSynthesis,
     }
   },
   computed: {
@@ -108,6 +111,51 @@ export default {
   },
   methods: {
     ...mapActions("vacancy", ["listVacancy", "detailVacancy"]),
+    speak(userInput) {
+      if (this.synth.speaking) {
+        // console.error('speechSynthesis.speaking');
+        return;
+      }
+      if (userInput !== '') {
+          let sInstance = new SpeechSynthesisUtterance(userInput);
+          sInstance.onend = function (event) {
+              // console.log('SpeechSynthesisUtterance.onend');
+          }
+          sInstance.onerror = function (event) {
+              // console.error('SpeechSynthesisUtterance.onerror');
+          }
+
+          // vibrate antes de falar
+          window.navigator.vibrate(200);
+          // speak
+          sInstance.pitch = this.pitch;
+          sInstance.rate = this.rate;
+          this.synth.speak(sInstance);
+      } else {
+        let sInstance = new SpeechSynthesisUtterance("Nenhum texto nesta área.");
+          sInstance.onend = function (event) {
+              // console.log('SpeechSynthesisUtterance.onend');
+          }
+          sInstance.onerror = function (event) {
+              // console.error('SpeechSynthesisUtterance.onerror');
+          }
+
+          // vibrate antes de falar
+          window.navigator.vibrate(200);
+          // speak
+          sInstance.pitch = this.pitch;
+          sInstance.rate = this.rate;
+          this.synth.speak(sInstance);
+      }
+    },
+
+    handleHold ({ evt, ...info }) {
+      // console.log(info)
+      // console.log(evt)
+      var text = "Vaga para " + this.getVacancy.title + ". Local: " + this.getVacancy.place + ". Categoría: " + this.getVacancy.category + ". Decrição: " + this.getVacancy.description
+      this.speak(text)
+      // console.log(this.vacancy)
+    },
 
     getAply() {
       const ref = firestoreDb

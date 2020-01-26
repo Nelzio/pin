@@ -15,6 +15,7 @@ const state = {
         color: "black",
         textBtn: "text-white",
     },
+    vibrateState: 0,
     soundHome: '/statics/audios/home.wav',
     soundError: '/statics/audios/error.wav'
 }
@@ -31,6 +32,9 @@ const mutations = {
     },
     appModeSave (state, val) {
         state.darkModeConf = val
+    },
+    SET_VIBRATE (state, val) {
+        state.vibrateState = val
     }
 
 }
@@ -84,6 +88,10 @@ const actions = {
         // dispatch('appModeSave', val)
     },
 
+    setVibrate ({commit}, val) {
+        commit('SET_VIBRATE', val)
+    },
+
 
     // ===== Cache actions
     // appModeSave ({state}, val) {
@@ -129,10 +137,10 @@ const actions = {
     },
 
     // ===== Vibration options
-    vibrate ({}, audioPath = null) {
-        console.log('Vibration triggered in: /store/modules/settings-module')
-        window.navigator.vibrate(100);
-    },
+    // vibrate ({}, audioPath = null) {
+    //     console.log('Vibration triggered in: /store/modules/settings-module')
+    //     window.navigator.vibrate(100);
+    // },
 
 }
 

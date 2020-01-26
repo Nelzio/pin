@@ -331,12 +331,12 @@ export default {
     }
   },
   created () {
-    
+    this.checkAuthUser()
+    console.log(this.user)
+    this.detailUser(this.user.email)
   },
   mounted() {
-    this.detailUser(this.user.email)
     this.listVacancyMy(this.user.email)
-    this.checkAuthUser()
   },
   watch: {
     vacancyDetail () {

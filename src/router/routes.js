@@ -9,6 +9,8 @@ const routes = [
       { path: 'settings', component: () => import('pages/settings/PageSettings') },
       { path: 'search', component: () => import('pages/Search.vue') },
       { path: 'user/:idUser', component: () => import('pages/user/Profile.vue') },
+      { path: 'tts', component: () => import('pages/tests/TextToSpeach.vue') },
+      { path: 'center', component: () => import('pages/tests/OnCenter.vue') },
     ]
   },
   {
@@ -45,6 +47,7 @@ const routes = [
     component: () => import('layouts/Clean.vue'),
     children: [
       { path: '', component: () => import('pages/account/Login.vue') },
+      { path: 'login', component: () => import('pages/account/LoginEmail.vue') },
       { path: 'create', component: () => import('pages/account/Create.vue') },
       { path: 'resetpwd', component: () => import('pages/account/ResetPassWD.vue') },
       { path: 'resetpwd2', component: () => import('pages/account/ResetPassWDStep2.vue') },

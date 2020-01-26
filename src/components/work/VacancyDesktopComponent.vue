@@ -1,5 +1,5 @@
 <template>
-  <q-card class="my-card">
+  <q-card :id="vacancy.key" class="my-card" v-touch-hold:300.mouse="handleHold">
     <q-item>
       <q-item-section avatar>
         <q-btn round @click="detailUser(user)">
@@ -14,20 +14,21 @@
         <q-item-label caption>{{ user.email }}</q-item-label>
       </q-item-section>
     </q-item>
-    <q-img v-if="vacancy.img" :src="vacancy.img" style="min-height: 200px;" />
+    <q-img v-if="vacancy.img" :src="vacancy.img" style="min-height: 200px;" @click="$router.push('/vacancies/details/'+vacancy.key)" />
 
     <q-card-section class="q-pb-none">
       <div class="text-h5">{{ vacancy.title }}</div>
     </q-card-section>
 
-    <q-card-section class="q-pt-none q-pb-none">{{ vacancy.description }}</q-card-section>
+    <!-- <q-card-section class="q-pt-none q-pb-none">{{ vacancy.description }}</q-card-section> -->
 
-    <q-card-actions align="right">
+    <q-card-actions align="right" :title="vacancy.key">
       <q-btn
         rounded
         outline
         :color="darkModeConf.colorBtn"
         :text-color="darkModeConf.textBtn"
+        icon="details"
         label="Detalhes"
         :to="'/vacancies/details/'+vacancy.key"
       />
@@ -59,8 +60,8 @@ export default {
         adress: "",
         profission: "",
         education: "",
-        date: ""
-      }
+        date: "",
+      },
     };
   },
   computed: {
@@ -101,11 +102,18 @@ export default {
           };
         }
       });
-    }
+    },
+
+    handleHold ({ evt, ...info }) {
+      // console.log(info)
+      // console.log(evt)
+      this.$root.$emit("textToSpeech", {vacancy: this.vacancy, user: this.user.displayName});
+      // console.log(this.vacancy)
+    },
   },
   mounted() {
     this.detailVacancyUser(this.vacancy.user);
-  }
+  },
 };
 </script>
 

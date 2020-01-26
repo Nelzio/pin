@@ -15,7 +15,7 @@
         />
         <q-btn
           to="/home"
-          v-if="$route.path == '/'"
+          v-if="$route.path == '/' && !$q.screen.gt.sm"
           flat
           dense
           round
