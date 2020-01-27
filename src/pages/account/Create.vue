@@ -5,7 +5,7 @@
       <!-- <div class="col-12">
           Entrar ou se Inscrever
       </div>-->
-      <div class="q-pa-lg col-md-4 col-12">
+      <div class="q-pa-sm col-md-4 col-12">
         <div class="col-12 text-center q-mb-xl">
           <q-btn v-if="!imageUrl" round size="40px" icon="person_add" @click="proccessFile()">
             <q-badge floating :color="darkModeConf.color">
@@ -22,7 +22,7 @@
           </q-btn>
         </div>
 
-        <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+        <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-y-md">
           <input
             id="fileInput"
             type="file"
@@ -39,14 +39,14 @@
             ref="name"
             label="Nome completo"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Por favor, indique o su nome']"
+            :rules="[ val => val && val.length > 0 || 'Por favor, indique o seu nome']"
           />
           <q-input
             rounded
             outlined
             :color="darkModeConf.color"
             ref="number"
-            v-model="authObject.telephone"
+            v-model="authObject.phoneNumber"
             label="Numero de telefone"
             mask="#########"
             lazy-rules
@@ -64,7 +64,7 @@
             :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
           />
 
-          <q-input :color="darkModeConf.color" rounded outlined v-model="authObject.date" mask="##/##/####" :rules="[ val => val && val.length > 0 || 'Introduza a sua data de nascimento']">
+          <q-input :color="darkModeConf.color" rounded outlined v-model="authObject.date" label="Data de nascimento" mask="##/##/####" :rules="[ val => val && val.length > 0 || 'Introduza a sua data de nascimento']">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -128,7 +128,7 @@ export default {
     return {
       authObject: {
         displayName: "",
-        telephone: "",
+        phoneNumber: "",
         email: "",
         password: "",
         img: "",

@@ -14,10 +14,10 @@
         <q-item-label caption>{{ user.email }}</q-item-label>
       </q-item-section>
     </q-item>
-    <q-img v-if="vacancy.img" :src="vacancy.img" style="min-height: 200px;" @click="$router.push('/vacancies/details/'+vacancy.key)" />
+    <q-img v-ripple v-if="vacancy.img" :src="vacancy.img" style="min-height: 200px;" @click="$router.push('/vacancies/details/'+vacancy.key)" />
 
     <q-card-section class="q-pb-none">
-      <div class="text-h5">{{ vacancy.title }}</div>
+      <div :class="getFont.title">{{ vacancy.title }}</div>
     </q-card-section>
 
     <!-- <q-card-section class="q-pt-none q-pb-none">{{ vacancy.description }}</q-card-section> -->
@@ -56,7 +56,7 @@ export default {
         displayName: "",
         email: "",
         photoURL: "",
-        telephone: "",
+        phoneNumber: "",
         adress: "",
         profission: "",
         education: "",
@@ -65,7 +65,8 @@ export default {
     };
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"])
+    ...mapState("settings", ["appMode", "darkModeConf"]),
+    ...mapGetters("settings", ["getFont"])
   },
   methods: {
     ...mapActions("user", ["detailUser"]),
@@ -81,7 +82,7 @@ export default {
             displayName: doc.data().displayName,
             email: doc.data().email,
             photoURL: doc.data().photoURL,
-            telephone: doc.data().telephone,
+            phoneNumber: doc.data().phoneNumber,
             adress: doc.data().adress,
             profission: doc.data().profission,
             education: doc.data().education,
@@ -94,7 +95,7 @@ export default {
             displayName: "",
             email: "",
             photoURL: "",
-            telephone: "",
+            phoneNumber: "",
             adress: "",
             profission: "",
             education: "",

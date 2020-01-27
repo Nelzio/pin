@@ -2,12 +2,17 @@ import { LocalStorage } from 'quasar'
 
 const state = {
     isConected: false, //verifica se está conectado á internet,
-    settings: {
-        mode: '',
-        isNarratorActive: false,
-        isVibrationActive: true,
-        fontSize: '10pt',
+    fonts: {
+        font1: {
+            title: "text-h5",
+            text: "text-body1",
+        },
+        font2: {
+            title: "text-h4",
+            text: "text-h5",
+        }
     },
+    fontConfig: LocalStorage.getItem("fontSize"),
     appMode: 1,
     darkModeConf: {
         bgColor: "bg-white",
@@ -24,8 +29,9 @@ const mutations = {
     setIsConected (state, val) {
         state.isConected = val
     },
-    setSettings (state, val) {
-        state.settings = val
+    SET_FONT_SIZE (state, val) {
+        state.fontConfig = val
+        LocalStorage.set('fontSize', val)
     },
     setAppMode (state, val) {
         state.appMode = val
@@ -41,9 +47,17 @@ const mutations = {
 
 const getters = {
 
-    getSettings (state) {
-        return state.settings
+    getFont (state) {
+        if (state.fontConfig == 1 || !state.fontConfig) {
+            return state.fonts.font1
+        }
+        return state.fonts.font2
     },
+
+    getFontMode (state) {
+        return state.fontConfig
+    },
+
     getMode (state) {
         return state.appMode
     }
@@ -60,10 +74,9 @@ const actions = {
             dispatch('playSound', state.soundError)
         }
     },
-    setSettings ({commit, dispatch}, val) {
-        // commit('setSettings', val)
-        console.log("action")
-        // dispatch('cacheSettings', val)
+
+    setFont ({commit}, val) {
+        commit('SET_FONT_SIZE', val)
     },
     setAppMode ({commit, dispatch}, val) {
         commit('setAppMode', val)

@@ -63,7 +63,7 @@
       </q-list>
     </div>-->
 
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+    <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user">
       <q-btn
         fab
         icon="add"
@@ -106,7 +106,8 @@ export default {
   computed: {
     ...mapState("settings", ["settings", "appMode", "darkModeConf", "vibrateState"]),
     ...mapState("vacancy", ["vacancies", "vacancy"]),
-    ...mapGetters("vacancy", ["getVacancies", "getVacancy"])
+    ...mapGetters("vacancy", ["getVacancies", "getVacancy"]),
+    ...mapGetters("auth", ["user"])
   },
   methods: {
     ...mapActions("settings", ["setSettings", "playSound"]),

@@ -63,18 +63,19 @@
 
                 <q-item-section>
                   <!-- <q-item-label class="text-h6">Tamanho do texto</q-item-label> -->
-                  <q-select v-model="fontSize" :options="fontText" label="Tamanho de texto" />
+                  <q-select v-model="fontSize" :color="darkModeConf.color" :options="fontText" label="Tamanho de texto" />
                 </q-item-section>
               </q-item>
             </q-card>
           </q-expansion-item>
 
           <q-expansion-item
+            v-if="user"
             expand-separator
             default-opened
             icon="perm_identity"
             label="Definições de conta"
-            caption="John Doe"
+            :caption="user.displayName"
           >
             <q-card>
               <q-item clickable v-ripple to="/account/edit">
@@ -128,8 +129,8 @@ export default {
       mode: true,
       vibrateMode: false,
       deletDialog: false,
-      fontSize: "",
-      fontText: ["Pequeno", "Medio", "Grande"],
+      fontSize: "Normal",
+      fontText: ["Normal", "Grande"],
       snap: {
         min: 2,
         max: 12
@@ -138,8 +139,8 @@ export default {
     };
   },
   computed: {
-    ...mapState("settings", ["settings", "appMode", "darkModeConf", "vibrateState"]),
-    ...mapGetters("settings", ["getMode"]),
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState", "fontConfig"]),
+    ...mapGetters("settings", ["getMode", "getFont"]),
     ...mapGetters("auth", ["user", "userData"])
 
     // ...mapGetters('settings', [
@@ -162,7 +163,7 @@ export default {
   },
   methods: {
     ...mapActions("settings", [
-      "setSettings",
+      "setFont",
       "playSound",
       "setVibrate",
       "setAppMode"
@@ -192,9 +193,22 @@ export default {
         this.setVibrate(0)
       }
       
+    },
+    funcFont () {
+      if (this.fontSize == "Normal") {
+      this.setFont(1)
+    } else {
+      this.setFont(2)
+    }
     }
   },
   created() {
+    if (this.fontConfig !== 2) {
+      this.fontSize = "Normal";
+    } else {
+      this.fontSize = "Grande";
+    }
+
     if (this.getMode == 1) {
       this.mode = true;
     } else {
@@ -218,6 +232,18 @@ export default {
 
     vibrateMode () {
       this.vibrateApp()
+    },
+
+    fontConfig () {
+      if (this.fontConfig !== 2) {
+      this.fontSize = "Normal";
+    } else {
+      this.fontSize = "Grande";
+    }
+    },
+
+    fontSize () {
+      this.funcFont()
     }
   }
 };

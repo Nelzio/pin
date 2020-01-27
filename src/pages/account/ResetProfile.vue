@@ -19,7 +19,7 @@
             rounded
             outlined
             :color="darkModeConf.color"
-            v-model="userEdit.telephone"
+            v-model="userEdit.phoneNumber"
             label="Telefone"
             icon="phone"
             placeholeder="800000000"
@@ -96,7 +96,7 @@ export default {
         password: ""
       },
       userEdit: {
-        telephone: "",
+        phoneNumber: "",
         adress: "",
         profission: "",
         education: "",
@@ -116,7 +116,7 @@ export default {
     getUser() {
       // first get user
       this.detailUser(this.user.email).then(() => {
-        this.userEdit.telephone = this.userData.telephone;
+        this.userEdit.phoneNumber = this.userData.phoneNumber;
         this.userEdit.adress = this.userData.adress;
         this.userEdit.profission = this.userData.profission;
         this.userEdit.education = this.userData.education;
@@ -130,7 +130,7 @@ export default {
     },
 
     onReset() {
-      this.userEdit.telephone = null;
+      this.userEdit.phoneNumber = null;
       this.userEdit.adress = null;
       this.userEdit.profission = null;
       this.userEdit.education = null;

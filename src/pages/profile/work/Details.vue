@@ -125,7 +125,7 @@ export default {
             id: doc.id,
             photoURL: doc.data().photoURL,
             displayName: doc.data().displayName,
-            telephone: doc.data().telephone,
+            phoneNumber: doc.data().phoneNumber,
             email: doc.data().email,
             adress: doc.data().adress,
             profission: doc.data().profission,

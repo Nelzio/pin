@@ -330,7 +330,7 @@ export default {
     }
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"]),
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
     ...mapGetters("auth", ["isUserAuth", "user"])
   },
   methods: {
@@ -366,6 +366,10 @@ export default {
         
         }
       this.backIconFunc(to)
+
+      if (this.vibrateState) {
+        window.navigator.vibrate(200)
+      }
 
     },
     appMode (val) {

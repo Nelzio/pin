@@ -91,13 +91,6 @@ export default {
     }
   },
   mounted() {
-    if (this.settings.isVibrationActive) {
-      this.vibrate();
-    }
-
-    if (this.settings.isNarratorActive) {
-      this.playSound("/statics/audios/home.aac");
-    }
   }
 };
 </script>

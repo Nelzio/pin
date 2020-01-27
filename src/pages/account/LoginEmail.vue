@@ -10,7 +10,6 @@
           <q-input
             rounded
             outlined
-            dense
             :color="darkModeConf.color"
             ref="email"
             v-model="authObject.email"
@@ -24,7 +23,6 @@
             rounded
             outlined
             @keyup.enter="login_account"
-            dense
             :color="darkModeConf.color"
             ref="password"
             label="Senha"

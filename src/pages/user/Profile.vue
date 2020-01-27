@@ -42,7 +42,7 @@
 
                     <q-item-section>
                       <q-item-label class="text-h6">Telefone</q-item-label>
-                      <q-item-label>{{ getUser.telephone }}</q-item-label>
+                      <q-item-label>{{ getUser.phoneNumber }}</q-item-label>
                     </q-item-section>
                   </q-item>
 

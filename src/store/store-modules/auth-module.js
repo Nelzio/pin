@@ -90,7 +90,7 @@ const actions = {
                             displayName: payload.displayName,
                             email: payload.email,
                             photoURL: downloadURL,
-                            telephone: payload.telephone,
+                            phoneNumber: payload.phoneNumber,
                             date: payload.date
                         }
 
@@ -107,7 +107,7 @@ const actions = {
                                         displayName: payload.displayName,
                                         email: payload.email,
                                         photoURL: downloadURL,
-                                        telephone: payload.telephone,
+                                        phoneNumber: payload.phoneNumber,
                                         adress: "",
                                         profission: "",
                                         education: "",
@@ -158,7 +158,7 @@ const actions = {
                         displayName: payload.displayName,
                         email: payload.email,
                         photoURL: "",
-                        telephone: payload.telephone,
+                        phoneNumber: payload.phoneNumber,
                         date: payload.date
                     }
 
@@ -175,7 +175,7 @@ const actions = {
                                     displayName: payload.displayName,
                                     email: payload.email,
                                     photoURL: "",
-                                    telephone: payload.telephone,
+                                    phoneNumber: payload.phoneNumber,
                                     adress: "",
                                     profission: "",
                                     education: "",
@@ -242,7 +242,7 @@ const actions = {
                         displayName: result.user.displayName,
                         email: result.user.email,
                         photoURL: result.user.photoURL,
-                        telephone: "",
+                        phoneNumber: "",
                         adress: "",
                         profission: "",
                         education: "",
@@ -306,6 +306,18 @@ const actions = {
 
             ref.get().then((doc) => {
                 if (doc.exists) {
+                    data = {
+                        id: doc.id,
+                        displayName: doc.data().displayName,
+                        email: doc.data().email,
+                        photoURL: doc.data().photoURL,
+                        phoneNumber: doc.data().phoneNumber,
+                        adress: doc.data().adress,
+                        profission: doc.data().profission,
+                        education: doc.data().education,
+                        date: doc.data().date
+                    }
+                    commit('SET_USER_DATA', data)
                     this.$router.go(-1)
                     Loading.hide()
                 } else {
@@ -314,7 +326,7 @@ const actions = {
                         displayName: result.user.displayName,
                         email: result.user.email,
                         photoURL: result.user.photoURL,
-                        telephone: "",
+                        phoneNumber: "",
                         adress: "",
                         profission: "",
                         education: "",
@@ -375,7 +387,7 @@ const actions = {
                     displayName: doc.data().displayName,
                     email: doc.data().email,
                     photoURL: doc.data().photoURL,
-                    telephone: doc.data().telephone,
+                    phoneNumber: doc.data().phoneNumber,
                     adress: doc.data().adress,
                     profission: doc.data().profission,
                     education: doc.data().education,
@@ -389,7 +401,7 @@ const actions = {
                     displayName: "",
                     email: "",
                     photoURL: "",
-                    telephone: "",
+                    phoneNumber: "",
                     adress: "",
                     profission: "",
                     education: "",

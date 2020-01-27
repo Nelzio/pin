@@ -1,5 +1,5 @@
 <template>
-  <q-page padding v-touch-hold:300.mouse="handleHold">
+  <q-page @click="handleRepeat()" v-touch-swipe.mouse.left.right="handleSwipe" padding v-touch-hold:600.mouse="handleHold">
     <!-- content -->
     <div class="row justify-center">
       <div class="q-gutter-y-md col-12 col-md-8">
@@ -8,27 +8,27 @@
             <!-- <q-video style="padding: 0;height: 300px" src="https://www.youtube.com/embed/Raa0vBXA8OQ" /> -->
             <q-img :src="getVacancy.img" spinner-color="white" style="min-height: 200px;" />
             <q-card-section>
-              <div class="text-h5">{{ getVacancy.title }}</div>
+              <div :class="getFont.title">{{ getVacancy.title }}</div>
             </q-card-section>
             <q-card-section class="row q-pt-none">
               <div class="col text-center">
                 <q-icon name="place" size="lg" />
               </div>
-              <div class="col-10 text-body1">{{ getVacancy.place }}</div>
+              <div class="col-10" :class="getFont.text">{{ getVacancy.place }}</div>
             </q-card-section>
             <q-card-section class="row q-pt-none">
               <div class="col text-center">
                 <q-icon name="filter_list" size="lg" />
               </div>
-              <div class="col-10 text-body1">{{ getVacancy.category }}</div>
+              <div class="col-10" :class="getFont.text">{{ getVacancy.category }}</div>
             </q-card-section>
             <q-card-section class="row q-pt-none">
-              <div class="col-12 text-body1">{{ getVacancy.description }}</div>
+              <div class="col-12" :class="getFont.text">{{ getVacancy.description }}</div>
             </q-card-section>
           </q-card>
         </div>
 
-        <div class="row justify-end q-gutter-x-md">
+        <div class="row justify-end q-gutter-x-md" v-if="user">
           <q-btn
             v-if="!vacancyDone"
             rounded
@@ -51,8 +51,8 @@
             <div class="text-h5">Confirmar</div>
           </q-card-section>
 
-          <q-card-section v-if="!vacancyDone" class="q-pt-none text-h6">Candidatar-se a vaga?</q-card-section>
-          <q-card-section v-else class="q-pt-none text-h6">Retirar candidatura?</q-card-section>
+          <q-card-section v-if="!vacancyDone" class="q-pt-none" :class="getFont.title">Candidatar-se a vaga?</q-card-section>
+          <q-card-section v-else class="q-pt-none" :class="getFont.title">Retirar candidatura?</q-card-section>
 
           <q-card-actions align="right" class="bg-white">
             <q-btn
@@ -101,12 +101,15 @@ export default {
       pitch: 1,
       rate: 1,
       synth: window.speechSynthesis,
+      touchNums: 0,
+      submitGo: false
     }
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"]),
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
     ...mapState("vacancy", ["vacancies", "vacancyDtl"]),
     ...mapGetters("vacancy", ["getVacancies", "getVacancy"]),
+    ...mapGetters("settings", ["getFont"]),
     ...mapGetters("auth", ["user", "userData"])
   },
   methods: {
@@ -152,9 +155,42 @@ export default {
     handleHold ({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
-      var text = "Vaga para " + this.getVacancy.title + ". Local: " + this.getVacancy.place + ". Categoría: " + this.getVacancy.category + ". Decrição: " + this.getVacancy.description
+      var text = "Vaga para " + this.getVacancy.title + ". Local: " + this.getVacancy.place + ". Categoría: " + this.getVacancy.category + ". Descrição: " + this.getVacancy.description
       this.speak(text)
       // console.log(this.vacancy)
+    },
+
+    handleSwipe(val) {
+      if (val.direction === "right") {
+        this.$router.go(-1);
+      }
+    },
+    handleRepeat () {
+      
+      var vm = this
+
+      this.touchNums += 1
+
+      if (this.touchNums >= 5) {
+        this.submitGo = true
+        this.touchNums = -80
+        window.navigator.vibrate(200);
+        if (!this.user) {
+          var text = "Usuário não autenticado."
+          this.speak(text)
+          return
+        }
+        
+        if (this.vacancyDone) {
+          this.deleteCandidate()
+        } else {
+          this.aply()
+        }
+      }
+
+      setTimeout(() => {
+        vm.touchNums = 0
+      }, 5000);
     },
 
     getAply() {
@@ -172,11 +208,12 @@ export default {
         }
       })
     },
+
     aply() {
       const data = {
         photoURL: this.user.photoURL,
         displayName: this.user.displayName,
-        telephone: this.userData.telephone,
+        phoneNumber: this.userData.phoneNumber,
         email: this.user.email,
         adress: this.userData.adress,
         profission: this.userData.profission,
@@ -238,7 +275,26 @@ export default {
     this.detailVacancy(this.$route.params.id)
   },
   mounted() {
-    this.getAply()
+    if (this.user) {
+      this.getAply()
+    }
+  },
+
+  watch: {
+    
+    vacancyDone () {
+      if (this.vibrateState && this.submitGo) {
+          this.submitGo = false
+        if(this.vacancyDone) {
+          var text = "A sua candidatura foi submetida com sucesso."
+          this.speak(text)
+        } else {
+          var text = "A sua candidatura foi retirada."
+          this.speak(text)
+        }
+      }
+      
+    }
   }
 }
 </script>
