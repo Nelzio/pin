@@ -5,38 +5,38 @@
     <div class="row justify-center">
       <div class="col-12 col-md-8">
         <!-- sec 6 -->
-        <div v-if="myVacancies.length">
+        <div v-if="myStories.length">
           <div class="row">
             <div
               class="col-12 col-md-4 q-pa-sm"
-              v-for="(vacancy, idx) in myVacancies"
-              :key="vacancy.key"
+              v-for="(store, idx) in myStories"
+              :key="store.key"
             >
               <q-card class="my-card">
-                <q-img v-ripple v-if="vacancy.img" :src="vacancy.img" style="min-height: 200px;" @click="$router.push('/profile/vacancies/details/'+vacancy.key)" />
+                <q-img v-ripple v-if="store.img" :src="store.img" style="min-height: 200px;" @click="$router.push('/profile/store/details/'+store.key)" />
                 <q-skeleton v-else height="230px" square />
-                <q-card-section :class="getFont.title">{{ vacancy.title }}</q-card-section>
+                <q-card-section :class="getFont.title">{{ store.title }}</q-card-section>
                 <q-card-actions align="right">
                   <q-btn
                     outline
                     rounded
                     label="Detalhes"
                     icon="details"
-                    :to="'/profile/vacancy/details/'+vacancy.key"
+                    :to="'/profile/store/details/'+store.key"
                   />
-                  <q-btn outline rounded icon="edit" :to="'/profile/vacancy/edit/'+vacancy.key" />
+                  <q-btn outline rounded icon="edit" :to="'/profile/store/edit/'+store.key" />
                   <q-btn
                     outline
                     rounded
                     color="red"
                     icon="delete"
-                    @click="vacancyDtlFunc(vacancy.key)"
+                    @click="storeDtlFunc(store.key)"
                   />
                   <q-btn
                     outline
                     rounded
-                    :icon="myVacanciesAux[idx] ? (myVacanciesAux[idx].public ? 'visibility' : 'visibility_off') : 'visibility_off'"
-                    @click="makePublic(vacancy.key, vacancy, myVacanciesAux[idx].public)"
+                    :icon="myStoriesAux[idx] ? (myStoriesAux[idx].public ? 'visibility' : 'visibility_off') : 'visibility_off'"
+                    @click="makePublic(store.key, store, myStoriesAux[idx].public)"
                   />
                 </q-card-actions>
               </q-card>
@@ -46,7 +46,6 @@
       </div>
     </div>
 
-
       <div>
         <q-dialog v-model="confirDelete">
           <q-card style="width: 700px; max-width: 80vw;">
@@ -54,7 +53,7 @@
               <div :class="getFont.title">Confirmar</div>
             </q-card-section>
 
-            <q-card-section class="q-pt-none" :class="getFont.text">Deletar vaga de {{ vacancyDtl.title }}?</q-card-section>
+            <q-card-section class="q-pt-none" :class="getFont.text">Deletar {{ storeDtl.title }}?</q-card-section>
 
             <q-card-actions align="right" class="bg-white text-teal">
               <q-btn
@@ -62,7 +61,7 @@
                 outline
                 color="red"
                 label="Deletar"
-                @click="deleteVacancyThis(vacancyDtl.key)"
+                @click="deleteStoreThis(storeDtl.key)"
               />
               <q-btn rounded outline color="grey" label="Cancelar" v-close-popup />
             </q-card-actions>
@@ -71,7 +70,7 @@
 
         <q-dialog v-model="confirDeleteSuccess">
           <q-card>
-            <q-card-section class="text-green" :class="getFont.title">Vaga deletada com sucesso</q-card-section>
+            <q-card-section class="text-green" :class="getFont.title">Deletado com sucesso</q-card-section>
 
             <q-card-actions align="right">
               <q-btn flat label="OK" color="primary" v-close-popup />
@@ -80,15 +79,17 @@
         </q-dialog>
       </div>
 
-    <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user">
+      <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user">
       <q-btn
         fab
         icon="add"
         :color="darkModeConf.color"
         :class="darkModeConf.textBtn"
-        to="/profile/vacancy/add"
+        to="/profile/store/add"
       />
     </q-page-sticky>
+
+      
   </q-page>
 </template>
 
@@ -106,35 +107,35 @@ export default {
       confirDelete: false,
       confirDeleteAux: false,
       isPublic: true,
-      vacancyDel: {
+      storeDel: {
         title: "",
         key: null
       },
-      vacanciesAply: [],
-      myVacancies: [],
-      myVacanciesAux: []
+      storiesAply: [],
+      myStories: [],
+      myStoriesAux: []
     };
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapState("vacancy", [
-      "vacancies",
-      "vacancyDtl",
-      "vacancyDeleted",
-      "vacancyUploaded",
-      "vacancyDetail"
+    ...mapState("store", [
+      "stories",
+      "storeDtl",
+      "storeDeleted",
+      "storeUploaded",
+      "storeDetail"
     ]),
     ...mapGetters("settings", ["getFont"]),
     ...mapGetters("auth", ["user", "userData"])
   },
   methods: {
-    ...mapActions("vacancy", [
-      "listVacancy",
-      "listVacancyMy",
-      "createVacancy",
-      "detailVacancy",
-      "updateVacancy",
-      "deleteVacancy"
+    ...mapActions("store", [
+      "listStore",
+      "listStoreMy",
+      "createStore",
+      "detailStore",
+      "updateStore",
+      "deleteStore"
     ]),
     ...mapActions("auth", ["detailUser", "checkAuthUser"]),
 
@@ -142,31 +143,32 @@ export default {
       console.log(info)
       // console.log(evt)
       // console.log(val)
-      // console.log(this.vacancy)
+      // console.log(this.store)
     },
 
-    deleteVacancyThis(id) {
+    deleteStoreThis(id) {
       const vm = this;
 
-      this.deleteVacancy(id).then(function() {
+      this.deleteStore(id).then(function() {
         vm.confirDeleteAux = false;
         vm.confirDelete = false;
       });
     },
 
-    vacancyDtlFunc(id) {
+    storeDtlFunc(id) {
       console.log(id);
-      this.detailVacancy(id);
+      this.detailStore(id);
       console.log("Nelzio Sitoe delll");
     },
 
-    updateVacancyHere(payload) {
+    updateStoreHere(payload) {
       Loading.show();
-      const updateRef = firestoreDb.collection("vacancies").doc(payload.id);
+      const updateRef = firestoreDb.collection("stories").doc(payload.id);
       updateRef
         .set(payload.data)
         .then(() => {
-          this.listVacancyMyHere(this.user.email);
+          payload
+          this.listStoreMyHere(this.user.email);
           Loading.hide();
         })
         .catch(error => {
@@ -181,77 +183,81 @@ export default {
         user: data.user,
         description: data.description,
         img: data.img,
-        place: data.place,
+        public: !val,
         category: data.category,
-        validate: data.validate,
-        public: !val
+        place: data.place,
+        subCategory: data.subCategory,
+        price: data.price,
+        priceVariable: data.priceVariable,
       };
-      this.updateVacancyHere({
+      this.updateStoreHere({
         id: id,
         data: dataAux
       });
     },
 
-    listVacancyMyHere(user) {
+    listStoreMyHere(user) {
       // done
       var storageRef = fireStorage.ref();
       if (!offline.data().isOnline) {
         return alert("Sem internet");
       }
       const vm = this;
-      var myVacancies = []
+      var myStories = []
       var update = false
-      var myVacanciesAux = [];
-      const ref = firestoreDb.collection("vacancies");
+      var myStoriesAux = [];
+      const ref = firestoreDb.collection("stories");
       ref
         .where("user", "==", user)
         .onSnapshot(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
-            if (vm.myVacancies.length !== querySnapshot.docs.length) {
+            if (vm.myStories.length !== querySnapshot.docs.length) {
               update = true
-              myVacancies.push({
+              myStories.push({
                 key: doc.id,
                 title: doc.data().title,
                 user: doc.data().user,
                 description: doc.data().description,
                 img: doc.data().img,
                 public: doc.data().public,
+                category: doc.data().category,
                 place: doc.data().place,
-                validate: doc.data().validate,
-                category: doc.data().category
+                subCategory: doc.data().subCategory,
+                price: doc.data().price,
+                priceVariable: doc.data().priceVariable,
               });
             }
-            myVacanciesAux.push({
+            myStoriesAux.push({
               public: doc.data().public
             });
           });
-          if (update) vm.myVacancies = vm.myVacancies
-          vm.myVacanciesAux = myVacanciesAux;
+          if(update) vm.myStories = myStories;
+          vm.myStoriesAux = myStoriesAux;
         });
     }
   },
   created() {
     this.checkAuthUser();
     this.detailUser(this.user.email);
-    this.listVacancyMyHere(this.user.email);
+    this.listStoreMyHere(this.user.email);
   },
   mounted() {
-    // this.listVacancyMy(this.user.email)
+    // this.listStoreMy(this.user.email)
   },
   watch: {
-    vacancyDetail() {
-      if (this.vacancyDetail) {
+    storeDetail() {
+      if (this.storeDetail) {
         this.confirDelete = true;
       }
     },
-    vacancyDeleted() {
-      if (this.vacancyDeleted) {
+    storeDeleted() {
+      if (this.storeDeleted) {
         this.confirDeleteSuccess = true;
-        this.listVacancyMy(this.user.email);
+        this.listStoreMy(this.user.email);
       }
     },
-    vacancyUploaded() {
-      this.listVacancyMy(this.user.email);
+    storeUploaded() {
+      this.listStoreMy(this.user.email);
     }
   }
 };

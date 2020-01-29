@@ -7,10 +7,7 @@
         <!-- sec1 -->
         <div class="text-center">
           <q-avatar size="100px">
-            <q-img
-              :src="user.photoURL"
-              spinner-color="white"
-            />
+            <q-img :src="user.photoURL" spinner-color="white" />
           </q-avatar>
 
           <div class="text-h5">{{ user.displayName }}</div>
@@ -116,8 +113,6 @@
                       <q-item-label class="text-body2">{{ userData.education }}</q-item-label>
                     </q-item-section>
                   </q-item>
-
-                  
                 </q-list>
               </q-tab-panel>
             </q-tab-panels>
@@ -134,7 +129,8 @@
             :class="darkModeConf.textBtn"
             label="Editar perfil"
             left-icon="edit"
-            to="account/edit" />
+            to="account/edit"
+          />
         </div>
 
         <q-separator />
@@ -169,7 +165,7 @@
           <div class="q-pa-sm">
             <q-btn outline rounded class="full-width" label="Ver todos" />
           </div>
-        </div> -->
+        </div>-->
 
         <!-- sec 5 -->
 
@@ -205,16 +201,55 @@
           </div>
         </div>
 
-        <q-separator /> -->
+        <q-separator />-->
+
+        <div v-if="vacanciesAply.length">
+          <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
+            <q-toolbar-title>Minhas candidaturas</q-toolbar-title>
+          </q-toolbar>
+          <div class="row">
+            <div
+              class="q-pa-sm col-12 col-md-4"
+              v-for="candidate in vacanciesAply"
+              :key="candidate.id"
+            >
+              <q-card class="my-card">
+                <q-item
+                  :class="darkModeConf.textColor"
+                  clickable
+                  :to="'/vacancies/details/' + candidate.id"
+                  v-ripple
+                >
+                  <q-item-section avatar>
+                    <q-avatar size="65px">
+                      <img :src="candidate.img" />
+                    </q-avatar>
+                  </q-item-section>
+                  <q-item-section>
+                    <div class="text-bold text-body1">{{ candidate.title}}</div>
+                    <div>{{ candidate.user }}</div>
+                  </q-item-section>
+                </q-item>
+              </q-card>
+            </div>
+          </div>
+          <div class="q-pa-sm">
+            <q-btn outline rounded class="full-width" label="Ver todas" to="/profile/candidatures" />
+          </div>
+        </div>
         <!-- sec 6 -->
-        <div>
-          <q-toolbar :class="darkModeConf.bgColor">
+        <div v-if="myVacancies.length">
+          <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
             <q-toolbar-title>Vagas de emprego</q-toolbar-title>
             <q-btn flat round dense icon="add" to="/profile/vacancy/add" />
           </q-toolbar>
 
           <div class="row">
-            <div class="col-12 col-md-6 q-pa-sm" v-for="vacancy in vacancies" :key="vacancy.key">
+            <div
+              class="col-12 col-md-6 q-pa-sm"
+              v-for="(vacancy, idx) in myVacancies"
+              :key="vacancy.key"
+            >
               <q-card class="my-card">
                 <q-img
                   v-if="vacancy.img"
@@ -224,10 +259,26 @@
                 />
                 <q-card-section>{{ vacancy.title }}</q-card-section>
                 <q-card-actions align="right">
-                  <q-btn outline rounded label="Detalhes" :to="'/profile/vacancy/details/'+vacancy.key" />
+                  <q-btn
+                    outline
+                    rounded
+                    label="Detalhes"
+                    :to="'/profile/vacancy/details/'+vacancy.key"
+                  />
                   <q-btn outline rounded icon="edit" :to="'/profile/vacancy/edit/'+vacancy.key" />
-                  <q-btn outline rounded color="red" icon="delete" @click="vacancyDtlFunc(vacancy.key)" />
-                  <q-btn outline rounded :icon="vacancy.public ? 'visibility' : 'visibility_off'" @click="makePublic(vacancy.key, vacancy)" />
+                  <q-btn
+                    outline
+                    rounded
+                    color="red"
+                    icon="delete"
+                    @click="vacancyDtlFunc(vacancy.key)"
+                  />
+                  <q-btn
+                    outline
+                    rounded
+                    :icon="myVacanciesAux[idx] ? (myVacanciesAux[idx].public ? 'visibility' : 'visibility_off') : 'visibility_off'"
+                    @click="makePublic(vacancy.key, vacancy, myVacanciesAux[idx].public)"
+                  />
                 </q-card-actions>
               </q-card>
             </div>
@@ -238,40 +289,46 @@
         </div>
       </div>
       <div>
-      <q-dialog v-model="confirDelete">
-        <q-card style="width: 700px; max-width: 80vw;">
-          <q-card-section>
-            <div class="text-h5">Confirmar</div>
-          </q-card-section>
+        <q-dialog v-model="confirDelete">
+          <q-card style="width: 700px; max-width: 80vw;">
+            <q-card-section>
+              <div class="text-h5">Confirmar</div>
+            </q-card-section>
 
-          <q-card-section class="q-pt-none text-h6">Deletar vaga de {{ vacancyDtl.title }}?</q-card-section>
+            <q-card-section class="q-pt-none text-h6">Deletar vaga de {{ vacancyDtl.title }}?</q-card-section>
 
-          <q-card-actions align="right" class="bg-white text-teal">
-            <q-btn rounded outline color="red" label="Deletar" @click="deleteVacancyThis(vacancyDtl.key)" />
-            <q-btn rounded outline color="grey" label="Cancelar" v-close-popup />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
+            <q-card-actions align="right" class="bg-white text-teal">
+              <q-btn
+                rounded
+                outline
+                color="red"
+                label="Deletar"
+                @click="deleteVacancyThis(vacancyDtl.key)"
+              />
+              <q-btn rounded outline color="grey" label="Cancelar" v-close-popup />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
 
-      <q-dialog v-model="confirDeleteSuccess">
-      <q-card>
-        <q-card-section class="text-h5 text-green">
-          Vaga deletada com sucesso
-        </q-card-section>
+        <q-dialog v-model="confirDeleteSuccess">
+          <q-card>
+            <q-card-section class="text-h5 text-green">Vaga deletada com sucesso</q-card-section>
 
-        <q-card-actions align="right">
-          <q-btn flat label="OK" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-    </div>
+            <q-card-actions align="right">
+              <q-btn flat label="OK" color="primary" v-close-popup />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+      </div>
     </div>
   </q-page>
 </template>
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { firebaseAuth } from "boot/firebase"
+import { Loading } from "quasar";
+import { firebaseAuth, firestoreDb, fireStorage } from "boot/firebase";
+import offline from "v-offline";
 export default {
   // name: 'PageName',
   data() {
@@ -282,38 +339,67 @@ export default {
       confirDeleteAux: false,
       isPublic: true,
       vacancyDel: {
-        title: '',
+        title: "",
         key: null
-      }
+      },
+      vacanciesAply: [],
+      myVacancies: [],
+      myVacanciesAux: []
     };
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapState("vacancy", ["vacancies", "vacancyDtl", "vacancyDeleted", "vacancyUploaded", "vacancyDetail"]),
-    ...mapGetters('auth', [
-        'user', 'userData'])
-    
+    ...mapState("vacancy", [
+      "vacancies",
+      "vacancyDtl",
+      "vacancyDeleted",
+      "vacancyUploaded",
+      "vacancyDetail"
+    ]),
+    ...mapGetters("auth", ["user", "userData"])
   },
   methods: {
-    ...mapActions("vacancy", ["listVacancy", "listVacancyMy", "createVacancy", "detailVacancy", "updateVacancy", "deleteVacancy"]),
+    ...mapActions("vacancy", [
+      "listVacancy",
+      "listVacancyMy",
+      "createVacancy",
+      "detailVacancy",
+      "updateVacancy",
+      "deleteVacancy"
+    ]),
     ...mapActions("auth", ["detailUser", "checkAuthUser"]),
 
-    deleteVacancyThis (id) {
-      const vm = this
-      
-      this.deleteVacancy(id).then(function () {
-        vm.confirDeleteAux = false
-        vm.confirDelete = false
-      })
-      
+    deleteVacancyThis(id) {
+      const vm = this;
+
+      this.deleteVacancy(id).then(function() {
+        vm.confirDeleteAux = false;
+        vm.confirDelete = false;
+      });
     },
-    vacancyDtlFunc (id) {
-      console.log(id)
-      this.detailVacancy(id)
-      console.log("Nelzio Sitoe delll")
-      
+
+    vacancyDtlFunc(id) {
+      console.log(id);
+      this.detailVacancy(id);
+      console.log("Nelzio Sitoe delll");
     },
-    makePublic (id, data) {
+
+    updateVacancyHere(payload) {
+      Loading.show();
+      const updateRef = firestoreDb.collection("vacancies").doc(payload.id);
+      updateRef
+        .set(payload.data)
+        .then(() => {
+          this.listVacancyMyHere(this.user.email);
+          Loading.hide();
+        })
+        .catch(error => {
+          Loading.hide();
+          alert("Error update document: ", error);
+        });
+    },
+
+    makePublic(id, data, val) {
       let dataAux = {
         title: data.title,
         user: data.user,
@@ -321,37 +407,109 @@ export default {
         img: data.img,
         place: data.place,
         category: data.category,
-        public: !data.public
-      }
-      this.updateVacancy({
+        validate: data.validate,
+        public: !val
+      };
+      this.updateVacancyHere({
         id: id,
-        data: dataAux,
-        img: ""
-      })
+        data: dataAux
+      });
+    },
+
+    listCandidatures(user) {
+      // done
+      if (!offline.data().isOnline) {
+        return alert("Sem internet");
+      }
+      this.vacanciesAply = [];
+      const ref = firestoreDb.collection("vacancies");
+      const vm = this;
+      ref
+        .where("public", "==", true)
+        .get()
+        .then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            firestoreDb
+              .collection("vacancies")
+              .doc(doc.id)
+              .collection("candidates")
+              .doc(user)
+              .get()
+              .then(doc2 => {
+                if (doc2.exists) {
+                  vm.vacanciesAply.push({
+                    id: doc.id,
+                    title: doc.data().title,
+                    user: doc.data().user,
+                    img: doc.data().img
+                  });
+                  if (vm.vacanciesAply.length >= 3) return;
+                }
+              });
+          });
+        });
+    },
+
+    listVacancyMyHere(user) {
+      // done
+      var storageRef = fireStorage.ref();
+      if (!offline.data().isOnline) {
+        return alert("Sem internet");
+      }
+      const vm = this;
+      // vm.myVacancies = []
+      var myVacanciesAux = [];
+      const ref = firestoreDb.collection("vacancies");
+      ref
+        .where("user", "==", user)
+        .limit(10)
+        .get()
+        .then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            if (vm.myVacancies.length !== querySnapshot.docs.length) {
+              vm.myVacancies.push({
+                key: doc.id,
+                title: doc.data().title,
+                user: doc.data().user,
+                description: doc.data().description,
+                img: doc.data().img,
+                public: doc.data().public,
+                place: doc.data().place,
+                validate: doc.data().validate,
+                category: doc.data().category
+              });
+            }
+            myVacanciesAux.push({
+              public: doc.data().public
+            });
+          });
+          vm.myVacanciesAux = myVacanciesAux;
+        });
     }
   },
-  created () {
-    this.checkAuthUser()
-    console.log(this.user)
-    this.detailUser(this.user.email)
+  created() {
+    this.checkAuthUser();
+    this.detailUser(this.user.email);
+    this.listVacancyMyHere(this.user.email);
   },
   mounted() {
-    this.listVacancyMy(this.user.email)
+    // this.listVacancyMy(this.user.email)
+    this.listCandidatures(this.user.email);
   },
   watch: {
-    vacancyDetail () {
-      if(this.vacancyDetail) {
-        this.confirDelete = true
+    vacancyDetail() {
+      if (this.vacancyDetail) {
+        this.confirDelete = true;
       }
     },
-    vacancyDeleted () {
-      if(this.vacancyDeleted) {
-        this.confirDeleteSuccess = true
-        this.listVacancyMy(this.user.email)
+    vacancyDeleted() {
+      if (this.vacancyDeleted) {
+        this.confirDeleteSuccess = true;
+        this.listVacancyMy(this.user.email);
       }
     },
-    vacancyUploaded () {
-      this.listVacancyMy(this.user.email)
+    vacancyUploaded() {
+      this.listVacancyMy(this.user.email);
     }
   }
 };

@@ -5,49 +5,51 @@ import offline from 'v-offline'
 
 
 const state = {
-  // vacancies: LocalStorage.getItem("vacanciens"),
-  vacancies: LocalStorage.getItem("vacanciens") ? LocalStorage.getItem("vacanciens") : [],
-  vacancyDtl: {
+  stories: LocalStorage.getItem("stories") ? LocalStorage.getItem("stories") : [],
+  storeDtl: {
     key: "",
     title: "",
     user: "",
     description: "",
     img: "",
     public: false,
-    place: "",
     category: "",
+    place: "",
+    subCategory: "",
+    price: "",
+        priceVariable: false,
   },
-  vacancyUploaded: false,
-  vacancyDetail: false,
-  vacancyDeleted: false
+  storeUploaded: false,
+  storeDetail: false,
+  storeDeleted: false
 }
 
 const mutations = {
 
-  SET_VACANCIES(state, val) {
-    state.vacancies = val
-    LocalStorage.set('vacancies', state.vacancies)
+  SET_STORIES(state, val) {
+    state.stories = val
+    LocalStorage.set('stories', state.stories)
   },
-  SET_VACANCY(state, val) {
-    state.vacancyDtl = val
+  SET_STORE(state, val) {
+    state.storeDtl = val
   },
-  SET_VACANCY_CHANGE(state, val) {
-    state.vacancyUploaded = val
+  SET_STORE_CHANGE(state, val) {
+    state.storeUploaded = val
   },
-  SET_VACANCY_DTL_CHANGE(state, val) {
-    state.vacancyDetail = val
+  SET_STORE_DTL_CHANGE(state, val) {
+    state.storeDetail = val
   },
-  SET_VACANCY_DELETED(state, val) {
-    state.vacancyDeleted = val
+  SET_STORE_DELETED(state, val) {
+    state.storeDeleted = val
   },
 }
 
 const getters = {
-  getVacancies(state) {
-    return state.vacancies
+  getStories(state) {
+    return state.stories
   },
-  getVacancy(state) {
-    return state.vacancyDtl
+  getStore(state) {
+    return state.storeDtl
   }
 }
 
@@ -56,7 +58,7 @@ const actions = {
   uploadAuxFunc: ({ commit }, payload) => {
     // Upload file and metadata to the object
     var storageRef = fireStorage.ref();
-    var uploadTask = storageRef.child('vacancies/' + payload.id).put(payload.img);
+    var uploadTask = storageRef.child('stories/' + payload.id).put(payload.img);
 
     // Listen for state changes, errors, and completion of the upload.
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
@@ -95,10 +97,10 @@ const actions = {
           console.log('File available at', downloadURL);
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
             console.log('File available at', downloadURL);
-            const updateRef = firestoreDb.collection('vacancies').doc(payload.id);
+            const updateRef = firestoreDb.collection('stories').doc(payload.id);
             payload.data.img = downloadURL
             updateRef.set(payload.data).then(() => {
-              commit("SET_VACANCY_CHANGE", true)
+              commit("SET_STORE_CHANGE", true)
               Loading.hide()
             })
               .catch((error) => {
@@ -111,25 +113,25 @@ const actions = {
   },
 
 
-  createVacancy({ commit }, payload) { // done
+  createStore({ commit }, payload) { // done
     if (!offline.data().isOnline) {
       return alert("Está sem internet")
     }
     Loading.show()
-    const ref = firestoreDb.collection('vacancies')
+    const ref = firestoreDb.collection('stories')
     // Create a root reference
     var storageRef = fireStorage.ref();
     // Create the file metadata
     var metadata = {
       contentType: 'image/*'
     };
-    var vacancyData
+    var storeData
     var img = payload.img
     payload.img = ""
     ref.add(payload).then((docRef) => {
       console.log("Inserido")
       console.log(docRef)
-      vacancyData = docRef
+      storeData = docRef
 
       if (!img) {
         let data = {
@@ -138,9 +140,14 @@ const actions = {
           user: "",
           description: "",
           img: "",
-          public: false
+          public: false,
+          category: "",
+          place: "",
+          subCategory: "",
+          price: "",
+          priceVariable: false,
         }
-        commit('SET_VACANCY', data)
+        commit('SET_STORE', data)
         console.log("Updated")
         Loading.hide()
       } else {
@@ -148,7 +155,7 @@ const actions = {
         // Upload file and metadata to the object 'images/mountains.jpg'
         var fileExt = img.name.split(".")[img.name.split(".").length - 1]
         console.log("Formato do file " + fileExt)
-        var uploadTask = storageRef.child('vacancies/' + docRef.id).put(img);
+        var uploadTask = storageRef.child('stories/' + docRef.id).put(img);
 
         // Listen for state changes, errors, and completion of the upload.
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
@@ -188,8 +195,8 @@ const actions = {
             // Upload completed successfully, now we can get the download URL
             uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
               console.log('File available at', downloadURL);
-              console.log(vacancyData.id)
-              const updateRef = firestoreDb.collection('vacancies').doc(vacancyData.id);
+              console.log(storeData.id)
+              const updateRef = firestoreDb.collection('stories').doc(storeData.id);
               payload.img = downloadURL
               updateRef.set(payload).then(() => {
                 let data = {
@@ -198,9 +205,14 @@ const actions = {
                   user: "",
                   description: "",
                   img: "",
-                  public: false
+                  public: false,
+                  category: "",
+                  place: "",
+                  subCategory: "",
+                  price: "",
+                  priceVariable: false,
                 }
-                commit('SET_VACANCY', data)
+                commit('SET_STORE', data)
                 console.log("Updated")
                 Loading.hide()
               })
@@ -220,15 +232,15 @@ const actions = {
   },
 
 
-  updateVacancy({ commit, dispatch }, payload) {
+  updateStore({ commit, dispatch }, payload) {
     Loading.show()
-    commit("SET_VACANCY_CHANGE", false)
+    commit("SET_STORE_CHANGE", false)
     var storageRef = fireStorage.ref();
 
     if (!payload.img) {
-      const updateRef = firestoreDb.collection('vacancies').doc(payload.id);
+      const updateRef = firestoreDb.collection('stories').doc(payload.id);
       updateRef.set(payload.data).then(() => {
-        commit("SET_VACANCY_CHANGE", true)
+        commit("SET_STORE_CHANGE", true)
         Loading.hide()
       })
         .catch((error) => {
@@ -240,7 +252,7 @@ const actions = {
 
 
       // Delete the file
-      var desertRef = storageRef.child('vacancies/' + payload.id)
+      var desertRef = storageRef.child('stories/' + payload.id)
       desertRef.delete().then(function () {
         // File deleted successfully
         dispatch('uploadAuxFunc', payload)
@@ -255,73 +267,68 @@ const actions = {
   },
 
 
-  listVacancy({ commit }) { // done
+  listStore({ commit }) { // done
     var storageRef = fireStorage.ref()
     if (!offline.data().isOnline) {
       return alert("Sem internet")
     }
-    const ref = firestoreDb.collection('vacancies')
-    var vacanciesData = []
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-
-    today = mm + '/' + dd + '/' + yyyy;
+    const ref = firestoreDb.collection('stories')
+    var storiesData = []
     ref.where("public", "==", true)
     .onSnapshot(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
-          var date = doc.data().validate.split("/")
-          if (date[1]+"/"+date[0]+"/"+date[2] >= today) {
-            vacanciesData.push({
+            storiesData.push({
               key: doc.id,
               title: doc.data().title,
               user: doc.data().user,
               description: doc.data().description,
               img: doc.data().img,
               public: doc.data().public,
+              category: doc.data().category,
               place: doc.data().place,
-              validate: doc.data().validate,
-              category: doc.data().category
+              subCategory: doc.data().subCategory,
+              price: doc.data().price,
+              priceVariable: doc.data().priceVariable,
             })
-          }
         });
-        commit('SET_VACANCIES', vacanciesData)
+        commit('SET_STORIES', storiesData)
       });
   },
 
 
-  listVacancyMy({ commit }, user) { // done
+  listStoreMy({ commit }, user) { // done
     var storageRef = fireStorage.ref()
     if (!offline.data().isOnline) {
       return alert("Sem internet")
     }
-    const ref = firestoreDb.collection('vacancies')
-    var vacancies = []
+    const ref = firestoreDb.collection('stories')
+    var stories = []
     ref.where("user", "==", user)
       .get().then(function (querySnapshot) {
-        // vacancies = []
+        // stories = []
         querySnapshot.forEach(function (doc) {
-          vacancies.push({
+          stories.push({
             key: doc.id,
             title: doc.data().title,
             user: doc.data().user,
             description: doc.data().description,
             img: doc.data().img,
             public: doc.data().public,
+            category: doc.data().category,
             place: doc.data().place,
-            validate: doc.data().validate,
-            category: doc.data().category
+            subCategory: doc.data().subCategory,
+            price: doc.data().price,
+            priceVariable: doc.data().priceVariable,
           })
         });
-        commit('SET_VACANCIES', vacancies)
+        commit('SET_STORIES', stories)
       });
   },
 
 
-  detailVacancy({ commit }, id) { // test
+  detailStore({ commit }, id) { // test
     // Loading.show()
-    const ref = firestoreDb.collection('vacancies').doc(id);
+    const ref = firestoreDb.collection('stories').doc(id);
     let data = {
       key: "",
       title: "",
@@ -333,8 +340,8 @@ const actions = {
       validate: "",
       category: "",
     }
-    commit('SET_VACANCY', data)
-    commit('SET_VACANCY_DTL_CHANGE', false)
+    commit('SET_STORE', data)
+    commit('SET_STORE_DTL_CHANGE', false)
     ref.get().then((doc) => {
       if (doc.exists) {
         data = {
@@ -344,12 +351,14 @@ const actions = {
           description: doc.data().description,
           img: doc.data().img,
           public: doc.data().public,
-          place: doc.data().place,
-          validate: doc.data().validate,
           category: doc.data().category,
+          place: doc.data().place,
+          subCategory: doc.data().subCategory,
+          price: doc.data().price,
+          priceVariable: doc.data().priceVariable,
         }
-        commit('SET_VACANCY', data)
-        commit('SET_VACANCY_DTL_CHANGE', true)
+        commit('SET_STORE', data)
+        commit('SET_STORE_DTL_CHANGE', true)
         // Loading.hide()
       } else {
         console.log("No such document!")
@@ -359,23 +368,23 @@ const actions = {
   },
 
 
-  deleteVacancy({ commit }, id) {
+  deleteStore({ commit }, id) {
     Loading.show()
-    commit("SET_VACANCY_DELETED", false)
+    commit("SET_STORE_DELETED", false)
     var storageRef = fireStorage.ref()
 
-    var desertRef = storageRef.child('vacancies/' + id);
+    var desertRef = storageRef.child('stories/' + id);
 
-    firestoreDb.collection('vacancies').doc(id).delete().then(() => {
+    firestoreDb.collection('stories').doc(id).delete().then(() => {
 
       // Delete the file
       desertRef.delete().then(function () {
         // File deleted successfully
-        commit("SET_VACANCY_DELETED", true)
+        commit("SET_STORE_DELETED", true)
         Loading.hide()
       }).catch(function (error) {
         // Uh-oh, an error occurred!
-        commit("SET_VACANCY_DELETED", true)
+        commit("SET_STORE_DELETED", true)
         console.log("Erro ao deletar imagem")
         Loading.hide()
       });

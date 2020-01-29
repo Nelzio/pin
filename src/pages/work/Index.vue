@@ -30,7 +30,7 @@
     </div>
 
     <div class="q-pb-xl" :class="cardClass">
-      <div v-if="!val_search && !filterVal" class="row q-gutter-y-md justify-center" ref>
+      <div v-if="!val_search && !filterVal" class="row q-gutter-y-md">
         <div
           ref="item"
           class="col-12 col-md-4"
@@ -41,7 +41,7 @@
           <vacancy-desktop-component :lorem="lorem" :vacancy="vacancy" />
         </div>
       </div>
-      <div v-else class="row q-gutter-y-md justify-center" ref>
+      <div v-else class="row q-gutter-y-md">
         <div
           ref="item"
           class="col-12 col-md-4"
@@ -100,7 +100,8 @@ export default {
       pitch: 1,
       rate: 1,
       synth: window.speechSynthesis,
-      itemsLayzeRef: []
+      itemsLayzeRef: [],
+      lazyImages: []
     };
   },
   computed: {
@@ -162,6 +163,7 @@ export default {
         this.$router.push("/home");
       }
     },
+    
 
     lazeItems() {
       if (!(this.itemsLayzeRef == this.$refs.item)) {
@@ -232,6 +234,7 @@ export default {
   },
   mounted() {
     // this.lazeItems();
+
     if (this.vibrateState) {
       window.addEventListener("scroll", this.lazeItems);
       window.addEventListener("resize", this.lazeItems);
@@ -241,9 +244,7 @@ export default {
     this.deviceWidth = window.screen.width;
     if (this.$q.screen.gt.sm) {
       this.padding = "q-pa-sm";
-      this.cardClass = "q-pl-md";
-    } else {
-      this.cardClass = "";
+      this.cardClass = "q-pl-xl";
     }
     // console.log(this.deviceWidth)
     // text to speech

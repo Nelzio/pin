@@ -17,7 +17,7 @@
           </q-card-actions>
         </q-card>
 
-        <q-form class="q-gutter-md" ref="vacancyForm">
+        <q-form class="q-gutter-md" ref="storeForm">
           <input
             id="fileInput"
             type="file"
@@ -31,40 +31,49 @@
             :color="darkModeConf.color"
             rounded
             outlined
-            v-model="vacancy.title"
+            v-model="store.title"
             label="Titulo"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza O título']"
           />
-          <!-- <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
+          <!-- <q-input :color="darkModeConf.color" rounded outlined v-model="store.description" label="Descricao" /> -->
           <q-select
             rounded
             outlined
             :color="darkModeConf.color"
-            v-model="vacancy.category"
+            v-model="store.category"
             :options="categories"
             label="Categoria"
+            :rules="[ val => val && val.length > 0 || 'Selecione a categoria']"
           />
           <q-select
             rounded
             outlined
             :color="darkModeConf.color"
-            v-model="vacancy.place"
+            v-model="store.subCategory"
+            :options="subCategories"
+            label="Sub Categoria"
+            :rules="[ val => val && val.length > 0 || 'Selecione a sub categoria']"
+          />
+          <q-select
+            rounded
+            outlined
+            :color="darkModeConf.color"
+            v-model="store.place"
             :options="places"
             label="Província"
+            :rules="[ val => val && val.length > 0 || 'Selecione a provincia']"
           />
-          <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.validate" mask="##/##/####" :rules="[ val => val && val.length > 0 || 'Introduza a data de validade']">
+          <q-input rounded outlined v-model="store.price" :color="darkModeConf.color" label="Preço" >
+
             <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                  <q-date :color="darkModeConf.color" v-model="vacancy.validate" @input="() => $refs.qDateProxy.hide()" mask="DD/MM/YYYY" />
-                </q-popup-proxy>
-              </q-icon>
+              <q-checkbox :color="darkModeConf.color" v-model="store.priceVariable" />
+              <div class="text-body1">Negociavel</div>
             </template>
           </q-input>
           <q-editor
             :color="darkModeConf.color"
-            v-model="vacancy.description"
+            v-model="store.description"
             min-height="8rem"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza uma descrição']"
@@ -76,7 +85,7 @@
               :color="darkModeConf.color"
               :class="darkModeConf.textBtn"
               label="Enviar"
-              @click="addVacancy()"
+              @click="addStore()"
             />
           </div>
         </q-form>
@@ -86,7 +95,7 @@
     <div>
       <q-dialog v-model="confirmInsert">
         <q-card>
-          <q-card-section class="text-h5 text-green">Vaga inserida com sucesso</q-card-section>
+          <q-card-section class="text-h5 text-green">Inserido com sucesso</q-card-section>
 
           <q-card-actions align="right">
             <q-btn flat label="OK" color="green" v-close-popup />
@@ -115,17 +124,20 @@ export default {
     return {
       confirmInsert: false,
       errorFileDialog: false,
-      vacancy: {
+      store: {
         title: "",
         user: "",
         description: "",
         img: "",
         public: false,
         category: "",
-        validate: "",
-        place: ""
+        place: "",
+        subCategory: "",
+        price: "",
+        priceVariable: false,
       },
       imageUrl: "",
+      categories: ["Produto", "Serviço"],
       places: [
         "Cabo Delgado",
         "Gaza",
@@ -139,53 +151,28 @@ export default {
         "Tete",
         "Zambézia"
       ],
-      categories: [
-        "Administração e Secretariado",
-        "Agricultura e Pescas",
-        "Aquisições e Procurement",
-        "Assistente",
-        "Auditoria e Consultoria",
-        "Comercial e Vendas",
-        "Comunicação Social",
-        "Design e Multimédia",
-        "Engenheiro Electrotécnico",
-        "Engenheiro Mecânico",
-        "Estágios e Bolsas",
-        "Finanças e Contabilidade",
-        "Gastronomia",
-        "Gestão de Dados",
-        "Gestão de Projectos",
-        "Gestão e Programação",
-        "Gestão Financeira",
-        "Informática e Programação",
-        "Monitoria e Avaliação",
-        "Oficial Técnico",
-        "Operador",
-        "Recursos Humanos",
-        "Relações Públicas",
-        "Saúde",
-        "Supervisão e Coordenação",
-        "Técnico",
-        "Transportes e Logística",
-        "Vendas"
+      subCategories: [
+        "Vestuário e moda",
+        "Construção",
+        "Eletrodomésticos",
+        "Culinária"
       ]
     };
   },
   computed: {
     ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
-    ...mapState("vacancy", ["vacancyDtl"]),
+    ...mapState("store", ["storeDtl"]),
     ...mapGetters("auth", ["user"])
   },
   methods: {
-    ...mapActions("vacancy", ["listVacancy", "createVacancy"]),
-    addVacancy() {
-      // console.log(this.vacancy)
-      this.vacancy.user = this.user.email;
-      this.$refs.vacancyForm.validate();
-      if (this.$refs.vacancyForm.hasError) {
+    ...mapActions("store", ["createStore"]),
+    addStore() {
+      this.store.user = this.user.email;
+      this.$refs.storeForm.validate();
+      if (this.$refs.storeForm.hasError) {
         this.formHasError = true;
       } else {
-        this.createVacancy(this.vacancy);
+        this.createStore(this.store);
       }
     },
     proccessFile() {
@@ -204,20 +191,26 @@ export default {
         this.imageUrl = fileReader.result;
       });
       fileReader.readAsDataURL(files[0]);
-      this.vacancy.img = files[0];
+      this.store.img = files[0];
     }
   },
   watch: {
-    vacancyDtl() {
-      if (!this.vacancyDtl.title) {
-        this.vacancy = {
+    storeDtl() {
+      if (!this.storeDtl.title) {
+        this.store = {
           title: "",
           user: "",
           description: "",
-          img: ""
+          img: "",
+          public: false,
+          category: "",
+          place: "",
+          subCategory: "",
+          price: "",
+          priceVariable: false,
         };
         this.imageUrl = "";
-        this.$refs.vacancyForm.resetValidation();
+        this.$refs.storeForm.resetValidation();
         this.confirmInsert = true;
       }
     }

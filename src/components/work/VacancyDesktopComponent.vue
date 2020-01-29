@@ -1,47 +1,51 @@
 <template>
-  <q-card :id="vacancy.key" class="my-card" v-touch-hold:300.mouse="handleHold">
-    <q-item>
-      <q-item-section avatar>
-        <q-btn round @click="detailUser(user)">
-          <q-avatar text-color="white">
-            <q-img :src="user.photoURL" spinner-color="white" />
-          </q-avatar>
-        </q-btn>
-      </q-item-section>
+  <div ref="imgProduct">
+    <q-card :id="vacancy.key" class="my-card" v-touch-hold:300.mouse="handleHold">
+      <q-item>
+        <q-item-section avatar>
+          <q-btn round @click="detailUser(user)">
+            <q-avatar text-color="white">
+              <q-img :src="user.photoURL" spinner-color="white" ref="imgProfile" />
+            </q-avatar>
+          </q-btn>
+        </q-item-section>
 
-      <q-item-section>
-        <q-item-label>{{ user.displayName }}</q-item-label>
-        <q-item-label caption>{{ user.email }}</q-item-label>
-      </q-item-section>
-    </q-item>
-    <q-img v-ripple v-if="vacancy.img" :src="vacancy.img" style="min-height: 200px;" @click="$router.push('/vacancies/details/'+vacancy.key)" />
+        <q-item-section>
+          <q-item-label>{{ user.displayName }}</q-item-label>
+          <q-item-label caption>{{ user.email }}</q-item-label>
+        </q-item-section>
+      </q-item>
 
-    <q-card-section class="q-pb-none">
-      <div :class="getFont.title">{{ vacancy.title }}</div>
-    </q-card-section>
+      <img v-ripple v-if="vacancy.img && imgLoaded" :src="vacancy.img" style="min-height: 200px;" @click="$router.push('/vacancies/details/'+vacancy.key)" />
+      <q-skeleton v-else height="230px" square />
 
-    <!-- <q-card-section class="q-pt-none q-pb-none">{{ vacancy.description }}</q-card-section> -->
+      <q-card-section class="q-pb-none">
+        <div :class="getFont.title">{{ vacancy.title }}</div>
+      </q-card-section>
 
-    <q-card-actions align="right" :title="vacancy.key">
-      <q-btn
-        rounded
-        outline
-        :color="darkModeConf.colorBtn"
-        :text-color="darkModeConf.textBtn"
-        icon="details"
-        label="Detalhes"
-        :to="'/vacancies/details/'+vacancy.key"
-      />
-      <!-- <q-btn
-					round
-					outline
-					size="sm"
-					flat
-					:color="appMode.modeName === 'dark' ? 'white' : ''"
-					icon="volume_up"
-      />-->
-    </q-card-actions>
-  </q-card>
+      <!-- <q-card-section class="q-pt-none q-pb-none">{{ vacancy.description }}</q-card-section> -->
+
+      <q-card-actions align="right" :title="vacancy.key">
+        <q-btn
+          rounded
+          outline
+          :color="darkModeConf.colorBtn"
+          :text-color="darkModeConf.textBtn"
+          icon="details"
+          label="Detalhes"
+          :to="'/vacancies/details/'+vacancy.key"
+        />
+        <!-- <q-btn
+            round
+            outline
+            size="sm"
+            flat
+            :color="appMode.modeName === 'dark' ? 'white' : ''"
+            icon="volume_up"
+        />-->
+      </q-card-actions>
+    </q-card>
+  </div>
 </template>
 
 <script>
@@ -62,6 +66,8 @@ export default {
         education: "",
         date: "",
       },
+      lazyImages: [],
+      imgLoaded: false
     };
   },
   computed: {
@@ -111,10 +117,40 @@ export default {
       this.$root.$emit("textToSpeech", {vacancy: this.vacancy, user: this.user.displayName});
       // console.log(this.vacancy)
     },
+
+    layzeImg () {
+      if (!this.imgLoaded) {
+        if (!(this.lazyImages == this.$refs.imgProduct)) {
+          this.lazyImages = this.$refs.imgProduct;
+        }
+
+        if (this.lazyImages) {
+          if ((this.lazyImages.getBoundingClientRect().top <= window.innerHeight && this.lazyImages.getBoundingClientRect().bottom >= 0) && getComputedStyle(this.lazyImages).display !== "none") {
+            this.imgLoaded = true
+          }
+        }
+      }
+    },
   },
+
   mounted() {
+    this.layzeImg()
+    window.addEventListener("scroll", this.layzeImg);
+    window.addEventListener("resize", this.layzeImg);
+    window.addEventListener("orientationchange", this.layzeImg);
+      
     this.detailVacancyUser(this.vacancy.user);
+    
   },
+
+  watch: {
+    vacancy () {
+      this.layzeImg()
+      window.addEventListener("scroll", this.layzeImg);
+      window.addEventListener("resize", this.layzeImg);
+      window.addEventListener("orientationchange", this.layzeImg);
+    }
+  }
 };
 </script>
 

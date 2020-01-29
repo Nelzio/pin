@@ -89,7 +89,7 @@ export default {
     ...mapActions("user", ["detailUser"]),
   },
   created() {
-    this.detailStore(this.$route.params.id);
+    this.detailStore(this.$route.params.idPS);
   }
 };
 </script>

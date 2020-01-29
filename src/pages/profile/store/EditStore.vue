@@ -19,7 +19,7 @@
           </q-card-actions>
         </q-card>
 
-        <q-form class="q-gutter-md">
+        <q-form class="q-gutter-md" ref="storeForm">
           <input
             id="fileInput"
             type="file"
@@ -28,41 +28,58 @@
             accept="image/*"
             @change="onChangeImg"
           />
+
           <q-input
-            ref="titleInput"
             :color="darkModeConf.color"
             rounded
             outlined
+            v-model="storeData.title"
             label="Titulo"
-            v-model="vacancyData.title"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Introduza O título']"
           />
-          <!-- <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
+          <!-- <q-input :color="darkModeConf.color" rounded outlined v-model="store.description" label="Descricao" /> -->
           <q-select
             rounded
             outlined
             :color="darkModeConf.color"
-            v-model="vacancyData.category"
+            v-model="storeData.category"
             :options="categories"
             label="Categoria"
+            :rules="[ val => val && val.length > 0 || 'Selecione a categoria']"
           />
           <q-select
             rounded
             outlined
             :color="darkModeConf.color"
-            v-model="vacancyData.place"
+            v-model="storeData.subCategory"
+            :options="subCategories"
+            label="Sub Categoria"
+            :rules="[ val => val && val.length > 0 || 'Selecione a sub categoria']"
+          />
+          <q-select
+            rounded
+            outlined
+            :color="darkModeConf.color"
+            v-model="storeData.place"
             :options="places"
             label="Província"
+            :rules="[ val => val && val.length > 0 || 'Selecione a provincia']"
           />
-          <q-input :color="darkModeConf.color" label="Data de validade" rounded outlined v-model="vacancyData.validate" mask="##/##/####" :rules="[ val => val && val.length > 0 || 'Introduza a data de validade']">
+          <q-input rounded outlined v-model="storeData.price" :color="darkModeConf.color" label="Preço" >
+
             <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                  <q-date :color="darkModeConf.color" v-model="vacancyData.validate" @input="() => $refs.qDateProxy.hide()" mask="DD/MM/YYYY" />
-                </q-popup-proxy>
-              </q-icon>
+              <q-checkbox :color="darkModeConf.color" v-model="storeData.priceVariable" />
+              <div class="text-body1">Negociavel</div>
             </template>
           </q-input>
-          <q-editor :color="darkModeConf.color" v-model="vacancyData.description" min-height="8rem" />
+          <q-editor
+            :color="darkModeConf.color"
+            v-model="storeData.description"
+            min-height="8rem"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Introduza uma descrição']"
+          />
           <div>
             <q-btn
               rounded
@@ -70,7 +87,7 @@
               :color="darkModeConf.color"
               :class="darkModeConf.textBtn"
               label="Enviar"
-              @click="updateVacancyThis()"
+              @click="updateStoreThis()"
             />
           </div>
         </q-form>
@@ -79,7 +96,7 @@
     <div>
       <q-dialog v-model="confirmInsert">
         <q-card>
-          <q-card-section class="text-h5 text-green">Vaga atualizada com sucesso</q-card-section>
+          <q-card-section class="text-h5 text-green">Atualizada com sucesso</q-card-section>
 
           <q-card-actions align="right">
             <q-btn flat label="OK" color="primary" @click="confirmIsertFunc()" />
@@ -109,28 +126,33 @@ export default {
     return {
       confirmInsert: false,
       errorFileDialog: false,
-      vacancyData: {
+      storeData: {
+        title: "",
+        user: "",
         description: "",
         img: "",
-        user: "",
-        title: "",
         public: false,
         category: "",
-        validate: "",
-        place: ""
+        place: "",
+        subCategory: "",
+        price: "",
+        priceVariable: false,
       },
-      vacancyDataTemp: {
+      storeDataTemp: {
+        title: "",
+        user: "",
         description: "",
         img: "",
-        user: "",
-        title: "",
         public: false,
         category: "",
-        validate: "",
-        place: ""
+        place: "",
+        subCategory: "",
+        price: "",
+        priceVariable: false,
       },
       fileImage: null,
       imageUrl: "",
+      categories: ["Produto", "Serviço"],
       places: [
         "Cabo Delgado",
         "Gaza",
@@ -144,59 +166,33 @@ export default {
         "Tete",
         "Zambézia"
       ],
-      categories: [
-        "Administração e Secretariado",
-        "Agricultura e Pescas",
-        "Aquisições e Procurement",
-        "Assistente",
-        "Auditoria e Consultoria",
-        "Comercial e Vendas",
-        "Comunicação Social",
-        "Design e Multimédia",
-        "Engenheiro Electrotécnico",
-        "Engenheiro Mecânico",
-        "Estágios e Bolsas",
-        "Finanças e Contabilidade",
-        "Gastronomia",
-        "Gestão de Dados",
-        "Gestão de Projectos",
-        "Gestão e Programação",
-        "Gestão Financeira",
-        "Informática e Programação",
-        "Monitoria e Avaliação",
-        "Oficial Técnico",
-        "Operador",
-        "Recursos Humanos",
-        "Relações Públicas",
-        "Saúde",
-        "Supervisão e Coordenação",
-        "Técnico",
-        "Transportes e Logística",
-        "Vendas"
+      subCategories: [
+        "Vestuário e moda",
+        "Construção",
+        "Eletrodomésticos",
+        "Culinária"
       ]
     };
   },
   computed: {
     ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
-    ...mapState("vacancy", ["vacancyDtl", "vacancyUploaded"]),
-    ...mapGetters("vacancy", ["getVacancy"])
+    ...mapState("store", ["storeDtl", "storeUploaded"]),
+    ...mapGetters("store", ["getSore"])
   },
   methods: {
     confirmIsertFunc() {
       this.confirmInsert = false;
       this.$router.go(-1);
     },
-    ...mapActions("vacancy", [
-      "listVacancy",
-      "createVacancy",
-      "detailVacancy",
-      "updateVacancy"
+    ...mapActions("store", [
+      "detailStore",
+      "updateStore"
     ]),
 
-    detailVacancyLocal(id) {
+    detailStoreLocal(id) {
       // test
       // Loading.show()
-      const ref = firestoreDb.collection("vacancies").doc(id);
+      const ref = firestoreDb.collection("stories").doc(id);
       let data = {};
       ref.get().then(doc => {
         if (doc.exists) {
@@ -208,10 +204,12 @@ export default {
             img: doc.data().img,
             public: doc.data().public,
             category: doc.data().category,
-            validate: doc.data().validate,
-            place: doc.data().place
+            place: doc.data().place,
+            subCategory: doc.data().subCategory,
+            price: doc.data().price,
+            priceVariable: doc.data().priceVariable,
           };
-          this.vacancyData = data;
+          this.storeData = data;
           this.imageUrl = data.img;
           // Loading.hide()
         } else {
@@ -221,10 +219,10 @@ export default {
       });
     },
 
-    updateVacancyThis() {
-      this.updateVacancy({
-        id: this.$route.params.idEdit,
-        data: this.vacancyData,
+    updateStoreThis() {
+      this.updateStore({
+        id: this.$route.params.idEditStore,
+        data: this.storeData,
         img: this.fileImage
       });
     },
@@ -252,11 +250,11 @@ export default {
   },
 
   mounted() {
-    this.detailVacancyLocal(this.$route.params.idEdit);
+    this.detailStoreLocal(this.$route.params.idEditStore);
   },
   watch: {
-    vacancyUploaded() {
-      if (this.vacancyUploaded) {
+    storeUploaded() {
+      if (this.storeUploaded) {
         this.confirmInsert = true;
       }
     }
