@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-gutter-y-md q-pt-md">
+  <q-page class="q-gutter-y-md q-pt-md" v-touch-swipe.mouse.left.right="handleSwipe">
     <!-- content -->
 
     <div class="row justify-center">
@@ -135,74 +135,6 @@
 
         <q-separator />
 
-        <!-- sec4 -->
-        <!-- <div>
-          <q-toolbar :class="darkModeConf.bgColor">
-            <q-toolbar-title>Produtos</q-toolbar-title>
-            <q-btn flat round dense icon="add" />
-          </q-toolbar>
-          <div class="row">
-            <div class="col-12 col-md-8 q-pa-sm" v-for="i in 4" :key="i">
-              <q-card class="my-card">
-                <q-img
-                  src="https://cdn.awsli.com.br/600x1000/60/60876/produto/28035638/9e1cebfb32.jpg"
-                  spinner-color="white"
-                />
-                <q-card-section>
-                  <div class="row">
-                    <div class="col-8">Chinelos de pneu.</div>
-                    <div class="col-8 text-right">800 mt</div>
-                  </div>
-                </q-card-section>
-                <q-card-actions align="right">
-                  <q-btn outline rounded label="Detalhes" />
-                  <q-btn outline rounded icon="edit" />
-                  <q-btn outline rounded color="red" icon="delete" />
-                </q-card-actions>
-              </q-card>
-            </div>
-          </div>
-          <div class="q-pa-sm">
-            <q-btn outline rounded class="full-width" label="Ver todos" />
-          </div>
-        </div>-->
-
-        <!-- sec 5 -->
-
-        <!-- <q-separator />
-
-        <div>
-          <q-toolbar :class="darkModeConf.bgColor">
-            <q-toolbar-title>Serviços</q-toolbar-title>
-            <q-btn flat round dense icon="add" />
-          </q-toolbar>
-          <div class="row">
-            <div class="col-12 col-md-8 q-pa-sm" v-for="i in 4" :key="i">
-              <q-card class="my-card">
-                <q-img
-                  src="https://cdn.awsli.com.br/600x1000/60/60876/produto/28035638/9e1cebfb32.jpg"
-                  spinner-color="white"
-                />
-                <q-card-section>
-                  <div class="row">
-                    <div class="col-12">Carpintaria</div>
-                  </div>
-                </q-card-section>
-                <q-card-actions align="right">
-                  <q-btn outline rounded label="Detalhes" />
-                  <q-btn outline rounded icon="edit" />
-                  <q-btn outline rounded color="red" icon="delete" />
-                </q-card-actions>
-              </q-card>
-            </div>
-          </div>
-          <div class="q-pa-sm">
-            <q-btn outline rounded class="full-width" label="Ver todos" />
-          </div>
-        </div>
-
-        <q-separator />-->
-
         <div v-if="vacanciesAply.length">
           <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
             <q-toolbar-title>Minhas candidaturas</q-toolbar-title>
@@ -238,7 +170,55 @@
           </div>
         </div>
         <!-- sec 6 -->
-        <div v-if="myVacancies.length">
+
+        <!-- asdasdasd -->
+
+        <div v-if="!(vacancyNum == 0 && storeNum == 0)">
+          <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
+            <q-toolbar-title>Actividades</q-toolbar-title>
+          </q-toolbar>
+          <div class="row">
+            <div v-if="vacancyNum > 0" class="q-pa-sm col-12 col-md-4">
+              <q-card class="my-card">
+                <q-item
+                  :class="darkModeConf.textColor"
+                  clickable
+                  to="/profile/vacancies"
+                  v-ripple
+                >
+                  <q-item-section avatar>
+                    <q-avatar size="65px">
+                      <q-icon name="work" />
+                    </q-avatar>
+                  </q-item-section>
+                  <q-item-section>
+                    <div class="text-bold text-body1">{{ vacancyNum }} vagas de emprego.</div>
+                  </q-item-section>
+                </q-item>
+              </q-card>
+            </div>
+            <div v-if="storeNum > 0" class="q-pa-sm col-12 col-md-4">
+              <q-card class="my-card">
+                <q-item
+                  :class="darkModeConf.textColor"
+                  clickable
+                  to="/profile/store"
+                  v-ripple
+                >
+                  <q-item-section avatar>
+                    <q-avatar size="65px">
+                      <q-icon name="store" />
+                    </q-avatar>
+                  </q-item-section>
+                  <q-item-section>
+                    <div class="text-bold text-body1">{{ storeNum }} produtos e Serviços</div>
+                  </q-item-section>
+                </q-item>
+              </q-card>
+            </div>
+          </div>
+        </div>
+        <!-- <div v-if="myVacancies.length">
           <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
             <q-toolbar-title>Vagas de emprego</q-toolbar-title>
             <q-btn flat round dense icon="add" to="/profile/vacancy/add" />
@@ -319,7 +299,8 @@
             </q-card-actions>
           </q-card>
         </q-dialog>
-      </div>
+      </div> -->
+    </div>
     </div>
   </q-page>
 </template>
@@ -344,7 +325,9 @@ export default {
       },
       vacanciesAply: [],
       myVacancies: [],
-      myVacanciesAux: []
+      myVacanciesAux: [],
+      vacancyNum: 0,
+      storeNum: 0,
     };
   },
   computed: {
@@ -369,34 +352,44 @@ export default {
     ]),
     ...mapActions("auth", ["detailUser", "checkAuthUser"]),
 
-    deleteVacancyThis(id) {
-      const vm = this;
+    // deleteVacancyThis(id) {
+    //   const vm = this;
 
-      this.deleteVacancy(id).then(function() {
-        vm.confirDeleteAux = false;
-        vm.confirDelete = false;
-      });
-    },
+    //   this.deleteVacancy(id).then(function() {
+    //     vm.confirDeleteAux = false;
+    //     vm.confirDelete = false;
+    //   });
+    // },
 
-    vacancyDtlFunc(id) {
-      console.log(id);
-      this.detailVacancy(id);
-      console.log("Nelzio Sitoe delll");
-    },
+    // vacancyDtlFunc(id) {
+    //   console.log(id);
+    //   this.detailVacancy(id);
+    //   console.log("Nelzio Sitoe delll");
+    // },
 
-    updateVacancyHere(payload) {
-      Loading.show();
-      const updateRef = firestoreDb.collection("vacancies").doc(payload.id);
-      updateRef
-        .set(payload.data)
-        .then(() => {
-          this.listVacancyMyHere(this.user.email);
-          Loading.hide();
-        })
-        .catch(error => {
-          Loading.hide();
-          alert("Error update document: ", error);
-        });
+    // updateVacancyHere(payload) {
+    //   Loading.show();
+    //   const updateRef = firestoreDb.collection("vacancies").doc(payload.id);
+    //   updateRef
+    //     .set(payload.data)
+    //     .then(() => {
+    //       this.listVacancyMyHere(this.user.email);
+    //       Loading.hide();
+    //     })
+    //     .catch(error => {
+    //       Loading.hide();
+    //       alert("Error update document: ", error);
+    //     });
+    // },
+    
+    handleSwipe(val) {
+      // if (val.direction === "left") {
+      //   this.$router.push("/store");
+      // }
+
+      if (val.direction === "right") {
+        this.$router.push("/settings");
+      }
     },
 
     makePublic(id, data, val) {
@@ -462,28 +455,40 @@ export default {
       const ref = firestoreDb.collection("vacancies");
       ref
         .where("user", "==", user)
-        .limit(10)
-        .get()
-        .then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
-            if (vm.myVacancies.length !== querySnapshot.docs.length) {
-              vm.myVacancies.push({
-                key: doc.id,
-                title: doc.data().title,
-                user: doc.data().user,
-                description: doc.data().description,
-                img: doc.data().img,
-                public: doc.data().public,
-                place: doc.data().place,
-                validate: doc.data().validate,
-                category: doc.data().category
-              });
-            }
-            myVacanciesAux.push({
-              public: doc.data().public
-            });
-          });
-          vm.myVacanciesAux = myVacanciesAux;
+        .onSnapshot(function(querySnapshot) {
+          vm.vacancyNum = querySnapshot.docs.length
+          // querySnapshot.forEach(function(doc) {
+          //   // if (vm.myVacancies.length !== querySnapshot.docs.length) {
+          //   //   vm.myVacancies.push({
+          //   //     key: doc.id,
+          //   //     title: doc.data().title,
+          //   //     user: doc.data().user,
+          //   //     description: doc.data().description,
+          //   //     img: doc.data().img,
+          //   //     public: doc.data().public,
+          //   //     place: doc.data().place,
+          //   //     validate: doc.data().validate,
+          //   //     category: doc.data().category
+          //   //   });
+          //   // }
+          //   // myVacanciesAux.push({
+          //   //   public: doc.data().public
+          //   // });
+          // });
+          // vm.myVacanciesAux = myVacanciesAux;
+        });
+    },
+    listStoreMyHere(user) {
+      var storageRef = fireStorage.ref();
+      if (!offline.data().isOnline) {
+        return alert("Sem internet");
+      }
+      const vm = this;
+      const ref = firestoreDb.collection("stories");
+      ref
+        .where("user", "==", user)
+        .onSnapshot(function(querySnapshot) {
+          vm.storeNum = querySnapshot.docs.length
         });
     }
   },
@@ -491,26 +496,27 @@ export default {
     this.checkAuthUser();
     this.detailUser(this.user.email);
     this.listVacancyMyHere(this.user.email);
+    this.listStoreMyHere(this.user.email)
   },
   mounted() {
     // this.listVacancyMy(this.user.email)
     this.listCandidatures(this.user.email);
   },
-  watch: {
-    vacancyDetail() {
-      if (this.vacancyDetail) {
-        this.confirDelete = true;
-      }
-    },
-    vacancyDeleted() {
-      if (this.vacancyDeleted) {
-        this.confirDeleteSuccess = true;
-        this.listVacancyMy(this.user.email);
-      }
-    },
-    vacancyUploaded() {
-      this.listVacancyMy(this.user.email);
-    }
-  }
+  // watch: {
+  //   vacancyDetail() {
+  //     if (this.vacancyDetail) {
+  //       this.confirDelete = true;
+  //     }
+  //   },
+  //   vacancyDeleted() {
+  //     if (this.vacancyDeleted) {
+  //       this.confirDeleteSuccess = true;
+  //       this.listVacancyMy(this.user.email);
+  //     }
+  //   },
+  //   vacancyUploaded() {
+  //     this.listVacancyMy(this.user.email);
+  //   }
+  // }
 };
 </script>

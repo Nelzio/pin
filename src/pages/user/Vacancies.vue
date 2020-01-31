@@ -1,59 +1,8 @@
 <template>
-  <q-page class="q-pb-xl">
+  <q-page v-touch-swipe.mouse.left.right="handleSwipe" class="q-pb-xl">
     <!-- content -->
 
-    <div>
-    <div class="q-pl-sm text-h6">
-      Filtrar
-    </div>
-    <div>
-      <q-scroll-area
-        horizontal
-      >
-        <div class="row no-wrap q-pa-sm q-gutter-sm">
-          <!-- <div v-for="n in 10" :key="n" style="width: 150px" class="q-pa-sm">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto fuga quae veritatis blanditiis sequi id expedita amet esse aspernatur! Iure, doloribus!
-          </div> -->
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          
-        </div>
-      </q-scroll-area>
-    </div>
-  </div>
-
-    <div v-if="!stories || loading" class="row justify-center q-gutter-y-md"  v-touch-swipe.mouse.left.right="handleSwipe">
+    <div v-if="!vacancies || loading" class="row justify-center q-gutter-y-md">
       <div class="col-12 col-md-4" v-for="i in 20" :key="i">
         <q-card>
           <q-item>
@@ -80,16 +29,16 @@
       </div>
     </div>
 
-    <div class="q-pb-xl" :class="cardClass"  v-touch-swipe.mouse.left.right="handleSwipe">
+    <div class="q-pb-xl" :class="cardClass">
       <div v-if="!val_search && !filterVal" class="row q-gutter-y-md">
         <div
           ref="item"
           class="col-12 col-md-4"
           :class="padding"
-          v-for="store in stories"
-          :key="store.key"
+          v-for="vacancy in vacancies"
+          :key="vacancy.key"
         >
-          <store-component :lorem="lorem" :store="store" />
+          <vacancy-desktop-component :lorem="lorem" :vacancy="vacancy" />
         </div>
       </div>
       <div v-else class="row q-gutter-y-md">
@@ -97,22 +46,13 @@
           ref="item"
           class="col-12 col-md-4"
           :class="padding"
-          v-for="store in data_var"
-          :key="store.key"
+          v-for="vacancy in data_var"
+          :key="vacancy.key"
         >
-          <store-component :lorem="lorem" :store="store" />
+          <vacancy-desktop-component :lorem="lorem" :vacancy="vacancy" />
         </div>
       </div>
     </div>
-
-    <!-- <div v-else>
-      <q-list>
-        <q-card class="my-card" v-for="(store, i) in stories" :key="i">
-          <store-component :store="store"/>
-        </q-card>
-        
-      </q-list>
-    </div>-->
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user">
       <q-btn
@@ -120,7 +60,7 @@
         icon="add"
         :color="darkModeConf.color"
         :class="darkModeConf.textBtn"
-        to="/profile/store/add"
+        to="/profile/vacancy/add"
       />
     </q-page-sticky>
   </q-page>
@@ -128,10 +68,13 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import StoreComponent from "components/store/StoreComponent.vue";
+import VacancyComponent from "components/work/VacancyComponent";
+import VacancyDesktopComponent from "components/work/VacancyDesktopComponent";
+import { firestoreDb } from "boot/firebase"
+import offline from 'v-offline'
 export default {
-  components: { StoreComponent },
-  name: "stories",
+  components: { VacancyDesktopComponent, VacancyComponent },
+  name: "Vacancies",
   props: ["val_search", "filterVal"],
   data() {
     return {
@@ -140,7 +83,7 @@ export default {
       padding: "",
       maximizedToggle: true,
       deviceWidth: 375,
-      addSore: false,
+      addVacancy: false,
       text: "",
       description: "",
       valSearch: "",
@@ -151,19 +94,47 @@ export default {
       rate: 1,
       synth: window.speechSynthesis,
       itemsLayzeRef: [],
-      lazyImages: []
+      lazyImages: [],
+      vacancies: []
     };
   },
   computed: {
     ...mapState("settings", ["settings", "appMode", "darkModeConf", "vibrateState"]),
-    ...mapState("store", ["stories", "store"]),
-    ...mapGetters("store", ["getStories", "getStore"]),
+    // ...mapState("vacancy", ["vacancies", "vacancy"]),
+    // ...mapGetters("vacancy", ["getVacancies", "getVacancy"]),
     ...mapGetters("auth", ["user"])
   },
   methods: {
     ...mapActions("settings", ["setSettings", "playSound"]),
-    ...mapActions("store", ["listStore", "createStore"]),
+    // ...mapActions("vacancy", ["listVacancy", "createVacancy"]),
     ...mapActions("user", ["detailUser"]),
+
+    listVacancyHere( user) { // done
+    if (!offline.data().isOnline) {
+      return alert("Sem internet")
+    }
+    const ref = firestoreDb.collection('vacancies')
+    var vacancies = []
+    const vm = this
+    ref.where("user", "==", user)
+      .get().then(function (querySnapshot) {
+        // vacancies = []
+        querySnapshot.forEach(function (doc) {
+          vacancies.push({
+            key: doc.id,
+            title: doc.data().title,
+            user: doc.data().user,
+            description: doc.data().description,
+            img: doc.data().img,
+            public: doc.data().public,
+            place: doc.data().place,
+            validate: doc.data().validate,
+            category: doc.data().category
+          })
+        });
+        vm.vacancies = vacancies
+      });
+  },
 
     speak(userInput) {
       if (this.synth.speaking) {
@@ -206,11 +177,11 @@ export default {
 
     handleSwipe(val) {
       if (val.direction === "left") {
-        this.$router.push("/settings");
+        this.$router.push("/store");
       }
 
       if (val.direction === "right") {
-        this.$router.push("/vacancies");
+        this.$router.push("/home");
       }
     },
     
@@ -242,34 +213,34 @@ export default {
       if (val != "") {
         var temp = new RegExp(".*" + val + ".*");
         var items = [];
-        var stories = this.stories;
-        for (var i in stories) {
-          var value = stories[i]["title"].match(temp);
-          var valueDesc = stories[i]["description"].match(temp);
-          var valuePlace = stories[i]["place"].match(temp);
-          var valueCategory = stories[i]["category"].match(temp);
+        var vacancies = this.vacancies;
+        for (var i in vacancies) {
+          var value = vacancies[i]["title"].match(temp);
+          var valueDesc = vacancies[i]["description"].match(temp);
+          var valuePlace = vacancies[i]["place"].match(temp);
+          var valueCategory = vacancies[i]["category"].match(temp);
           if (value != null && valueDesc != null) {
             if (
-              stories[i]["title"] == value[0] &&
-              stories[i]["description"] == valueDesc[0]
+              vacancies[i]["title"] == value[0] &&
+              vacancies[i]["description"] == valueDesc[0]
             ) {
-              items.push(stories[i]);
+              items.push(vacancies[i]);
             }
           } else if (value != null) {
-            if (stories[i]["title"] == value[0]) {
-              items.push(stories[i]);
+            if (vacancies[i]["title"] == value[0]) {
+              items.push(vacancies[i]);
             }
           } else if (valueDesc != null) {
-            if (stories[i]["description"] == valueDesc[0]) {
-              items.push(stories[i]);
+            if (vacancies[i]["description"] == valueDesc[0]) {
+              items.push(vacancies[i]);
             }
           } else if (valuePlace != null) {
-            if (stories[i]["place"] == valuePlace[0]) {
-              items.push(stories[i]);
+            if (vacancies[i]["place"] == valuePlace[0]) {
+              items.push(vacancies[i]);
             }
           } else if (valueCategory != null) {
-            if (stories[i]["category"] == valueCategory[0]) {
-              items.push(stories[i]);
+            if (vacancies[i]["category"] == valueCategory[0]) {
+              items.push(vacancies[i]);
             }
           }
         }
@@ -280,7 +251,7 @@ export default {
     }
   },
   created() {
-    this.listStore();
+    this.listVacancyHere(this.$route.params.idUser);
   },
   mounted() {
     // this.lazeItems();
@@ -298,29 +269,11 @@ export default {
     }
     // console.log(this.deviceWidth)
     // text to speech
-    this.$root.$on("textToSpeechStore", val => {
-      var text
-      if (val.store.price) {
-        var text = val.user + " disponibilizou o " + val.store.category + " " + val.store.title + " de " + val.store.price + " meticais.";
-      } else if (val.store.price && val.store.priceVariable) {
-        text = val.user + " disponibilizou o " + val.store.category + " " + val.store.title + " de " + val.store.price + " meticais.; Negociavel";
-      } else {
-        text = val.user + " disponibilizou o " + val.store.category + " " + val.store.title;
-      }
+    this.$root.$emit("isHomePage", "Vagas");
+    this.$root.$on("textToSpeech", val => {
+      var text = val.user + " disponibilizou a vaga de " + val.vacancy.title;
       this.speak(text);
     });
-
-    // Vibração
-    // if (this.settings.isVibrationActive) {
-    //   this.vibrate();
-    // }
-    // // Play do áudio
-    // if (this.settings.isNarratorActive) {
-    //   this.playSound("/statics/audios/vagas.aac");
-    // }
-    // this.listStore()
-
-    // this.$on("valueSearch")
   },
   watch: {
     val_search(val) {
@@ -329,7 +282,7 @@ export default {
     filterVal(val) {
       this.search(val);
     },
-    // stories() {
+    // vacancies() {
     //   this.lazeItems();
     // }
   }

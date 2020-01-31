@@ -98,7 +98,7 @@ export default {
       socialNet: false,
       apply: false,
       vacancyDone: false,
-      pitch: 1,
+      pitch: 0.8,
       rate: 1,
       synth: window.speechSynthesis,
       touchNums: 0,

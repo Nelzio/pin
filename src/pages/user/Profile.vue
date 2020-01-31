@@ -44,6 +44,9 @@
                       <q-item-label class="text-h6">Telefone</q-item-label>
                       <q-item-label>{{ getUser.phoneNumber }}</q-item-label>
                     </q-item-section>
+                    <q-item-section side>
+                      <q-btn round icon="ion-logo-whatsapp" color="green" :to="'https://wa.me/' + getUser.phoneNumber" />
+                    </q-item-section>
                   </q-item>
 
                   <q-separator spaced inset="item" />
@@ -120,7 +123,57 @@
 
     </div>
     <!-- sec 6 -->
-    <div v-if="vacancies.length" class="row justify-center">
+
+    <!-- asdasdasd -->
+
+        <div v-if="!(vacancyNum == 0 && storeNum == 0)">
+          <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
+            <q-toolbar-title>Actividades</q-toolbar-title>
+          </q-toolbar>
+          <div class="row">
+            <div v-if="vacancyNum > 0" class="q-pa-sm col-12 col-md-4">
+              <q-card class="my-card">
+                <q-item
+                  :class="darkModeConf.textColor"
+                  clickable
+                  :to="'/vacancies/' + this.$route.params.idUser"
+                  v-ripple
+                >
+                  <q-item-section avatar>
+                    <q-avatar size="65px">
+                      <q-icon name="work" />
+                    </q-avatar>
+                  </q-item-section>
+                  <q-item-section>
+                    <div class="text-bold text-body1">{{ vacancyNum }} vagas de emprego.</div>
+                  </q-item-section>
+                </q-item>
+              </q-card>
+            </div>
+            <div v-if="storeNum > 0" class="q-pa-sm col-12 col-md-4">
+              <q-card class="my-card">
+                <q-item
+                  :class="darkModeConf.textColor"
+                  clickable
+                  :to="'/store/' + this.$route.params.idUser"
+                  v-ripple
+                >
+                  <q-item-section avatar>
+                    <q-avatar size="65px">
+                      <q-icon name="store" />
+                    </q-avatar>
+                  </q-item-section>
+                  <q-item-section>
+                    <div class="text-bold text-body1">{{ storeNum }} produtos e Serviços</div>
+                  </q-item-section>
+                </q-item>
+              </q-card>
+            </div>
+          </div>
+        </div>
+
+
+    <!-- <div v-if="vacancies.length" class="row justify-center">
       <div class="col-12 col-md-8">
         <q-toolbar class="shadow-1" :class="darkModeConf.bgColor">
           <q-toolbar-title>Vagas de emprego</q-toolbar-title>
@@ -153,7 +206,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </q-page>
 </template>
 
@@ -167,6 +220,8 @@ export default {
     return {
       tab: "bio",
       vacancies: [],
+      vacancyNum: 0,
+      storeNum: 0,
     };
   },
   computed: {
@@ -174,37 +229,42 @@ export default {
     ...mapGetters("user", ["getUser"])
   },
   methods: {
-    ...mapActions("user", ["detailUser"]),
+    ...mapActions("user", ["detailUserStore"]),
 
-    listVacancy(user) { // done
-    if (!offline.data().isOnline) {
-      return alert("Sem internet")
-    }
-    const ref = firestoreDb.collection('vacancies')
-    var vacancies = []
-    const vm = this
-    ref.where("user", "==", user).where("public", "==", true)
-      .get().then(function (querySnapshot) {
-        // vacancies = []
-        querySnapshot.forEach(function (doc) {
-          vacancies.push({
-            key: doc.id,
-            title: doc.data().title,
-            user: doc.data().user,
-            description: doc.data().description,
-            img: doc.data().img,
-            public: doc.data().public,
-            place: doc.data().place,
-            category: doc.data().category
-          })
+    listVacancy(user) {
+      // done
+      if (!offline.data().isOnline) {
+        return alert("Sem internet");
+      }
+      const vm = this;
+      // vm.myVacancies = []
+      var myVacanciesAux = [];
+      const ref = firestoreDb.collection("vacancies");
+      ref
+        .where("user", "==", user)
+        .onSnapshot(function(querySnapshot) {
+          vm.vacancyNum = querySnapshot.docs.length
         });
-        vm.vacancies = vacancies
-      });
+    },
+    listStoreMyHere(user) {
+      if (!offline.data().isOnline) {
+        return alert("Sem internet");
+      }
+      const vm = this;
+      const ref = firestoreDb.collection("stories");
+      ref
+        .where("user", "==", user)
+        .onSnapshot(function(querySnapshot) {
+          vm.storeNum = querySnapshot.docs.length
+        });
+    }
   },
+  created() {
+    this.detailUserStore(this.$route.params.idUser)
   },
-  created() {},
   mounted() {
     this.listVacancy(this.$route.params.idUser)
+    this.listStoreMyHere(this.$route.params.idUser)
   }
 };
 </script>

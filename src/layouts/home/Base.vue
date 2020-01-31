@@ -14,7 +14,7 @@
           size="lg"
         />
         <q-btn
-          to="/home"
+          to="/"
           v-if="$route.path == '/' && !$q.screen.gt.sm"
           flat
           dense
@@ -61,9 +61,9 @@
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn round dense flat icon="notifications">
+          <!-- <q-btn round dense flat icon="notifications">
             <q-badge color="primary" text-color="white" floating>2</q-badge>
-          </q-btn>
+          </q-btn> -->
           <q-btn round flat>
             <q-avatar>
               <img v-if="isUserAuth" :src="user.photoURL" />
@@ -103,10 +103,10 @@
     <q-footer
       elevated
       :class="[darkModeConf.bgColor, darkModeConf.textColor]"
-      v-if="!$q.screen.gt.sm && !backIcon && $route.path !== '/'"
+      v-if="!$q.screen.gt.sm && !backIcon"
     >
       <q-tabs :active-color="darkModeConf.color" align="justify" indicator-color="transparent" class="text-grey">
-        <q-route-tab name="home" icon="home" to="/home" />
+        <q-route-tab name="home" icon="home" to="/" />
         <q-route-tab name="trabalho" icon="work" to="/vacancies" />
         <q-route-tab name="store" icon="store" to="/store" />
         <q-route-tab name="settings" icon="settings" to="/settings" />
@@ -263,6 +263,7 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex"
+import { LocalStorage } from 'quasar'
 export default {
   // name: 'LayoutName',
 
@@ -339,9 +340,14 @@ export default {
     backIconFunc (to) {
       // active/ deactivate icon
       this.backIcon = false
-      if (to.path !== "/" && to.path !== "/vacancies" && to.path !== "/home" && to.path !== "/store" && to.path !== "/settings") this.backIcon = true
+      if (to.path !== "/" && to.path !== "/vacancies" && to.path !== "/" && to.path !== "/store" && to.path !== "/settings") this.backIcon = true
     },
     
+  },
+  created () {
+    if (!LocalStorage.getItem("notFirst")) {
+      this.$router.push("/welcome")
+    }
   },
   mounted() {
     if(this.appMode) {

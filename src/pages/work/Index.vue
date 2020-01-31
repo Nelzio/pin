@@ -97,7 +97,7 @@ export default {
       loading: true,
       data_var: [],
       cardClass: "",
-      pitch: 1,
+      pitch: 0.8,
       rate: 1,
       synth: window.speechSynthesis,
       itemsLayzeRef: [],

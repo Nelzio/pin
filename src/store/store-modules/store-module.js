@@ -303,8 +303,8 @@ const actions = {
     }
     const ref = firestoreDb.collection('stories')
     var stories = []
-    ref.where("user", "==", user)
-      .get().then(function (querySnapshot) {
+    ref.where("user", "==", user).where("public", "==", true)
+    .onSnapshot(function (querySnapshot) {
         // stories = []
         querySnapshot.forEach(function (doc) {
           stories.push({

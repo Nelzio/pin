@@ -1,6 +1,6 @@
 <template>
   <div ref="imgProduct">
-    <q-card :id="vacancy.key" class="my-card" v-touch-hold:300.mouse="handleHold" v-touch-swipe.mouse.left.right="handleSwipe">
+    <q-card :id="store.key" class="my-card" v-touch-hold:300.mouse="handleHold">
       <q-item>
         <q-item-section avatar>
           <q-btn round @click="detailUser(user)">
@@ -16,16 +16,17 @@
         </q-item-section>
       </q-item>
 
-      <img v-ripple v-if="vacancy.img && imgLoaded" :src="vacancy.img" style="min-height: 200px;" @click="$router.push('/vacancies/details/'+vacancy.key)" />
+      <img v-ripple v-if="store.img && imgLoaded" :src="store.img" style="min-height: 200px;" @click="$router.push('/store/details/'+store.key)" />
       <q-skeleton v-else height="230px" square />
 
       <q-card-section class="q-pb-none">
-        <div :class="getFont.title">{{ vacancy.title }}</div>
+        <div :class="getFont.title">{{ store.title }}</div>
+        <div :class="getFont.title">{{ store.price }} MZN</div>
       </q-card-section>
 
-      <!-- <q-card-section class="q-pt-none q-pb-none">{{ vacancy.description }}</q-card-section> -->
+      <!-- <q-card-section class="q-pt-none q-pb-none">{{ store.description }}</q-card-section> -->
 
-      <q-card-actions align="right" :title="vacancy.key">
+      <q-card-actions align="right" :title="store.key">
         <q-btn
           rounded
           outline
@@ -33,7 +34,7 @@
           :text-color="darkModeConf.textBtn"
           icon="details"
           label="Detalhes"
-          :to="'/vacancies/details/'+vacancy.key"
+          :to="'/stories/details/'+store.key"
         />
         <!-- <q-btn
             round
@@ -52,8 +53,8 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 import { firestoreDb } from "../../boot/firebase";
 export default {
-  name: "VacancyDesktopComponent",
-  props: ["lorem", "vacancy"],
+  name: "StoreComponent",
+  props: ["lorem", "store"],
   data() {
     return {
       user: {
@@ -77,7 +78,7 @@ export default {
   methods: {
     ...mapActions("user", ["detailUser"]),
 
-    detailVacancyUser(id) {
+    detailStoreUser(id) {
       // Details of a user
       const ref = firestoreDb.collection("users").doc(id);
       let data = {};
@@ -97,15 +98,17 @@ export default {
         } else {
           // If user desen't exist
           data = {
-            id: null,
-            displayName: "",
-            email: "",
-            photoURL: "",
-            phoneNumber: "",
-            adress: "",
-            profission: "",
-            education: "",
-            date: ""
+            id: "",
+            title: "",
+            user: "",
+            description: "",
+            img: "",
+            public: false,
+            category: "",
+            place: "",
+            subCategory: "",
+            price: "",
+            priceVariable: false,
           };
         }
       });
@@ -114,8 +117,8 @@ export default {
     handleHold ({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
-      this.$root.$emit("textToSpeech", {vacancy: this.vacancy, user: this.user.displayName});
-      // console.log(this.vacancy)
+      this.$root.$emit("textToSpeechStore", {store: this.store, user: this.user.displayName});
+      // console.log(this.store)
     },
 
     layzeImg () {
@@ -131,16 +134,6 @@ export default {
         }
       }
     },
-
-    handleSwipe(val) {
-      if (val.direction === "left") {
-        this.$router.push("/store");
-      }
-
-      if (val.direction === "right") {
-        this.$router.push("/home");
-      }
-    },
   },
 
   mounted() {
@@ -149,12 +142,12 @@ export default {
     window.addEventListener("resize", this.layzeImg);
     window.addEventListener("orientationchange", this.layzeImg);
       
-    this.detailVacancyUser(this.vacancy.user);
+    this.detailStoreUser(this.store.user);
     
   },
 
   watch: {
-    vacancy () {
+    store () {
       this.layzeImg()
       window.addEventListener("scroll", this.layzeImg);
       window.addEventListener("resize", this.layzeImg);

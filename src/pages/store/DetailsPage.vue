@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page padding v-touch-swipe.mouse.left.right="handleSwipe" v-touch-hold:600.mouse="handleHold">
     <!-- content -->
     <div class="row justify-center">
       <div class="col-12 col-md-8">
@@ -68,7 +68,10 @@ export default {
   data() {
     return {
       tab: "details",
-      candidates: []
+      candidates: [],
+      pitch: 0.8,
+      rate: 1,
+      synth: window.speechSynthesis,
     };
   },
   computed: {
@@ -87,6 +90,73 @@ export default {
       "deleteStore"
     ]),
     ...mapActions("user", ["detailUser"]),
+
+    speak(userInput) {
+      if (this.synth.speaking) {
+        // console.error('speechSynthesis.speaking');
+        return;
+      }
+      if (userInput !== '') {
+          let sInstance = new SpeechSynthesisUtterance(userInput);
+          sInstance.onend = function (event) {
+              // console.log('SpeechSynthesisUtterance.onend');
+          }
+          sInstance.onerror = function (event) {
+              // console.error('SpeechSynthesisUtterance.onerror');
+          }
+
+          // vibrate antes de falar
+          window.navigator.vibrate(200);
+          // speak
+          sInstance.pitch = this.pitch;
+          sInstance.rate = this.rate;
+          this.synth.speak(sInstance);
+      } else {
+        let sInstance = new SpeechSynthesisUtterance("Nenhum texto nesta área.");
+          sInstance.onend = function (event) {
+              // console.log('SpeechSynthesisUtterance.onend');
+          }
+          sInstance.onerror = function (event) {
+              // console.error('SpeechSynthesisUtterance.onerror');
+          }
+
+          // vibrate antes de falar
+          window.navigator.vibrate(200);
+          // speak
+          sInstance.pitch = this.pitch;
+          sInstance.rate = this.rate;
+          this.synth.speak(sInstance);
+      }
+    },
+
+    handleHold ({ evt, ...info }) {
+      // console.log(info)
+      // console.log(evt)  getStore.price userData.phoneNumber getStore.description
+      var text = this.getStore.title + ". categoria: " + this.getStore.category + "; Preço: "  + this.getStore.price + " meticais. numero de telefone: " + this.converNumbPhone(this.userData.phoneNumber) + ";. descrição: " + this.getStore.description
+      this.speak(text)
+      // console.log(this.vacancy)
+    },
+
+    handleSwipe(val) {
+      if (val.direction === "right") {
+        this.$router.go(-1);
+      }
+    },
+
+    converNumbPhone (number) {
+      var converted = ""
+      var count = 0
+      const value = String(number).replace(/(.)(?=(\d{3})+$)/g,'$1,').split(",")
+      value.forEach(element => {
+        count += 1
+        if (value.length > count) {
+          converted = converted + element + "; "
+        } else {
+          converted = converted + element
+        }
+      });
+        return converted
+    }
   },
   created() {
     this.detailStore(this.$route.params.id);

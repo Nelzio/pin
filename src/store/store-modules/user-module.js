@@ -25,6 +25,41 @@ const actions = {
         this.$router.push("/user/" + payload.email)
     },
 
+    detailUserStore({ commit }, user) {
+        // Details of a user
+        const ref = firestoreDb.collection('users').doc(user)
+        let data = {}
+        ref.get().then((doc) => {
+            if (doc.exists) {
+                data = {
+                    id: doc.id,
+                    displayName: doc.data().displayName,
+                    email: doc.data().email,
+                    photoURL: doc.data().photoURL,
+                    phoneNumber: doc.data().phoneNumber,
+                    adress: doc.data().adress,
+                    profission: doc.data().profission,
+                    education: doc.data().education,
+                    date: doc.data().date
+                }
+            } else {
+                // If user desen't exist
+                data = {
+                    id: null,
+                    displayName: "",
+                    email: "",
+                    photoURL: "",
+                    phoneNumber: "",
+                    adress: "",
+                    profission: "",
+                    education: "",
+                    date: ""
+                }
+            }
+            commit('SET_USER_DETAILS', data)
+        })
+    }
+
 }
 
 export default {

@@ -162,7 +162,7 @@ export default {
   },
   methods: {
     ...mapActions("settings", ["setSettings", "playSound"]),
-    ...mapActions("store", ["listStore", "createStore"]),
+    ...mapActions("store", ["listStore", "createStore", "listStoreMy"]),
     ...mapActions("user", ["detailUser"]),
 
     speak(userInput) {
@@ -280,7 +280,7 @@ export default {
     }
   },
   created() {
-    this.listStore();
+    this.listStoreMy(this.$route.params.idUser);
   },
   mounted() {
     // this.lazeItems();
@@ -309,18 +309,6 @@ export default {
       }
       this.speak(text);
     });
-
-    // Vibração
-    // if (this.settings.isVibrationActive) {
-    //   this.vibrate();
-    // }
-    // // Play do áudio
-    // if (this.settings.isNarratorActive) {
-    //   this.playSound("/statics/audios/vagas.aac");
-    // }
-    // this.listStore()
-
-    // this.$on("valueSearch")
   },
   watch: {
     val_search(val) {
@@ -329,9 +317,6 @@ export default {
     filterVal(val) {
       this.search(val);
     },
-    // stories() {
-    //   this.lazeItems();
-    // }
   }
 };
 </script>

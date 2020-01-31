@@ -1,11 +1,17 @@
 
 const routes = [
   {
+    path: '/welcome',
+    component: () => import('layouts/home/Start.vue'),
+    children: [
+      { path: '', component: () => import('pages/Home.vue') },
+    ]
+  },
+  {
     path: '/',
     component: () => import('layouts/home/Base.vue'),
     children: [
-      { path: '', component: () => import('pages/Home.vue') },
-      { path: 'home', component: () => import('pages/Index.vue') },
+      { path: '', component: () => import('pages/Index.vue') },
       { path: 'settings', component: () => import('pages/settings/PageSettings') },
       { path: 'search', component: () => import('pages/Search.vue') },
       { path: 'user/:idUser', component: () => import('pages/user/Profile.vue') },
@@ -36,6 +42,7 @@ const routes = [
     component: () => import('layouts/home/Base.vue'),
     children: [
       { path: '', component: () => import('pages/work/Index.vue') },
+      { path: ':idUser', component: () => import('pages/user/Vacancies.vue') },
       { path: 'details/:id', component: () => import('pages/work/Details.vue') }
     ]
   },
@@ -44,6 +51,7 @@ const routes = [
     component: () => import('layouts/home/Base.vue'),
     children: [
       { path: '', component: () => import('pages/store/IndexPage.vue') },
+      { path: ':idUser', component: () => import('pages/user/Store.vue') },
       { path: 'details/:id', component: () => import('pages/store/DetailsPage.vue') },
     ]
   },

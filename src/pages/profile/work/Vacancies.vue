@@ -1,8 +1,8 @@
 <template>
-  <q-page class="q-gutter-y-md">
+  <q-page class="q-gutter-y-md q-pb-xl">
     <!-- content -->
 
-    <div class="row justify-center">
+    <div class="row justify-center q-pb-xl">
       <div class="col-12 col-md-8">
         <!-- sec 6 -->
         <div v-if="myVacancies.length">
@@ -203,9 +203,7 @@ export default {
       var update = false
       var myVacanciesAux = [];
       const ref = firestoreDb.collection("vacancies");
-      ref
-        .where("user", "==", user)
-        .onSnapshot(function(querySnapshot) {
+      ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
             if (vm.myVacancies.length !== querySnapshot.docs.length) {
               update = true
@@ -225,7 +223,7 @@ export default {
               public: doc.data().public
             });
           });
-          if (update) vm.myVacancies = vm.myVacancies
+          if (update) vm.myVacancies = myVacancies
           vm.myVacanciesAux = myVacanciesAux;
         });
     }
@@ -233,10 +231,11 @@ export default {
   created() {
     this.checkAuthUser();
     this.detailUser(this.user.email);
-    this.listVacancyMyHere(this.user.email);
+    this.listVacancyMyHere("nelziositoe@gmail.com");
   },
   mounted() {
     // this.listVacancyMy(this.user.email)
+    // this.listVacancyMyHere(this.user.email);
   },
   watch: {
     vacancyDetail() {
