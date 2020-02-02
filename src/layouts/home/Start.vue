@@ -26,7 +26,7 @@
 
 
 
-    <q-page-container class="GPL__page-container">
+    <q-page-container>
       <!-- This is where pages get injected -->
       <router-view />
     </q-page-container>
