@@ -126,7 +126,7 @@
             :color="darkModeConf.color"
             :class="darkModeConf.textBtn"
             label="Editar perfil"
-            left-icon="edit"
+            icon="edit"
             to="account/edit"
           />
         </div>

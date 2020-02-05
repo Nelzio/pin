@@ -1,8 +1,8 @@
 <template>
-  <q-page class="q-gutter-y-md">
+  <q-page class="q-gutter-y-md q-pb-xl">
     <!-- content -->
 
-    <div class="row justify-center">
+    <div class="row justify-center q-pb-xl">
       <div class="col-12 col-md-8">
         <!-- sec 6 -->
         <div v-if="myStories.length">
@@ -89,6 +89,9 @@
       />
     </q-page-sticky>
 
+
+
+
       
   </q-page>
 </template>
@@ -98,8 +101,13 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import { Loading } from "quasar";
 import { firebaseAuth, firestoreDb, fireStorage } from "boot/firebase";
 import offline from "v-offline";
+// import SocialSharing from "vue-social-sharing"
+
 export default {
   // name: 'PageName',
+  // components: {
+  //   SocialSharing
+  // },
   data() {
     return {
       tab: "bio",

@@ -18,7 +18,8 @@
     "firebase": "^7.3.0",
     "quasar": "^1.8.0",
     "v-offline": "^1.1.0",
-    "vue-pdf": "^4.0.7"
+    "vue-pdf": "^4.0.7",
+    "vue-social-sharing": "^2.4.7"
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0",

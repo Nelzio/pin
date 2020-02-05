@@ -34,7 +34,7 @@
           :text-color="darkModeConf.textBtn"
           icon="details"
           label="Detalhes"
-          :to="'/stories/details/'+store.key"
+          :to="'/store/details/'+store.key"
         />
         <!-- <q-btn
             round

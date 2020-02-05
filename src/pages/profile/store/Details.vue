@@ -9,6 +9,30 @@
 
         <div class="row no-wrap items-center">
           <div class="col ellipsis" :class="getFont.title">{{ getStore.title }}</div>
+          <div class="col ellipsis">
+            <social-sharing 
+              :url="'https://hack-a2a7b.firebaseapp.com/store/details/' + getStore.key"
+              title="Superactive Store"
+              description="Superactive Store"
+              :quote="getStore.title"
+              inline-template>
+              <div class="row q-gutter-md">
+                <network network="facebook">
+                  <q-btn
+                    outline
+                    rounded
+                    icon="ion-logo-facebook"
+                  />
+                </network>
+                <network network="whatsapp">
+                  <q-btn
+                    outline
+                    rounded
+                    icon="ion-logo-whatsapp"
+                  />
+                </network>
+              </div>
+            </social-sharing></div>
         </div>
 
         <q-list>
@@ -63,8 +87,12 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import { firestoreDb } from "boot/firebase";
 import { QSpinnerRings, QSpinnerRadio } from 'quasar';
 import offline from "v-offline";
+import SocialSharing from "vue-social-sharing"
 export default {
   // name: 'PageName',
+  components: {
+    SocialSharing
+  },
   data() {
     return {
       tab: "details",
