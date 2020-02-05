@@ -127,6 +127,7 @@ export default {
 				Loading.hide()
 			}).catch(function (error) {
 				// Uh-oh, an error occurred!
+				vm.confirDeleteSuccess = true
 				console.log("Erro ao deletar imagem")
 				Loading.hide()
 			});
