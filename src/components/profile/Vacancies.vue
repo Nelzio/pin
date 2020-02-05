@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-touch-hold:600.mouse="handleHold">
     <!-- content -->
 		<q-card class="my-card">
 			<q-img v-ripple v-if="vacancy.img" :src="vacancy.img" style="min-height: 200px;" @click="$router.push('/profile/vacancies/details/'+vacancy.key)" />
@@ -100,10 +100,8 @@ export default {
     ...mapActions("auth", ["detailUser", "checkAuthUser"]),
 
     handleHold ({ ...info }) {
-      console.log(info)
-      // console.log(evt)
-      // console.log(val)
-      // console.log(this.vacancy)
+			window.navigator.vibrate(200);
+			this.$root.$emit("textToSpeechRouter", "Você adicionou"  + this.vacancy.title + ".\n Clique para detalhes.");
     },
 
     deleteVacancyThis(id) {
