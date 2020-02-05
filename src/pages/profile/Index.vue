@@ -1,5 +1,9 @@
 <template>
-  <q-page class="q-gutter-y-md q-pt-md" v-touch-swipe.mouse.left.right="handleSwipe" v-touch-hold:600.mouse="handleHold">
+  <q-page
+    class="q-gutter-y-md q-pt-md"
+    v-touch-swipe.mouse.left.right="handleSwipe"
+    v-touch-hold:600.mouse="handleHold"
+  >
     <!-- content -->
 
     <div class="row justify-center">
@@ -178,12 +182,7 @@
           <div class="row">
             <div v-if="vacancyNum > 0" class="q-pa-sm col-12 col-md-4">
               <q-card class="my-card">
-                <q-item
-                  :class="darkModeConf.textColor"
-                  clickable
-                  to="/profile/vacancies"
-                  v-ripple
-                >
+                <q-item :class="darkModeConf.textColor" clickable to="/profile/vacancies" v-ripple>
                   <q-item-section avatar>
                     <q-avatar size="65px">
                       <q-icon name="work" />
@@ -197,12 +196,7 @@
             </div>
             <div v-if="storeNum > 0" class="q-pa-sm col-12 col-md-4">
               <q-card class="my-card">
-                <q-item
-                  :class="darkModeConf.textColor"
-                  clickable
-                  to="/profile/store"
-                  v-ripple
-                >
+                <q-item :class="darkModeConf.textColor" clickable to="/profile/store" v-ripple>
                   <q-item-section avatar>
                     <q-avatar size="65px">
                       <q-icon name="store" />
@@ -216,7 +210,7 @@
             </div>
           </div>
         </div>
-    </div>
+      </div>
     </div>
   </q-page>
 </template>
@@ -243,7 +237,7 @@ export default {
       myVacancies: [],
       myVacanciesAux: [],
       vacancyNum: 0,
-      storeNum: 0,
+      storeNum: 0
     };
   },
   computed: {
@@ -256,7 +250,7 @@ export default {
       "vacancyDetail"
     ]),
     ...mapGetters("auth", ["user", "userData"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont"])
   },
   methods: {
     ...mapActions("vacancy", [
@@ -298,7 +292,7 @@ export default {
     //       alert("Error update document: ", error);
     //     });
     // },
-    
+
     handleSwipe(val) {
       // if (val.direction === "left") {
       //   this.$router.push("/store");
@@ -308,11 +302,23 @@ export default {
         this.$router.push("/settings");
       }
     },
-    
-    handleHold ({ evt, ...info }) {
+
+    handleHold({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
-      this.$root.$emit("textToSpeechRouter", this.userData.displayName + ".\n Telefone: " +  this.converNumbPhone(this.userData.phoneNumber) + ";\n email: " + this.userData.email + "; data de nascimento: " + this.userData.date + ";\n profissão: " + this.userData.profission + ".");
+      this.$root.$emit(
+        "textToSpeechRouter",
+        this.userData.displayName +
+          ".\n Telefone: " +
+          this.converNumbPhone(this.userData.phoneNumber) +
+          ";\n email: " +
+          this.userData.email +
+          "; data de nascimento: " +
+          this.userData.date +
+          ";\n profissão: " +
+          this.userData.profission +
+          "."
+      );
       // console.log(this.vacancy)
     },
 
@@ -377,30 +383,28 @@ export default {
       // vm.myVacancies = []
       var myVacanciesAux = [];
       const ref = firestoreDb.collection("vacancies");
-      ref
-        .where("user", "==", user)
-        .onSnapshot(function(querySnapshot) {
-          vm.vacancyNum = querySnapshot.docs.length
-          // querySnapshot.forEach(function(doc) {
-          //   // if (vm.myVacancies.length !== querySnapshot.docs.length) {
-          //   //   vm.myVacancies.push({
-          //   //     key: doc.id,
-          //   //     title: doc.data().title,
-          //   //     user: doc.data().user,
-          //   //     description: doc.data().description,
-          //   //     img: doc.data().img,
-          //   //     public: doc.data().public,
-          //   //     place: doc.data().place,
-          //   //     validate: doc.data().validate,
-          //   //     category: doc.data().category
-          //   //   });
-          //   // }
-          //   // myVacanciesAux.push({
-          //   //   public: doc.data().public
-          //   // });
-          // });
-          // vm.myVacanciesAux = myVacanciesAux;
-        });
+      ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
+        vm.vacancyNum = querySnapshot.docs.length;
+        // querySnapshot.forEach(function(doc) {
+        //   // if (vm.myVacancies.length !== querySnapshot.docs.length) {
+        //   //   vm.myVacancies.push({
+        //   //     key: doc.id,
+        //   //     title: doc.data().title,
+        //   //     user: doc.data().user,
+        //   //     description: doc.data().description,
+        //   //     img: doc.data().img,
+        //   //     public: doc.data().public,
+        //   //     place: doc.data().place,
+        //   //     validate: doc.data().validate,
+        //   //     category: doc.data().category
+        //   //   });
+        //   // }
+        //   // myVacanciesAux.push({
+        //   //   public: doc.data().public
+        //   // });
+        // });
+        // vm.myVacanciesAux = myVacanciesAux;
+      });
     },
     listStoreMyHere(user) {
       var storageRef = fireStorage.ref();
@@ -409,40 +413,43 @@ export default {
       }
       const vm = this;
       const ref = firestoreDb.collection("stories");
-      ref
-        .where("user", "==", user)
-        .onSnapshot(function(querySnapshot) {
-          vm.storeNum = querySnapshot.docs.length
-        });
+      ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
+        vm.storeNum = querySnapshot.docs.length;
+      });
     },
 
-    converNumbPhone (valueNum) {
-      var converted = ""
-      var count = 0
-      const value = String(valueNum).replace(/(.)(?=(\d{3})+$)/g,'$1,').split(",")
+    converNumbPhone(valueNum) {
+      var converted = "";
+      var count = 0;
+      const value = String(valueNum)
+        .replace(/(.)(?=(\d{3})+$)/g, "$1,")
+        .split(",");
       value.forEach(element => {
-        count += 1
+        count += 1;
         if (value.length > count) {
-          converted = converted + element + "; "
+          converted = converted + element + "; ";
         } else {
-          converted = converted + element
+          converted = converted + element;
         }
       });
-        return converted
-    },
+      return converted;
+    }
   },
   created() {
     this.checkAuthUser();
     this.detailUser(this.user.email);
     this.listVacancyMyHere(this.user.email);
-    this.listStoreMyHere(this.user.email)
+    this.listStoreMyHere(this.user.email);
   },
   mounted() {
     // this.listVacancyMy(this.user.email)
     this.listCandidatures(this.user.email);
 
-    this.$root.$emit("textToSpeechRouter", "Pagina do seu perfil.\n PRessione para ouvir detalhes do seu perfil");
-  },
+    this.$root.$emit(
+      "textToSpeechRouter",
+      "Pagina do seu perfil.\n PRessione para ouvir detalhes do seu perfil"
+    );
+  }
   // watch: {
   //   vacancyDetail() {
   //     if (this.vacancyDetail) {

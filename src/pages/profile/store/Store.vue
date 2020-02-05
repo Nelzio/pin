@@ -15,7 +15,6 @@
       </div>
     </div>
 
-
     <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user">
       <q-btn
         fab
@@ -75,7 +74,6 @@ export default {
     // handleHold({ ...info }) {
     // },
 
-
     listStoreMyHere(user) {
       // done
       var storageRef = fireStorage.ref();
@@ -90,7 +88,7 @@ export default {
       ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
         if (vm.myStories.length !== querySnapshot.docs.length) {
           update = true;
-          myStories = []
+          myStories = [];
           querySnapshot.forEach(function(doc) {
             myStories.push({
               key: doc.id,
@@ -121,6 +119,6 @@ export default {
     // this.listStoreMy(this.user.email)
 
     this.$root.$emit("textToSpeechRouter", "Seus produtos e serviços");
-  },
+  }
 };
 </script>

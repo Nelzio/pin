@@ -2,7 +2,11 @@
   <q-layout view="hHh Lpr fFf">
     <!-- Be sure to play with the Layout demo on docs -->
     <q-header elevated height-hint="64">
-      <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" class="GPL__toolbar" style="height: 64px">
+      <q-toolbar
+        :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+        class="GPL__toolbar"
+        style="height: 64px"
+      >
         <q-btn
           @click="$router.go(-1)"
           v-if="backIcon"
@@ -22,7 +26,7 @@
           icon="home"
           aria-label="Home"
           size="lg"
-        /> -->
+        />-->
         <q-btn
           @click="drowerFilter = !drowerFilter"
           v-if="$route.path == '/vacancies'"
@@ -45,23 +49,28 @@
         />
 
         <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap">
-           <q-btn flat round to="/">
-          
-          <img src="/statics/app-logo-128x128.png" style="height: 50px" alt="">
-           </q-btn> Superactive</q-toolbar-title>
-        <q-toolbar-title
-          shrink
-          class="row items-center no-wrap"
-          v-else
-        >
-        <q-btn flat round to="/">
-          <img src="/statics/app-logo-128x128.png" style="height: 50px" alt="">
-        </q-btn>
-        Superactive</q-toolbar-title>
+          <q-btn flat round to="/">
+            <img src="/statics/app-logo-128x128.png" style="height: 50px" alt />
+          </q-btn>Superactive
+        </q-toolbar-title>
+        <q-toolbar-title shrink class="row items-center no-wrap" v-else>
+          <q-btn flat round to="/">
+            <img src="/statics/app-logo-128x128.png" style="height: 50px" alt />
+          </q-btn>Superactive
+        </q-toolbar-title>
 
         <q-space />
 
-        <q-input v-if="$q.screen.gt.sm && toSearch" :color="darkModeConf.color" outlined rounded v-model="valueSearch" input-class="text-right" placeholder="Pesquisar" style="width: 50%;">
+        <q-input
+          v-if="$q.screen.gt.sm && toSearch"
+          :color="darkModeConf.color"
+          outlined
+          rounded
+          v-model="valueSearch"
+          input-class="text-right"
+          placeholder="Pesquisar"
+          style="width: 50%;"
+        >
           <template v-slot:append>
             <q-icon v-if="valueSearch === ''" name="search" />
             <q-icon v-else name="clear" class="cursor-pointer" @click="valueSearch = ''" />
@@ -73,7 +82,7 @@
         <div class="q-gutter-sm row items-center no-wrap">
           <!-- <q-btn round dense flat icon="notifications">
             <q-badge color="primary" text-color="white" floating>2</q-badge>
-          </q-btn> -->
+          </q-btn>-->
           <q-btn round flat>
             <q-avatar>
               <img v-if="isUserAuth" :src="user.photoURL" />
@@ -100,8 +109,20 @@
         </div>
       </q-toolbar>
       <!-- rounded-borders -->
-      <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" v-if="toSearch && !$q.screen.gt.sm">
-        <q-input :color="darkModeConf.color" dense outlined rounded v-model="valueSearch" input-class="text-right" class="full-width" placeholder="Pesquisar">
+      <q-toolbar
+        :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+        v-if="toSearch && !$q.screen.gt.sm"
+      >
+        <q-input
+          :color="darkModeConf.color"
+          dense
+          outlined
+          rounded
+          v-model="valueSearch"
+          input-class="text-right"
+          class="full-width"
+          placeholder="Pesquisar"
+        >
           <template v-slot:append>
             <q-icon v-if="valueSearch === ''" name="search" />
             <q-icon v-else name="clear" class="cursor-pointer" @click="valueSearch = ''" />
@@ -115,7 +136,12 @@
       :class="[darkModeConf.bgColor, darkModeConf.textColor]"
       v-if="!$q.screen.gt.sm && !backIcon"
     >
-      <q-tabs :active-color="darkModeConf.color" align="justify" indicator-color="transparent" class="text-grey">
+      <q-tabs
+        :active-color="darkModeConf.color"
+        align="justify"
+        indicator-color="transparent"
+        class="text-grey"
+      >
         <q-route-tab name="home" icon="home" to="/" />
         <q-route-tab name="trabalho" icon="work" to="/vacancies" />
         <q-route-tab name="store" icon="store" to="/store" />
@@ -150,9 +176,15 @@
           </q-item>
         </q-list>
       </q-scroll-area>
-    </q-drawer> -->
+    </q-drawer>-->
 
-    <q-drawer v-if="$route.path == '/vacancies'" v-model="drowerFilter" bordered behavior="mobile" @click="drowerFilter = false">
+    <q-drawer
+      v-if="$route.path == '/vacancies'"
+      v-model="drowerFilter"
+      bordered
+      behavior="mobile"
+      @click="drowerFilter = false"
+    >
       <q-scroll-area class="fit">
         <q-toolbar class="GPL__toolbar">
           <q-toolbar-title class="row items-center text-grey-8">
@@ -161,47 +193,52 @@
         </q-toolbar>
 
         <q-list padding>
-          <q-item
-            clickable v-ripple
-            @click="filterVal = '', drowerFilter = false"
-          >
-          <q-item-section avatar>
-            <q-icon name="list" />
-          </q-item-section>
-            
+          <q-item clickable v-ripple @click="filterVal = '', drowerFilter = false">
+            <q-item-section avatar>
+              <q-icon name="list" />
+            </q-item-section>
+
             <q-item-section>
               <q-item-label :class="darkModeConf.textColor">Todas vagas</q-item-label>
             </q-item-section>
           </q-item>
           <q-expansion-item expand-separator icon="group_work" label="Categorias">
-          <q-item
-            clickable v-ripple
-            v-for="(item, idx) in categories" :key="idx"
-            @click="filterVal = item, drowerFilter = false"
-          >
-            <q-item-section>
-              <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
-            </q-item-section>
-          </q-item>
+            <q-item
+              clickable
+              v-ripple
+              v-for="(item, idx) in categories"
+              :key="idx"
+              @click="filterVal = item, drowerFilter = false"
+            >
+              <q-item-section>
+                <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+              </q-item-section>
+            </q-item>
           </q-expansion-item>
           <q-expansion-item default-opened expand-separator icon="place" label="Provincias">
-          <q-item
-            clickable v-ripple
-            v-for="(item, idx) in places" :key="idx"
-            @click="filterVal = item, drowerFilter = false"
-          >
-            <q-item-section>
-              <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
-            </q-item-section>
-          </q-item>
+            <q-item
+              clickable
+              v-ripple
+              v-for="(item, idx) in places"
+              :key="idx"
+              @click="filterVal = item, drowerFilter = false"
+            >
+              <q-item-section>
+                <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+              </q-item-section>
+            </q-item>
           </q-expansion-item>
-          
-          
         </q-list>
       </q-scroll-area>
     </q-drawer>
 
-    <q-drawer v-if="$route.path == '/store'" v-model="drowerFilterStore" bordered behavior="mobile" @click="drowerFilterStore = false">
+    <q-drawer
+      v-if="$route.path == '/store'"
+      v-model="drowerFilterStore"
+      bordered
+      behavior="mobile"
+      @click="drowerFilterStore = false"
+    >
       <q-scroll-area class="fit">
         <q-toolbar class="GPL__toolbar">
           <q-toolbar-title class="row items-center text-grey-8">
@@ -210,42 +247,41 @@
         </q-toolbar>
 
         <q-list padding>
-          <q-item
-            clickable v-ripple
-            @click="filterVal = '', drowerFilterStore = false"
-          >
-          <q-item-section avatar>
-            <q-icon name="list" />
-          </q-item-section>
-            
+          <q-item clickable v-ripple @click="filterVal = '', drowerFilterStore = false">
+            <q-item-section avatar>
+              <q-icon name="list" />
+            </q-item-section>
+
             <q-item-section>
               <q-item-label :class="darkModeConf.textColor">Todas Produtos e serviços</q-item-label>
             </q-item-section>
           </q-item>
           <q-expansion-item expand-separator icon="group_work" label="Categorias">
-          <q-item
-            clickable v-ripple
-            v-for="(item, idx) in categoriesStore" :key="idx"
-            @click="filterVal = item, drowerFilterStore = false"
-          >
-            <q-item-section>
-              <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
-            </q-item-section>
-          </q-item>
+            <q-item
+              clickable
+              v-ripple
+              v-for="(item, idx) in categoriesStore"
+              :key="idx"
+              @click="filterVal = item, drowerFilterStore = false"
+            >
+              <q-item-section>
+                <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+              </q-item-section>
+            </q-item>
           </q-expansion-item>
           <q-expansion-item default-opened expand-separator icon="place" label="Provincias">
-          <q-item
-            clickable v-ripple
-            v-for="(item, idx) in places" :key="idx"
-            @click="filterVal = item, drowerFilterStore = false"
-          >
-            <q-item-section>
-              <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
-            </q-item-section>
-          </q-item>
+            <q-item
+              clickable
+              v-ripple
+              v-for="(item, idx) in places"
+              :key="idx"
+              @click="filterVal = item, drowerFilterStore = false"
+            >
+              <q-item-section>
+                <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+              </q-item-section>
+            </q-item>
           </q-expansion-item>
-          
-          
         </q-list>
       </q-scroll-area>
     </q-drawer>
@@ -262,55 +298,23 @@
             <div class="GPL__side-btn__label">Home</div>
           </q-btn>
 
-          <q-btn
-            round
-            flat
-            stack
-            no-caps
-            size="40px"
-            class="GPL__side-btn"
-            to="/vacancies"
-          >
+          <q-btn round flat stack no-caps size="40px" class="GPL__side-btn" to="/vacancies">
             <q-icon size="lg" name="work" />
             <div class="GPL__side-btn__label">Vagas</div>
           </q-btn>
 
-          <q-btn
-            round
-            flat
-            stack
-            no-caps
-            size="40px"
-            class="GPL__side-btn"
-            to="/store"
-          >
+          <q-btn round flat stack no-caps size="40px" class="GPL__side-btn" to="/store">
             <q-icon size="lg" name="store" />
             <div class="GPL__side-btn__label">Exposição</div>
             <!-- <q-badge floating color="red" text-color="white" style="top: 8px right: 16px">
               1
             </q-badge>-->
           </q-btn>
-          <q-btn
-            round
-            flat
-            stack
-            no-caps
-            size="40px"
-            class="GPL__side-btn"
-            to="/profile"
-          >
+          <q-btn round flat stack no-caps size="40px" class="GPL__side-btn" to="/profile">
             <q-icon size="lg" name="person" />
             <div class="GPL__side-btn__label">Perfil</div>
           </q-btn>
-          <q-btn
-            round
-            flat
-            stack
-            no-caps
-            size="40px"
-            class="GPL__side-btn"
-            to="/settings"
-          >
+          <q-btn round flat stack no-caps size="40px" class="GPL__side-btn" to="/settings">
             <q-icon size="lg" name="settings" />
             <div class="GPL__side-btn__label">Definições</div>
           </q-btn>
@@ -321,8 +325,8 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex"
-import { LocalStorage } from 'quasar'
+import { mapState, mapActions, mapGetters } from "vuex";
+import { LocalStorage } from "quasar";
 export default {
   // name: 'LayoutName',
 
@@ -392,9 +396,8 @@ export default {
       pitch: 0.8,
       rate: 1,
       synth: window.speechSynthesis,
-      itemsLayzeRef: [],
-
-    }
+      itemsLayzeRef: []
+    };
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
@@ -402,11 +405,18 @@ export default {
   },
   methods: {
     ...mapActions("auth", ["signOut"]),
-    
-    backIconFunc (to) {
+
+    backIconFunc(to) {
       // active/ deactivate icon
-      this.backIcon = false
-      if (to.path !== "/" && to.path !== "/vacancies" && to.path !== "/" && to.path !== "/store" && to.path !== "/settings") this.backIcon = true
+      this.backIcon = false;
+      if (
+        to.path !== "/" &&
+        to.path !== "/vacancies" &&
+        to.path !== "/" &&
+        to.path !== "/store" &&
+        to.path !== "/settings"
+      )
+        this.backIcon = true;
     },
 
     speak(userInput) {
@@ -446,59 +456,55 @@ export default {
         sInstance.rate = this.rate;
         this.synth.speak(sInstance);
       }
-    },
-
-
-    
+    }
   },
-  created () {
+  created() {
     if (!LocalStorage.getItem("notFirst")) {
-      this.$router.push("/welcome")
+      this.$router.push("/welcome");
     }
   },
   mounted() {
-    if(this.appMode) {
-      this.$q.dark.set(false)
-      } else {
-      this.$q.dark.set(true)
+    if (this.appMode) {
+      this.$q.dark.set(false);
+    } else {
+      this.$q.dark.set(true);
     }
 
-    this.backIconFunc(this.$route)
+    this.backIconFunc(this.$route);
 
-    if (this.$route.path == "/store" || this.$route.path == "/vacancies") this.toSearch = true
+    if (this.$route.path == "/store" || this.$route.path == "/vacancies")
+      this.toSearch = true;
 
-    this.$root.$on("textToSpeechRouter", val => {
-      console.log(val)
-      this.speak(val);
-    });
-
+    if (this.vibrateState) {
+      this.$root.$on("textToSpeechRouter", val => {
+        this.speak(val);
+      });
+    }
   },
   watch: {
     $route(to, from) {
       // react to route changes...
-      this.toSearch = false
+      this.toSearch = false;
       if (this.$route.path == "/store" || this.$route.path == "/vacancies") {
-        this.toSearch = true
-        this.valueSearch = ''
-        this.filterVal = ''
-        
-        }
-      this.backIconFunc(to)
+        this.toSearch = true;
+        this.valueSearch = "";
+        this.filterVal = "";
+      }
+      this.backIconFunc(to);
 
       if (this.vibrateState) {
-        window.navigator.vibrate(200)
+        window.navigator.vibrate(200);
       }
-
     },
-    appMode (val) {
-      if(val) {
-        this.$q.dark.set(false)
-        } else {
-        this.$q.dark.set(true)
+    appMode(val) {
+      if (val) {
+        this.$q.dark.set(false);
+      } else {
+        this.$q.dark.set(true);
       }
     }
   }
-}
+};
 </script>
 
 <style lang="sass">

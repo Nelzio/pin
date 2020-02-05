@@ -70,8 +70,8 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 import VacancyComponent from "components/work/VacancyComponent";
 import VacancyDesktopComponent from "components/work/VacancyDesktopComponent";
-import { firestoreDb } from "boot/firebase"
-import offline from 'v-offline'
+import { firestoreDb } from "boot/firebase";
+import offline from "v-offline";
 export default {
   components: { VacancyDesktopComponent, VacancyComponent },
   name: "Vacancies",
@@ -99,7 +99,12 @@ export default {
     };
   },
   computed: {
-    ...mapState("settings", ["settings", "appMode", "darkModeConf", "vibrateState"]),
+    ...mapState("settings", [
+      "settings",
+      "appMode",
+      "darkModeConf",
+      "vibrateState"
+    ]),
     // ...mapState("vacancy", ["vacancies", "vacancy"]),
     // ...mapGetters("vacancy", ["getVacancies", "getVacancy"]),
     ...mapGetters("auth", ["user"])
@@ -109,32 +114,35 @@ export default {
     // ...mapActions("vacancy", ["listVacancy", "createVacancy"]),
     ...mapActions("user", ["detailUser"]),
 
-    listVacancyHere( user) { // done
-    if (!offline.data().isOnline) {
-      return alert("Sem internet")
-    }
-    const ref = firestoreDb.collection('vacancies')
-    var vacancies = []
-    const vm = this
-    ref.where("user", "==", user)
-      .get().then(function (querySnapshot) {
-        // vacancies = []
-        querySnapshot.forEach(function (doc) {
-          vacancies.push({
-            key: doc.id,
-            title: doc.data().title,
-            user: doc.data().user,
-            description: doc.data().description,
-            img: doc.data().img,
-            public: doc.data().public,
-            place: doc.data().place,
-            validate: doc.data().validate,
-            category: doc.data().category
-          })
+    listVacancyHere(user) {
+      // done
+      if (!offline.data().isOnline) {
+        return alert("Sem internet");
+      }
+      const ref = firestoreDb.collection("vacancies");
+      var vacancies = [];
+      const vm = this;
+      ref
+        .where("user", "==", user)
+        .get()
+        .then(function(querySnapshot) {
+          // vacancies = []
+          querySnapshot.forEach(function(doc) {
+            vacancies.push({
+              key: doc.id,
+              title: doc.data().title,
+              user: doc.data().user,
+              description: doc.data().description,
+              img: doc.data().img,
+              public: doc.data().public,
+              place: doc.data().place,
+              validate: doc.data().validate,
+              category: doc.data().category
+            });
+          });
+          vm.vacancies = vacancies;
         });
-        vm.vacancies = vacancies
-      });
-  },
+    },
 
     speak(userInput) {
       if (this.synth.speaking) {
@@ -184,7 +192,6 @@ export default {
         this.$router.push("/home");
       }
     },
-    
 
     lazeItems() {
       if (!(this.itemsLayzeRef == this.$refs.item)) {
@@ -283,7 +290,7 @@ export default {
     },
     filterVal(val) {
       this.search(val);
-    },
+    }
     // vacancies() {
     //   this.lazeItems();
     // }

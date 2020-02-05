@@ -1,5 +1,10 @@
 <template>
-  <q-page @click="handleRepeat()" class="q-gutter-y-md q-pt-md" v-touch-swipe.mouse.right="handleSwipe" v-touch-hold:600.mouse="handleHold" >
+  <q-page
+    @click="handleRepeat()"
+    class="q-gutter-y-md q-pt-md"
+    v-touch-swipe.mouse.right="handleSwipe"
+    v-touch-hold:600.mouse="handleHold"
+  >
     <!-- content -->
 
     <div class="row justify-center">
@@ -46,7 +51,7 @@
                     </q-item-section>
                     <!-- <q-item-section side>
                       <q-btn round icon="ion-logo-whatsapp" color="green" :to="'/https://wa.me/' + getUser.phoneNumber" />
-                    </q-item-section> -->
+                    </q-item-section>-->
                   </q-item>
 
                   <q-separator spaced inset="item" />
@@ -120,8 +125,6 @@
         </div>
         <q-separator />
       </div>
-
-
     </div>
     <div class="row justify-center q-pa-md">
       <q-btn
@@ -183,15 +186,13 @@
         </div>
       </div>
     </div>
-
-
   </q-page>
 </template>
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { firestoreDb } from "boot/firebase";
-import offline from 'v-offline'
+import offline from "v-offline";
 export default {
   // name: 'PageName',
   data() {
@@ -202,21 +203,31 @@ export default {
       storeNum: 0,
       pitch: 0.8,
       rate: 1,
-      synth: window.speechSynthesis,
+      synth: window.speechSynthesis
     };
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapGetters("user", ["getUser"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont"])
   },
   methods: {
     ...mapActions("user", ["detailUserStore"]),
 
-    handleHold ({ evt, ...info }) {
+    handleHold({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
-      this.$root.$emit("textToSpeechRouter", this.getUser.displayName + ".\n Telefone: " +  this.converNumbPhone(this.getUser.phoneNumber) + ";\n email: " + this.getUser.email + "; \n profissão: " + this.getUser.profission + ".");
+      this.$root.$emit(
+        "textToSpeechRouter",
+        this.getUser.displayName +
+          ".\n Telefone: " +
+          this.converNumbPhone(this.getUser.phoneNumber) +
+          ";\n email: " +
+          this.getUser.email +
+          "; \n profissão: " +
+          this.getUser.profission +
+          "."
+      );
       // console.log(this.vacancy)
     },
 
@@ -232,21 +243,20 @@ export default {
       }
     },
 
-    handleRepeat () {
-      
-      var vm = this
+    handleRepeat() {
+      var vm = this;
 
-      this.touchNums += 1
+      this.touchNums += 1;
 
       if (this.touchNums >= 5) {
-        this.touchNums = -80
+        this.touchNums = -80;
         window.navigator.vibrate(200);
-        
-        this.$router.push("/chat/" + this.getUser.email)
+
+        this.$router.push("/chat/" + this.getUser.email);
       }
 
       setTimeout(() => {
-        vm.touchNums = 0
+        vm.touchNums = 0;
       }, 5000);
     },
 
@@ -259,11 +269,9 @@ export default {
       // vm.myVacancies = []
       var myVacanciesAux = [];
       const ref = firestoreDb.collection("vacancies");
-      ref
-        .where("user", "==", user)
-        .onSnapshot(function(querySnapshot) {
-          vm.vacancyNum = querySnapshot.docs.length
-        });
+      ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
+        vm.vacancyNum = querySnapshot.docs.length;
+      });
     },
 
     listStoreMyHere(user) {
@@ -272,53 +280,60 @@ export default {
       }
       const vm = this;
       const ref = firestoreDb.collection("stories");
-      ref
-        .where("user", "==", user)
-        .onSnapshot(function(querySnapshot) {
-          vm.storeNum = querySnapshot.docs.length
-        });
+      ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
+        vm.storeNum = querySnapshot.docs.length;
+      });
     },
 
-    converNumbPhone (valueNum) {
-      var converted = ""
-      var count = 0
-      const value = String(valueNum).replace(/(.)(?=(\d{3})+$)/g,'$1,').split(",")
+    converNumbPhone(valueNum) {
+      var converted = "";
+      var count = 0;
+      const value = String(valueNum)
+        .replace(/(.)(?=(\d{3})+$)/g, "$1,")
+        .split(",");
       value.forEach(element => {
-        count += 1
+        count += 1;
         if (value.length > count) {
-          converted = converted + element + "; "
+          converted = converted + element + "; ";
         } else {
-          converted = converted + element
+          converted = converted + element;
         }
       });
-        return converted
-    },
+      return converted;
+    }
   },
   created() {
-    this.detailUserStore(this.$route.params.idUser)
+    this.detailUserStore(this.$route.params.idUser);
   },
   mounted() {
-    this.listVacancy(this.$route.params.idUser)
-    this.listStoreMyHere(this.$route.params.idUser)
-    this.$root.$emit("textToSpeechRouter", "Perfil de " + this.getUser.displayName + ".\n Pressione para ouvir detalhes do perfil. \n Clique 5 vezes para contactar.");
+    this.listVacancy(this.$route.params.idUser);
+    this.listStoreMyHere(this.$route.params.idUser);
+    this.$root.$emit(
+      "textToSpeechRouter",
+      "Perfil de " +
+        this.getUser.displayName +
+        ".\n Pressione para ouvir detalhes do perfil. \n Clique 5 vezes para contactar."
+    );
   },
 
   filters: {
-    converNumbPhoneFilter: function  (valueNum) {
-      console.log(valueNum)
-      var converted = ""
-      var count = 0
-      const value = String(valueNum).replace(/(.)(?=(\d{3})+$)/g,'$1,').split(",")
+    converNumbPhoneFilter: function(valueNum) {
+      console.log(valueNum);
+      var converted = "";
+      var count = 0;
+      const value = String(valueNum)
+        .replace(/(.)(?=(\d{3})+$)/g, "$1,")
+        .split(",");
       value.forEach(element => {
-        count += 1
+        count += 1;
         if (value.length > count) {
-          converted = converted + element + "; "
+          converted = converted + element + "; ";
         } else {
-          converted = converted + element
+          converted = converted + element;
         }
       });
-        return converted
-    },
-  },
+      return converted;
+    }
+  }
 };
 </script>

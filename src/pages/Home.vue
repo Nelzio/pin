@@ -141,7 +141,7 @@
 </template>
 
 <script>
-import { LocalStorage } from 'quasar'
+import { LocalStorage } from "quasar";
 export default {
   name: "Home",
   data() {
@@ -163,13 +163,16 @@ export default {
       } else if (this.slide == "segundo") {
         this.slide = "terceiro";
       } else {
-        LocalStorage.set("notFirst", true)
+        LocalStorage.set("notFirst", true);
         this.$router.push("/");
       }
     }
   },
-  mounted () {
-    this.$root.$emit("textToSpeechRouter", "Bem vindo a  plataforma Superactive.; Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.;;;; Deslize o dedo para a direita para ir a pagina inicial.");
+  mounted() {
+    this.$root.$emit(
+      "textToSpeechRouter",
+      "Bem vindo a  plataforma Superactive.; Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.;;;; Deslize o dedo para a direita para ir a pagina inicial."
+    );
   }
 };
 </script>

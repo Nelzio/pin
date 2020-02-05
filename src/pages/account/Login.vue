@@ -66,37 +66,39 @@
          <q-btn color="white" text-color="black" label="Standard" @click="googleSingIn()" />
         
       </div>
-    </div> -->
+    </div>-->
 
     <div class="row q-gutter-y-lg q-pa-md">
-        <q-btn
-          align="between"
-          rounded
-          size="lg"
-          class="full-width btn-fixed-width"
-          label="Entrar com google"
-          icon="img:https://imagepng.org/wp-content/uploads/2019/08/google-icon-1.png"
-          @click="googleSingIn()" />
-        <q-btn
-          align="between"
-          rounded
-          size="lg"
-          class="full-width btn-fixed-width"
-          left-icon
-          @click="facebookSingIn()">
-          <q-icon color="blue" name="ion-logo-facebook" />
-          <div>Entrar com facebook</div>
-          </q-btn>
-          
-        <q-btn
-          align="between"
-          rounded
-          size="lg"
-          class="full-width btn-fixed-width"
-          label="Entrar com email"
-          icon="email"
-          to="/account/login" />
+      <q-btn
+        align="between"
+        rounded
+        size="lg"
+        class="full-width btn-fixed-width"
+        label="Entrar com google"
+        icon="img:https://imagepng.org/wp-content/uploads/2019/08/google-icon-1.png"
+        @click="googleSingIn()"
+      />
+      <q-btn
+        align="between"
+        rounded
+        size="lg"
+        class="full-width btn-fixed-width"
+        left-icon
+        @click="facebookSingIn()"
+      >
+        <q-icon color="blue" name="ion-logo-facebook" />
+        <div>Entrar com facebook</div>
+      </q-btn>
 
+      <q-btn
+        align="between"
+        rounded
+        size="lg"
+        class="full-width btn-fixed-width"
+        label="Entrar com email"
+        icon="email"
+        to="/account/login"
+      />
     </div>
     <!-- <div class="row justify-center">
       <div class="col-12 q-pa-lg">
@@ -109,12 +111,12 @@
 					to="/account/create"
         />
       </div>
-    </div> -->
+    </div>-->
   </q-page>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapState, mapActions } from "vuex";
 export default {
   name: "LoginFormsComponent",
   data() {
@@ -125,28 +127,33 @@ export default {
         password: ""
       },
       isPwd: true
-    }
+    };
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"])
   },
   methods: {
-    ...mapActions("auth", ["loginUser", "registerUser", "googleSingIn", "facebookSingIn"]),
+    ...mapActions("auth", [
+      "loginUser",
+      "registerUser",
+      "googleSingIn",
+      "facebookSingIn"
+    ]),
 
     isPasswordValid(email) {
-      var re = /^(([^<>()\[\]\\.,:\s@"]+(\.[^<>()\[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      return re.test(String(email).toLowerCase())
+      var re = /^(([^<>()\[\]\\.,:\s@"]+(\.[^<>()\[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
     },
 
     onReset() {
-      alert("must reset form.")
+      alert("must reset form.");
     },
     onSubmit() {
-      this.$refs.email.validate()
-      this.$refs.password.validate()
+      this.$refs.email.validate();
+      this.$refs.password.validate();
 
       if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
-        this.loginUser(this.authObject)
+        this.loginUser(this.authObject);
       }
     },
     accountSwipe(val) {
@@ -155,24 +162,27 @@ export default {
       // }
 
       if (val.direction === "right") {
-        this.$router.push("/")
+        this.$router.push("/");
       }
       if (val.direction === "up") {
-        this.$router.push("/")
+        this.$router.push("/");
       }
     }
   },
 
-  mounted () {
-    this.$root.$emit("textToSpeechRouter", "Pagina de login. Pode se autenticar com conta google, facebook ou por email")
+  mounted() {
+    this.$root.$emit(
+      "textToSpeechRouter",
+      "Pagina de login. Pode se autenticar com conta google, facebook ou por email"
+    );
   },
 
   filters: {
     captalizeFirstLetter(val) {
-      return val.charAt(0).toUpperCase() + "" + val.slice(1)
+      return val.charAt(0).toUpperCase() + "" + val.slice(1);
     }
   }
-}
+};
 </script>
 
 <style lang="sass">

@@ -13,7 +13,6 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'settings', component: () => import('pages/settings/PageSettings') },
-      { path: 'search', component: () => import('pages/Search.vue') },
       { path: 'user/:idUser', component: () => import('pages/user/Profile.vue') },
       { path: 'chat/:idReceptor', component: () => import('pages/chat/Chat.vue') },
       { path: 'tts', component: () => import('pages/tests/TextToSpeach.vue') },
@@ -30,7 +29,6 @@ const routes = [
       { path: 'vacancy/details/:id', component: () => import('pages/profile/work/Details.vue') },
       { path: 'vacancy/edit/:idEdit', component: () => import('pages/profile/work/EditVacancy.vue') },
       { path: 'vacancy/add', component: () => import('pages/profile/work/AddVacancy.vue') },
-      { path: 'vacancy/details/employee', component: () => import('pages/profile/work/EmployeeProfile.vue') },
       { path: 'store/add', component: () => import('pages/profile/store/AddStore.vue') },
       { path: 'store', component: () => import('pages/profile/store/Store.vue') },
       { path: 'store/edit/:idEditStore', component: () => import('pages/profile/store/EditStore.vue') },
@@ -67,17 +65,6 @@ const routes = [
       { path: 'edit', component: () => import('pages/account/ResetProfile.vue') },
     ]
   },
-  {
-    path: '/company',
-    component: () => import('layouts/home/Base.vue'),
-    children: [
-      { path: 'employees', component: () => import('pages/company/Employees.vue') },
-      { path: 'employee', component: () => import('pages/company/Employee.vue') },
-      { path: 'interviews', component: () => import('pages/company/Interviews.vue') },
-      { path: 'vacancies', component: () => import('pages/company/Vacancies.vue') },
-      { path: 'vacancy', component: () => import('pages/company/VacancyDetail.vue') },
-    ]
-  }
 ]
 
 // Always leave this as last one

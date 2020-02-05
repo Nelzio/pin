@@ -53,11 +53,23 @@
             :options="places"
             label="Província"
           />
-          <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.validate" mask="##/##/####" :rules="[ val => val && val.length > 0 || 'Introduza a data de validade']">
+          <q-input
+            :color="darkModeConf.color"
+            rounded
+            outlined
+            v-model="vacancy.validate"
+            mask="##/##/####"
+            :rules="[ val => val && val.length > 0 || 'Introduza a data de validade']"
+          >
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                  <q-date :color="darkModeConf.color" v-model="vacancy.validate" @input="() => $refs.qDateProxy.hide()" mask="DD/MM/YYYY" />
+                  <q-date
+                    :color="darkModeConf.color"
+                    v-model="vacancy.validate"
+                    @input="() => $refs.qDateProxy.hide()"
+                    mask="DD/MM/YYYY"
+                  />
                 </q-popup-proxy>
               </q-icon>
             </template>

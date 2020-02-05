@@ -16,7 +16,13 @@
         </q-item-section>
       </q-item>
 
-      <img v-ripple v-if="store.img && imgLoaded" :src="store.img" style="min-height: 200px;" @click="$router.push('/store/details/'+store.key)" />
+      <img
+        v-ripple
+        v-if="store.img && imgLoaded"
+        :src="store.img"
+        style="min-height: 200px;"
+        @click="$router.push('/store/details/'+store.key)"
+      />
       <q-skeleton v-else height="230px" square />
 
       <q-card-section class="q-pb-none">
@@ -65,7 +71,7 @@ export default {
         adress: "",
         profission: "",
         education: "",
-        date: "",
+        date: ""
       },
       lazyImages: [],
       imgLoaded: false
@@ -108,47 +114,53 @@ export default {
             place: "",
             subCategory: "",
             price: "",
-            priceVariable: false,
+            priceVariable: false
           };
         }
       });
     },
 
-    handleHold ({ evt, ...info }) {
+    handleHold({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
-      this.$root.$emit("textToSpeechStore", {store: this.store, user: this.user.displayName});
+      this.$root.$emit("textToSpeechStore", {
+        store: this.store,
+        user: this.user.displayName
+      });
       // console.log(this.store)
     },
 
-    layzeImg () {
+    layzeImg() {
       if (!this.imgLoaded) {
         if (!(this.lazyImages == this.$refs.imgProduct)) {
           this.lazyImages = this.$refs.imgProduct;
         }
 
         if (this.lazyImages) {
-          if ((this.lazyImages.getBoundingClientRect().top <= window.innerHeight && this.lazyImages.getBoundingClientRect().bottom >= 0) && getComputedStyle(this.lazyImages).display !== "none") {
-            this.imgLoaded = true
+          if (
+            this.lazyImages.getBoundingClientRect().top <= window.innerHeight &&
+            this.lazyImages.getBoundingClientRect().bottom >= 0 &&
+            getComputedStyle(this.lazyImages).display !== "none"
+          ) {
+            this.imgLoaded = true;
           }
         }
       }
-    },
+    }
   },
 
   mounted() {
-    this.layzeImg()
+    this.layzeImg();
     window.addEventListener("scroll", this.layzeImg);
     window.addEventListener("resize", this.layzeImg);
     window.addEventListener("orientationchange", this.layzeImg);
-      
+
     this.detailStoreUser(this.store.user);
-    
   },
 
   watch: {
-    store () {
-      this.layzeImg()
+    store() {
+      this.layzeImg();
       window.addEventListener("scroll", this.layzeImg);
       window.addEventListener("resize", this.layzeImg);
       window.addEventListener("orientationchange", this.layzeImg);

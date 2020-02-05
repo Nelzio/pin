@@ -9,9 +9,7 @@
         <div>
           <q-icon size="100px" name="work" />
         </div>
-        <div class="text-h6">
-          Vagas
-        </div>
+        <div class="text-h6">Vagas</div>
       </div>
       <div
         class="text-center q-pl-lg"
@@ -21,9 +19,7 @@
         <div>
           <q-icon size="100px" name="store" />
         </div>
-        <div class="text-h6">
-          Produtos e Serviços
-        </div>
+        <div class="text-h6">Produtos e Serviços</div>
       </div>
     </div>
     <div class="flex flex-center" style="height: 50%;">
@@ -35,33 +31,27 @@
         <div>
           <q-icon size="100px" name="account_circle" />
         </div>
-        <div class="text-h6">
-          Perfil
-        </div>
+        <div class="text-h6">Perfil</div>
       </div>
       <div class="text-center" style="height: 100%; width: 50vw; padding-top: 15%;">
         <div>
           <q-icon size="100px" name="settings" @click="$router.push('/settings')" />
         </div>
-        <div class="text-h6">
-          Definições
-        </div>
+        <div class="text-h6">Definições</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from "vuex";
 export default {
   name: "HomeContent",
   computed: {
-    ...mapState ('auth', ['isUserAuth'])
+    ...mapState("auth", ["isUserAuth"])
   },
   methods: {
-    ...mapActions ('auth', [
-      'checkAuthUser'
-    ]),
+    ...mapActions("auth", ["checkAuthUser"])
   }
 };
 </script>

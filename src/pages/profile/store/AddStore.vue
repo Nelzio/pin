@@ -64,8 +64,7 @@
             label="Província"
             :rules="[ val => val && val.length > 0 || 'Selecione a provincia']"
           />
-          <q-input rounded outlined v-model="store.price" :color="darkModeConf.color" label="Preço" >
-
+          <q-input rounded outlined v-model="store.price" :color="darkModeConf.color" label="Preço">
             <template v-slot:append>
               <q-checkbox :color="darkModeConf.color" v-model="store.priceVariable" />
               <div class="text-body1">Negociavel</div>
@@ -134,7 +133,7 @@ export default {
         place: "",
         subCategory: "",
         price: "",
-        priceVariable: false,
+        priceVariable: false
       },
       imageUrl: "",
       categories: ["Produto", "Serviço"],
@@ -193,8 +192,8 @@ export default {
       fileReader.readAsDataURL(files[0]);
       this.store.img = files[0];
     },
-    mounted () {
-      this.$root.$emit("textToSpeechRouter", "Adiciona produto ou serviço")
+    mounted() {
+      this.$root.$emit("textToSpeechRouter", "Adiciona produto ou serviço");
     }
   },
   watch: {
@@ -210,7 +209,7 @@ export default {
           place: "",
           subCategory: "",
           price: "",
-          priceVariable: false,
+          priceVariable: false
         };
         this.imageUrl = "";
         this.$refs.storeForm.resetValidation();

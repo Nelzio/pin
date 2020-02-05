@@ -26,20 +26,20 @@ const state = {
 }
 
 const mutations = {
-    setIsConected (state, val) {
+    setIsConected(state, val) {
         state.isConected = val
     },
-    SET_FONT_SIZE (state, val) {
+    SET_FONT_SIZE(state, val) {
         state.fontConfig = val
         LocalStorage.set('fontSize', val)
     },
-    setAppMode (state, val) {
+    setAppMode(state, val) {
         state.appMode = val
     },
-    appModeSave (state, val) {
+    appModeSave(state, val) {
         state.darkModeConf = val
     },
-    SET_VIBRATE (state, val) {
+    SET_VIBRATE(state, val) {
         state.vibrateState = val
     }
 
@@ -47,18 +47,18 @@ const mutations = {
 
 const getters = {
 
-    getFont (state) {
+    getFont(state) {
         if (state.fontConfig == 1 || !state.fontConfig) {
             return state.fonts.font1
         }
         return state.fonts.font2
     },
 
-    getFontMode (state) {
+    getFontMode(state) {
         return state.fontConfig
     },
 
-    getMode (state) {
+    getMode(state) {
         return state.appMode
     }
 
@@ -66,7 +66,7 @@ const getters = {
 
 const actions = {
 
-    setIsConected ({state, commit, dispatch}, val) {
+    setIsConected({ state, commit, dispatch }, val) {
         commit('setIsConected', val)
         if (val) {
             dispatch('playSound', state.soundHome)
@@ -75,13 +75,13 @@ const actions = {
         }
     },
 
-    setFont ({commit}, val) {
+    setFont({ commit }, val) {
         commit('SET_FONT_SIZE', val)
     },
-    setAppMode ({commit, dispatch}, val) {
+    setAppMode({ commit, dispatch }, val) {
         commit('setAppMode', val)
         let payload
-        if(val) {
+        if (val) {
             payload = {
                 bgColor: "bg-white",
                 textColor: "text-black",
@@ -101,7 +101,7 @@ const actions = {
         // dispatch('appModeSave', val)
     },
 
-    setVibrate ({commit}, val) {
+    setVibrate({ commit }, val) {
         commit('SET_VIBRATE', val)
     },
 
@@ -142,7 +142,7 @@ const actions = {
     // },
 
     // ===== Audio options
-    playSound ({}, audioPath) {
+    playSound({ }, audioPath) {
         // if(audioPath) {
         //     var audio = new Audio(audioPath);
         //     audio.play();

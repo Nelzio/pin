@@ -1,6 +1,11 @@
 <template>
   <div ref="imgProduct">
-    <q-card :id="vacancy.key" class="my-card" v-touch-hold:300.mouse="handleHold" v-touch-swipe.mouse.left.right="handleSwipe">
+    <q-card
+      :id="vacancy.key"
+      class="my-card"
+      v-touch-hold:300.mouse="handleHold"
+      v-touch-swipe.mouse.left.right="handleSwipe"
+    >
       <q-item>
         <q-item-section avatar>
           <q-btn round @click="detailUser(user)">
@@ -16,7 +21,13 @@
         </q-item-section>
       </q-item>
 
-      <img v-ripple v-if="vacancy.img && imgLoaded" :src="vacancy.img" style="min-height: 200px;" @click="$router.push('/vacancies/details/'+vacancy.key)" />
+      <img
+        v-ripple
+        v-if="vacancy.img && imgLoaded"
+        :src="vacancy.img"
+        style="min-height: 200px;"
+        @click="$router.push('/vacancies/details/'+vacancy.key)"
+      />
       <q-skeleton v-else height="230px" square />
 
       <q-card-section class="q-pb-none">
@@ -64,7 +75,7 @@ export default {
         adress: "",
         profission: "",
         education: "",
-        date: "",
+        date: ""
       },
       lazyImages: [],
       imgLoaded: false
@@ -111,22 +122,29 @@ export default {
       });
     },
 
-    handleHold ({ evt, ...info }) {
+    handleHold({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
-      this.$root.$emit("textToSpeech", {vacancy: this.vacancy, user: this.user.displayName});
+      this.$root.$emit("textToSpeech", {
+        vacancy: this.vacancy,
+        user: this.user.displayName
+      });
       // console.log(this.vacancy)
     },
 
-    layzeImg () {
+    layzeImg() {
       if (!this.imgLoaded) {
         if (!(this.lazyImages == this.$refs.imgProduct)) {
           this.lazyImages = this.$refs.imgProduct;
         }
 
         if (this.lazyImages) {
-          if ((this.lazyImages.getBoundingClientRect().top <= window.innerHeight && this.lazyImages.getBoundingClientRect().bottom >= 0) && getComputedStyle(this.lazyImages).display !== "none") {
-            this.imgLoaded = true
+          if (
+            this.lazyImages.getBoundingClientRect().top <= window.innerHeight &&
+            this.lazyImages.getBoundingClientRect().bottom >= 0 &&
+            getComputedStyle(this.lazyImages).display !== "none"
+          ) {
+            this.imgLoaded = true;
           }
         }
       }
@@ -140,22 +158,21 @@ export default {
       if (val.direction === "right") {
         this.$router.push("/home");
       }
-    },
+    }
   },
 
   mounted() {
-    this.layzeImg()
+    this.layzeImg();
     window.addEventListener("scroll", this.layzeImg);
     window.addEventListener("resize", this.layzeImg);
     window.addEventListener("orientationchange", this.layzeImg);
-      
+
     this.detailVacancyUser(this.vacancy.user);
-    
   },
 
   watch: {
-    vacancy () {
-      this.layzeImg()
+    vacancy() {
+      this.layzeImg();
       window.addEventListener("scroll", this.layzeImg);
       window.addEventListener("resize", this.layzeImg);
       window.addEventListener("orientationchange", this.layzeImg);

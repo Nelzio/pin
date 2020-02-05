@@ -18,11 +18,11 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-        settings,
-        auth,
-        vacancy,
-        user,
-        store
+      settings,
+      auth,
+      vacancy,
+      user,
+      store
     },
 
     // enable strict mode (adds overhead!)

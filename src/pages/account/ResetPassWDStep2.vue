@@ -10,7 +10,6 @@
       </div>-->
       <div class="q-pa-lg col-md-4 col-12">
         <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-
           <q-input
             rounded
             outlined
@@ -72,7 +71,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapState, mapActions } from "vuex";
 export default {
   name: "RegisterFormComponent",
   data() {
@@ -107,19 +106,19 @@ export default {
         this.$emit("loginUser", this.authObject);
       }
     },
-    accountSwipe (val) {
-        if (val.direction === 'right') {
-          this.$router.push('/account')
-        }
-
-        // if (val.direction === 'left') {
-        //   this.$router.push('/account/reset')
-        // }
-
-        if (val.direction === 'down') {
-          this.$router.push('/')
-        }
+    accountSwipe(val) {
+      if (val.direction === "right") {
+        this.$router.push("/account");
       }
+
+      // if (val.direction === 'left') {
+      //   this.$router.push('/account/reset')
+      // }
+
+      if (val.direction === "down") {
+        this.$router.push("/");
+      }
+    }
   },
 
   filters: {

@@ -37,8 +37,8 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
-import { firebaseAuth } from "../../boot/firebase"
+import { mapState, mapActions } from "vuex";
+import { firebaseAuth } from "../../boot/firebase";
 export default {
   name: "LoginFormsComponent",
   data() {
@@ -52,7 +52,7 @@ export default {
       isPwd: true
     };
   },
-	computed: {
+  computed: {
     ...mapState("settings", ["appMode", "darkModeConf"])
   },
   methods: {
@@ -63,17 +63,20 @@ export default {
       return re.test(String(email).toLowerCase());
     },
 
-    sendEmaiPassReset () {
-      var auth = firebaseAuth
+    sendEmaiPassReset() {
+      var auth = firebaseAuth;
 
-      auth.sendPasswordResetEmail(this.email).then(function() {
-        // Email sent.
-        console.log("email enviado")
-      }).catch(function(error) {
-        // An error happened.
-        console.log("Erro")
-        console.log(error)
-      });
+      auth
+        .sendPasswordResetEmail(this.email)
+        .then(function() {
+          // Email sent.
+          console.log("email enviado");
+        })
+        .catch(function(error) {
+          // An error happened.
+          console.log("Erro");
+          console.log(error);
+        });
     },
 
     onReset() {
@@ -83,7 +86,7 @@ export default {
       this.$refs.email.validate();
 
       if (!this.$refs.email.hasError) {
-        this.sendEmaiPassReset()
+        this.sendEmaiPassReset();
       }
     },
     accountSwipe(val) {
@@ -100,8 +103,8 @@ export default {
     }
   },
 
-  mounted () {
-    this.$root.$emit("textToSpeechRouter", "Editar senha do usuário")
+  mounted() {
+    this.$root.$emit("textToSpeechRouter", "Editar senha do usuário");
   },
 
   filters: {

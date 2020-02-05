@@ -105,7 +105,12 @@ export default {
     };
   },
   computed: {
-    ...mapState("settings", ["settings", "appMode", "darkModeConf", "vibrateState"]),
+    ...mapState("settings", [
+      "settings",
+      "appMode",
+      "darkModeConf",
+      "vibrateState"
+    ]),
     ...mapState("vacancy", ["vacancies", "vacancy"]),
     ...mapGetters("vacancy", ["getVacancies", "getVacancy"]),
     ...mapGetters("auth", ["user"])
@@ -163,7 +168,6 @@ export default {
         this.$router.push("/home");
       }
     },
-    
 
     lazeItems() {
       if (!(this.itemsLayzeRef == this.$refs.item)) {
@@ -250,7 +254,11 @@ export default {
     // text to speech
     this.$root.$emit("isHomePage", "Vagas");
     this.$root.$on("textToSpeech", val => {
-      var text = val.user + " disponibilizou a vaga de " + val.vacancy.title + "\n Clique para descrição.";
+      var text =
+        val.user +
+        " disponibilizou a vaga de " +
+        val.vacancy.title +
+        "\n Clique para descrição.";
       this.speak(text);
     });
 
@@ -266,7 +274,10 @@ export default {
 
     // this.$on("valueSearch")
 
-    this.$root.$emit("textToSpeechRouter", "Pagina de vagas.\n Ao rolar, o telefone vai vibrar quando um item estiver no centro.\n Pressione no centro para ouvir.");
+    this.$root.$emit(
+      "textToSpeechRouter",
+      "Pagina de vagas.\n Ao rolar, o telefone vai vibrar quando um item estiver no centro.\n Pressione no centro para ouvir."
+    );
   },
   watch: {
     val_search(val) {
@@ -274,7 +285,7 @@ export default {
     },
     filterVal(val) {
       this.search(val);
-    },
+    }
     // vacancies() {
     //   this.lazeItems();
     // }

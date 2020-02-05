@@ -16,13 +16,31 @@
           <q-linear-progress :value="progress" color="primary" />
         </q-card-section>
       </q-card>
-    </div> -->
+    </div>-->
 
     <q-footer>
       <q-toolbar class="bg-grey-3 text-black row">
         <!-- <q-btn round flat icon="insert_emoticon" class="q-mr-sm" /> -->
-        <q-input v-if="recording" v-model="fullTimer" rounded outlined dense class="WAL__field col-grow q-mr-sm" bg-color="white" disable />
-        <q-input v-else rounded outlined dense class="WAL__field col-grow q-mr-sm" bg-color="white" v-model="message.message" placeholder="Type a message" />
+        <q-input
+          v-if="recording"
+          v-model="fullTimer"
+          rounded
+          outlined
+          dense
+          class="WAL__field col-grow q-mr-sm"
+          bg-color="white"
+          disable
+        />
+        <q-input
+          v-else
+          rounded
+          outlined
+          dense
+          class="WAL__field col-grow q-mr-sm"
+          bg-color="white"
+          v-model="message.message"
+          placeholder="Type a message"
+        />
         <q-btn v-if="message.message" round flat icon="send" @click="sendMessage()" />
         <q-btn v-else-if="!recording" round flat icon="mic" @click="recordAudio()" />
         <q-btn v-else round flat icon="stop" color="red" @click="stopRecord()" />
@@ -32,48 +50,44 @@
     <q-page-sticky expand position="top">
       <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" class="shadow-3">
         <q-avatar>
-          <img :src="getUser.photoURL">
+          <img :src="getUser.photoURL" />
         </q-avatar>
-        <q-toolbar-title>
-          {{ getUser.displayName }}
-        </q-toolbar-title>
+        <q-toolbar-title>{{ getUser.displayName }}</q-toolbar-title>
       </q-toolbar>
     </q-page-sticky>
-    
   </q-page>
 </template>
 
 <script>
-import { firestoreDb, fireStorage, firebase } from "boot/firebase"
+import { firestoreDb, fireStorage, firebase } from "boot/firebase";
 import { mapState, mapActions, mapGetters } from "vuex";
-import Chat from "components/chat/Chat.vue"
+import Chat from "components/chat/Chat.vue";
 export default {
   // name: 'PageName',
   components: {
     Chat
   },
-  data () {
+  data() {
     return {
       mediaRecorder: null,
       audioChunks: [],
       audioUrl: {},
       timer: {
         mm: 0,
-        ss: 0,
+        ss: 0
       },
       fullTimer: "00min : 00sec",
       recording: false,
       refreshInterval: null,
       message: "",
       timeslice: null,
-      
-      
+
       chatData: [],
       message: {
         audio: null,
-        message: "",
+        message: ""
       }
-    }
+    };
   },
 
   computed: {
@@ -85,15 +99,15 @@ export default {
   methods: {
     ...mapActions("user", ["detailUserStore"]),
 
-    handleHold ({ evt, ...info }) {
+    handleHold({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
       // gravar audio
       window.navigator.vibrate(200);
       if (this.recording) {
-        this.stopRecord()
+        this.stopRecord();
       } else {
-        this.recordAudio()
+        this.recordAudio();
       }
       // console.log(this.vacancy)
     },
@@ -104,52 +118,57 @@ export default {
       }
     },
 
-    recordAudio () {
-      const vm = this
-      navigator.mediaDevices.getUserMedia({ audio: true,video: false })
-      .then(stream => {
-        // Record Audio
-        this.mediaRecorder = new MediaRecorder(stream);
-        this.mediaRecorder.start();
-        this.counter()
-        this.recording = true
+    recordAudio() {
+      const vm = this;
+      navigator.mediaDevices
+        .getUserMedia({ audio: true, video: false })
+        .then(stream => {
+          // Record Audio
+          this.mediaRecorder = new MediaRecorder(stream);
+          this.mediaRecorder.start();
+          this.counter();
+          this.recording = true;
 
-        // Save recorded data Chunks in a list
-        this.audioChunks = [];
-        this.mediaRecorder.addEventListener("dataavailable", event => {
-          this.audioChunks.push(event.data);
+          // Save recorded data Chunks in a list
+          this.audioChunks = [];
+          this.mediaRecorder.addEventListener("dataavailable", event => {
+            this.audioChunks.push(event.data);
+          });
         });
-      });
     },
 
-    stopRecord () {
-      const vm = this
-      this.recording = false
+    stopRecord() {
+      const vm = this;
+      this.recording = false;
       this.mediaRecorder.addEventListener("stop", () => {
         const audioBlob = new Blob(this.audioChunks);
         // this.audioUrl = {audio: URL.createObjectURL(audioBlob), time: vm.timer.ss}
         // // this.audioUrl = {audio: audioBlob, time: vm.timer.ss}
-        console.log(this.audioUrl)
+        console.log(this.audioUrl);
         // this.sendMessageVoice(this.audioUrl)
-        this.uploadFile(audioBlob)
+        this.uploadFile(audioBlob);
       });
-      this.mediaRecorder.stream.getAudioTracks().forEach(function(track){track.stop();});
+      this.mediaRecorder.stream.getAudioTracks().forEach(function(track) {
+        track.stop();
+      });
       this.mediaRecorder.stop();
       clearInterval(this.refreshInterval);
     },
 
-    
-
-    counter () {
-      const vm = this
+    counter() {
+      const vm = this;
       var totalSeconds = 0;
       this.refreshInterval = setInterval(setTime, 1000);
 
       function setTime() {
         ++totalSeconds;
-        vm.timer.ss = totalSeconds % 60
-        vm.timer.mm = totalSeconds / 60
-        vm.fullTimer = pad(parseInt(totalSeconds / 60)) + "min : " + pad(totalSeconds % 60) + "sec"
+        vm.timer.ss = totalSeconds % 60;
+        vm.timer.mm = totalSeconds / 60;
+        vm.fullTimer =
+          pad(parseInt(totalSeconds / 60)) +
+          "min : " +
+          pad(totalSeconds % 60) +
+          "sec";
       }
 
       function pad(val) {
@@ -162,21 +181,22 @@ export default {
       }
     },
 
-    
-
-    getChat () {
+    getChat() {
       // var storageRef = fireStorage.ref()
       // if (!offline.data().isOnline) {
       //   return alert("Sem internet")
       // }
-      const vm =this
-      const ref = firestoreDb.collection('chat')
-      var chatData = []
-      // const 
-      ref.onSnapshot(function (querySnapshot) {
-        chatData = []
-        querySnapshot.forEach(function (doc) {
-          if (doc.data().receptorUser == vm.user.email || doc.data().email == vm.user.email) {
+      const vm = this;
+      const ref = firestoreDb.collection("chat");
+      var chatData = [];
+      // const
+      ref.onSnapshot(function(querySnapshot) {
+        chatData = [];
+        querySnapshot.forEach(function(doc) {
+          if (
+            doc.data().receptorUser == vm.user.email ||
+            doc.data().email == vm.user.email
+          ) {
             chatData.push({
               key: doc.id,
               email: doc.data().email,
@@ -186,19 +206,18 @@ export default {
               timeSend: new Date(doc.data().timeSend),
               message: doc.data().message,
               receptorUser: doc.data().receptorUser
-            })
+            });
           }
         });
         chatData.sort(function(a, b) {
-          return a.timeSend - b.timeSend
+          return a.timeSend - b.timeSend;
         });
-        vm.chatData = chatData
+        vm.chatData = chatData;
       });
     },
 
-    sendMessage () {
-      const vm =this
-
+    sendMessage() {
+      const vm = this;
 
       var today = new Date();
       // var dd = String(today.getDate()).padStart(2, '0');
@@ -206,51 +225,50 @@ export default {
       // var yyyy = today.getFullYear();
       // today = mm + '/' + dd + '/' + yyyy;
 
+      this.message.receptorUser = this.$route.params.idReceptor;
+      this.message.email = this.user.email;
+      this.message.displayName = this.user.displayName;
+      this.message.timeSend = String(today);
+      this.message.imgUserUrl = this.user.photoURL;
 
-      this.message.receptorUser = this.$route.params.idReceptor
-      this.message.email = this.user.email
-      this.message.displayName = this.user.displayName
-      this.message.timeSend = String(today)
-      this.message.imgUserUrl = this.user.photoURL
-      
-      const ref = firestoreDb.collection('chat')
-      ref.add(this.message).then((docRef) => {
+      const ref = firestoreDb.collection("chat");
+      ref.add(this.message).then(docRef => {
         this.message = {
           audioUrl: "",
-          message: "",
-        }
-      })
+          message: ""
+        };
+      });
     },
 
-    sendMessageVoice (voice) {
-      const vm =this
-
+    sendMessageVoice(voice) {
+      const vm = this;
 
       var today = new Date();
-      this.message.receptorUser = this.$route.params.idReceptor
-      this.message.email = this.user.email
-      this.message.displayName = this.user.displayName
-      this.message.timeSend = String(today)
-      this.message.imgUserUrl = this.user.photoURL
-      this.message.audio = voice
-      
-      const ref = firestoreDb.collection('chat')
-      ref.add(this.message).then((docRef) => {
+      this.message.receptorUser = this.$route.params.idReceptor;
+      this.message.email = this.user.email;
+      this.message.displayName = this.user.displayName;
+      this.message.timeSend = String(today);
+      this.message.imgUserUrl = this.user.photoURL;
+      this.message.audio = voice;
+
+      const ref = firestoreDb.collection("chat");
+      ref.add(this.message).then(docRef => {
         this.message = {
           audio: null,
-          message: "",
-        }
-      })
+          message: ""
+        };
+      });
     },
 
-    uploadFile (file) {
-      const vm = this
-      var storageRef = fireStorage.ref()
+    uploadFile(file) {
+      const vm = this;
+      var storageRef = fireStorage.ref();
       // Upload file and metadata to the object 'images/mountains.jpg'
-      var uploadTask = storageRef.child('files').put(file);
+      var uploadTask = storageRef.child("files").put(file);
 
       // Listen for state changes, errors, and completion of the upload.
-      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+      uploadTask.on(
+        firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
         function(snapshot) {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           // // var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -263,40 +281,47 @@ export default {
               // // // console.log('Upload is running');
               break;
           }
-        }, function(error) {
+        },
+        function(error) {
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          switch (error.code) {
+            case "storage/unauthorized":
+              // User doesn't have permission to access the object
+              break;
 
-        // A full list of error codes is available at
-        // https://firebase.google.com/docs/storage/web/handle-errors
-        switch (error.code) {
-          case 'storage/unauthorized':
-            // User doesn't have permission to access the object
-            break;
+            case "storage/canceled":
+              // User canceled the upload
+              break;
 
-          case 'storage/canceled':
-            // User canceled the upload
-            break;
-
-          case 'storage/unknown':
-            // Unknown error occurred, inspect error.serverResponse
-            break;
+            case "storage/unknown":
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+          }
+        },
+        function() {
+          // Upload completed successfully, now we can get the download URL
+          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+            // // // console.log('File available at', downloadURL);
+            vm.sendMessageVoice({ audioUrl: downloadURL, time: vm.timer.ss });
+          });
         }
-      }, function() {
-        // Upload completed successfully, now we can get the download URL
-        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-          // // // console.log('File available at', downloadURL);
-          vm.sendMessageVoice({audioUrl: downloadURL, time: vm.timer.ss})
-        });
-      });
+      );
     }
   },
-  created () {
-    this.getChat()
-    this.detailUserStore(this.$route.params.idReceptor)
+  created() {
+    this.getChat();
+    this.detailUserStore(this.$route.params.idReceptor);
   },
-  mounted () {
-    this.$root.$emit("textToSpeechRouter", "Pagina de conversa com" + this.getUser.displayName + ".\n Pressione a tela até vibrar para poder falar.\n Para parar a gravação pressione a tela novamente")
+  mounted() {
+    this.$root.$emit(
+      "textToSpeechRouter",
+      "Pagina de conversa com" +
+        this.getUser.displayName +
+        ".\n Pressione a tela até vibrar para poder falar.\n Para parar a gravação pressione a tela novamente"
+    );
   }
-}
+};
 </script>
 
 <style lang="sass">

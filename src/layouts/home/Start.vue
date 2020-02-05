@@ -12,19 +12,16 @@
         </q-btn>
         Superactive</q-toolbar-title>
       </q-toolbar>
-    </q-header> -->
+    </q-header>-->
     <q-header height-hint="64">
-        <q-toolbar class="GPL__toolbar" style="height: 64px">
-          <q-toolbar-title class="text-center">
-            <q-avatar class="bg-white">
-              <img src="/statics/app-logo-128x128.png">
-            </q-avatar>
-            Superactive
-          </q-toolbar-title>
-        </q-toolbar>
-      </q-header>
-
-
+      <q-toolbar class="GPL__toolbar" style="height: 64px">
+        <q-toolbar-title class="text-center">
+          <q-avatar class="bg-white">
+            <img src="/statics/app-logo-128x128.png" />
+          </q-avatar>Superactive
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-header>
 
     <q-page-container>
       <!-- This is where pages get injected -->
@@ -34,7 +31,7 @@
 </template>
 
 <script>
-import { LocalStorage } from 'quasar'
+import { LocalStorage } from "quasar";
 export default {
   // name: 'LayoutName',
 
@@ -50,10 +47,10 @@ export default {
       backIcon: false,
       tab: "home",
       navtab: "list",
-      isHome: "Início",
-    }
-  },
-}
+      isHome: "Início"
+    };
+  }
+};
 </script>
 
 <style lang="sass">

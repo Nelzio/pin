@@ -38,11 +38,23 @@
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza o seu bairro']"
           />
-          <q-input :color="darkModeConf.color" rounded outlined v-model="userEdit.date" mask="##/##/####" :rules="[ val => val && val.length > 0 || 'Introduza a sua data de nascimento']">
+          <q-input
+            :color="darkModeConf.color"
+            rounded
+            outlined
+            v-model="userEdit.date"
+            mask="##/##/####"
+            :rules="[ val => val && val.length > 0 || 'Introduza a sua data de nascimento']"
+          >
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                  <q-date :color="darkModeConf.color" v-model="userEdit.date" @input="() => $refs.qDateProxy.hide()" mask="DD/MM/YYYY" />
+                  <q-date
+                    :color="darkModeConf.color"
+                    v-model="userEdit.date"
+                    @input="() => $refs.qDateProxy.hide()"
+                    mask="DD/MM/YYYY"
+                  />
                 </q-popup-proxy>
               </q-icon>
             </template>
@@ -142,9 +154,9 @@ export default {
       if (this.$refs.loginForm.hasError) {
         this.formHasError = true;
       } else {
-        this.userEdit.displayName = this.user.displayName
-        this.userEdit.email = this.user.email
-        this.userEdit.photoURL = this.user.photoURL
+        this.userEdit.displayName = this.user.displayName;
+        this.userEdit.email = this.user.email;
+        this.userEdit.photoURL = this.user.photoURL;
         this.editUser({ id: this.user.email, data: this.userEdit });
       }
     },
@@ -165,7 +177,7 @@ export default {
 
   mounted() {
     this.getUser();
-    this.$root.$emit("textToSpeechRouter", "Editar perfil")
+    this.$root.$emit("textToSpeechRouter", "Editar perfil");
   },
 
   filters: {

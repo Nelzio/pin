@@ -56,14 +56,14 @@
           </div>
           <div>
             <q-btn
-            class="full-width animated infinite bounce"
-            rounded
-            outline
-            label="Criar conta"
-            icon-right="arrow_forward"
-            to="/account/create"
+              class="full-width animated infinite bounce"
+              rounded
+              outline
+              label="Criar conta"
+              icon-right="arrow_forward"
+              to="/account/create"
             />
-        </div>
+          </div>
         </q-form>
       </div>
     </div>
@@ -79,7 +79,7 @@
           to="/account/create"
         />
       </div>
-    </div> -->
+    </div>-->
   </q-page>
 </template>
 
@@ -133,8 +133,8 @@ export default {
     }
   },
 
-  mounted () {
-    this.$root.$emit("textToSpeechRouter", "Entrar com email")
+  mounted() {
+    this.$root.$emit("textToSpeechRouter", "Entrar com email");
   },
 
   filters: {

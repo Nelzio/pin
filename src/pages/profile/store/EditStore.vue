@@ -66,8 +66,13 @@
             label="Província"
             :rules="[ val => val && val.length > 0 || 'Selecione a provincia']"
           />
-          <q-input rounded outlined v-model="storeData.price" :color="darkModeConf.color" label="Preço" >
-
+          <q-input
+            rounded
+            outlined
+            v-model="storeData.price"
+            :color="darkModeConf.color"
+            label="Preço"
+          >
             <template v-slot:append>
               <q-checkbox :color="darkModeConf.color" v-model="storeData.priceVariable" />
               <div class="text-body1">Negociavel</div>
@@ -136,7 +141,7 @@ export default {
         place: "",
         subCategory: "",
         price: "",
-        priceVariable: false,
+        priceVariable: false
       },
       storeDataTemp: {
         title: "",
@@ -148,7 +153,7 @@ export default {
         place: "",
         subCategory: "",
         price: "",
-        priceVariable: false,
+        priceVariable: false
       },
       fileImage: null,
       imageUrl: "",
@@ -184,10 +189,7 @@ export default {
       this.confirmInsert = false;
       this.$router.go(-1);
     },
-    ...mapActions("store", [
-      "detailStore",
-      "updateStore"
-    ]),
+    ...mapActions("store", ["detailStore", "updateStore"]),
 
     detailStoreLocal(id) {
       // test
@@ -207,7 +209,7 @@ export default {
             place: doc.data().place,
             subCategory: doc.data().subCategory,
             price: doc.data().price,
-            priceVariable: doc.data().priceVariable,
+            priceVariable: doc.data().priceVariable
           };
           this.storeData = data;
           this.imageUrl = data.img;
@@ -252,7 +254,10 @@ export default {
   mounted() {
     this.detailStoreLocal(this.$route.params.idEditStore);
 
-    this.$root.$emit("textToSpeechRouter", "Editar " + this.storeData.category + " " + this.storeData.title);
+    this.$root.$emit(
+      "textToSpeechRouter",
+      "Editar " + this.storeData.category + " " + this.storeData.title
+    );
   },
   watch: {
     storeUploaded() {

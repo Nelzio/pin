@@ -3,7 +3,7 @@
     <!-- Be sure to play with the Layout demo on docs -->
     <q-header elevated>
       <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]">
-        <q-btn icon="arrow_back" flat round dense @click="$router.go(-1)" size="lg"/>
+        <q-btn icon="arrow_back" flat round dense @click="$router.go(-1)" size="lg" />
         <q-toolbar-title class="text-center">Superactive | Conta</q-toolbar-title>
         <!-- <q-btn
           flat

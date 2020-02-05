@@ -2,7 +2,7 @@
   <q-page class="q-pb-xl">
     <!-- content -->
 
-    <div>
+    <!-- <div>
     <div class="q-pl-sm text-h6">
       Filtrar
     </div>
@@ -47,9 +47,13 @@
         </div>
       </q-scroll-area>
     </div>
-  </div>
+    </div>-->
 
-    <div v-if="!stories || loading" class="row justify-center q-gutter-y-md"  v-touch-swipe.mouse.left.right="handleSwipe">
+    <div
+      v-if="!stories || loading"
+      class="row justify-center q-gutter-y-md"
+      v-touch-swipe.mouse.left.right="handleSwipe"
+    >
       <div class="col-12 col-md-4" v-for="i in 20" :key="i">
         <q-card>
           <q-item>
@@ -76,7 +80,7 @@
       </div>
     </div>
 
-    <div class="q-pb-xl" :class="cardClass"  v-touch-swipe.mouse.left.right="handleSwipe">
+    <div class="q-pb-xl" :class="cardClass" v-touch-swipe.mouse.left.right="handleSwipe">
       <div v-if="!val_search && !filterVal" class="row q-gutter-y-md">
         <div
           ref="item"
@@ -151,7 +155,12 @@ export default {
     };
   },
   computed: {
-    ...mapState("settings", ["settings", "appMode", "darkModeConf", "vibrateState"]),
+    ...mapState("settings", [
+      "settings",
+      "appMode",
+      "darkModeConf",
+      "vibrateState"
+    ]),
     ...mapState("store", ["stories", "store"]),
     ...mapGetters("store", ["getStories", "getStore"]),
     ...mapGetters("auth", ["user"])
@@ -209,7 +218,6 @@ export default {
         this.$router.push("/vacancies");
       }
     },
-    
 
     lazeItems() {
       if (!(this.itemsLayzeRef == this.$refs.item)) {
@@ -295,13 +303,34 @@ export default {
     // console.log(this.deviceWidth)
     // text to speech
     this.$root.$on("textToSpeechStore", val => {
-      var text
+      var text;
       if (val.store.price) {
-        var text = val.user + " disponibilizou o " + val.store.category + " " + val.store.title + " de " + val.store.price + " meticais.";
+        var text =
+          val.user +
+          " disponibilizou o " +
+          val.store.category +
+          " " +
+          val.store.title +
+          " de " +
+          val.store.price +
+          " meticais.";
       } else if (val.store.price && val.store.priceVariable) {
-        text = val.user + " disponibilizou o " + val.store.category + " " + val.store.title + " de " + val.store.price + " meticais.; Negociavel";
+        text =
+          val.user +
+          " disponibilizou o " +
+          val.store.category +
+          " " +
+          val.store.title +
+          " de " +
+          val.store.price +
+          " meticais.; Negociavel";
       } else {
-        text = val.user + " disponibilizou o " + val.store.category + " " + val.store.title;
+        text =
+          val.user +
+          " disponibilizou o " +
+          val.store.category +
+          " " +
+          val.store.title;
       }
       this.speak(text);
     });
@@ -314,7 +343,7 @@ export default {
     },
     filterVal(val) {
       this.search(val);
-    },
+    }
   }
 };
 </script>

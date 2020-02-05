@@ -64,11 +64,24 @@
             :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
           />
 
-          <q-input :color="darkModeConf.color" rounded outlined v-model="authObject.date" label="Data de nascimento" mask="##/##/####" :rules="[ val => val && val.length > 0 || 'Introduza a sua data de nascimento']">
+          <q-input
+            :color="darkModeConf.color"
+            rounded
+            outlined
+            v-model="authObject.date"
+            label="Data de nascimento"
+            mask="##/##/####"
+            :rules="[ val => val && val.length > 0 || 'Introduza a sua data de nascimento']"
+          >
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                  <q-date :color="darkModeConf.color" v-model="authObject.date" @input="() => $refs.qDateProxy.hide()" mask="DD/MM/YYYY" />
+                  <q-date
+                    :color="darkModeConf.color"
+                    v-model="authObject.date"
+                    @input="() => $refs.qDateProxy.hide()"
+                    mask="DD/MM/YYYY"
+                  />
                 </q-popup-proxy>
               </q-icon>
             </template>
@@ -198,8 +211,8 @@ export default {
     }
   },
 
-  mounted () {
-    this.$root.$emit("textToSpeechRouter", "Criar conta")
+  mounted() {
+    this.$root.$emit("textToSpeechRouter", "Criar conta");
   },
 
   filters: {

@@ -78,7 +78,7 @@
             <q-tab name="aplayed" label="Candidatos" />
           </q-tabs>
         </div>
-      </div> -->
+      </div>-->
     </q-page-sticky>
   </q-page>
 </template>
@@ -99,7 +99,7 @@ export default {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapState("vacancy", ["vacancies", "vacancyDtl"]),
     ...mapGetters("vacancy", ["getVacancies", "getVacancy"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont"])
   },
   methods: {
     ...mapActions("vacancy", [

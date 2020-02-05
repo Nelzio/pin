@@ -17,7 +17,7 @@ const state = {
     place: "",
     subCategory: "",
     price: "",
-        priceVariable: false,
+    priceVariable: false,
   },
   storeUploaded: false,
   storeDetail: false,
@@ -275,21 +275,21 @@ const actions = {
     const ref = firestoreDb.collection('stories')
     var storiesData = []
     ref.where("public", "==", true)
-    .onSnapshot(function (querySnapshot) {
+      .onSnapshot(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
-            storiesData.push({
-              key: doc.id,
-              title: doc.data().title,
-              user: doc.data().user,
-              description: doc.data().description,
-              img: doc.data().img,
-              public: doc.data().public,
-              category: doc.data().category,
-              place: doc.data().place,
-              subCategory: doc.data().subCategory,
-              price: doc.data().price,
-              priceVariable: doc.data().priceVariable,
-            })
+          storiesData.push({
+            key: doc.id,
+            title: doc.data().title,
+            user: doc.data().user,
+            description: doc.data().description,
+            img: doc.data().img,
+            public: doc.data().public,
+            category: doc.data().category,
+            place: doc.data().place,
+            subCategory: doc.data().subCategory,
+            price: doc.data().price,
+            priceVariable: doc.data().priceVariable,
+          })
         });
         commit('SET_STORIES', storiesData)
       });
@@ -304,7 +304,7 @@ const actions = {
     const ref = firestoreDb.collection('stories')
     var stories = []
     ref.where("user", "==", user).where("public", "==", true)
-    .onSnapshot(function (querySnapshot) {
+      .onSnapshot(function (querySnapshot) {
         // stories = []
         querySnapshot.forEach(function (doc) {
           stories.push({

@@ -7,18 +7,13 @@
         <!-- sec 6 -->
         <div v-if="myVacancies.length">
           <div class="row">
-            <div
-              class="col-12 col-md-4 q-pa-sm"
-              v-for="vacancy in myVacancies"
-              :key="vacancy.key"
-            >
+            <div class="col-12 col-md-4 q-pa-sm" v-for="vacancy in myVacancies" :key="vacancy.key">
               <Vacancy :vacancy="vacancy" />
             </div>
           </div>
         </div>
       </div>
     </div>
-
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user">
       <q-btn
@@ -37,7 +32,7 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import { Loading } from "quasar";
 import { firebaseAuth, firestoreDb, fireStorage } from "boot/firebase";
 import offline from "v-offline";
-import Vacancy from "components/profile/Vacancies.vue"
+import Vacancy from "components/profile/Vacancies.vue";
 export default {
   // name: 'PageName',
   components: {
@@ -46,7 +41,7 @@ export default {
   data() {
     return {
       tab: "bio",
-      myVacancies: [],
+      myVacancies: []
     };
   },
   computed: {
@@ -57,8 +52,8 @@ export default {
   methods: {
     ...mapActions("auth", ["detailUser", "checkAuthUser"]),
 
-    handleHold ({ ...info }) {
-      console.log(info)
+    handleHold({ ...info }) {
+      console.log(info);
       // console.log(evt)
       // console.log(val)
       // console.log(this.vacancy)
@@ -71,29 +66,29 @@ export default {
         return alert("Sem internet");
       }
       const vm = this;
-      var myVacancies = []
-      var update = false
+      var myVacancies = [];
+      var update = false;
       const ref = firestoreDb.collection("vacancies");
       ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
         if (vm.myVacancies.length !== querySnapshot.docs.length) {
-          myVacancies = []
-          update = true
+          myVacancies = [];
+          update = true;
           querySnapshot.forEach(function(doc) {
-              myVacancies.push({
-                key: doc.id,
-                title: doc.data().title,
-                user: doc.data().user,
-                description: doc.data().description,
-                img: doc.data().img,
-                public: doc.data().public,
-                place: doc.data().place,
-                validate: doc.data().validate,
-                category: doc.data().category
-              });
+            myVacancies.push({
+              key: doc.id,
+              title: doc.data().title,
+              user: doc.data().user,
+              description: doc.data().description,
+              img: doc.data().img,
+              public: doc.data().public,
+              place: doc.data().place,
+              validate: doc.data().validate,
+              category: doc.data().category
             });
-            if (update) vm.myVacancies = myVacancies
-          }
-        });
+          });
+          if (update) vm.myVacancies = myVacancies;
+        }
+      });
     }
   },
   created() {
@@ -104,6 +99,6 @@ export default {
   mounted() {
     // this.listVacancyMy(this.user.email)
     // this.listVacancyMyHere(this.user.email);
-  },
+  }
 };
 </script>

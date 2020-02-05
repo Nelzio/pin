@@ -49,7 +49,13 @@
 
                   <q-item-section>
                     <!-- <q-item-label class="text-h6">Tamanho do texto</q-item-label> -->
-                    <q-select v-model="fontSize" :color="darkModeConf.color" :class="getFont.text" :options="fontText" label="Tamanho de texto" />
+                    <q-select
+                      v-model="fontSize"
+                      :color="darkModeConf.color"
+                      :class="getFont.text"
+                      :options="fontText"
+                      label="Tamanho de texto"
+                    />
                   </q-item-section>
                 </q-item>
               </q-card>
@@ -127,7 +133,12 @@ export default {
     };
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState", "fontConfig"]),
+    ...mapState("settings", [
+      "appMode",
+      "darkModeConf",
+      "vibrateState",
+      "fontConfig"
+    ]),
     ...mapGetters("settings", ["getMode", "getFont"]),
     ...mapGetters("settings", ["getFont"]),
     ...mapGetters("auth", ["user", "userData"])
@@ -150,7 +161,10 @@ export default {
     //   this.playSound("/statics/audios/configs.aac");
     // }
 
-    this.$root.$emit("textToSpeechRouter", "Pagina de configurações.\n Toque para ouvir no questá clicando");
+    this.$root.$emit(
+      "textToSpeechRouter",
+      "Pagina de configurações.\n Toque para ouvir no questá clicando"
+    );
   },
   methods: {
     ...mapActions("settings", [
@@ -179,18 +193,17 @@ export default {
     },
     vibrateApp() {
       if (this.vibrateMode) {
-        this.setVibrate(1)
+        this.setVibrate(1);
       } else {
-        this.setVibrate(0)
+        this.setVibrate(0);
       }
-      
     },
-    funcFont () {
+    funcFont() {
       if (this.fontSize == "Normal") {
-      this.setFont(1)
-    } else {
-      this.setFont(2)
-    }
+        this.setFont(1);
+      } else {
+        this.setFont(2);
+      }
     }
   },
   created() {
@@ -221,20 +234,20 @@ export default {
       this.darkMode();
     },
 
-    vibrateMode () {
-      this.vibrateApp()
+    vibrateMode() {
+      this.vibrateApp();
     },
 
-    fontConfig () {
+    fontConfig() {
       if (this.fontConfig !== 2) {
-      this.fontSize = "Normal";
-    } else {
-      this.fontSize = "Grande";
-    }
+        this.fontSize = "Normal";
+      } else {
+        this.fontSize = "Grande";
+      }
     },
 
-    fontSize () {
-      this.funcFont()
+    fontSize() {
+      this.funcFont();
     }
   }
 };
