@@ -274,6 +274,8 @@ export default {
       var text = val.user + " disponibilizou a vaga de " + val.vacancy.title;
       this.speak(text);
     });
+
+    this.$root.$emit("textToSpeechRouter", "Vagas do usuário.");
   },
   watch: {
     val_search(val) {

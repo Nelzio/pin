@@ -15,9 +15,9 @@ const routes = [
       { path: 'settings', component: () => import('pages/settings/PageSettings') },
       { path: 'search', component: () => import('pages/Search.vue') },
       { path: 'user/:idUser', component: () => import('pages/user/Profile.vue') },
+      { path: 'chat/:idReceptor', component: () => import('pages/chat/Chat.vue') },
       { path: 'tts', component: () => import('pages/tests/TextToSpeach.vue') },
       { path: 'center', component: () => import('pages/tests/OnCenter.vue') },
-      { path: 'chat', component: () => import('pages/tests/Chat.vue') },
     ]
   },
   {
@@ -25,7 +25,6 @@ const routes = [
     component: () => import('layouts/home/Base.vue'),
     children: [
       { path: '', component: () => import('pages/profile/Index.vue') },
-      { path: 'edit', component: () => import('pages/profile/EditProfile.vue') },
       { path: 'vacancies', component: () => import('pages/profile/work/Vacancies.vue') },
       { path: 'candidatures', component: () => import('pages/profile/work/MyCandidatures.vue') },
       { path: 'vacancy/details/:id', component: () => import('pages/profile/work/Details.vue') },

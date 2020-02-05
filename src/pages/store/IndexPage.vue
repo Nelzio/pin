@@ -2,56 +2,53 @@
   <q-page class="q-pb-xl">
     <!-- content -->
 
-    <div>
-    <div class="q-pl-sm text-h6">
-      Filtrar
-    </div>
-    <div>
-      <q-scroll-area
-        horizontal
-      >
-        <div class="row no-wrap q-pa-sm q-gutter-sm">
-          <!-- <div v-for="n in 10" :key="n" style="width: 150px" class="q-pa-sm">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto fuga quae veritatis blanditiis sequi id expedita amet esse aspernatur! Iure, doloribus!
-          </div> -->
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon name="style" size="70px" />
-          </q-card>
-          
-        </div>
-      </q-scroll-area>
-    </div>
-  </div>
+    <!-- <div>
+      <div class="q-pl-sm text-h6">
+        Filtrar
+      </div>
+      <div>
+        <q-scroll-area
+          horizontal
+        >
+          <div class="row no-wrap q-pa-sm q-gutter-sm">
+            <q-card>
+              <q-icon name="style" size="70px" />
+            </q-card>
+            <q-card>
+              <q-icon name="style" size="70px" />
+            </q-card>
+            <q-card>
+              <q-icon name="style" size="70px" />
+            </q-card>
+            <q-card>
+              <q-icon name="style" size="70px" />
+            </q-card>
+            <q-card>
+              <q-icon name="style" size="70px" />
+            </q-card>
+            <q-card>
+              <q-icon name="style" size="70px" />
+            </q-card>
+            <q-card>
+              <q-icon name="style" size="70px" />
+            </q-card>
+            <q-card>
+              <q-icon name="style" size="70px" />
+            </q-card>
+            <q-card>
+              <q-icon name="style" size="70px" />
+            </q-card>
+            <q-card>
+              <q-icon name="style" size="70px" />
+            </q-card>
+            <q-card>
+              <q-icon name="style" size="70px" />
+            </q-card>
+            
+          </div>
+        </q-scroll-area>
+      </div>
+    </div> -->
 
     <div v-if="!stories || loading" class="row justify-center q-gutter-y-md"  v-touch-swipe.mouse.left.right="handleSwipe">
       <div class="col-12 col-md-4" v-for="i in 20" :key="i">
@@ -301,11 +298,11 @@ export default {
     this.$root.$on("textToSpeechStore", val => {
       var text
       if (val.store.price) {
-        var text = val.user + " disponibilizou o " + val.store.category + " " + val.store.title + " de " + val.store.price + " meticais.";
+        var text = val.user + " disponibilizou o " + val.store.category + " " + val.store.title + " de " + val.store.price + " meticais. \n Clique para descrição.";
       } else if (val.store.price && val.store.priceVariable) {
-        text = val.user + " disponibilizou o " + val.store.category + " " + val.store.title + " de " + val.store.price + " meticais.; Negociavel";
+        text = val.user + " disponibilizou o " + val.store.category + " " + val.store.title + " de " + val.store.price + " meticais.; Negociavel. \n Clique para descrição.";
       } else {
-        text = val.user + " disponibilizou o " + val.store.category + " " + val.store.title;
+        text = val.user + " disponibilizou o " + val.store.category + " " + val.store.title + ". \n Clique para descrição.";
       }
       this.speak(text);
     });
@@ -321,6 +318,8 @@ export default {
     // this.listStore()
 
     // this.$on("valueSearch")
+
+    this.$root.$emit("textToSpeechRouter", "Pagina de produtos e serviços.\n Ao rolar, o telefone vai vibrar quando um item estiver no centro.\n Pressione no centro para ouvir.");
   },
   watch: {
     val_search(val) {

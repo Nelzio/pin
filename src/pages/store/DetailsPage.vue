@@ -1,5 +1,5 @@
 <template>
-  <q-page padding v-touch-swipe.mouse.left.right="handleSwipe" v-touch-hold:600.mouse="handleHold">
+  <q-page padding @click="handleRepeat()" v-touch-swipe.mouse.left.right="handleSwipe" v-touch-hold:600.mouse="handleHold">
     <!-- content -->
     <div class="row justify-center">
       <div class="col-12 col-md-8">
@@ -9,6 +9,9 @@
 
         <div class="row no-wrap items-center">
           <div class="col ellipsis" :class="getFont.title">{{ getStore.title }}</div>
+          <div class="col ellipsis" :class="getFont.title">
+            <q-btn rounded :color="darkModeConf.color" :class="darkModeConf.textBtn" icon="message" label="Contactar" :to="'/chat/' + getStore.user" />
+          </div>
         </div>
 
         <q-list>
@@ -32,7 +35,7 @@
 
             <q-item-section>
               <q-item-label :class="getFont.title">Telefone</q-item-label>
-              <q-item-label :class="getFont.text">{{ userData.phoneNumber }}</q-item-label>
+              <q-item-label :class="getFont.text">{{ getUser.phoneNumber }}</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -72,13 +75,15 @@ export default {
       pitch: 0.8,
       rate: 1,
       synth: window.speechSynthesis,
+      touchNums: 0
     };
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapState("store", ["stories", "storeDtl"]),
     ...mapGetters("store", ["getStories", "getStore"]),
-    ...mapGetters("auth", ["userData"]),
+    ...mapGetters("auth", ["user", "userData"]),
+    ...mapGetters("user", ["getUser"]),
     ...mapGetters("settings", ["getFont"]),
   },
   methods: {
@@ -89,7 +94,8 @@ export default {
       "updateStore",
       "deleteStore"
     ]),
-    ...mapActions("user", ["detailUser"]),
+    ...mapActions("user", ["detailUserStore"]),
+    
 
     speak(userInput) {
       if (this.synth.speaking) {
@@ -131,8 +137,8 @@ export default {
 
     handleHold ({ evt, ...info }) {
       // console.log(info)
-      // console.log(evt)  getStore.price userData.phoneNumber getStore.description
-      var text = this.getStore.title + ". categoria: " + this.getStore.category + "; Preço: "  + this.getStore.price + " meticais. numero de telefone: " + this.converNumbPhone(this.userData.phoneNumber) + ";. descrição: " + this.getStore.description
+      // console.log(evt)  getStore.price getUser.phoneNumber getStore.description
+      var text = this.getStore.title + ". categoria: " + this.getStore.category + "; Preço: "  + this.getStore.price + " meticais. numero de telefone: " + this.converNumbPhone(this.getUser.phoneNumber) + ";. descrição: " + this.getStore.description
       this.speak(text)
       // console.log(this.vacancy)
     },
@@ -156,10 +162,45 @@ export default {
         }
       });
         return converted
-    }
+    },
+
+    handleRepeat () {
+      
+      var vm = this
+
+      this.touchNums += 1
+
+      if (this.touchNums >= 5) {
+        this.touchNums = -80
+        window.navigator.vibrate(200);
+        if (!this.user) {
+          var text = "Usuário não autenticado."
+          this.speak(text)
+          return
+        }
+        
+        this.$router.push("/chat/" + this.getUser.email)
+      }
+
+      setTimeout(() => {
+        vm.touchNums = 0
+      }, 5000);
+    },
   },
   created() {
     this.detailStore(this.$route.params.id);
+  },
+  mounted () {
+    },
+  watch: {
+    getStore () {
+      if (this.getStore.title) {
+        this.detailUserStore(this.getStore.user)
+        if (this.getUser.displayName) {
+          this.$root.$emit("textToSpeechRouter", "Detalhes do " + this.getStore.category + " " + this.getStore.title + ".\n Pressione para ouvir descrição.\n Clique 5 vezes na tela para entrar em contacto com " + this.getUser.displayName + ".");
+        }
+      }
+    }
   }
 };
 </script>

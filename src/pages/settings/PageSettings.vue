@@ -9,6 +9,7 @@
               default-opened
               icon="settings_applications"
               label="Definições do app"
+              :class="getFont.text"
             >
               <q-card>
                 <q-item>
@@ -17,29 +18,13 @@
                   </q-item-section>
 
                   <q-item-section>
-                    <q-item-label class="text-h6">Modo claro</q-item-label>
+                    <q-item-label :class="getFont.text">Modo claro</q-item-label>
                   </q-item-section>
 
                   <q-item-section side>
                     <q-toggle :color="darkModeConf.color" v-model="mode" />
                   </q-item-section>
                 </q-item>
-
-                <!-- <q-separator spaced inset="item" />
-
-                <q-item>
-                  <q-item-section avatar>
-                    <q-icon name="volume_up" />
-                  </q-item-section>
-
-                  <q-item-section>
-                    <q-item-label class="text-h6">Naração das telas</q-item-label>
-                  </q-item-section>
-
-                  <q-item-section side>
-                    <q-toggle :color="darkModeConf.color" v-model="localSettings.isNarratorActive" />
-                  </q-item-section>
-                </q-item> -->
 
                 <q-separator spaced inset="item" />
 
@@ -49,7 +34,7 @@
                   </q-item-section>
 
                   <q-item-section>
-                    <q-item-label class="text-h6">Vibrador</q-item-label>
+                    <q-item-label :class="getFont.text">Vibrador</q-item-label>
                   </q-item-section>
 
                   <q-item-section side>
@@ -64,7 +49,7 @@
 
                   <q-item-section>
                     <!-- <q-item-label class="text-h6">Tamanho do texto</q-item-label> -->
-                    <q-select v-model="fontSize" :color="darkModeConf.color" :options="fontText" label="Tamanho de texto" />
+                    <q-select v-model="fontSize" :color="darkModeConf.color" :class="getFont.text" :options="fontText" label="Tamanho de texto" />
                   </q-item-section>
                 </q-item>
               </q-card>
@@ -77,6 +62,7 @@
               icon="perm_identity"
               label="Definições de conta"
               :caption="user.displayName"
+              :class="getFont.text"
             >
               <q-card>
                 <q-item clickable v-ripple to="/account/edit">
@@ -85,7 +71,7 @@
                   </q-item-section>
 
                   <q-item-section>
-                    <q-item-label class="text-h6">Editar conta</q-item-label>
+                    <q-item-label :class="getFont.text">Editar conta</q-item-label>
                   </q-item-section>
                 </q-item>
 
@@ -95,7 +81,7 @@
                   </q-item-section>
 
                   <q-item-section>
-                    <q-item-label class="text-h6">Remover conta</q-item-label>
+                    <q-item-label :class="getFont.text">Remover conta</q-item-label>
                   </q-item-section>
                 </q-item>
               </q-card>
@@ -108,7 +94,7 @@
         <q-dialog v-model="deletDialog">
           <q-card class="text-red">
             <q-card-section>
-              <div class="text-h6">Atençao</div>
+              <div :class="getFont.text">Atençao</div>
             </q-card-section>
             <q-card-section>Tem a certeza de que quer deletar a conta?</q-card-section>
             <q-card-actions align="right">
@@ -143,6 +129,7 @@ export default {
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState", "fontConfig"]),
     ...mapGetters("settings", ["getMode", "getFont"]),
+    ...mapGetters("settings", ["getFont"]),
     ...mapGetters("auth", ["user", "userData"])
 
     // ...mapGetters('settings', [
@@ -162,6 +149,8 @@ export default {
     // if (this.settings.isNarratorActive) {
     //   this.playSound("/statics/audios/configs.aac");
     // }
+
+    this.$root.$emit("textToSpeechRouter", "Pagina de configurações.\n Toque para ouvir no questá clicando");
   },
   methods: {
     ...mapActions("settings", [

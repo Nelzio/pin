@@ -192,6 +192,9 @@ export default {
       });
       fileReader.readAsDataURL(files[0]);
       this.store.img = files[0];
+    },
+    mounted () {
+      this.$root.$emit("textToSpeechRouter", "Adiciona produto ou serviço")
     }
   },
   watch: {

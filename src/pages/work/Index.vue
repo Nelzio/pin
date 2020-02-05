@@ -250,7 +250,7 @@ export default {
     // text to speech
     this.$root.$emit("isHomePage", "Vagas");
     this.$root.$on("textToSpeech", val => {
-      var text = val.user + " disponibilizou a vaga de " + val.vacancy.title;
+      var text = val.user + " disponibilizou a vaga de " + val.vacancy.title + "\n Clique para descrição.";
       this.speak(text);
     });
 
@@ -265,6 +265,8 @@ export default {
     // this.listVacancy()
 
     // this.$on("valueSearch")
+
+    this.$root.$emit("textToSpeechRouter", "Pagina de vagas.\n Ao rolar, o telefone vai vibrar quando um item estiver no centro.\n Pressione no centro para ouvir.");
   },
   watch: {
     val_search(val) {

@@ -91,6 +91,7 @@ export default {
     }
   },
   mounted() {
+    this.$root.$emit("textToSpeechRouter", "Pagina Inicial");
   }
 };
 </script>

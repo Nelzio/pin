@@ -251,6 +251,8 @@ export default {
 
   mounted() {
     this.detailStoreLocal(this.$route.params.idEditStore);
+
+    this.$root.$emit("textToSpeechRouter", "Editar " + this.storeData.category + " " + this.storeData.title);
   },
   watch: {
     storeUploaded() {

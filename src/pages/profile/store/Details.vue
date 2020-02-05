@@ -90,6 +90,8 @@ export default {
   },
   created() {
     this.detailStore(this.$route.params.idPS);
+    
+    this.$root.$emit("textToSpeechRouter", "Detalhes de produto ou serviço")
   }
 };
 </script>

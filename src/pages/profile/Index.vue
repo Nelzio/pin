@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-gutter-y-md q-pt-md" v-touch-swipe.mouse.left.right="handleSwipe">
+  <q-page class="q-gutter-y-md q-pt-md" v-touch-swipe.mouse.left.right="handleSwipe" v-touch-hold:600.mouse="handleHold">
     <!-- content -->
 
     <div class="row justify-center">
@@ -10,7 +10,7 @@
             <q-img :src="user.photoURL" spinner-color="white" />
           </q-avatar>
 
-          <div class="text-h5">{{ user.displayName }}</div>
+          <div :class="getFont.title">{{ user.displayName }}</div>
           <!-- <div class="text-caption">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas excepturi unde vitae eaque labore
           </div>-->
@@ -44,8 +44,8 @@
                     </q-item-section>
 
                     <q-item-section>
-                      <q-item-label class="text-h6">Telefone</q-item-label>
-                      <q-item-label>{{ userData.phoneNumber }}</q-item-label>
+                      <q-item-label :class="getFont.title">Telefone</q-item-label>
+                      <q-item-label :class="getFont.text">{{ userData.phoneNumber }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
@@ -57,8 +57,8 @@
                     </q-item-section>
 
                     <q-item-section>
-                      <q-item-label class="text-h6">Email</q-item-label>
-                      <q-item-label>{{ user.email }}</q-item-label>
+                      <q-item-label :class="getFont.title">Email</q-item-label>
+                      <q-item-label :class="getFont.text">{{ user.email }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
@@ -69,14 +69,12 @@
                       <q-icon name="place" />
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label class="text-h6">Endereço</q-item-label>
-                      <q-item-label class="text-body2">{{ userData.adress }}</q-item-label>
+                      <q-item-label :class="getFont.title">Endereço</q-item-label>
+                      <q-item-label :class="getFont.text">{{ userData.adress }}</q-item-label>
                     </q-item-section>
                   </q-item>
                 </q-list>
               </q-tab-panel>
-
-              <q-tab-panel name="local">Bairro da Polana caniço</q-tab-panel>
 
               <q-tab-panel name="ocupacao">
                 <q-list>
@@ -86,8 +84,8 @@
                     </q-item-section>
 
                     <q-item-section>
-                      <q-item-label class="text-h6">Data de nascimento</q-item-label>
-                      <q-item-label>{{ userData.date }}</q-item-label>
+                      <q-item-label :class="getFont.title">Data de nascimento</q-item-label>
+                      <q-item-label :class="getFont.text">{{ userData.date }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
@@ -97,8 +95,8 @@
                     </q-item-section>
 
                     <q-item-section>
-                      <q-item-label class="text-h6">Profissão</q-item-label>
-                      <q-item-label>{{ userData.profission }}</q-item-label>
+                      <q-item-label :class="getFont.title">Profissão</q-item-label>
+                      <q-item-label :class="getFont.text">{{ userData.profission }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
@@ -109,8 +107,8 @@
                       <q-icon name="school" />
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label class="text-h6">Formação</q-item-label>
-                      <q-item-label class="text-body2">{{ userData.education }}</q-item-label>
+                      <q-item-label :class="getFont.title">Formação</q-item-label>
+                      <q-item-label :class="getFont.text">{{ userData.education }}</q-item-label>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -137,7 +135,7 @@
 
         <div v-if="vacanciesAply.length">
           <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
-            <q-toolbar-title>Minhas candidaturas</q-toolbar-title>
+            <q-toolbar-title :class="getFont.title">Minhas candidaturas</q-toolbar-title>
           </q-toolbar>
           <div class="row">
             <div
@@ -158,8 +156,8 @@
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
-                    <div class="text-bold text-body1">{{ candidate.title}}</div>
-                    <div>{{ candidate.user }}</div>
+                    <div class="text-bold" :class="getFont.title">{{ candidate.title}}</div>
+                    <div :class="getFont.text">{{ candidate.user }}</div>
                   </q-item-section>
                 </q-item>
               </q-card>
@@ -175,7 +173,7 @@
 
         <div v-if="!(vacancyNum == 0 && storeNum == 0)">
           <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
-            <q-toolbar-title>Actividades</q-toolbar-title>
+            <q-toolbar-title :class="getFont.title">Actividades</q-toolbar-title>
           </q-toolbar>
           <div class="row">
             <div v-if="vacancyNum > 0" class="q-pa-sm col-12 col-md-4">
@@ -192,7 +190,7 @@
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
-                    <div class="text-bold text-body1">{{ vacancyNum }} vagas de emprego.</div>
+                    <div class="text-bold" :class="getFont.text">{{ vacancyNum }} vagas de emprego.</div>
                   </q-item-section>
                 </q-item>
               </q-card>
@@ -211,95 +209,13 @@
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
-                    <div class="text-bold text-body1">{{ storeNum }} produtos e Serviços</div>
+                    <div class="text-bold" :class="getFont.text">{{ storeNum }} produtos e Serviços</div>
                   </q-item-section>
                 </q-item>
               </q-card>
             </div>
           </div>
         </div>
-        <!-- <div v-if="myVacancies.length">
-          <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
-            <q-toolbar-title>Vagas de emprego</q-toolbar-title>
-            <q-btn flat round dense icon="add" to="/profile/vacancy/add" />
-          </q-toolbar>
-
-          <div class="row">
-            <div
-              class="col-12 col-md-6 q-pa-sm"
-              v-for="(vacancy, idx) in myVacancies"
-              :key="vacancy.key"
-            >
-              <q-card class="my-card">
-                <q-img
-                  v-if="vacancy.img"
-                  :src="vacancy.img"
-                  spinner-color="white"
-                  style="min-height: 200px;"
-                />
-                <q-card-section>{{ vacancy.title }}</q-card-section>
-                <q-card-actions align="right">
-                  <q-btn
-                    outline
-                    rounded
-                    label="Detalhes"
-                    :to="'/profile/vacancy/details/'+vacancy.key"
-                  />
-                  <q-btn outline rounded icon="edit" :to="'/profile/vacancy/edit/'+vacancy.key" />
-                  <q-btn
-                    outline
-                    rounded
-                    color="red"
-                    icon="delete"
-                    @click="vacancyDtlFunc(vacancy.key)"
-                  />
-                  <q-btn
-                    outline
-                    rounded
-                    :icon="myVacanciesAux[idx] ? (myVacanciesAux[idx].public ? 'visibility' : 'visibility_off') : 'visibility_off'"
-                    @click="makePublic(vacancy.key, vacancy, myVacanciesAux[idx].public)"
-                  />
-                </q-card-actions>
-              </q-card>
-            </div>
-          </div>
-          <div class="q-pa-sm">
-            <q-btn outline rounded class="full-width" label="Ver todas" to="/profile/vacancies" />
-          </div>
-        </div>
-      </div>
-      <div>
-        <q-dialog v-model="confirDelete">
-          <q-card style="width: 700px; max-width: 80vw;">
-            <q-card-section>
-              <div class="text-h5">Confirmar</div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none text-h6">Deletar vaga de {{ vacancyDtl.title }}?</q-card-section>
-
-            <q-card-actions align="right" class="bg-white text-teal">
-              <q-btn
-                rounded
-                outline
-                color="red"
-                label="Deletar"
-                @click="deleteVacancyThis(vacancyDtl.key)"
-              />
-              <q-btn rounded outline color="grey" label="Cancelar" v-close-popup />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
-
-        <q-dialog v-model="confirDeleteSuccess">
-          <q-card>
-            <q-card-section class="text-h5 text-green">Vaga deletada com sucesso</q-card-section>
-
-            <q-card-actions align="right">
-              <q-btn flat label="OK" color="primary" v-close-popup />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
-      </div> -->
     </div>
     </div>
   </q-page>
@@ -339,7 +255,8 @@ export default {
       "vacancyUploaded",
       "vacancyDetail"
     ]),
-    ...mapGetters("auth", ["user", "userData"])
+    ...mapGetters("auth", ["user", "userData"]),
+    ...mapGetters("settings", ["getFont"]),
   },
   methods: {
     ...mapActions("vacancy", [
@@ -390,6 +307,13 @@ export default {
       if (val.direction === "right") {
         this.$router.push("/settings");
       }
+    },
+    
+    handleHold ({ evt, ...info }) {
+      // console.log(info)
+      // console.log(evt)
+      this.$root.$emit("textToSpeechRouter", this.userData.displayName + ".\n Telefone: " +  this.converNumbPhone(this.userData.phoneNumber) + ";\n email: " + this.userData.email + "; data de nascimento: " + this.userData.date + ";\n profissão: " + this.userData.profission + ".");
+      // console.log(this.vacancy)
     },
 
     makePublic(id, data, val) {
@@ -490,7 +414,22 @@ export default {
         .onSnapshot(function(querySnapshot) {
           vm.storeNum = querySnapshot.docs.length
         });
-    }
+    },
+
+    converNumbPhone (valueNum) {
+      var converted = ""
+      var count = 0
+      const value = String(valueNum).replace(/(.)(?=(\d{3})+$)/g,'$1,').split(",")
+      value.forEach(element => {
+        count += 1
+        if (value.length > count) {
+          converted = converted + element + "; "
+        } else {
+          converted = converted + element
+        }
+      });
+        return converted
+    },
   },
   created() {
     this.checkAuthUser();
@@ -501,6 +440,8 @@ export default {
   mounted() {
     // this.listVacancyMy(this.user.email)
     this.listCandidatures(this.user.email);
+
+    this.$root.$emit("textToSpeechRouter", "Pagina do seu perfil.\n PRessione para ouvir detalhes do seu perfil");
   },
   // watch: {
   //   vacancyDetail() {

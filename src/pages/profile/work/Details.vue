@@ -14,22 +14,22 @@
             <q-card bordered class="my-card col-sm-12">
               <q-img v-if="getVacancy.img" :src="getVacancy.img" style="min-height: 200px;" />
               <q-card-section>
-                <div class="text-h5">{{ getVacancy.title }}</div>
+                <div :class="getFont.title">{{ getVacancy.title }}</div>
               </q-card-section>
               <q-card-section class="row q-pt-none">
                 <div class="col text-center">
                   <q-icon name="place" size="lg" />
                 </div>
-                <div class="col-10 text-body1">{{ getVacancy.place }}</div>
+                <div class="col-10" :class="getFont.text">{{ getVacancy.place }}</div>
               </q-card-section>
               <q-card-section class="row q-pt-none">
                 <div class="col text-center">
                   <q-icon name="filter_list" size="lg" />
                 </div>
-                <div class="col-10 text-body1">{{ getVacancy.category }}</div>
+                <div class="col-10" :class="getFont.text">{{ getVacancy.category }}</div>
               </q-card-section>
               <q-card-section class="row q-pt-none">
-                <div class="col-12 text-body1">{{ getVacancy.description }}</div>
+                <div class="col-12" :class="getFont.text">{{ getVacancy.description }}</div>
               </q-card-section>
             </q-card>
           </q-tab-panel>
@@ -49,7 +49,7 @@
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
-                    <div class="text-bold text-body1">{{ candidate.displayName}}</div>
+                    <div class="text-bold" :class="getFont.text">{{ candidate.displayName}}</div>
                     <div>{{ candidate.profission }}</div>
                   </q-item-section>
                   <q-item-section side>
@@ -98,7 +98,8 @@ export default {
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapState("vacancy", ["vacancies", "vacancyDtl"]),
-    ...mapGetters("vacancy", ["getVacancies", "getVacancy"])
+    ...mapGetters("vacancy", ["getVacancies", "getVacancy"]),
+    ...mapGetters("settings", ["getFont"]),
   },
   methods: {
     ...mapActions("vacancy", [

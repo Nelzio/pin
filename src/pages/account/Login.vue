@@ -163,6 +163,10 @@ export default {
     }
   },
 
+  mounted () {
+    this.$root.$emit("textToSpeechRouter", "Pagina de login. Pode se autenticar com conta google, facebook ou por email")
+  },
+
   filters: {
     captalizeFirstLetter(val) {
       return val.charAt(0).toUpperCase() + "" + val.slice(1)

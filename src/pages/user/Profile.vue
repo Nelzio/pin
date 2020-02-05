@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-gutter-y-md q-pt-md">
+  <q-page @click="handleRepeat()" class="q-gutter-y-md q-pt-md" v-touch-swipe.mouse.right="handleSwipe" v-touch-hold:600.mouse="handleHold" >
     <!-- content -->
 
     <div class="row justify-center">
@@ -10,7 +10,7 @@
             <q-img :src="getUser.photoURL" spinner-color="white" />
           </q-avatar>
 
-          <div class="text-h5">{{ getUser.displayName }}</div>
+          <div :class="getFont.title">{{ getUser.displayName }}</div>
         </div>
 
         <q-separator />
@@ -41,12 +41,12 @@
                     </q-item-section>
 
                     <q-item-section>
-                      <q-item-label class="text-h6">Telefone</q-item-label>
-                      <q-item-label>{{ getUser.phoneNumber }}</q-item-label>
+                      <q-item-label :class="getFont.title">Telefone</q-item-label>
+                      <q-item-label :class="getFont.text">{{ getUser.phoneNumber }}</q-item-label>
                     </q-item-section>
-                    <q-item-section side>
-                      <q-btn round icon="ion-logo-whatsapp" color="green" :to="'https://wa.me/' + getUser.phoneNumber" />
-                    </q-item-section>
+                    <!-- <q-item-section side>
+                      <q-btn round icon="ion-logo-whatsapp" color="green" :to="'/https://wa.me/' + getUser.phoneNumber" />
+                    </q-item-section> -->
                   </q-item>
 
                   <q-separator spaced inset="item" />
@@ -57,8 +57,8 @@
                     </q-item-section>
 
                     <q-item-section>
-                      <q-item-label class="text-h6">Email</q-item-label>
-                      <q-item-label>{{ getUser.email }}</q-item-label>
+                      <q-item-label :class="getFont.title">Email</q-item-label>
+                      <q-item-label :class="getFont.text">{{ getUser.email }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
@@ -69,8 +69,8 @@
                       <q-icon name="place" />
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label class="text-h6">Endereço</q-item-label>
-                      <q-item-label class="text-body2">{{ getUser.adress }}</q-item-label>
+                      <q-item-label :class="getFont.title">Endereço</q-item-label>
+                      <q-item-label :class="getFont.text">{{ getUser.adress }}</q-item-label>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -86,8 +86,8 @@
                     </q-item-section>
 
                     <q-item-section>
-                      <q-item-label class="text-h6">Data de nascimento</q-item-label>
-                      <q-item-label>{{ getUser.date }}</q-item-label>
+                      <q-item-label :class="getFont.title">Data de nascimento</q-item-label>
+                      <q-item-label :class="getFont.text">{{ getUser.date }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
@@ -97,8 +97,8 @@
                     </q-item-section>
 
                     <q-item-section>
-                      <q-item-label class="text-h6">Profissão</q-item-label>
-                      <q-item-label>{{ getUser.profission }}</q-item-label>
+                      <q-item-label :class="getFont.title">Profissão</q-item-label>
+                      <q-item-label :class="getFont.text">{{ getUser.profission }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
@@ -109,8 +109,8 @@
                       <q-icon name="school" />
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label class="text-h6">Formação</q-item-label>
-                      <q-item-label class="text-body2">{{ getUser.education }}</q-item-label>
+                      <q-item-label :class="getFont.title">Formação</q-item-label>
+                      <q-item-label :class="getFont.text">{{ getUser.education }}</q-item-label>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -121,92 +121,70 @@
         <q-separator />
       </div>
 
+
+    </div>
+    <div class="row justify-center q-pa-md">
+      <q-btn
+        rounded
+        class="full-width"
+        :color="darkModeConf.color"
+        :class="darkModeConf.textBtn"
+        icon="message"
+        label="Contactar"
+        :to="'/chat/' + this.$route.params.idUser"
+      />
     </div>
     <!-- sec 6 -->
 
     <!-- asdasdasd -->
 
-        <div v-if="!(vacancyNum == 0 && storeNum == 0)">
-          <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
-            <q-toolbar-title>Actividades</q-toolbar-title>
-          </q-toolbar>
-          <div class="row">
-            <div v-if="vacancyNum > 0" class="q-pa-sm col-12 col-md-4">
-              <q-card class="my-card">
-                <q-item
-                  :class="darkModeConf.textColor"
-                  clickable
-                  :to="'/vacancies/' + this.$route.params.idUser"
-                  v-ripple
-                >
-                  <q-item-section avatar>
-                    <q-avatar size="65px">
-                      <q-icon name="work" />
-                    </q-avatar>
-                  </q-item-section>
-                  <q-item-section>
-                    <div class="text-bold text-body1">{{ vacancyNum }} vagas de emprego.</div>
-                  </q-item-section>
-                </q-item>
-              </q-card>
-            </div>
-            <div v-if="storeNum > 0" class="q-pa-sm col-12 col-md-4">
-              <q-card class="my-card">
-                <q-item
-                  :class="darkModeConf.textColor"
-                  clickable
-                  :to="'/store/' + this.$route.params.idUser"
-                  v-ripple
-                >
-                  <q-item-section avatar>
-                    <q-avatar size="65px">
-                      <q-icon name="store" />
-                    </q-avatar>
-                  </q-item-section>
-                  <q-item-section>
-                    <div class="text-bold text-body1">{{ storeNum }} produtos e Serviços</div>
-                  </q-item-section>
-                </q-item>
-              </q-card>
-            </div>
-          </div>
+    <div v-if="!(vacancyNum == 0 && storeNum == 0)">
+      <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
+        <q-toolbar-title :class="getFont.title">Actividades</q-toolbar-title>
+      </q-toolbar>
+      <div class="row">
+        <div v-if="vacancyNum > 0" class="q-pa-sm col-12 col-md-4">
+          <q-card class="my-card">
+            <q-item
+              :class="darkModeConf.textColor"
+              clickable
+              :to="'/vacancies/' + this.$route.params.idUser"
+              v-ripple
+            >
+              <q-item-section avatar>
+                <q-avatar size="65px">
+                  <q-icon name="work" />
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <div class="text-bold" :class="getFont.text">{{ vacancyNum }} vagas de emprego.</div>
+              </q-item-section>
+            </q-item>
+          </q-card>
         </div>
-
-
-    <!-- <div v-if="vacancies.length" class="row justify-center">
-      <div class="col-12 col-md-8">
-        <q-toolbar class="shadow-1" :class="darkModeConf.bgColor">
-          <q-toolbar-title>Vagas de emprego</q-toolbar-title>
-        </q-toolbar>
-
-        <div class="row">
-          <div class="col-12 col-md-6 q-pa-sm" v-for="vacancy in vacancies" :key="vacancy.key">
-            <q-card class="my-card">
-              <q-img
-                v-if="vacancy.img"
-                :src="vacancy.img"
-                spinner-color="white"
-                style="min-height: 200px;"
-              />
-              
-              <q-card-section class="q-pb-none">
-                <div class="text-h5">{{ vacancy.title }}</div>
-              </q-card-section>
-
-              <q-card-section class="q-pt-none q-pb-none">{{ vacancy.description }}</q-card-section>
-              <q-card-actions align="right">
-                <q-btn
-                  outline
-                  rounded
-                  label="Detalhes"
-                  :to="'/vacancies/details/'+vacancy.key"
-                />
-              </q-card-actions>
-            </q-card>
-          </div>
+        <div v-if="storeNum > 0" class="q-pa-sm col-12 col-md-4">
+          <q-card class="my-card">
+            <q-item
+              :class="darkModeConf.textColor"
+              clickable
+              :to="'/store/' + this.$route.params.idUser"
+              v-ripple
+            >
+              <q-item-section avatar>
+                <q-avatar size="65px">
+                  <q-icon name="store" />
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <div class="text-bold" :class="getFont.text">{{ storeNum }} produtos e Serviços</div>
+              </q-item-section>
+            </q-item>
+          </q-card>
         </div>
       </div>
-    </div> -->
+    </div>
+
+
   </q-page>
 </template>
 
@@ -222,14 +200,55 @@ export default {
       vacancies: [],
       vacancyNum: 0,
       storeNum: 0,
+      pitch: 0.8,
+      rate: 1,
+      synth: window.speechSynthesis,
     };
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapGetters("user", ["getUser"])
+    ...mapGetters("user", ["getUser"]),
+    ...mapGetters("settings", ["getFont"]),
   },
   methods: {
     ...mapActions("user", ["detailUserStore"]),
+
+    handleHold ({ evt, ...info }) {
+      // console.log(info)
+      // console.log(evt)
+      this.$root.$emit("textToSpeechRouter", this.getUser.displayName + ".\n Telefone: " +  this.converNumbPhone(this.getUser.phoneNumber) + ";\n email: " + this.getUser.email + "; \n profissão: " + this.getUser.profission + ".");
+      // console.log(this.vacancy)
+    },
+
+    handleSwipe(val) {
+      if (val.direction === "right") {
+        this.$router.go(-1);
+      }
+    },
+
+    handleSwipe(val) {
+      if (val.direction === "right") {
+        this.$router.go(-1);
+      }
+    },
+
+    handleRepeat () {
+      
+      var vm = this
+
+      this.touchNums += 1
+
+      if (this.touchNums >= 5) {
+        this.touchNums = -80
+        window.navigator.vibrate(200);
+        
+        this.$router.push("/chat/" + this.getUser.email)
+      }
+
+      setTimeout(() => {
+        vm.touchNums = 0
+      }, 5000);
+    },
 
     listVacancy(user) {
       // done
@@ -246,6 +265,7 @@ export default {
           vm.vacancyNum = querySnapshot.docs.length
         });
     },
+
     listStoreMyHere(user) {
       if (!offline.data().isOnline) {
         return alert("Sem internet");
@@ -257,7 +277,22 @@ export default {
         .onSnapshot(function(querySnapshot) {
           vm.storeNum = querySnapshot.docs.length
         });
-    }
+    },
+
+    converNumbPhone (valueNum) {
+      var converted = ""
+      var count = 0
+      const value = String(valueNum).replace(/(.)(?=(\d{3})+$)/g,'$1,').split(",")
+      value.forEach(element => {
+        count += 1
+        if (value.length > count) {
+          converted = converted + element + "; "
+        } else {
+          converted = converted + element
+        }
+      });
+        return converted
+    },
   },
   created() {
     this.detailUserStore(this.$route.params.idUser)
@@ -265,6 +300,25 @@ export default {
   mounted() {
     this.listVacancy(this.$route.params.idUser)
     this.listStoreMyHere(this.$route.params.idUser)
-  }
+    this.$root.$emit("textToSpeechRouter", "Perfil de " + this.getUser.displayName + ".\n Pressione para ouvir detalhes do perfil. \n Clique 5 vezes para contactar.");
+  },
+
+  filters: {
+    converNumbPhoneFilter: function  (valueNum) {
+      console.log(valueNum)
+      var converted = ""
+      var count = 0
+      const value = String(valueNum).replace(/(.)(?=(\d{3})+$)/g,'$1,').split(",")
+      value.forEach(element => {
+        count += 1
+        if (value.length > count) {
+          converted = converted + element + "; "
+        } else {
+          converted = converted + element
+        }
+      });
+        return converted
+    },
+  },
 };
 </script>

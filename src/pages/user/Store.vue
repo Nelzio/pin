@@ -11,9 +11,6 @@
         horizontal
       >
         <div class="row no-wrap q-pa-sm q-gutter-sm">
-          <!-- <div v-for="n in 10" :key="n" style="width: 150px" class="q-pa-sm">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto fuga quae veritatis blanditiis sequi id expedita amet esse aspernatur! Iure, doloribus!
-          </div> -->
           <q-card>
             <q-icon name="style" size="70px" />
           </q-card>
@@ -47,7 +44,6 @@
           <q-card>
             <q-icon name="style" size="70px" />
           </q-card>
-          
         </div>
       </q-scroll-area>
     </div>
@@ -309,6 +305,8 @@ export default {
       }
       this.speak(text);
     });
+
+    this.$root.$emit("textToSpeechRouter", "Produtos e serviços do usuário.");
   },
   watch: {
     val_search(val) {

@@ -243,6 +243,8 @@ export default {
   },
   mounted() {
     // this.listStoreMy(this.user.email)
+
+    this.$root.$emit("textToSpeechRouter", "Seus produtos e serviços");
   },
   watch: {
     storeDetail() {

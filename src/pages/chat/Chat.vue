@@ -1,12 +1,11 @@
 <template>
-  <q-page padding>
+  <q-page padding v-touch-swipe.mouse.right="handleSwipe" v-touch-hold:800.mouse="handleHold">
     <!-- content -->
     <div style="width: 100%; max-width: 400px">
       <div v-for="message in chatData" :key="message.key">
         <chat :message="message" />
       </div>
     </div>
-    
     <!-- <div>
       <q-card class="q-pt-none q-pb-none">
         <q-card-section class="q-pb-none q-pt-none">
@@ -86,9 +85,28 @@ export default {
   methods: {
     ...mapActions("user", ["detailUserStore"]),
 
+    handleHold ({ evt, ...info }) {
+      // console.log(info)
+      // console.log(evt)
+      // gravar audio
+      window.navigator.vibrate(200);
+      if (this.recording) {
+        this.stopRecord()
+      } else {
+        this.recordAudio()
+      }
+      // console.log(this.vacancy)
+    },
+
+    handleSwipe(val) {
+      if (val.direction === "right") {
+        this.$router.go(-1);
+      }
+    },
+
     recordAudio () {
       const vm = this
-      navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      navigator.mediaDevices.getUserMedia({ audio: true,video: false })
       .then(stream => {
         // Record Audio
         this.mediaRecorder = new MediaRecorder(stream);
@@ -115,8 +133,8 @@ export default {
         // this.sendMessageVoice(this.audioUrl)
         this.uploadFile(audioBlob)
       });
-      this.mediaRecorder.stop();
       this.mediaRecorder.stream.getAudioTracks().forEach(function(track){track.stop();});
+      this.mediaRecorder.stop();
       clearInterval(this.refreshInterval);
     },
 
@@ -239,10 +257,10 @@ export default {
           // // console.log('Upload is ' + progress + '% done');
           switch (snapshot.state) {
             case firebase.storage.TaskState.PAUSED: // or 'paused'
-              console.log('Upload is paused');
+              // // // console.log('Upload is paused');
               break;
             case firebase.storage.TaskState.RUNNING: // or 'running'
-              console.log('Upload is running');
+              // // // console.log('Upload is running');
               break;
           }
         }, function(error) {
@@ -265,7 +283,7 @@ export default {
       }, function() {
         // Upload completed successfully, now we can get the download URL
         uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-          console.log('File available at', downloadURL);
+          // // // console.log('File available at', downloadURL);
           vm.sendMessageVoice({audioUrl: downloadURL, time: vm.timer.ss})
         });
       });
@@ -276,14 +294,8 @@ export default {
     this.detailUserStore(this.$route.params.idReceptor)
   },
   mounted () {
-    console.log(this.userData.photoURL)
-    console.log(this.user)
+    this.$root.$emit("textToSpeechRouter", "Pagina de conversa com" + this.getUser.displayName + ".\n Pressione a tela até vibrar para poder falar.\n Para parar a gravação pressione a tela novamente")
   }
-  // watch: {
-  //   audioChunks () {
-  //     console.log(this.audioChunks)
-  //   }
-  // }
 }
 </script>
 

@@ -133,6 +133,10 @@ export default {
     }
   },
 
+  mounted () {
+    this.$root.$emit("textToSpeechRouter", "Entrar com email")
+  },
+
   filters: {
     captalizeFirstLetter(val) {
       return val.charAt(0).toUpperCase() + "" + val.slice(1);

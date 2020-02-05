@@ -100,6 +100,10 @@ export default {
     }
   },
 
+  mounted () {
+    this.$root.$emit("textToSpeechRouter", "Editar senha do usuário")
+  },
+
   filters: {
     captalizeFirstLetter(val) {
       return val.charAt(0).toUpperCase() + "" + val.slice(1);

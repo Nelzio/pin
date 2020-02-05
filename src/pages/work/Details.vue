@@ -278,6 +278,8 @@ export default {
     if (this.user) {
       this.getAply()
     }
+
+    this.$root.$emit("textToSpeechRouter", "Detalhes da vaga.\n Pressione para ouvir descrição.\n Clique 5 vezes na tela para se candidatar ou retirar candidatura.");
   },
 
   watch: {

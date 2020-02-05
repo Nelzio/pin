@@ -13,7 +13,7 @@
           aria-label="Menu"
           size="lg"
         />
-        <q-btn
+        <!-- <q-btn
           to="/"
           v-if="$route.path == '/' && !$q.screen.gt.sm"
           flat
@@ -22,10 +22,20 @@
           icon="home"
           aria-label="Home"
           size="lg"
-        />
+        /> -->
         <q-btn
           @click="drowerFilter = !drowerFilter"
           v-if="$route.path == '/vacancies'"
+          flat
+          dense
+          round
+          icon="filter_list"
+          aria-label="DowrerFilter"
+          size="lg"
+        />
+        <q-btn
+          @click="drowerFilterStore = !drowerFilterStore"
+          v-if="$route.path == '/store'"
           flat
           dense
           round
@@ -191,6 +201,55 @@
       </q-scroll-area>
     </q-drawer>
 
+    <q-drawer v-if="$route.path == '/store'" v-model="drowerFilterStore" bordered behavior="mobile" @click="drowerFilterStore = false">
+      <q-scroll-area class="fit">
+        <q-toolbar class="GPL__toolbar">
+          <q-toolbar-title class="row items-center text-grey-8">
+            <span class="q-ml-sm">Filtrar vagas</span>
+          </q-toolbar-title>
+        </q-toolbar>
+
+        <q-list padding>
+          <q-item
+            clickable v-ripple
+            @click="filterVal = '', drowerFilterStore = false"
+          >
+          <q-item-section avatar>
+            <q-icon name="list" />
+          </q-item-section>
+            
+            <q-item-section>
+              <q-item-label :class="darkModeConf.textColor">Todas Produtos e serviços</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-expansion-item expand-separator icon="group_work" label="Categorias">
+          <q-item
+            clickable v-ripple
+            v-for="(item, idx) in categoriesStore" :key="idx"
+            @click="filterVal = item, drowerFilterStore = false"
+          >
+            <q-item-section>
+              <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          </q-expansion-item>
+          <q-expansion-item default-opened expand-separator icon="place" label="Provincias">
+          <q-item
+            clickable v-ripple
+            v-for="(item, idx) in places" :key="idx"
+            @click="filterVal = item, drowerFilterStore = false"
+          >
+            <q-item-section>
+              <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          </q-expansion-item>
+          
+          
+        </q-list>
+      </q-scroll-area>
+    </q-drawer>
+
     <q-page-container class="GPL__page-container">
       <!-- This is where pages get injected -->
       <router-view v-if="toSearch" :val_search="valueSearch" :filterVal="filterVal" />
@@ -275,6 +334,7 @@ export default {
       leftDrawer: false,
       drowerFilter: false,
       leftDrawerOpen: false,
+      drowerFilterStore: false,
       toSearch: false,
       backIcon: false,
       tab: "home",
@@ -327,7 +387,13 @@ export default {
         "Técnico",
         "Transportes e Logística",
         "Vendas"
-      ]
+      ],
+      categoriesStore: ["Moda", "Servicos"],
+      pitch: 0.8,
+      rate: 1,
+      synth: window.speechSynthesis,
+      itemsLayzeRef: [],
+
     }
   },
   computed: {
@@ -342,6 +408,47 @@ export default {
       this.backIcon = false
       if (to.path !== "/" && to.path !== "/vacancies" && to.path !== "/" && to.path !== "/store" && to.path !== "/settings") this.backIcon = true
     },
+
+    speak(userInput) {
+      if (this.synth.speaking) {
+        // console.error('speechSynthesis.speaking');
+        return;
+      }
+      if (userInput !== "") {
+        let sInstance = new SpeechSynthesisUtterance(userInput);
+        sInstance.onend = function(event) {
+          // console.log('SpeechSynthesisUtterance.onend');
+        };
+        sInstance.onerror = function(event) {
+          // console.error('SpeechSynthesisUtterance.onerror');
+        };
+        // vibrate antes de falar
+        // window.navigator.vibrate(200);
+        // speak
+        sInstance.pitch = this.pitch;
+        sInstance.rate = this.rate;
+        this.synth.speak(sInstance);
+      } else {
+        let sInstance = new SpeechSynthesisUtterance(
+          "Nenhum texto nesta área."
+        );
+        sInstance.onend = function(event) {
+          // console.log('SpeechSynthesisUtterance.onend');
+        };
+        sInstance.onerror = function(event) {
+          // console.error('SpeechSynthesisUtterance.onerror');
+        };
+
+        // vibrate antes de falar
+        // window.navigator.vibrate(200);
+        // speak
+        sInstance.pitch = this.pitch;
+        sInstance.rate = this.rate;
+        this.synth.speak(sInstance);
+      }
+    },
+
+
     
   },
   created () {
@@ -359,6 +466,11 @@ export default {
     this.backIconFunc(this.$route)
 
     if (this.$route.path == "/store" || this.$route.path == "/vacancies") this.toSearch = true
+
+    this.$root.$on("textToSpeechRouter", val => {
+      console.log(val)
+      this.speak(val);
+    });
 
   },
   watch: {

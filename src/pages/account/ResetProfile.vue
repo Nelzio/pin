@@ -165,6 +165,7 @@ export default {
 
   mounted() {
     this.getUser();
+    this.$root.$emit("textToSpeechRouter", "Editar perfil")
   },
 
   filters: {
