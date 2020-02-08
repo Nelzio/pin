@@ -1,5 +1,5 @@
 <template>
-  <q-page class="presentation bg-primary" padding>
+  <q-page class="presentation bg-primary" padding v-touch-swipe.mouse.left.right="handleSwipe">
     <!-- <div v-if="!$q.screen.gt.sm" class="q-gutter-y-lg">
       <q-card flat class="my-card">
         <q-card-section horizontal>
@@ -89,7 +89,6 @@
       transition-prev="slide-right"
       transition-next="slide-left"
       animated
-      arrows
       navigation
       swipeable
       control-color="white"
@@ -142,6 +141,7 @@
 
 <script>
 import { LocalStorage } from "quasar";
+import { mapState } from "vuex";
 export default {
   name: "Home",
   data() {
@@ -152,10 +152,18 @@ export default {
         { label: 3, value: "terceiro" }
       ],
       slide: "primeiro",
+
+      pitch: 0.8,
+      rate: 1,
+      synth: window.speechSynthesis,
       lorem:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
     };
   },
+  computed: {
+    ...mapState("settings", ["vibrateState"]),
+  },
+
   methods: {
     next() {
       if (this.slide == "primeiro") {
@@ -166,13 +174,65 @@ export default {
         LocalStorage.set("notFirst", true);
         this.$router.push("/");
       }
+    },
+
+    speak(userInput) {
+      console.log(userInput)
+      if (this.vibrateState === 1) {
+        if (this.synth.speaking) {
+          // console.error('speechSynthesis.speaking');
+          return;
+        }
+        if (userInput !== "") {
+          let sInstance = new SpeechSynthesisUtterance(userInput);
+          sInstance.onend = function(event) {
+            // console.log('SpeechSynthesisUtterance.onend');
+          };
+          sInstance.onerror = function(event) {
+            // console.error('SpeechSynthesisUtterance.onerror');
+          };
+          // vibrate antes de falar
+          // window.navigator.vibrate(200);
+          // speak
+          sInstance.pitch = this.pitch;
+          sInstance.rate = this.rate;
+          this.synth.speak(sInstance);
+        } else {
+          let sInstance = new SpeechSynthesisUtterance(
+            "Nenhum texto nesta área."
+          );
+          sInstance.onend = function(event) {
+            // console.log('SpeechSynthesisUtterance.onend');
+          };
+          sInstance.onerror = function(event) {
+            // console.error('SpeechSynthesisUtterance.onerror');
+          };
+
+          // vibrate antes de falar
+          // window.navigator.vibrate(200);
+          // speak
+          sInstance.pitch = this.pitch;
+          sInstance.rate = this.rate;
+          this.synth.speak(sInstance);
+        }
+      }
+    },
+
+    handleSwipe(val) {
+      if (val.direction === "left" && this.slide == "terceiro") {
+        LocalStorage.set("notFirst", true);
+        this.$router.push("/");
+      }
     }
   },
   mounted() {
-    this.$root.$emit(
-      "textToSpeechRouter",
-      "Bem vindo a  plataforma Superactive.; Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.;;;; Deslize o dedo para a direita para ir a pagina inicial."
-    );
+    var textToSpeechRouter = "Bem vindo a  plataforma Superactive.; Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.;;;; Deslize o dedo para a esquerda 3 vezes para ir a página inicial.\n\n\n\n\n\n\n Para desativar o modo de naração e vibração, vai até a pagina de preferencias e desabilie o modo de naração e vibração"
+    // textToSpeechRouter = "Bem vindo"
+    const vm = this
+    // vm.speak(textToSpeechRouter)
+    setTimeout(() => {
+      vm.speak(textToSpeechRouter)
+    }, 3000);
   }
 };
 </script>

@@ -180,7 +180,7 @@
             <q-toolbar-title :class="getFont.title">Actividades</q-toolbar-title>
           </q-toolbar>
           <div class="row">
-            <div v-if="vacancyNum > 0" class="q-pa-sm col-12 col-md-4">
+            <div v-if="vacancyNum > 0" class="q-pa-sm col-12 col-md-6">
               <q-card class="my-card">
                 <q-item :class="darkModeConf.textColor" clickable to="/profile/vacancies" v-ripple>
                   <q-item-section avatar>
@@ -194,7 +194,7 @@
                 </q-item>
               </q-card>
             </div>
-            <div v-if="storeNum > 0" class="q-pa-sm col-12 col-md-4">
+            <div v-if="storeNum > 0" class="q-pa-sm col-12 col-md-6">
               <q-card class="my-card">
                 <q-item :class="darkModeConf.textColor" clickable to="/profile/store" v-ripple>
                   <q-item-section avatar>

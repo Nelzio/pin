@@ -172,10 +172,19 @@ export default {
         "Zambézia"
       ],
       subCategories: [
-        "Vestuário e moda",
         "Construção",
-        "Eletrodomésticos",
-        "Culinária"
+        "Culinária",
+        "Games e Lazer",
+        "Animais",
+        "Moda",
+        "Casa",
+        "Tecnologia",
+        "Veículos",
+        "Imobiliário",
+        "Domésticos, Reparações e Mudanças",
+        "Saúde e Beleza",
+        "Eventos",
+        "Técnicos"
       ]
     };
   },

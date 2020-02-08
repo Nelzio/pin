@@ -127,62 +127,66 @@
       </div>
     </div>
     <div class="row justify-center q-pa-md">
-      <q-btn
-        rounded
-        class="full-width"
-        :color="darkModeConf.color"
-        :class="darkModeConf.textBtn"
-        icon="message"
-        label="Contactar"
-        :to="'/chat/' + this.$route.params.idUser"
-      />
+      <div class="col-12 col-md-8">
+        <q-btn
+          rounded
+          class="full-width"
+          :color="darkModeConf.color"
+          :class="darkModeConf.textBtn"
+          icon="message"
+          label="Contactar"
+          :to="'/chat/' + this.$route.params.idUser"
+        />
+      </div>
     </div>
     <!-- sec 6 -->
 
     <!-- asdasdasd -->
 
-    <div v-if="!(vacancyNum == 0 && storeNum == 0)">
-      <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
-        <q-toolbar-title :class="getFont.title">Actividades</q-toolbar-title>
-      </q-toolbar>
-      <div class="row">
-        <div v-if="vacancyNum > 0" class="q-pa-sm col-12 col-md-4">
-          <q-card class="my-card">
-            <q-item
-              :class="darkModeConf.textColor"
-              clickable
-              :to="'/vacancies/' + this.$route.params.idUser"
-              v-ripple
-            >
-              <q-item-section avatar>
-                <q-avatar size="65px">
-                  <q-icon name="work" />
-                </q-avatar>
-              </q-item-section>
-              <q-item-section>
-                <div class="text-bold" :class="getFont.text">{{ vacancyNum }} vagas de emprego.</div>
-              </q-item-section>
-            </q-item>
-          </q-card>
-        </div>
-        <div v-if="storeNum > 0" class="q-pa-sm col-12 col-md-4">
-          <q-card class="my-card">
-            <q-item
-              :class="darkModeConf.textColor"
-              clickable
-              :to="'/store/' + this.$route.params.idUser"
-              v-ripple
-            >
-              <q-item-section avatar>
-                <q-avatar size="65px">
-                  <q-icon name="store" />
-                </q-avatar>
-              </q-item-section>
-              <q-item-section>
-                <div class="text-bold" :class="getFont.text">{{ storeNum }} produtos e Serviços</div>
-              </q-item-section>
-            </q-item>
-          </q-card>
+    <div class="row justify-center" v-if="!(vacancyNum == 0 && storeNum == 0)">
+      <div class="col-12 col-md-8">
+        <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
+          <q-toolbar-title :class="getFont.title">Actividades</q-toolbar-title>
+        </q-toolbar>
+        <div class="row">
+          <div v-if="vacancyNum > 0" class="q-pa-sm col-12 col-md-6">
+            <q-card class="my-card">
+              <q-item
+                :class="darkModeConf.textColor"
+                clickable
+                :to="'/vacancies/' + this.$route.params.idUser"
+                v-ripple
+              >
+                <q-item-section avatar>
+                  <q-avatar size="65px">
+                    <q-icon name="work" />
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>
+                  <div class="text-bold" :class="getFont.text">{{ vacancyNum }} vagas de emprego.</div>
+                </q-item-section>
+              </q-item>
+            </q-card>
+          </div>
+          <div v-if="storeNum > 0" class="q-pa-sm col-12 col-md-6">
+            <q-card class="my-card">
+              <q-item
+                :class="darkModeConf.textColor"
+                clickable
+                :to="'/store/' + this.$route.params.idUser"
+                v-ripple
+              >
+                <q-item-section avatar>
+                  <q-avatar size="65px">
+                    <q-icon name="store" />
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>
+                  <div class="text-bold" :class="getFont.text">{{ storeNum }} produtos e Serviços</div>
+                </q-item-section>
+              </q-item>
+            </q-card>
+          </div>
         </div>
       </div>
     </div>

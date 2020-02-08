@@ -7,7 +7,7 @@
         v-if="vacancy.img"
         :src="vacancy.img"
         style="min-height: 200px;"
-        @click="$router.push('/profile/vacancies/details/'+vacancy.key)"
+        @click="$router.push('/profile/vacancy/details/'+vacancy.key)"
       />
       <q-skeleton v-else height="230px" square />
       <q-card-section :class="getFont.title">{{ vacancy.title }}</q-card-section>

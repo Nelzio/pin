@@ -4,10 +4,14 @@ const state = {
     isConected: false, //verifica se está conectado á internet,
     fonts: {
         font1: {
+            title: "text-h6",
+            text: "text-caption",
+        },
+        font2: {
             title: "text-h5",
             text: "text-body1",
         },
-        font2: {
+        font3: {
             title: "text-h4",
             text: "text-h5",
         }
@@ -20,7 +24,7 @@ const state = {
         color: "black",
         textBtn: "text-white",
     },
-    vibrateState: 0,
+    vibrateState: 1,
     soundHome: '/statics/audios/home.wav',
     soundError: '/statics/audios/error.wav'
 }
@@ -48,10 +52,12 @@ const mutations = {
 const getters = {
 
     getFont(state) {
-        if (state.fontConfig == 1 || !state.fontConfig) {
+        if (state.fontConfig == 2 || !state.fontConfig) {
+            return state.fonts.font2
+        } else if (state.fontConfig == 1) {
             return state.fonts.font1
         }
-        return state.fonts.font2
+        return state.fonts.font3
     },
 
     getFontMode(state) {

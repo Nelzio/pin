@@ -19,7 +19,7 @@
         <div>
           <q-icon size="100px" name="store" />
         </div>
-        <div class="text-h6">Produtos e Serviços</div>
+        <div class="text-h6">Negócio</div>
       </div>
     </div>
     <div class="flex flex-center" style="height: 50%;">

@@ -83,6 +83,9 @@
           <!-- <q-btn round dense flat icon="notifications">
             <q-badge color="primary" text-color="white" floating>2</q-badge>
           </q-btn>-->
+          <q-btn v-if="isUserAuth" round dense flat icon="message" size="lg" to="/chat">
+            <q-badge v-if="numMessage" color="primary" text-color="white" floating>{{ numMessage }}</q-badge>
+          </q-btn>
           <q-btn round flat>
             <q-avatar>
               <img v-if="isUserAuth" :src="user.photoURL" />
@@ -293,28 +296,28 @@
 
       <q-page-sticky v-if="$q.screen.gt.sm" expand position="left">
         <div class="fit q-pt-xl q-px-sm column">
-          <q-btn round flat stack no-caps size="40px" class="GPL__side-btn" to="/">
+          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/">
             <q-icon size="lg" name="home" />
             <div class="GPL__side-btn__label">Home</div>
           </q-btn>
 
-          <q-btn round flat stack no-caps size="40px" class="GPL__side-btn" to="/vacancies">
+          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/vacancies">
             <q-icon size="lg" name="work" />
             <div class="GPL__side-btn__label">Vagas</div>
           </q-btn>
 
-          <q-btn round flat stack no-caps size="40px" class="GPL__side-btn" to="/store">
+          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/store">
             <q-icon size="lg" name="store" />
-            <div class="GPL__side-btn__label">Exposição</div>
+            <div class="GPL__side-btn__label">Negócio</div>
             <!-- <q-badge floating color="red" text-color="white" style="top: 8px right: 16px">
               1
             </q-badge>-->
           </q-btn>
-          <q-btn round flat stack no-caps size="40px" class="GPL__side-btn" to="/profile">
+          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/profile">
             <q-icon size="lg" name="person" />
             <div class="GPL__side-btn__label">Perfil</div>
           </q-btn>
-          <q-btn round flat stack no-caps size="40px" class="GPL__side-btn" to="/settings">
+          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/settings">
             <q-icon size="lg" name="settings" />
             <div class="GPL__side-btn__label">Definições</div>
           </q-btn>
@@ -327,12 +330,15 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { LocalStorage } from "quasar";
+import { firestoreDb } from "boot/firebase";
 export default {
   // name: 'LayoutName',
 
   data() {
     return {
       textColor: "text-black",
+      numStatusVibrate: 0,
+      numMessage: 0,
       valueSearch: "",
       filterVal: "",
       leftDrawer: false,
@@ -392,7 +398,24 @@ export default {
         "Transportes e Logística",
         "Vendas"
       ],
-      categoriesStore: ["Moda", "Servicos"],
+      categoriesStore: [
+        "Produto",
+        "Serviço",
+        "Moda",
+        "Construção",
+        "Culinária",
+        "Games e Lazer",
+        "Animais",
+        "Moda",
+        "Casa",
+        "Tecnologia",
+        "Veículos",
+        "Imobiliário",
+        "Domésticos, Reparações e Mudanças",
+        "Saúde e Beleza",
+        "Eventos",
+        "Técnicos"
+      ],
       pitch: 0.8,
       rate: 1,
       synth: window.speechSynthesis,
@@ -420,48 +443,90 @@ export default {
     },
 
     speak(userInput) {
-      if (this.synth.speaking) {
-        // console.error('speechSynthesis.speaking');
-        return;
-      }
-      if (userInput !== "") {
-        let sInstance = new SpeechSynthesisUtterance(userInput);
-        sInstance.onend = function(event) {
-          // console.log('SpeechSynthesisUtterance.onend');
-        };
-        sInstance.onerror = function(event) {
-          // console.error('SpeechSynthesisUtterance.onerror');
-        };
-        // vibrate antes de falar
-        // window.navigator.vibrate(200);
-        // speak
-        sInstance.pitch = this.pitch;
-        sInstance.rate = this.rate;
-        this.synth.speak(sInstance);
-      } else {
-        let sInstance = new SpeechSynthesisUtterance(
-          "Nenhum texto nesta área."
-        );
-        sInstance.onend = function(event) {
-          // console.log('SpeechSynthesisUtterance.onend');
-        };
-        sInstance.onerror = function(event) {
-          // console.error('SpeechSynthesisUtterance.onerror');
-        };
+      if (this.vibrateState === 1) {
+        if (this.synth.speaking) {
+          // console.error('speechSynthesis.speaking');
+          return;
+        }
+        if (userInput !== "") {
+          let sInstance = new SpeechSynthesisUtterance(userInput);
+          sInstance.onend = function(event) {
+            // console.log('SpeechSynthesisUtterance.onend');
+          };
+          sInstance.onerror = function(event) {
+            // console.error('SpeechSynthesisUtterance.onerror');
+          };
+          // vibrate antes de falar
+          // window.navigator.vibrate(200);
+          // speak
+          sInstance.pitch = this.pitch;
+          sInstance.rate = this.rate;
+          this.synth.speak(sInstance);
+        } else {
+          let sInstance = new SpeechSynthesisUtterance(
+            "Nenhum texto nesta área."
+          );
+          sInstance.onend = function(event) {
+            // console.log('SpeechSynthesisUtterance.onend');
+          };
+          sInstance.onerror = function(event) {
+            // console.error('SpeechSynthesisUtterance.onerror');
+          };
 
-        // vibrate antes de falar
-        // window.navigator.vibrate(200);
-        // speak
-        sInstance.pitch = this.pitch;
-        sInstance.rate = this.rate;
-        this.synth.speak(sInstance);
+          // vibrate antes de falar
+          // window.navigator.vibrate(200);
+          // speak
+          sInstance.pitch = this.pitch;
+          sInstance.rate = this.rate;
+          this.synth.speak(sInstance);
+        }
       }
+    },
+
+    getChat() {
+      const vm = this;
+      const ref = firestoreDb.collection("chat");
+      var chatData = [];
+      ref
+        .where("receptorUser", "==", vm.user.email)
+        .where("readed", "==", false)
+        .onSnapshot(function(querySnapshot) {
+          chatData = [];
+          vm.numMessage = 0;
+          querySnapshot.forEach(function(doc) {
+            chatData.push({
+              key: doc.id,
+              email: doc.data().email,
+              displayName: doc.data().displayName,
+              receptorUser: doc.data().receptorUser,
+              readed: doc.data().readed
+            });
+
+            vm.numMessage += 1;
+          });
+
+          // chatData.forEach(element => {
+          //   if(element.receptorUser == vm.user.email) {
+          //     vm.numMessage += 1
+          //   }
+          // });
+        });
+    },
+
+    accessibilityMode () {
+        this.$root.$on("textToSpeechRouter", val => {
+          console.log(this.vibrateState)
+          console.log(val)
+          this.speak(val);
+        });
     }
   },
   created() {
     if (!LocalStorage.getItem("notFirst")) {
       this.$router.push("/welcome");
     }
+
+    this.getChat();
   },
   mounted() {
     if (this.appMode) {
@@ -470,16 +535,15 @@ export default {
       this.$q.dark.set(true);
     }
 
+    this.accessibilityMode()
+
     this.backIconFunc(this.$route);
 
-    if (this.$route.path == "/store" || this.$route.path == "/vacancies")
-      this.toSearch = true;
+    if (this.$route.path == "/store" || this.$route.path == "/vacancies") this.toSearch = true;
 
-    if (this.vibrateState) {
-      this.$root.$on("textToSpeechRouter", val => {
-        this.speak(val);
-      });
-    }
+
+    
+    
   },
   watch: {
     $route(to, from) {
@@ -502,7 +566,17 @@ export default {
       } else {
         this.$q.dark.set(true);
       }
-    }
+    },
+    
+    // vibrateState (val) {
+    //   console.log(val)
+    //   if (this.vibrateState === 1) {
+    //     this.numStatusVibrate = val
+    //   } else {
+    //     this.numStatusVibrate = val
+    //   }
+    //   // this.accessibilityMode()
+    // }
   }
 };
 </script>

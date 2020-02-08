@@ -11,6 +11,7 @@
               :color="darkModeConf.color"
               :class="darkModeConf.textBtn"
               class="full-width"
+              icon="image"
               label="Inserir imagem"
               @click="proccessFile()"
             />
@@ -151,10 +152,19 @@ export default {
         "Zambézia"
       ],
       subCategories: [
-        "Vestuário e moda",
         "Construção",
-        "Eletrodomésticos",
-        "Culinária"
+        "Culinária",
+        "Games e Lazer",
+        "Animais",
+        "Moda",
+        "Casa",
+        "Tecnologia",
+        "Veículos",
+        "Imobiliário",
+        "Domésticos, Reparações e Mudanças",
+        "Saúde e Beleza",
+        "Eventos",
+        "Técnicos"
       ]
     };
   },

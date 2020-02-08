@@ -34,7 +34,7 @@
                   </q-item-section>
 
                   <q-item-section>
-                    <q-item-label :class="getFont.text">Vibrador</q-item-label>
+                    <q-item-label :class="getFont.text">Vibrador e narar</q-item-label>
                   </q-item-section>
 
                   <q-item-section side>
@@ -124,7 +124,7 @@ export default {
       vibrateMode: false,
       deletDialog: false,
       fontSize: "Normal",
-      fontText: ["Normal", "Grande"],
+      fontText: ["Pequeno", "Normal", "Grande"],
       snap: {
         min: 2,
         max: 12
@@ -163,7 +163,7 @@ export default {
 
     this.$root.$emit(
       "textToSpeechRouter",
-      "Pagina de configurações.\n Toque para ouvir no questá clicando"
+      "Pagina de configurações."
     );
   },
   methods: {
@@ -199,15 +199,20 @@ export default {
       }
     },
     funcFont() {
-      if (this.fontSize == "Normal") {
+      if (this.fontSize == "Pequeno") {
         this.setFont(1);
-      } else {
+      }
+      else if (this.fontSize == "Normal") {
         this.setFont(2);
+      } else {
+        this.setFont(3);
       }
     }
   },
   created() {
-    if (this.fontConfig !== 2) {
+    if (this.fontConfig == 1) {
+      this.fontSize = "Pequeno";
+    } else if (this.fontConfig == 2) {
       this.fontSize = "Normal";
     } else {
       this.fontSize = "Grande";
@@ -239,11 +244,13 @@ export default {
     },
 
     fontConfig() {
-      if (this.fontConfig !== 2) {
-        this.fontSize = "Normal";
-      } else {
-        this.fontSize = "Grande";
-      }
+      if (this.fontConfig == 1) {
+      this.fontSize = "Pequeno";
+    } else if (this.fontConfig == 2) {
+      this.fontSize = "Normal";
+    } else {
+      this.fontSize = "Grande";
+    }
     },
 
     fontSize() {

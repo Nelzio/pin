@@ -15,6 +15,7 @@ const routes = [
       { path: 'settings', component: () => import('pages/settings/PageSettings') },
       { path: 'user/:idUser', component: () => import('pages/user/Profile.vue') },
       { path: 'chat/:idReceptor', component: () => import('pages/chat/Chat.vue') },
+      { path: 'chat', component: () => import('pages/chat/ChatList.vue') },
       { path: 'tts', component: () => import('pages/tests/TextToSpeach.vue') },
       { path: 'center', component: () => import('pages/tests/OnCenter.vue') },
     ]

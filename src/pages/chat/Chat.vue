@@ -1,11 +1,15 @@
 <template>
-  <q-page padding v-touch-swipe.mouse.right="handleSwipe" v-touch-hold:800.mouse="handleHold">
+  <q-page padding class="q-pt-md q-pb-xl" v-touch-swipe.mouse.right="handleSwipe" v-touch-hold:800.mouse="handleHold">
     <!-- content -->
-    <div style="width: 100%; max-width: 400px">
-      <div v-for="message in chatData" :key="message.key">
-        <chat :message="message" />
+    <div class="row justify-center">
+      <div class="col-12 col-md-7">
+        <div v-for="message in chatData" :key="message.key">
+          <chat :message="message" />
+        </div>
       </div>
     </div>
+    <!-- <div style="width: 100%; max-width: 400px" class="q-pt-xl">
+    </div> -->
     <!-- <div>
       <q-card class="q-pt-none q-pb-none">
         <q-card-section class="q-pb-none q-pt-none">
@@ -18,41 +22,84 @@
       </q-card>
     </div>-->
 
-    <q-footer>
+    <q-footer v-if="!$q.screen.gt.sm">
       <q-toolbar class="bg-grey-3 text-black row">
         <!-- <q-btn round flat icon="insert_emoticon" class="q-mr-sm" /> -->
-        <q-input
-          v-if="recording"
-          v-model="fullTimer"
-          rounded
-          outlined
-          dense
-          class="WAL__field col-grow q-mr-sm"
-          bg-color="white"
-          disable
-        />
-        <q-input
-          v-else
-          rounded
-          outlined
-          dense
-          class="WAL__field col-grow q-mr-sm"
-          bg-color="white"
-          v-model="message.message"
-          placeholder="Type a message"
-        />
-        <q-btn v-if="message.message" round flat icon="send" @click="sendMessage()" />
-        <q-btn v-else-if="!recording" round flat icon="mic" @click="recordAudio()" />
-        <q-btn v-else round flat icon="stop" color="red" @click="stopRecord()" />
+        <q-form @submit="sendMessage()" class="col-12">
+          <div class="text-black row">
+            <q-input
+              v-if="recording"
+              v-model="fullTimer"
+              rounded
+              outlined
+              dense
+              :class="getFont.text"
+              class="WAL__field col-grow q-mr-sm"
+              bg-color="white"
+              disable
+            />
+            <q-input
+              v-else
+              rounded
+              outlined
+              dense
+              :class="getFont.text"
+              class="WAL__field col-grow q-mr-sm"
+              bg-color="white"
+              v-model="message.message"
+              placeholder="Escreva a sua mensagem"
+            />
+            <q-btn v-if="message.message" round flat icon="send" @click="sendMessage()" />
+            <q-btn v-else-if="!recording" round flat icon="mic" @click="recordAudio()" />
+            <q-btn v-else round flat icon="stop" color="red" @click="stopRecord()" />
+          </div>
+        </q-form>
+        
       </q-toolbar>
     </q-footer>
 
-    <q-page-sticky expand position="top">
+    <q-page-sticky position="bottom" v-if="$q.screen.gt.sm">
+     <q-toolbar class="bg-grey-3 text-black row" style="width: 50vw;">
+        <!-- <q-btn round flat icon="insert_emoticon" class="q-mr-sm" /> -->
+        <q-form @submit="sendMessage()" class="col-12">
+          <div class="text-black row">
+            <q-input
+              v-if="recording"
+              v-model="fullTimer"
+              rounded
+              outlined
+              dense
+              :class="getFont.text"
+              class="WAL__field col-grow q-mr-sm"
+              bg-color="white"
+              disable
+            />
+            <q-input
+              v-else
+              rounded
+              outlined
+              dense
+              :class="getFont.text"
+              class="WAL__field col-grow q-mr-sm"
+              bg-color="white"
+              v-model="message.message"
+              placeholder="Escreva a sua mensagem"
+            />
+            <q-btn v-if="message.message" round flat icon="send" @click="sendMessage()" />
+            <q-btn v-else-if="!recording" round flat icon="mic" @click="recordAudio()" />
+            <q-btn v-else round flat icon="stop" color="red" @click="stopRecord()" />
+          </div>
+        </q-form>
+        
+      </q-toolbar>
+    </q-page-sticky>
+
+    <q-page-sticky expand position="top" v-if="!$q.screen.gt.sm">
       <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" class="shadow-3">
         <q-avatar>
           <img :src="getUser.photoURL" />
         </q-avatar>
-        <q-toolbar-title>{{ getUser.displayName }}</q-toolbar-title>
+        <q-toolbar-title :class="getFont.title">{{ getUser.displayName }}</q-toolbar-title>
       </q-toolbar>
     </q-page-sticky>
   </q-page>
@@ -84,7 +131,7 @@ export default {
 
       chatData: [],
       message: {
-        audio: null,
+        audio: "",
         message: ""
       }
     };
@@ -93,7 +140,8 @@ export default {
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
     ...mapGetters("auth", ["user", "userData"]),
-    ...mapGetters("user", ["getUser"])
+    ...mapGetters("user", ["getUser"]),
+    ...mapGetters("settings", ["getFont"])
   },
 
   methods: {
@@ -189,31 +237,69 @@ export default {
       const vm = this;
       const ref = firestoreDb.collection("chat");
       var chatData = [];
+      var chatDataObj = {};
       // const
       ref.onSnapshot(function(querySnapshot) {
         chatData = [];
+        chatDataObj = {};
         querySnapshot.forEach(function(doc) {
           if (
             doc.data().receptorUser == vm.user.email ||
             doc.data().email == vm.user.email
           ) {
-            chatData.push({
-              key: doc.id,
-              email: doc.data().email,
-              displayName: doc.data().displayName,
-              audio: doc.data().audio,
-              imgUserUrl: doc.data().imgUserUrl,
-              timeSend: new Date(doc.data().timeSend),
-              message: doc.data().message,
-              receptorUser: doc.data().receptorUser
-            });
+              chatData.push({
+                key: doc.id,
+                email: doc.data().email,
+                displayName: doc.data().displayName,
+                audio: doc.data().audio,
+                imgUserUrl: doc.data().imgUserUrl,
+                timeSend: new Date(doc.data().timeSend),
+                message: doc.data().message,
+                receptorUser: doc.data().receptorUser,
+                readed:  doc.data().readed
+              });
+              if (!doc.data().readed) {
+                chatDataObj = {
+                  key: doc.id,
+                  email: doc.data().email,
+                  displayName: doc.data().displayName,
+                  audio: doc.data().audio,
+                  imgUserUrl: doc.data().imgUserUrl,
+                  timeSend: doc.data().timeSend,
+                  message: doc.data().message,
+                  receptorUser: doc.data().receptorUser,
+                  readed:  doc.data().readed
+                };
+                vm.updateMessage(chatDataObj)
+              }
+            // }
           }
         });
         chatData.sort(function(a, b) {
           return a.timeSend - b.timeSend;
         });
         vm.chatData = chatData;
+        window.scroll(0, window.innerHeight + 200)
       });
+    },
+
+    updateMessage (payload) {
+      if (this.user.email == payload.receptorUser) {
+        var ref = firestoreDb.collection("chat").doc(payload.key)
+        var chatData = {
+          email: payload.email,
+          displayName: payload.displayName,
+          audio: payload.audio,
+          imgUserUrl: payload.imgUserUrl,
+          timeSend: payload.timeSend,
+          message: payload.message,
+          receptorUser: payload.receptorUser,
+          readed:  true
+        };
+        ref.set(chatData).then(docRef => {
+          // console.log("done")
+        });
+      }
     },
 
     sendMessage() {
@@ -230,11 +316,11 @@ export default {
       this.message.displayName = this.user.displayName;
       this.message.timeSend = String(today);
       this.message.imgUserUrl = this.user.photoURL;
+      this.message.readed = false;
 
       const ref = firestoreDb.collection("chat");
       ref.add(this.message).then(docRef => {
         this.message = {
-          audioUrl: "",
           message: ""
         };
       });
@@ -249,6 +335,7 @@ export default {
       this.message.displayName = this.user.displayName;
       this.message.timeSend = String(today);
       this.message.imgUserUrl = this.user.photoURL;
+      this.message.readed = false;
       this.message.audio = voice;
 
       const ref = firestoreDb.collection("chat");
@@ -314,6 +401,7 @@ export default {
     this.detailUserStore(this.$route.params.idReceptor);
   },
   mounted() {
+    window.scroll(0, window.innerHeight + 200)
     this.$root.$emit(
       "textToSpeechRouter",
       "Pagina de conversa com" +
@@ -325,7 +413,7 @@ export default {
 </script>
 
 <style lang="sass">
-.voice
-  width: 80vw
-  // padding: 0
+// .voice
+//   width: 50vw
+//   // padding: 0
 </style>

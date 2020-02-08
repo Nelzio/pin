@@ -3,7 +3,7 @@
     <!-- content -->
 
     <div class="row justify-center q-pb-xl">
-      <div class="col-12 col-md-8">
+      <div class="col-12 col-md-11">
         <!-- sec 6 -->
         <div v-if="myVacancies.length">
           <div class="row">

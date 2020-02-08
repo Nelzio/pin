@@ -253,6 +253,7 @@ export default {
           var valueDesc = stories[i]["description"].match(temp);
           var valuePlace = stories[i]["place"].match(temp);
           var valueCategory = stories[i]["category"].match(temp);
+          var valueSubCategory = stories[i]["subCategory"].match(temp);
           if (value != null && valueDesc != null) {
             if (
               stories[i]["title"] == value[0] &&
@@ -274,6 +275,10 @@ export default {
             }
           } else if (valueCategory != null) {
             if (stories[i]["category"] == valueCategory[0]) {
+              items.push(stories[i]);
+            }
+          } else if (valueCategory != null) {
+            if (stories[i]["subCategory"] == valueSubCategory[0]) {
               items.push(stories[i]);
             }
           }

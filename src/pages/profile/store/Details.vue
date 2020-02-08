@@ -65,7 +65,44 @@
             </q-item-section>
           </q-item>
         </q-list>
+        <div class="row q-gutter-md">
+          <q-btn outline rounded icon="edit" :to="'/profile/store/edit/'+getStore.key" />
+          <q-btn
+            outline
+            rounded
+            :icon="statusStore ? 'visibility' : 'visibility_off'"
+            @click="makePublic(getStore.key, getStore, statusStore)"
+          />
+          <q-btn outline rounded color="red" icon="delete" @click="confirDelete = true" />
+        </div>
       </div>
+    </div>
+
+    <div>
+      <q-dialog v-model="confirDelete">
+        <q-card style="width: 700px; max-width: 80vw;">
+          <q-card-section>
+            <div :class="getFont.title">Confirmar</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none" :class="getFont.text">Deletar {{ getStore.title }}?</q-card-section>
+
+          <q-card-actions align="right" class="bg-white text-teal">
+            <q-btn rounded outline color="red" label="Deletar" @click="deleteStoreThis(getStore.key)" />
+            <q-btn rounded outline color="grey" label="Cancelar" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="confirDeleteSuccess">
+        <q-card>
+          <q-card-section class="text-green" :class="getFont.title">Deletado com sucesso</q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn flat label="OK" color="primary" @click="$router.go(-1)" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </q-page>
 </template>
@@ -73,8 +110,8 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDb } from "boot/firebase";
-import { QSpinnerRings, QSpinnerRadio } from "quasar";
+import { firebaseAuth, firestoreDb, fireStorage } from "boot/firebase";
+import { QSpinnerRings, QSpinnerRadio, Loading } from "quasar";
 import offline from "v-offline";
 import SocialSharing from "vue-social-sharing";
 export default {
@@ -85,7 +122,10 @@ export default {
   data() {
     return {
       tab: "details",
-      candidates: []
+      candidates: [],
+      statusStore: false,
+      confirDelete: false,
+      confirDeleteSuccess: false,
     };
   },
   computed: {
@@ -103,12 +143,95 @@ export default {
       "updateStore",
       "deleteStore"
     ]),
-    ...mapActions("user", ["detailUser"])
+    ...mapActions("user", ["detailUser"]),
+
+    getStatusStore(id) {
+      const vm = this;
+      const ref = firestoreDb.collection("stories").doc(id);
+      ref.onSnapshot(doc => {
+        if (doc.exists) {
+          vm.statusStore = doc.data().public;
+        } else {
+          console.log("No such document!");
+        }
+      });
+    },
+
+    updateStoreHere(payload) {
+      Loading.show();
+      const updateRef = firestoreDb.collection("stories").doc(payload.id);
+      updateRef
+        .set(payload.data)
+        .then(() => {
+          Loading.hide();
+        })
+        .catch(error => {
+          Loading.hide();
+          console.log("Error update document: ", error);
+        });
+    },
+
+    makePublic(id, data, val) {
+      let dataAux = {
+        title: data.title,
+        user: data.user,
+        description: data.description,
+        img: data.img,
+        public: !val,
+        category: data.category,
+        place: data.place,
+        subCategory: data.subCategory,
+        price: data.price,
+        priceVariable: data.priceVariable
+      };
+      this.updateStoreHere({
+        id: id,
+        data: dataAux
+      });
+    },
+
+    deleteStoreThis(id) {
+      const vm = this;
+
+      Loading.show();
+      var storageRef = fireStorage.ref();
+
+      var desertRef = storageRef.child("stories/" + id);
+
+      firestoreDb
+        .collection("stories")
+        .doc(id)
+        .delete()
+        .then(() => {
+          // Delete the file
+          desertRef
+            .delete()
+            .then(function() {
+              // File deleted successfully
+              vm.confirDeleteSuccess = true;
+              Loading.hide();
+            })
+            .catch(function(error) {
+              // Uh-oh, an error occurred!
+              vm.confirDeleteSuccess = true;
+              console.log("Erro ao deletar imagem");
+              Loading.hide();
+            });
+        })
+        .catch(error => {
+          Loading.hide();
+          alert("Error removing document: ", error);
+        });
+    },
   },
   created() {
     this.detailStore(this.$route.params.idPS);
+    
 
     this.$root.$emit("textToSpeechRouter", "Detalhes de produto ou serviço");
+  },
+  mounted () {
+    this.getStatusStore(this.$route.params.idPS);
   }
 };
 </script>

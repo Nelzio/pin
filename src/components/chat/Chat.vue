@@ -3,16 +3,19 @@
     <div v-if="message.email !== user.email">
       <q-chat-message
         v-if="!message.audio"
+        :class="getFont.text"
         :text="[message.message]"
         :avatar="message.imgUserUrl"
         :stamp="message.timeSend.getHours() + 'horas:' + message.timeSend.getMinutes() + 'minutos'"
       />
       <q-chat-message
         v-else
+        :class="getFont.text"
         class="voice"
         :avatar="message.imgUserUrl"
-        :stamp="message.audio.timeSend.getHours() + 'horas:' + message.timeSend.getMinutes() + 'minutos'"
+        :stamp="message.timeSend.getHours() + 'horas:' + message.timeSend.getMinutes() + 'minutos'"
         bg-color="white"
+        size="8"
       >
         <q-card class="q-pt-none q-pb-none voice">
           <q-card-section class="row items-center no-wrap q-pt-none q-pl-none q-pb-none">
@@ -31,15 +34,18 @@
     <div v-else>
       <q-chat-message
         v-if="!message.audio"
+        :class="getFont.text"
         :text="[message.message]"
         :stamp="message.timeSend.getHours() + 'horas:' + message.timeSend.getMinutes() + 'minutos'"
         sent
       />
       <q-chat-message
         v-else
+        :class="getFont.text"
         sent
         :stamp="message.timeSend.getHours() + 'horas:' + message.timeSend.getMinutes() + 'minutos'"
         bg-color="white"
+        size="8"
       >
         <q-card class="q-pt-none q-pb-none voice">
           <q-card-section class="row items-center no-wrap q-pt-none q-pl-none q-pb-none">
@@ -73,7 +79,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("auth", ["user", "userData"])
+    ...mapGetters("auth", ["user", "userData"]),
+    ...mapGetters("settings", ["getFont"])
   },
   methods: {
     playRecord(audio) {
@@ -119,6 +126,9 @@ export default {
         clearInterval(vm.counter);
       }
     }
+  },
+  mounted () {
+    console.log(this.message)
   }
 };
 </script>
