@@ -457,6 +457,7 @@ export default {
             // console.error('SpeechSynthesisUtterance.onerror');
           };
           // vibrate antes de falar
+          //navigator.vibrate(200);
           // window.navigator.vibrate(200);
           // speak
           sInstance.pitch = this.pitch;
@@ -474,6 +475,7 @@ export default {
           };
 
           // vibrate antes de falar
+          //navigator.vibrate(200);
           // window.navigator.vibrate(200);
           // speak
           sInstance.pitch = this.pitch;
@@ -481,6 +483,18 @@ export default {
           this.synth.speak(sInstance);
         }
       }
+    },
+
+    speakCordova (userInput) {
+      TTS.speak({
+        text: userInput,
+        locale: 'pt-PT',
+        rate: 1
+      }, function () {
+          alert('Text succesfully spoken');
+      }, function (reason) {
+          alert(reason);
+      });
     },
 
     getChat() {
@@ -513,21 +527,26 @@ export default {
         });
     },
 
-    accessibilityMode () {
-        this.$root.$on("textToSpeechRouter", val => {
-          console.log(this.vibrateState)
-          console.log(val)
-          this.speak(val);
-        });
+    accessibilityMode() {
+      this.$root.$on("textToSpeechRouter", val => {
+        console.log(this.vibrateState);
+        console.log(val);
+        this.speak(val);
+        this.speakCordova(val);
+      });
     }
   },
+
+
   created() {
     if (!LocalStorage.getItem("notFirst")) {
-      this.$router.push("/welcome");
+      this.$router.push("/welcome/app");
     }
 
     this.getChat();
   },
+
+
   mounted() {
     if (this.appMode) {
       this.$q.dark.set(false);
@@ -535,16 +554,15 @@ export default {
       this.$q.dark.set(true);
     }
 
-    this.accessibilityMode()
+    this.accessibilityMode();
 
     this.backIconFunc(this.$route);
 
-    if (this.$route.path == "/store" || this.$route.path == "/vacancies") this.toSearch = true;
-
-
-    
-    
+    if (this.$route.path == "/store" || this.$route.path == "/vacancies")
+      this.toSearch = true;
   },
+
+
   watch: {
     $route(to, from) {
       // react to route changes...
@@ -557,6 +575,7 @@ export default {
       this.backIconFunc(to);
 
       if (this.vibrateState) {
+        navigator.vibrate(200);
         window.navigator.vibrate(200);
       }
     },
@@ -566,8 +585,8 @@ export default {
       } else {
         this.$q.dark.set(true);
       }
-    },
-    
+    }
+
     // vibrateState (val) {
     //   console.log(val)
     //   if (this.vibrateState === 1) {

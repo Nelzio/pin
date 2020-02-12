@@ -134,6 +134,7 @@ export default {
           // console.error('SpeechSynthesisUtterance.onerror');
         };
         // vibrate antes de falar
+        navigator.vibrate(200);
         window.navigator.vibrate(200);
         // speak
         sInstance.pitch = this.pitch;
@@ -151,12 +152,26 @@ export default {
         };
 
         // vibrate antes de falar
+        navigator.vibrate(200);
         window.navigator.vibrate(200);
         // speak
         sInstance.pitch = this.pitch;
         sInstance.rate = this.rate;
         this.synth.speak(sInstance);
       }
+    },
+
+    speakCordova (userInput) {
+      navigator.vibrate(200);
+      TTS.speak({
+        text: userInput,
+        locale: 'pt-PT',
+        rate: 1
+      }, function () {
+          alert('Text succesfully spoken');
+      }, function (reason) {
+          alert(reason);
+      });
     },
 
     handleSwipe(val) {
@@ -183,6 +198,7 @@ export default {
           var interval2 = item.getBoundingClientRect().top + 55;
           if (position <= interval2 && position >= interval1) {
             // setTimeout(function() {
+            navigator.vibrate(350);
             window.navigator.vibrate(350);
             // console.log("Workkkk")
             // }, 200)
@@ -260,6 +276,7 @@ export default {
         val.vacancy.title +
         "\n Clique para descrição.";
       this.speak(text);
+      this.speakCordova(text)
     });
 
     // Vibração

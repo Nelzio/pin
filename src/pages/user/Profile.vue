@@ -254,6 +254,7 @@ export default {
 
       if (this.touchNums >= 5) {
         this.touchNums = -80;
+        navigator.vibrate(200);
         window.navigator.vibrate(200);
 
         this.$router.push("/chat/" + this.getUser.email);

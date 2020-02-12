@@ -447,7 +447,7 @@ export default {
 
     this.$root.$emit(
       "textToSpeechRouter",
-      "Pagina do seu perfil.\n PRessione para ouvir detalhes do seu perfil"
+      "Pagina do seu perfil.\n Pressione para ouvir detalhes do seu perfil"
     );
   }
   // watch: {

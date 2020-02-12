@@ -86,6 +86,7 @@ export default {
       // console.log(evt)
       // console.log(val)
       // console.log(this.store)
+      navigator.vibrate(200);
       window.navigator.vibrate(200);
       this.$root.$emit(
         "textToSpeechRouter",

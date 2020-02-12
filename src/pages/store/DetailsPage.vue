@@ -118,6 +118,7 @@ export default {
         };
 
         // vibrate antes de falar
+        navigator.vibrate(200);
         window.navigator.vibrate(200);
         // speak
         sInstance.pitch = this.pitch;
@@ -135,12 +136,30 @@ export default {
         };
 
         // vibrate antes de falar
+        navigator.vibrate(200);
         window.navigator.vibrate(200);
         // speak
         sInstance.pitch = this.pitch;
         sInstance.rate = this.rate;
         this.synth.speak(sInstance);
       }
+    },
+
+    speakCordova(userInput) {
+      navigator.vibrate(200);
+      TTS.speak(
+        {
+          text: userInput,
+          locale: "pt-PT",
+          rate: 1
+        },
+        function() {
+          alert("Text succesfully spoken");
+        },
+        function(reason) {
+          alert(reason);
+        }
+      );
     },
 
     handleHold({ evt, ...info }) {
@@ -157,6 +176,7 @@ export default {
         ";. descrição: " +
         this.getStore.description;
       this.speak(text);
+      this.speakCordova(text);
       // console.log(this.vacancy)
     },
 
@@ -190,10 +210,12 @@ export default {
 
       if (this.touchNums >= 5) {
         this.touchNums = -80;
+        navigator.vibrate(200);
         window.navigator.vibrate(200);
         if (!this.user) {
           var text = "Usuário não autenticado.";
           this.speak(text);
+          this.speakCordova(text);
           return;
         }
 

@@ -184,6 +184,7 @@ export default {
           // console.error('SpeechSynthesisUtterance.onerror');
         };
         // vibrate antes de falar
+        navigator.vibrate(200);
         window.navigator.vibrate(200);
         // speak
         sInstance.pitch = this.pitch;
@@ -201,6 +202,7 @@ export default {
         };
 
         // vibrate antes de falar
+        navigator.vibrate(200);
         window.navigator.vibrate(200);
         // speak
         sInstance.pitch = this.pitch;
@@ -233,6 +235,7 @@ export default {
           var interval2 = item.getBoundingClientRect().top + 55;
           if (position <= interval2 && position >= interval1) {
             // setTimeout(function() {
+            navigator.vibrate(350);
             window.navigator.vibrate(350);
             // console.log("Workkkk")
             // }, 200)

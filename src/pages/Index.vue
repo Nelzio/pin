@@ -46,7 +46,7 @@
             <q-img class="rounded-borders" src="statics/img/home/deal.png" />
           </q-card-section>
         </q-card-section>
-      </q-card> -->
+      </q-card>-->
       <q-card class="my-card" flat>
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs">
@@ -72,10 +72,11 @@ export default {
   components: { HomeContent },
   data() {
     return {
-      lorem: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      lorem:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       pitch: 0.8,
       rate: 1,
-      synth: window.speechSynthesis,
+      synth: window.speechSynthesis
     };
   },
   computed: {
@@ -93,51 +94,14 @@ export default {
       }
     },
 
-    speak(userInput) {
-      if (this.vibrateState === 1) {
-        if (this.synth.speaking) {
-          // console.error('speechSynthesis.speaking');
-          return;
-        }
-        if (userInput !== "") {
-          let sInstance = new SpeechSynthesisUtterance(userInput);
-          sInstance.onend = function(event) {
-            // console.log('SpeechSynthesisUtterance.onend');
-          };
-          sInstance.onerror = function(event) {
-            // console.error('SpeechSynthesisUtterance.onerror');
-          };
-          // vibrate antes de falar
-          // window.navigator.vibrate(200);
-          // speak
-          sInstance.pitch = this.pitch;
-          sInstance.rate = this.rate;
-          this.synth.speak(sInstance);
-        } else {
-          let sInstance = new SpeechSynthesisUtterance(
-            "Nenhum texto nesta área."
-          );
-          sInstance.onend = function(event) {
-            // console.log('SpeechSynthesisUtterance.onend');
-          };
-          sInstance.onerror = function(event) {
-            // console.error('SpeechSynthesisUtterance.onerror');
-          };
-
-          // vibrate antes de falar
-          // window.navigator.vibrate(200);
-          // speak
-          sInstance.pitch = this.pitch;
-          sInstance.rate = this.rate;
-          this.synth.speak(sInstance);
-        }
-      }
-    },
   },
   mounted() {
     // this.$root.$emit("textToSpeechRouter", "Pagina Inicial");
-    this.speak("Pagina Inicial")
-  },
+    this.$root.$emit(
+      "textToSpeechRouter",
+      "Pagina Inicial"
+    );
+  }
 };
 </script>
 

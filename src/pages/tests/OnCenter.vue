@@ -29,16 +29,18 @@ export default {
         if (active === false) {
           active = true;
           // setTimeout(function() {
-            lazyItems.forEach(function(item) {
-              var position = window.innerHeight - item.getBoundingClientRect().bottom;
-              var interval1 = item.getBoundingClientRect().top - 12;
-              var interval2 = item.getBoundingClientRect().top + 12;
-              if (position <= interval2 && position >= interval1) {
-                window.navigator.vibrate(700);
-                console.log(item);
-              }
-            });
-            active = false;
+          lazyItems.forEach(function(item) {
+            var position =
+              window.innerHeight - item.getBoundingClientRect().bottom;
+            var interval1 = item.getBoundingClientRect().top - 12;
+            var interval2 = item.getBoundingClientRect().top + 12;
+            if (position <= interval2 && position >= interval1) {
+              navigator.vibrate(700);
+              window.navigator.vibrate(700);
+              console.log(item);
+            }
+          });
+          active = false;
           // }, 200);
         }
       };

@@ -154,6 +154,7 @@ export default {
 
     // Vibração
     if (this.vibrateState) {
+      navigator.vibrate(200);
       window.navigator.vibrate(200);
     }
     // Play do áudio
@@ -161,10 +162,7 @@ export default {
     //   this.playSound("/statics/audios/configs.aac");
     // }
 
-    this.$root.$emit(
-      "textToSpeechRouter",
-      "Pagina de configurações."
-    );
+    this.$root.$emit("textToSpeechRouter", "Pagina de configurações.");
   },
   methods: {
     ...mapActions("settings", [
@@ -201,8 +199,7 @@ export default {
     funcFont() {
       if (this.fontSize == "Pequeno") {
         this.setFont(1);
-      }
-      else if (this.fontSize == "Normal") {
+      } else if (this.fontSize == "Normal") {
         this.setFont(2);
       } else {
         this.setFont(3);
@@ -245,12 +242,12 @@ export default {
 
     fontConfig() {
       if (this.fontConfig == 1) {
-      this.fontSize = "Pequeno";
-    } else if (this.fontConfig == 2) {
-      this.fontSize = "Normal";
-    } else {
-      this.fontSize = "Grande";
-    }
+        this.fontSize = "Pequeno";
+      } else if (this.fontConfig == 2) {
+        this.fontSize = "Normal";
+      } else {
+        this.fontSize = "Grande";
+      }
     },
 
     fontSize() {

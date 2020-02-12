@@ -101,6 +101,7 @@ export default {
     ...mapActions("auth", ["detailUser", "checkAuthUser"]),
 
     handleHold({ ...info }) {
+      navigator.vibrate(200);
       window.navigator.vibrate(200);
       this.$root.$emit(
         "textToSpeechRouter",

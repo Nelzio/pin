@@ -1,5 +1,10 @@
 <template>
-  <q-page padding class="q-pt-md q-pb-xl" v-touch-swipe.mouse.right="handleSwipe" v-touch-hold:800.mouse="handleHold">
+  <q-page
+    padding
+    class="q-pt-md q-pb-xl"
+    v-touch-swipe.mouse.right="handleSwipe"
+    v-touch-hold:800.mouse="handleHold"
+  >
     <!-- content -->
     <div class="row justify-center">
       <div class="col-12 col-md-7">
@@ -9,7 +14,7 @@
       </div>
     </div>
     <!-- <div style="width: 100%; max-width: 400px" class="q-pt-xl">
-    </div> -->
+    </div>-->
     <!-- <div>
       <q-card class="q-pt-none q-pb-none">
         <q-card-section class="q-pb-none q-pt-none">
@@ -54,12 +59,11 @@
             <q-btn v-else round flat icon="stop" color="red" @click="stopRecord()" />
           </div>
         </q-form>
-        
       </q-toolbar>
     </q-footer>
 
     <q-page-sticky position="bottom" v-if="$q.screen.gt.sm">
-     <q-toolbar class="bg-grey-3 text-black row" style="width: 50vw;">
+      <q-toolbar class="bg-grey-3 text-black row" style="width: 50vw;">
         <!-- <q-btn round flat icon="insert_emoticon" class="q-mr-sm" /> -->
         <q-form @submit="sendMessage()" class="col-12">
           <div class="text-black row">
@@ -90,7 +94,6 @@
             <q-btn v-else round flat icon="stop" color="red" @click="stopRecord()" />
           </div>
         </q-form>
-        
       </q-toolbar>
     </q-page-sticky>
 
@@ -151,6 +154,7 @@ export default {
       // console.log(info)
       // console.log(evt)
       // gravar audio
+      navigator.vibrate(200);
       window.navigator.vibrate(200);
       if (this.recording) {
         this.stopRecord();
@@ -247,31 +251,31 @@ export default {
             doc.data().receptorUser == vm.user.email ||
             doc.data().email == vm.user.email
           ) {
-              chatData.push({
+            chatData.push({
+              key: doc.id,
+              email: doc.data().email,
+              displayName: doc.data().displayName,
+              audio: doc.data().audio,
+              imgUserUrl: doc.data().imgUserUrl,
+              timeSend: new Date(doc.data().timeSend),
+              message: doc.data().message,
+              receptorUser: doc.data().receptorUser,
+              readed: doc.data().readed
+            });
+            if (!doc.data().readed) {
+              chatDataObj = {
                 key: doc.id,
                 email: doc.data().email,
                 displayName: doc.data().displayName,
                 audio: doc.data().audio,
                 imgUserUrl: doc.data().imgUserUrl,
-                timeSend: new Date(doc.data().timeSend),
+                timeSend: doc.data().timeSend,
                 message: doc.data().message,
                 receptorUser: doc.data().receptorUser,
-                readed:  doc.data().readed
-              });
-              if (!doc.data().readed) {
-                chatDataObj = {
-                  key: doc.id,
-                  email: doc.data().email,
-                  displayName: doc.data().displayName,
-                  audio: doc.data().audio,
-                  imgUserUrl: doc.data().imgUserUrl,
-                  timeSend: doc.data().timeSend,
-                  message: doc.data().message,
-                  receptorUser: doc.data().receptorUser,
-                  readed:  doc.data().readed
-                };
-                vm.updateMessage(chatDataObj)
-              }
+                readed: doc.data().readed
+              };
+              vm.updateMessage(chatDataObj);
+            }
             // }
           }
         });
@@ -279,13 +283,13 @@ export default {
           return a.timeSend - b.timeSend;
         });
         vm.chatData = chatData;
-        window.scroll(0, window.innerHeight + 200)
+        window.scroll(0, window.innerHeight + 200);
       });
     },
 
-    updateMessage (payload) {
+    updateMessage(payload) {
       if (this.user.email == payload.receptorUser) {
-        var ref = firestoreDb.collection("chat").doc(payload.key)
+        var ref = firestoreDb.collection("chat").doc(payload.key);
         var chatData = {
           email: payload.email,
           displayName: payload.displayName,
@@ -294,7 +298,7 @@ export default {
           timeSend: payload.timeSend,
           message: payload.message,
           receptorUser: payload.receptorUser,
-          readed:  true
+          readed: true
         };
         ref.set(chatData).then(docRef => {
           // console.log("done")
@@ -401,7 +405,7 @@ export default {
     this.detailUserStore(this.$route.params.idReceptor);
   },
   mounted() {
-    window.scroll(0, window.innerHeight + 200)
+    window.scroll(0, window.innerHeight + 200);
     this.$root.$emit(
       "textToSpeechRouter",
       "Pagina de conversa com" +
