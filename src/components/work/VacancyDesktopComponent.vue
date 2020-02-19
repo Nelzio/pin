@@ -21,7 +21,7 @@
         </q-item-section>
       </q-item>
 
-      <img
+      <q-img
         v-ripple
         v-if="vacancy.img && imgLoaded"
         :src="vacancy.img"

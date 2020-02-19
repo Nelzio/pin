@@ -6,7 +6,7 @@
     <div class="row justify-center">
       <div class="q-gutter-y-md col-12 col-md-8">
         <q-card class="my-card">
-          <img :src="imageUrl" alt />
+          <q-img :src="imageUrl" alt />
           <q-card-actions>
             <q-btn
               rounded

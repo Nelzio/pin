@@ -156,7 +156,7 @@
                 >
                   <q-item-section avatar>
                     <q-avatar size="65px">
-                      <img :src="candidate.img" />
+                      <q-img :src="candidate.img" />
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>

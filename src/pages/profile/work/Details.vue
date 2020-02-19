@@ -45,7 +45,7 @@
                 >
                   <q-item-section avatar>
                     <q-avatar size="65px">
-                      <img :src="candidate.photoURL" />
+                      <q-img :src="candidate.photoURL" />
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>

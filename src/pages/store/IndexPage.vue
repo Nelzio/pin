@@ -185,7 +185,6 @@ export default {
           // console.error('SpeechSynthesisUtterance.onerror');
         };
         // vibrate antes de falar
-        navigator.vibrate(200);
         window.navigator.vibrate(200);
         // speak
         sInstance.pitch = this.pitch;
@@ -203,7 +202,6 @@ export default {
         };
 
         // vibrate antes de falar
-        navigator.vibrate(200);
         window.navigator.vibrate(200);
         // speak
         sInstance.pitch = this.pitch;
@@ -212,17 +210,21 @@ export default {
       }
     },
 
-    speakCordova (userInput) {
+    speakCordova(userInput) {
       navigator.vibrate(200);
-      TTS.speak({
-        text: userInput,
-        locale: 'pt-PT',
-        rate: 1
-      }, function () {
-          alert('Text succesfully spoken');
-      }, function (reason) {
+      TTS.speak(
+        {
+          text: userInput,
+          locale: "pt-PT",
+          rate: 1
+        },
+        function() {
+          alert("Text succesfully spoken");
+        },
+        function(reason) {
           alert(reason);
-      });
+        }
+      );
     },
 
     handleSwipe(val) {
@@ -355,8 +357,11 @@ export default {
           val.store.title +
           ". \n Clique para descrição.";
       }
-      this.speak(text);
-      this.speakCordova(text);
+      if (window.hasOwnProperty("cordova")) {
+        this.speakCordova(text);
+      } else {
+        this.speak(text);
+      }
     });
 
     // Vibração
@@ -365,7 +370,7 @@ export default {
     // }
     // // Play do áudio
     // if (this.settings.isNarratorActive) {
-    //   this.playSound("/statics/audios/vagas.aac");
+    //   this.playSound("statics/audios/vagas.aac");
     // }
     // this.listStore()
 

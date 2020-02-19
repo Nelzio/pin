@@ -16,7 +16,6 @@ export default {
   },
   data() {
     return {
-      barCode: "#ffffff"
     };
   },
   computed: {
@@ -25,51 +24,68 @@ export default {
   methods: {
     ...mapActions("settings", ["setSettings", "setIsConected", "setAppMode"]),
     ...mapActions("auth", ["checkAuthUser"]),
-
-    // ============= Generic PlayAudio
-    playSound(audioPath) {
-      if (audioPath) {
-        var audio = new Audio(audioPath);
-        audio.play();
-      }
-    }
   },
   created() {
     // Verificando se o utilizador tem configurações no LocalStorage
     let settings = this.$q.localStorage.getItem("stgs");
     let appMode = this.$q.localStorage.getItem("appMode");
 
+    
+
     if (this.darkModeConf.bgColor == "bg-white") {
-      this.barCode = "#ffffff";
+      
+      if(window.hasOwnProperty("cordova")){
+        StatusBar.backgroundColorByHexString("#075e54");
+        StatusBar.styleBlackOpaque();
+      } else {
+        this.$q.addressbarColor.set("#fff");
+      }
     } else {
-      this.barCode = "#000000";
+      
+      if(window.hasOwnProperty("cordova")){
+        StatusBar.backgroundColorByHexString("#000");
+        StatusBar.styleBlackOpaque();
+      } else {
+        this.$q.addressbarColor.set("#000");
+      }
     }
-
-    if (settings) {
-      this.setSettings(settings);
-    } //guardando as configurações do user no state (vuex)
-
-    if (appMode) {
-      this.setAppMode(appMode);
-    }
-
-    this.$q.addressbarColor.set(this.barCode);
+    
 
     // this.checkAuthUser ()
   },
   mounted() {
-    // this.$root.$on("playSound", audioPath => {
-    //   this.playSound(audioPath);
-    // });
+    if (this.$route.path == "/welcome") {
+      this.$q.addressbarColor.set("#075e54");
+    }
   },
   watch: {
-    darkModeConf() {
-      if (this.darkModeConf.bgColor == "bg-white") {
-        this.barCode = "#eeeeee";
+    darkModeConf(val) {
+      if (this.$route.path == "/welcome") {
+        this.$q.addressbarColor.set("#075e54");
       } else {
-        this.barCode = "#000000";
-      }
+        if (val.bgColor == "bg-white") {
+          if(window.hasOwnProperty("cordova")){
+            StatusBar.backgroundColorByHexString("#075e54");
+            StatusBar.styleBlackOpaque();
+          } else {
+            this.$q.addressbarColor.set("#fff");
+          }
+        } else {
+          if(window.hasOwnProperty("cordova")){
+            StatusBar.backgroundColorByHexString("#000000");
+            StatusBar.styleBlackOpaque();
+          } else {
+            this.$q.addressbarColor.set("#000000");
+          }
+        }
     }
-  }
+    }
+  },
+
+  $route(to, from) {
+    if (this.$route.path == "/welcome") {
+      this.$q.addressbarColor.set("#075e54");
+    }
+  },
 };
 </script>

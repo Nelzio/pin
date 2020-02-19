@@ -25,8 +25,8 @@ const state = {
         textBtn: "text-white",
     },
     vibrateState: 1,
-    soundHome: '/statics/audios/home.wav',
-    soundError: '/statics/audios/error.wav'
+    soundHome: 'statics/audios/home.wav',
+    soundError: 'statics/audios/error.wav'
 }
 
 const mutations = {
@@ -52,12 +52,12 @@ const mutations = {
 const getters = {
 
     getFont(state) {
-        if (state.fontConfig == 2 || !state.fontConfig) {
-            return state.fonts.font2
+        if (state.fontConfig == 3) {
+            return state.fonts.font3
         } else if (state.fontConfig == 1) {
             return state.fonts.font1
         }
-        return state.fonts.font3
+        return state.fonts.font2
     },
 
     getFontMode(state) {

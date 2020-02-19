@@ -8,20 +8,20 @@
           class="row items-center text-center no-wrap"
         >
         <q-btn color="white" round>
-          <img src="/statics/app-logo-128x128.png" style="height: 50px" alt="">
+          <q-img src="statics/app-logo-128x128.png" style="height: 50px" alt="">
         </q-btn>
         Superactive</q-toolbar-title>
       </q-toolbar>
     </q-header>-->
-    <q-header height-hint="64">
+    <!-- <q-header height-hint="64">
       <q-toolbar class="GPL__toolbar" style="height: 64px">
         <q-toolbar-title class="text-center">
           <q-avatar class="bg-white">
-            <img src="/statics/app-logo-128x128.png" />
+            <q-img src="statics/app-logo-128x128.png" />
           </q-avatar>Superactive
         </q-toolbar-title>
       </q-toolbar>
-    </q-header>
+    </q-header> -->
 
     <q-page-container>
       <!-- This is where pages get injected -->

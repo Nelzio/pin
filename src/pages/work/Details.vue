@@ -126,7 +126,6 @@ export default {
         };
 
         // vibrate antes de falar
-        navigator.vibrate(200);
         window.navigator.vibrate(200);
         // speak
         sInstance.pitch = this.pitch;
@@ -144,7 +143,6 @@ export default {
         };
 
         // vibrate antes de falar
-        navigator.vibrate(200);
         window.navigator.vibrate(200);
         // speak
         sInstance.pitch = this.pitch;
@@ -153,17 +151,21 @@ export default {
       }
     },
 
-    speakCordova (userInput) {
+    speakCordova(userInput) {
       navigator.vibrate(200);
-      TTS.speak({
-        text: userInput,
-        locale: 'pt-PT',
-        rate: 1
-      }, function () {
-          alert('Text succesfully spoken');
-      }, function (reason) {
+      TTS.speak(
+        {
+          text: userInput,
+          locale: "pt-PT",
+          rate: 1
+        },
+        function() {
+          alert("Text succesfully spoken");
+        },
+        function(reason) {
           alert(reason);
-      });
+        }
+      );
     },
 
     handleHold({ evt, ...info }) {
@@ -178,8 +180,11 @@ export default {
         this.getVacancy.category +
         ". Descrição: " +
         this.getVacancy.description;
-      this.speak(text);
-      this.speakCordova(text)
+      if (window.hasOwnProperty("cordova")) {
+        this.speakCordova(text);
+      } else {
+        this.speak(text);
+      }
       // console.log(this.vacancy)
     },
 

@@ -7,7 +7,7 @@
   >
     <q-item-section avatar top>
       <q-avatar>
-        <img :src="vacancy.img" />
+        <q-img :src="vacancy.img" />
       </q-avatar>
     </q-item-section>
 

@@ -118,7 +118,6 @@ export default {
         };
 
         // vibrate antes de falar
-        navigator.vibrate(200);
         window.navigator.vibrate(200);
         // speak
         sInstance.pitch = this.pitch;
@@ -136,7 +135,6 @@ export default {
         };
 
         // vibrate antes de falar
-        navigator.vibrate(200);
         window.navigator.vibrate(200);
         // speak
         sInstance.pitch = this.pitch;
@@ -175,8 +173,11 @@ export default {
         this.converNumbPhone(this.getUser.phoneNumber) +
         ";. descrição: " +
         this.getStore.description;
-      this.speak(text);
-      this.speakCordova(text);
+      if (window.hasOwnProperty("cordova")) {
+        this.speakCordova(text);
+      } else {
+        this.speak(text);
+      }
       // console.log(this.vacancy)
     },
 
@@ -214,8 +215,11 @@ export default {
         window.navigator.vibrate(200);
         if (!this.user) {
           var text = "Usuário não autenticado.";
-          this.speak(text);
-          this.speakCordova(text);
+          if (window.hasOwnProperty("cordova")) {
+            this.speakCordova(text);
+          } else {
+            this.speak(text);
+          }
           return;
         }
 

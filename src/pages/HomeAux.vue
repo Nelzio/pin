@@ -137,7 +137,7 @@ export default {
 
 <style lang="sass">
   // .presentation
-  //   background: url("../statics/img/background/background.svg") center bottom no-repeat
+  //   background: url("..statics/img/background/background.svg") center bottom no-repeat
   //   background-size: 100vh 100vw
     
 </style>

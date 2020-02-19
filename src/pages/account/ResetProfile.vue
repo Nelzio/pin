@@ -1,5 +1,5 @@
 <template>
-  <q-page v-touch-swipe.mouse.right.left.down="accountSwipe">
+  <q-page v-touch-swipe.mouse.right.left="accountSwipe">
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">

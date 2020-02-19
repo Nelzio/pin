@@ -15,6 +15,7 @@
   "dependencies": {
     "cordova-android": "^8.1.0",
     "cordova-plugin-splashscreen": "^5.0.3",
+    "cordova-plugin-statusbar": "^2.4.3",
     "cordova-plugin-texttospeech": "^0.1.1",
     "cordova-plugin-vibration": "^3.1.1"
   },
@@ -26,7 +27,8 @@
       "cordova-plugin-whitelist": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-texttospeech": {},
-      "cordova-plugin-vibration": {}
+      "cordova-plugin-vibration": {},
+      "cordova-plugin-statusbar": {}
     },
     "platforms": [
       "android"

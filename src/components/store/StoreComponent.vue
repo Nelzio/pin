@@ -16,7 +16,7 @@
         </q-item-section>
       </q-item>
 
-      <img
+      <q-img
         v-ripple
         v-if="store.img && imgLoaded"
         :src="store.img"

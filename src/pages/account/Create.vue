@@ -1,5 +1,5 @@
 <template>
-  <q-page padding v-touch-swipe.mouse.right.left.up="accountSwipe">
+  <q-page padding v-touch-swipe.mouse.right.left="accountSwipe">
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <!-- <div class="col-12">
@@ -14,7 +14,7 @@
           </q-btn>
           <q-btn v-else round @click="proccessFile()">
             <q-avatar size="120px">
-              <img :src="imageUrl" />
+              <q-img :src="imageUrl" />
             </q-avatar>
             <q-badge floating :color="darkModeConf.color">
               <q-icon name="insert_photo" />

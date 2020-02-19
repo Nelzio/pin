@@ -159,7 +159,7 @@ export default {
     }
     // Play do áudio
     // if (this.settings.isNarratorActive) {
-    //   this.playSound("/statics/audios/configs.aac");
+    //   this.playSound("statics/audios/configs.aac");
     // }
 
     this.$root.$emit("textToSpeechRouter", "Pagina de configurações.");

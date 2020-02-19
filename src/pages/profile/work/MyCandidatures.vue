@@ -11,7 +11,7 @@
               @click="$router.push('/vacancies/details/' + candidate.id)"
               v-ripple
             >
-              <img :src="candidate.img" />
+              <q-img :src="candidate.img" />
               <q-card-section>
                 <div :class="getFont.title">{{ candidate.title }}</div>
               </q-card-section>

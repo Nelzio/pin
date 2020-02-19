@@ -184,7 +184,6 @@ export default {
           // console.error('SpeechSynthesisUtterance.onerror');
         };
         // vibrate antes de falar
-        navigator.vibrate(200);
         window.navigator.vibrate(200);
         // speak
         sInstance.pitch = this.pitch;
@@ -202,7 +201,6 @@ export default {
         };
 
         // vibrate antes de falar
-        navigator.vibrate(200);
         window.navigator.vibrate(200);
         // speak
         sInstance.pitch = this.pitch;

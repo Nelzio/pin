@@ -50,12 +50,12 @@
 
         <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap">
           <q-btn flat round to="/">
-            <img src="/statics/app-logo-128x128.png" style="height: 50px" alt />
+            <q-img src="statics/img/home/appLogo.png" style="height: 50px" alt />
           </q-btn>Superactive
         </q-toolbar-title>
         <q-toolbar-title shrink class="row items-center no-wrap" v-else>
           <q-btn flat round to="/">
-            <img src="/statics/app-logo-128x128.png" style="height: 50px" alt />
+            <q-img src="statics/img/home/appLogo.png" style="height: 50px" alt />
           </q-btn>Superactive
         </q-toolbar-title>
 
@@ -88,8 +88,8 @@
           </q-btn>
           <q-btn round flat>
             <q-avatar>
-              <img v-if="isUserAuth" :src="user.photoURL" />
-              <img v-else src="https://cdn.quasar.dev/img/boy-avatar.png" />
+              <q-img v-if="isUserAuth" :src="user.photoURL" />
+              <q-img v-else src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
             <q-tooltip>Account</q-tooltip>
             <q-menu transition-show="jump-down" transition-hide="jump-up">
@@ -486,15 +486,17 @@ export default {
     },
 
     speakCordova (userInput) {
-      TTS.speak({
-        text: userInput,
-        locale: 'pt-PT',
-        rate: 1
-      }, function () {
-          alert('Text succesfully spoken');
-      }, function (reason) {
-          alert(reason);
-      });
+      if (this.vibrateState === 1) {
+        TTS.speak({
+          text: userInput,
+          locale: 'pt-PT',
+          rate: 1
+        }, function () {
+          // console.log('Text succesfully spoken');
+        }, function (reason) {
+          console.log(reason);
+        });
+      }
     },
 
     getChat() {
@@ -529,10 +531,11 @@ export default {
 
     accessibilityMode() {
       this.$root.$on("textToSpeechRouter", val => {
-        console.log(this.vibrateState);
-        console.log(val);
-        this.speak(val);
-        this.speakCordova(val);
+        if(window.hasOwnProperty("cordova")){
+          this.speakCordova(val);
+        } else {
+          this.speak(val);
+        }
       });
     }
   },
@@ -575,8 +578,11 @@ export default {
       this.backIconFunc(to);
 
       if (this.vibrateState) {
-        navigator.vibrate(200);
-        window.navigator.vibrate(200);
+        if(window.hasOwnProperty("cordova")){
+          navigator.vibrate(200);
+        } else {
+          window.navigator.vibrate(200);
+        }
       }
     },
     appMode(val) {

@@ -13,7 +13,7 @@
           >
             <q-item-section avatar>
               <q-avatar size="60px">
-                <img :src="chat.imgUserUrl" alt />
+                <q-img :src="chat.imgUserUrl" alt />
               </q-avatar>
             </q-item-section>
             <q-item-section v-if="user.displayName == chat.displayName">

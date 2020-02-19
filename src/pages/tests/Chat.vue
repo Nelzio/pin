@@ -33,7 +33,7 @@
     <q-page-sticky expand position="top">
       <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" class="shadow-3">
         <q-avatar>
-          <img :src="getUser.photoURL">
+          <q-img :src="getUser.photoURL">
         </q-avatar>
         <q-toolbar-title>
           {{ getUser.displayName }}

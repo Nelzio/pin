@@ -100,7 +100,7 @@
     <q-page-sticky expand position="top" v-if="!$q.screen.gt.sm">
       <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" class="shadow-3">
         <q-avatar>
-          <img :src="getUser.photoURL" />
+          <q-img :src="getUser.photoURL" />
         </q-avatar>
         <q-toolbar-title :class="getFont.title">{{ getUser.displayName }}</q-toolbar-title>
       </q-toolbar>

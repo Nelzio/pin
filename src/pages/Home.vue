@@ -1,89 +1,5 @@
 <template>
-  <q-page class="presentation bg-primary" padding v-touch-swipe.mouse.left.right="handleSwipe">
-    <!-- <div v-if="!$q.screen.gt.sm" class="q-gutter-y-lg">
-      <q-card flat class="my-card">
-        <q-card-section horizontal>
-          <q-card-section class="text-body1">Procure e encontre emprego</q-card-section>
-          <q-img class="col-5" src="statics/img/home/djob.png" />
-        </q-card-section>
-      </q-card>
-      <q-card flat class="my-card">
-        <q-card-section horizontal>
-          <q-img class="col-5" src="statics/img/home/business.png" />
-          <q-card-section class="text-body1">Exponha os seus produtos e serviços</q-card-section>
-        </q-card-section>
-      </q-card>
-      <q-card flat class="my-card">
-        <q-card-section horizontal>
-          <q-card-section class="text-body1">Encontre oportunidades de negocio</q-card-section>
-          <q-img class="col-5" src="statics/img/home/deal.png" />
-        </q-card-section>
-      </q-card>
-      <q-card flat class="my-card">
-        <q-card-section horizontal>
-          <q-img class="col-5" src="statics/img/home/inclusive.png" />
-          <q-card-section class="text-body1">Aplicativo inclusivo</q-card-section>
-        </q-card-section>
-      </q-card>
-    </div>
-
-    <div v-else class="q-gutter-y-lg q-pa-lg">
-      <q-card flat class="my-card">
-        <q-card-section horizontal>
-          <q-card-section class="q-pt-xs">
-            <div class="text-h5 q-mt-sm q-mb-xs">Vagas de emprego</div>
-            <div
-              class="text-body1"
-            >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-          </q-card-section>
-
-          <q-card-section class="col-5 flex flex-center">
-            <q-img class="rounded-borders" src="statics/img/home/djob.png" />
-          </q-card-section>
-        </q-card-section>
-      </q-card>
-      <q-card flat class="my-card">
-        <q-card-section horizontal>
-          <q-card-section class="col-5 flex flex-center">
-            <q-img class="rounded-borders" src="statics/img/home/business.png" />
-          </q-card-section>
-          <q-card-section class="q-pt-xs">
-            <div class="text-h5 q-mt-sm q-mb-xs">Exposição de produtos</div>
-            <div
-              class="text-body1"
-            >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-          </q-card-section>
-        </q-card-section>
-      </q-card>
-      <q-card flat class="my-card">
-        <q-card-section horizontal>
-          <q-card-section class="q-pt-xs">
-            <div class="text-h5 q-mt-sm q-mb-xs">Negocio</div>
-            <div
-              class="text-body1"
-            >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-          </q-card-section>
-
-          <q-card-section class="col-5 flex flex-center">
-            <q-img class="rounded-borders" src="statics/img/home/deal.png" />
-          </q-card-section>
-        </q-card-section>
-      </q-card>
-      <q-card flat class="my-card">
-        <q-card-section horizontal>
-          <q-card-section class="col-5 flex flex-center">
-            <q-img class="rounded-borders" src="statics/img/home/inclusive.png" />
-          </q-card-section>
-          <q-card-section class="q-pt-xs">
-            <div class="text-h5 q-mt-sm q-mb-xs">Inclusão</div>
-            <div
-              class="text-body1"
-            >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-          </q-card-section>
-        </q-card-section>
-      </q-card>
-    </div>-->
-
+  <q-page class="presentation bg-primary" padding v-touch-swipe.mouse.left.right.down="handleSwipe">
     <q-carousel
       v-model="slide"
       transition-prev="slide-right"
@@ -96,11 +12,11 @@
     >
       <q-carousel-slide name="primeiro" class="column no-wrap flex-center">
         <q-btn round color="white" size="39px">
-          <q-icon color="primary" name="accessibility_new" size="96px" />
+          <q-icon color="primary" name="img:statics/app-logo-128x128.png" size="96px" />
         </q-btn>
         <div class="q-mt-md text-center text-white">
-          <div class="text-h4">Bem vindo</div>
-          <div class="text-body1">Bem vindo ao aplicativo mais inclusivo de Moçambique</div>
+          <div class="text-h4">Superactive</div>
+          <div class="text-body1">Bem vindo ao aplicativo mais inclusivo de Moçambique.</div>
         </div>
       </q-carousel-slide>
       <q-carousel-slide name="segundo" class="column no-wrap flex-center">
@@ -118,7 +34,7 @@
         </q-btn>
         <div class="q-mt-md text-center text-white">
           <div class="text-h4">Negócio</div>
-          <div class="text-body1">Encontre e disponibilize produtos e serviços</div>
+          <div class="text-body1">Encontre e disponibilize produtos e serviços.</div>
         </div>
       </q-carousel-slide>
     </q-carousel>
@@ -137,13 +53,24 @@
       <q-btn rounded color="white" text-color="primary" label="A seguir" @click="next()" />
     </div>
 
-    <q-btn ref="speack" flat @click="shotSpeak()" />
+    <audio ref="testAudio" :src="audioPath" autoplay />
+
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn
+        round
+        color="white"
+        text-color="primary"
+        class="shadow-5"
+        :icon="vibrateMode ? 'volume_off' : 'volume_up'"
+        @click="vibrateMode = !vibrateMode"
+      />
+    </q-page-sticky>
   </q-page>
 </template>
 
 <script>
 import { LocalStorage } from "quasar";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "Home",
   data() {
@@ -153,6 +80,8 @@ export default {
         { label: 2, value: "segundo" },
         { label: 3, value: "terceiro" }
       ],
+      audioPath: "statics/audios/tts.mp3",
+      vibrateMode: true,
       slide: "primeiro",
       pitch: 0.8,
       rate: 1,
@@ -168,6 +97,8 @@ export default {
   },
 
   methods: {
+    ...mapActions("settings", ["setVibrate", "setAppMode"]),
+
     next() {
       if (this.slide == "primeiro") {
         this.slide = "segundo";
@@ -179,28 +110,56 @@ export default {
       }
     },
 
+    vibrateApp() {
+      if (this.vibrateMode) {
+        this.setVibrate(1);
+      } else {
+        this.$refs.testAudio.pause();
+        this.setVibrate(0);
+      }
+    },
 
     handleSwipe(val) {
       if (val.direction === "left" && this.slide == "terceiro") {
         LocalStorage.set("notFirst", true);
         this.$router.push("/");
       }
+
+      if (val.direction === "down" && this.vibrateMode) {
+        this.$refs.testAudio.play();
+      }
     },
+
+    accessibilityMode() {
+      var textToSpeechRouter =
+        "Bem vindo a plataforma Superactive.\n Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Deslize o dedo para a esquerda 3 vezes para ir a página inicial.\n Para desativar o modo de naração e vibração, vai até a pagina de preferencias e desabilie o modo de naração e vibração";
+      if (window.hasOwnProperty("cordova")) {
+        this.speakCordova(textToSpeechRouter);
+      } else {
+        this.speak(textToSpeechRouter);
+      }
+    }
   },
   mounted() {
-    var textToSpeechRouter = "Bem vindo a plataforma Superactive.\n Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Deslize o dedo para a esquerda 3 vezes para ir a página inicial.\n Para desativar o modo de naração e vibração, vai até a pagina de preferencias e desabilie o modo de naração e vibração"
-    this.$root.$emit(
-      "textToSpeechRouter",
-      textToSpeechRouter
-    );
-    
+    if (this.vibrateState == 1) {
+      this.vibrateMode = true;
+      this.$refs.testAudio.play();
+    } else {
+      this.vibrateMode = false;
+    }
+  },
+
+  watch: {
+    vibrateMode() {
+      this.vibrateApp();
+    }
   }
 };
 </script>
 
 <style lang="sass">
   // .presentation
-  //   background: url("../statics/img/background/background.svg") center bottom no-repeat
+  //   background: url("..statics/img/background/background.svg") center bottom no-repeat
   //   background-size: 100vh 100vw
     
 </style>
