@@ -3,7 +3,7 @@
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
-        <q-icon size="100px" name="person_add" />
+        <q-icon :color="darkModeConf.iconVar" size="100px" name="person_add" />
       </div>
       <!-- <div class="col-12">
           Entrar ou se Inscrever
@@ -24,7 +24,7 @@
             :rules="[ val => val && val.length > 0 || 'Por favor, insira uma senha válida']"
           >
             <template v-slot:append>
-              <q-icon
+              <q-icon :color="darkModeConf.iconVar"
                 :name="isPwd ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
                 @click="isPwd = !isPwd"
@@ -46,7 +46,7 @@
             :rules="[ val => val && val.length > 0 && val == authObject.password || 'Senha diferente']"
           >
             <template v-slot:append>
-              <q-icon
+              <q-icon :color="darkModeConf.iconVar"
                 :name="isPwd ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
                 @click="isPwd = !isPwd"

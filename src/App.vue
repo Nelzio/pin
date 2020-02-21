@@ -2,7 +2,6 @@
   <div id="q-app">
     <router-view />
     <!-- @detected-condition fires when the connectivity status of the device changes -->
-    <offline @detected-condition="setIsConected"></offline>
   </div>
 </template>
 

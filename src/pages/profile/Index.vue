@@ -27,8 +27,8 @@
             <q-tabs
               v-model="tab"
               dense
-              :active-color="darkModeConf.color"
-              :indicator-color="darkModeConf.color"
+              :active-color="darkModeConf.iconVar"
+              :indicator-color="darkModeConf.iconVar"
               class="text-grey"
               align="justify"
               narrow-indicator
@@ -44,7 +44,7 @@
                 <q-list>
                   <q-item class="text-left">
                     <q-item-section top avatar>
-                      <q-icon name="phone" />
+                      <q-icon :color="darkModeConf.iconVar" name="phone" />
                     </q-item-section>
 
                     <q-item-section>
@@ -57,7 +57,7 @@
 
                   <q-item class="text-left">
                     <q-item-section top avatar>
-                      <q-icon name="email" />
+                      <q-icon :color="darkModeConf.iconVar" name="email" />
                     </q-item-section>
 
                     <q-item-section>
@@ -70,7 +70,7 @@
 
                   <q-item class="text-left">
                     <q-item-section avatar top>
-                      <q-icon name="place" />
+                      <q-icon :color="darkModeConf.iconVar" name="place" />
                     </q-item-section>
                     <q-item-section>
                       <q-item-label :class="getFont.title">Endereço</q-item-label>
@@ -84,7 +84,7 @@
                 <q-list>
                   <q-item class="text-left">
                     <q-item-section top avatar>
-                      <q-icon name="calendar_today" />
+                      <q-icon :color="darkModeConf.iconVar" name="calendar_today" />
                     </q-item-section>
 
                     <q-item-section>
@@ -95,7 +95,7 @@
 
                   <q-item class="text-left">
                     <q-item-section top avatar>
-                      <q-icon name="work" />
+                      <q-icon :color="darkModeConf.iconVar" name="work" />
                     </q-item-section>
 
                     <q-item-section>
@@ -108,7 +108,7 @@
 
                   <q-item class="text-left">
                     <q-item-section avatar top>
-                      <q-icon name="school" />
+                      <q-icon :color="darkModeConf.iconVar" name="school" />
                     </q-item-section>
                     <q-item-section>
                       <q-item-label :class="getFont.title">Formação</q-item-label>
@@ -127,7 +127,7 @@
           <q-btn
             rounded
             class="full-width"
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             :class="darkModeConf.textBtn"
             label="Editar perfil"
             icon="edit"
@@ -185,7 +185,7 @@
                 <q-item :class="darkModeConf.textColor" clickable to="/profile/vacancies" v-ripple>
                   <q-item-section avatar>
                     <q-avatar size="65px">
-                      <q-icon name="work" />
+                      <q-icon :color="darkModeConf.iconVar" name="work" />
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
@@ -199,7 +199,7 @@
                 <q-item :class="darkModeConf.textColor" clickable to="/profile/store" v-ripple>
                   <q-item-section avatar>
                     <q-avatar size="65px">
-                      <q-icon name="store" />
+                      <q-icon :color="darkModeConf.iconVar" name="store" />
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>

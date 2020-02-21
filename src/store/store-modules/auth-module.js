@@ -4,24 +4,24 @@ import { showErrorMessage } from "../../functions/handle-error-messages"
 import offline from 'v-offline'
 
 const state = {
-    isUserAuth: LocalStorage.getItem('isUserAuth'),
-    authUser: LocalStorage.getItem('authUser'),
-    userData: LocalStorage.getItem('userData'),
+    isUserAuth: LocalStorage.getItem('isUserAuth') ? LocalStorage.getItem('isUserAuth') : false,
+    authUser: LocalStorage.getItem('authUser') ? LocalStorage.getItem('authUser') : null,
+    userData: LocalStorage.getItem('userData') ? LocalStorage.getItem('userData') : null,
 }
 
 const mutations = {
 
     SET_AUTH_USER(state, val) {
-        state.isUserAuth = val
         LocalStorage.set('isUserAuth', val)
+        state.isUserAuth = LocalStorage.getItem('isUserAuth')
     },
     AUTH_USER(state, val) {
-        state.authUser = val // isto é desnecessario, but...
-        LocalStorage.set('authUser', state.authUser)
+        LocalStorage.set('authUser', val)
+        state.authUser = LocalStorage.getItem('authUser')
     },
     SET_USER_DATA(state, val) {
-        state.userData = val // isto é desnecessario, but...
-        LocalStorage.set('userData', state.userData)
+        LocalStorage.set('userData', val)
+        state.userData = LocalStorage.getItem('userData')
     }
 }
 
@@ -229,12 +229,24 @@ const actions = {
             commit('AUTH_USER', userData)
             commit('SET_AUTH_USER', true)
             Notify.create('Sessão iniciada com sucesso!')
-            // this.$router.go(-1)
+            // this.$router.push("/")
             // Loading.hide()
 
             ref.get().then((doc) => {
                 if (doc.exists) {
-                    this.$router.go(-1)
+                    data = {
+                        id: doc.id,
+                        displayName: doc.data().displayName,
+                        email: doc.data().email,
+                        photoURL: doc.data().photoURL,
+                        phoneNumber: doc.data().phoneNumber,
+                        adress: doc.data().adress,
+                        profission: doc.data().profission,
+                        education: doc.data().education,
+                        date: doc.data().date
+                    }
+                    commit('SET_USER_DATA', data)
+                    this.$router.push("/")
                     Loading.hide()
                 } else {
                     // If user desen't exist
@@ -251,7 +263,7 @@ const actions = {
 
                     ref.set(dataUser).then((docRef) => {
                         console.log("Updated")
-                        this.$router.go(-1)
+                        this.$router.push("/")
                         Loading.hide()
                     })
                         .catch((error) => {
@@ -301,7 +313,7 @@ const actions = {
             commit('AUTH_USER', userData)
             commit('SET_AUTH_USER', true)
             Notify.create('Sessão iniciada com sucesso!')
-            // this.$router.go(-1)
+            // this.$router.push("/")
             // Loading.hide()
 
             ref.get().then((doc) => {
@@ -318,7 +330,7 @@ const actions = {
                         date: doc.data().date
                     }
                     commit('SET_USER_DATA', data)
-                    this.$router.go(-1)
+                    this.$router.push("/")
                     Loading.hide()
                 } else {
                     // If user desen't exist
@@ -335,7 +347,7 @@ const actions = {
 
                     ref.set(dataUser).then((docRef) => {
                         console.log("Updated")
-                        this.$router.go(-1)
+                        this.$router.push("/")
                         Loading.hide()
                     })
                         .catch((error) => {
@@ -372,7 +384,7 @@ const actions = {
         })
             .catch((error) => {
                 Loading.hide()
-                alert("Error adding document: ", error)
+                showErrorMessage("Error adding document: ", error)
             })
     },
 
@@ -415,13 +427,34 @@ const actions = {
     loginUser({ commit }, payload) {
         Loading.show()
         firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
-            .then(user => {
-                console.log(user.user)
-                commit('SET_AUTH_USER', true)
-                commit('AUTH_USER', user.user)
-                Notify.create('Sessão iniciada com sucesso!')
-                this.$router.push('/profile')
-                Loading.hide()
+            .then((user) => {
+                commit('AUTH_USER', user.user);
+                commit('SET_AUTH_USER', true);
+                
+                const ref = firestoreDb.collection('users').doc(user.user.email)
+                ref.get().then((doc) => {
+                    if (doc.exists) {
+                        var data = {
+                            id: doc.id,
+                            displayName: doc.data().displayName,
+                            email: doc.data().email,
+                            photoURL: doc.data().photoURL,
+                            phoneNumber: doc.data().phoneNumber,
+                            adress: doc.data().adress,
+                            profission: doc.data().profission,
+                            education: doc.data().education,
+                            date: doc.data().date
+                        }
+                        commit('SET_USER_DATA', data);
+                        Loading.hide()
+                        Notify.create('Sessão iniciada com sucesso!')
+                        this.$router.push("/")
+                    } else {
+                        Loading.hide()
+                        Notify.create('Sessão iniciada com sucesso!')
+                        this.$router.push('/')
+                    }
+                })
             })
             .catch(error => {
                 showErrorMessage(error.message)

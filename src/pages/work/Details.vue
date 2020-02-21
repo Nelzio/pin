@@ -17,13 +17,13 @@
             </q-card-section>
             <q-card-section class="row q-pt-none">
               <div class="col text-center">
-                <q-icon name="place" size="lg" />
+                <q-icon :color="darkModeConf.iconVar" name="place" size="lg" />
               </div>
               <div class="col-10" :class="getFont.text">{{ getVacancy.place }}</div>
             </q-card-section>
             <q-card-section class="row q-pt-none">
               <div class="col text-center">
-                <q-icon name="filter_list" size="lg" />
+                <q-icon :color="darkModeConf.iconVar" name="filter_list" size="lg" />
               </div>
               <div class="col-10" :class="getFont.text">{{ getVacancy.category }}</div>
             </q-card-section>
@@ -238,17 +238,17 @@ export default {
     },
 
     aply() {
-      const data = {
-        photoURL: this.user.photoURL,
-        displayName: this.user.displayName,
-        phoneNumber: this.userData.phoneNumber,
-        email: this.user.email,
-        adress: this.userData.adress,
-        profission: this.userData.profission,
-        education: this.userData.education,
-        date: this.userData.date
-      };
-      this.aplyVacancyMethod({ id: this.$route.params.id, data: data });
+      // const data = {
+      //   photoURL: this.user.photoURL,
+      //   displayName: this.user.displayName,
+      //   phoneNumber: this.userData.phoneNumber,
+      //   email: this.user.email,
+      //   adress: this.userData.adress,
+      //   profission: this.userData.profission,
+      //   education: this.userData.education,
+      //   date: this.userData.date
+      // };
+      this.aplyVacancyMethod({ id: this.$route.params.id, data: this.userData });
     },
 
     aplyVacancyMethod(payload) {

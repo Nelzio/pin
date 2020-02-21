@@ -3,14 +3,14 @@
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
-        <q-icon size="100px" name="account_circle" />
+        <q-icon :color="darkModeConf.iconVar" size="100px" name="account_circle" />
       </div>
       <div class="q-pa-lg col-md-4 col-12">
-        <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+        <q-form ref="loginForm" @reset="onReset" class="q-gutter-md">
           <q-input
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             ref="email"
             v-model="authObject.email"
             label="Email do usuario"
@@ -22,8 +22,7 @@
           <q-input
             rounded
             outlined
-            @keyup.enter="login_account"
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             ref="password"
             label="Senha"
             placeholder="Senha"
@@ -33,7 +32,7 @@
             :rules="[ val => val && val.length > 0 || 'Introduza a sua senha']"
           >
             <template v-slot:append>
-              <q-icon
+              <q-icon :color="darkModeConf.iconVar"
                 :name="isPwd ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
                 @click="isPwd = !isPwd"
@@ -44,20 +43,22 @@
             <q-btn
               rounded
               label="Entrar"
+              @click="onSubmit()"
               type="submit"
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               class="full-width"
               :class="darkModeConf.textBtn"
             />
           </div>
 
           <div>
-            <q-btn color="grey" rounded outline label="Recuperar senha" to="/account/resetpwd" />
+            <q-btn rounded outline label="Recuperar senha" to="/account/resetpwd" />
           </div>
           <div>
             <q-btn
               class="full-width animated infinite bounce"
               rounded
+              :color="darkModeConf.iconVar"
               outline
               label="Criar conta"
               icon-right="arrow_forward"
@@ -111,6 +112,7 @@ export default {
     onReset() {
       alert("must reset form.");
     },
+
     onSubmit() {
       this.$refs.email.validate();
       this.$refs.password.validate();
@@ -119,6 +121,7 @@ export default {
         this.loginUser(this.authObject);
       }
     },
+
     accountSwipe(val) {
       // if (val.direction === "left") {
       //   this.$router.push("/account/create")

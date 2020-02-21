@@ -7,7 +7,7 @@
         @click="$router.push('/vacancies')"
       >
         <div>
-          <q-icon size="100px" name="work" />
+          <q-icon :color="darkModeConf.iconVar" size="100px" name="work" />
         </div>
         <div class="text-h6">Vagas</div>
       </div>
@@ -17,7 +17,7 @@
         @click="$router.push('/store')"
       >
         <div>
-          <q-icon size="100px" name="store" />
+          <q-icon :color="darkModeConf.iconVar" size="100px" name="store" />
         </div>
         <div class="text-h6">Negócio</div>
       </div>
@@ -26,16 +26,16 @@
       <div
         class="text-center"
         style="height: 100%; width: 50vw; border-right: 2px solid rgba(0,0,0,.1); padding-top: 15%;"
-        @click="$router.push('/profile')"
+        @click="routeToProfile()"
       >
         <div>
-          <q-icon size="100px" name="account_circle" />
+          <q-icon :color="darkModeConf.iconVar" size="100px" name="account_circle" />
         </div>
         <div class="text-h6">Perfil</div>
       </div>
       <div class="text-center" style="height: 100%; width: 50vw; padding-top: 15%;">
         <div>
-          <q-icon size="100px" name="settings" @click="$router.push('/settings')" />
+          <q-icon :color="darkModeConf.iconVar" size="100px" name="settings" @click="$router.push('/settings')" />
         </div>
         <div class="text-h6">Definições</div>
       </div>
@@ -44,14 +44,24 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
+import offline from 'v-offline';
 export default {
   name: "HomeContent",
   computed: {
-    ...mapState("auth", ["isUserAuth"])
+    ...mapGetters("auth", ["isUserAuth"]),
+    ...mapState("settings", ["darkModeConf"]),
   },
   methods: {
-    ...mapActions("auth", ["checkAuthUser"])
+    ...mapActions("auth", ["checkAuthUser"]),
+
+    routeToProfile () {
+      if (!this.isUserAuth) {
+        this.$router.push("/account")
+      } else {
+        this.$router.push("/profile")
+      }
+    }
   }
 };
 </script>

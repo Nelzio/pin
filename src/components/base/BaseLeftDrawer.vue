@@ -9,7 +9,7 @@
             <q-item-label header>Essential Links</q-item-label>
             <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
                 <q-item-section avatar>
-                    <q-icon name="school" />
+                    <q-icon :color="darkModeConf.iconVar" name="school" />
                 </q-item-section>
                 <q-item-section>
                     <q-item-label>Docs</q-item-label>
@@ -18,7 +18,7 @@
             </q-item>
             <q-item clickable tag="a" target="_blank" href="https://github.quasar.dev">
                 <q-item-section avatar>
-                    <q-icon name="code" />
+                    <q-icon :color="darkModeConf.iconVar" name="code" />
                 </q-item-section>
                 <q-item-section>
                     <q-item-label>Github</q-item-label>
@@ -27,7 +27,7 @@
             </q-item>
             <q-item clickable tag="a" target="_blank" href="https://chat.quasar.dev">
                 <q-item-section avatar>
-                    <q-icon name="chat" />
+                    <q-icon :color="darkModeConf.iconVar" name="chat" />
                 </q-item-section>
                 <q-item-section>
                     <q-item-label>Discord Chat Channel</q-item-label>
@@ -36,7 +36,7 @@
             </q-item>
             <q-item clickable tag="a" target="_blank" href="https://forum.quasar.dev">
                 <q-item-section avatar>
-                    <q-icon name="record_voice_over" />
+                    <q-icon :color="darkModeConf.iconVar" name="record_voice_over" />
                 </q-item-section>
                 <q-item-section>
                     <q-item-label>Forum</q-item-label>
@@ -45,7 +45,7 @@
             </q-item>
             <q-item clickable tag="a" target="_blank" href="https://twitter.quasar.dev">
                 <q-item-section avatar>
-                    <q-icon name="rss_feed" />
+                    <q-icon :color="darkModeConf.iconVar" name="rss_feed" />
                 </q-item-section>
                 <q-item-section>
                     <q-item-label>Twitter</q-item-label>
@@ -54,7 +54,7 @@
             </q-item>
             <q-item clickable tag="a" target="_blank" href="https://facebook.quasar.dev">
                 <q-item-section avatar>
-                    <q-icon name="public" />
+                    <q-icon :color="darkModeConf.iconVar" name="public" />
                 </q-item-section>
                 <q-item-section>
                     <q-item-label>Facebook</q-item-label>

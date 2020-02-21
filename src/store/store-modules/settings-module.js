@@ -16,17 +16,17 @@ const state = {
             text: "text-h5",
         }
     },
-    fontConfig: LocalStorage.getItem("fontSize"),
+    fontConfig: LocalStorage.getItem("fontSize") ? LocalStorage.getItem("fontSize") : 2,
     appMode: 1,
     darkModeConf: {
         bgColor: "bg-white",
         textColor: "text-black",
         color: "black",
         textBtn: "text-white",
+        icon: "primary",
+        iconVar: "primary",
     },
     vibrateState: 1,
-    soundHome: 'statics/audios/home.wav',
-    soundError: 'statics/audios/error.wav'
 }
 
 const mutations = {
@@ -72,15 +72,6 @@ const getters = {
 
 const actions = {
 
-    setIsConected({ state, commit, dispatch }, val) {
-        commit('setIsConected', val)
-        if (val) {
-            dispatch('playSound', state.soundHome)
-        } else {
-            dispatch('playSound', state.soundError)
-        }
-    },
-
     setFont({ commit }, val) {
         commit('SET_FONT_SIZE', val)
     },
@@ -93,6 +84,8 @@ const actions = {
                 textColor: "text-black",
                 color: "black",
                 textBtn: "text-white",
+                icon: "primary",
+                iconVar: "primary",
             }
             commit('appModeSave', payload)
         } else {
@@ -101,6 +94,8 @@ const actions = {
                 textColor: "text-white",
                 color: "white",
                 textBtn: "text-black",
+                icon: "primary",
+                iconVar: "white",
             }
             commit('appModeSave', payload)
         }

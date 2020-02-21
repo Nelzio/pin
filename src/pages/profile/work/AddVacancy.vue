@@ -62,7 +62,7 @@
             :rules="[ val => val && val.length > 0 || 'Introduza a data de validade']"
           >
             <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
+              <q-icon :color="darkModeConf.iconVar" name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
                   <q-date
                     :color="darkModeConf.color"

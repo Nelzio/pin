@@ -54,8 +54,8 @@
               v-model="message.message"
               placeholder="Escreva a sua mensagem"
             />
-            <q-btn v-if="message.message" round flat icon="send" @click="sendMessage()" />
-            <q-btn v-else-if="!recording" round flat icon="mic" @click="recordAudio()" />
+            <q-btn :color="darkModeConf.iconVar" v-if="message.message" round flat icon="send" @click="sendMessage()" />
+            <q-btn :color="darkModeConf.iconVar" v-else-if="!recording" round flat icon="mic" @click="recordAudio()" />
             <q-btn v-else round flat icon="stop" color="red" @click="stopRecord()" />
           </div>
         </q-form>
@@ -89,8 +89,8 @@
               v-model="message.message"
               placeholder="Escreva a sua mensagem"
             />
-            <q-btn v-if="message.message" round flat icon="send" @click="sendMessage()" />
-            <q-btn v-else-if="!recording" round flat icon="mic" @click="recordAudio()" />
+            <q-btn :color="darkModeConf.iconVar" v-if="message.message" round flat icon="send" @click="sendMessage()" />
+            <q-btn :color="darkModeConf.iconVar" v-else-if="!recording" round flat icon="mic" @click="recordAudio()" />
             <q-btn v-else round flat icon="stop" color="red" @click="stopRecord()" />
           </div>
         </q-form>
@@ -406,12 +406,19 @@ export default {
   },
   mounted() {
     window.scroll(0, window.innerHeight + 200);
-    this.$root.$emit(
-      "textToSpeechRouter",
-      "Pagina de conversa com" +
-        this.getUser.displayName +
-        ".\n Pressione a tela até vibrar para poder falar.\n Para parar a gravação pressione a tela novamente"
-    );
+    
+  }, 
+  watch: {
+    getUser () {
+      if(this.getUser.displayName) {
+        this.$root.$emit(
+          "textToSpeechRouter",
+          "Pagina de conversa com" +
+            this.getUser.displayName +
+            ".\n Pressione a tela até vibrar para poder falar.\n Para parar a gravação pressione a tela novamente"
+        );
+      }
+    }
   }
 };
 </script>

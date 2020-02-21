@@ -22,7 +22,7 @@
           <q-item-section avatar>
             <q-avatar>
               <!-- <q-img :src="`https://cdn.quasar.dev/img/${contact.avatar}`"> -->
-              <q-icon name="style" />
+              <q-icon :color="darkModeConf.iconVar" name="style" />
             </q-avatar>
           </q-item-section>
 
@@ -36,7 +36,7 @@
           <q-item-section avatar>
             <q-avatar>
               <!-- <q-img :src="`https://cdn.quasar.dev/img/${contact.avatar}`"> -->
-              <q-icon name="style" />
+              <q-icon :color="darkModeConf.iconVar" name="style" />
             </q-avatar>
           </q-item-section>
 
@@ -50,7 +50,7 @@
           <q-item-section avatar>
             <q-avatar>
               <!-- <q-img :src="`https://cdn.quasar.dev/img/${contact.avatar}`"> -->
-              <q-icon name="style" />
+              <q-icon :color="darkModeConf.iconVar" name="style" />
             </q-avatar>
           </q-item-section>
 

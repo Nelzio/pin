@@ -3,7 +3,7 @@
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
-        <q-icon size="100px" name="edit" />
+        <q-icon :color="darkModeConf.iconVar" size="100px" name="edit" />
       </div>
       <!-- <div class="col-12">
           Entrar ou se Inscrever
@@ -47,7 +47,7 @@
             :rules="[ val => val && val.length > 0 || 'Introduza a sua data de nascimento']"
           >
             <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
+              <q-icon :color="darkModeConf.iconVar" name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
                   <q-date
                     :color="darkModeConf.color"

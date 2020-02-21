@@ -3,14 +3,14 @@
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
-        <q-icon size="100px" name="account_circle" />
+        <q-icon :color="darkModeConf.iconVar" size="100px" name="account_circle" />
       </div>
       <div class="q-pa-lg col-md-4 col-12">
         <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-md">
           <q-input
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             dense
             ref="email"
             v-model="email"
@@ -24,7 +24,7 @@
             <q-btn
               rounded
               label="Enviar"
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               class="full-width"
               type="submit"

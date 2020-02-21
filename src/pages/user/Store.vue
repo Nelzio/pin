@@ -12,37 +12,37 @@
       >
         <div class="row no-wrap q-pa-sm q-gutter-sm">
           <q-card>
-            <q-icon name="style" size="70px" />
+            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
           </q-card>
           <q-card>
-            <q-icon name="style" size="70px" />
+            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
           </q-card>
           <q-card>
-            <q-icon name="style" size="70px" />
+            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
           </q-card>
           <q-card>
-            <q-icon name="style" size="70px" />
+            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
           </q-card>
           <q-card>
-            <q-icon name="style" size="70px" />
+            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
           </q-card>
           <q-card>
-            <q-icon name="style" size="70px" />
+            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
           </q-card>
           <q-card>
-            <q-icon name="style" size="70px" />
+            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
           </q-card>
           <q-card>
-            <q-icon name="style" size="70px" />
+            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
           </q-card>
           <q-card>
-            <q-icon name="style" size="70px" />
+            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
           </q-card>
           <q-card>
-            <q-icon name="style" size="70px" />
+            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
           </q-card>
           <q-card>
-            <q-icon name="style" size="70px" />
+            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
           </q-card>
         </div>
       </q-scroll-area>
@@ -118,7 +118,7 @@
       <q-btn
         fab
         icon="add"
-        :color="darkModeConf.color"
+        :color="darkModeConf.iconVar"
         :class="darkModeConf.textBtn"
         to="/profile/store/add"
       />

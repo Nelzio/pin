@@ -7,17 +7,18 @@
       </div>-->
       <div class="q-pa-sm col-md-4 col-12">
         <div class="col-12 text-center q-mb-xl">
-          <q-btn v-if="!imageUrl" round size="40px" icon="person_add" @click="proccessFile()">
-            <q-badge floating :color="darkModeConf.color">
-              <q-icon name="insert_photo" />
+          <q-btn v-if="!imageUrl" round size="40px" @click="proccessFile()">
+            <q-icon :color="darkModeConf.iconVar" name="person_add" />
+            <q-badge floating :color="darkModeConf.iconVar">
+              <q-icon color="white" name="insert_photo" />
             </q-badge>
           </q-btn>
           <q-btn v-else round @click="proccessFile()">
             <q-avatar size="120px">
               <q-img :src="imageUrl" />
             </q-avatar>
-            <q-badge floating :color="darkModeConf.color">
-              <q-icon name="insert_photo" />
+            <q-badge floating :color="darkModeConf.iconVar">
+              <q-icon color="white" name="insert_photo" />
             </q-badge>
           </q-btn>
         </div>
@@ -34,7 +35,7 @@
           <q-input
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="authObject.displayName"
             ref="name"
             label="Nome completo"
@@ -44,7 +45,7 @@
           <q-input
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             ref="number"
             v-model="authObject.phoneNumber"
             label="Numero de telefone"
@@ -56,7 +57,7 @@
           <q-input
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             ref="email"
             v-model="authObject.email"
             label="Email"
@@ -65,7 +66,7 @@
           />
 
           <q-input
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             rounded
             outlined
             v-model="authObject.date"
@@ -74,10 +75,10 @@
             :rules="[ val => val && val.length > 0 || 'Introduza a sua data de nascimento']"
           >
             <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
+              <q-icon :color="darkModeConf.iconVar" name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
                   <q-date
-                    :color="darkModeConf.color"
+                    :color="darkModeConf.iconVar"
                     v-model="authObject.date"
                     @input="() => $refs.qDateProxy.hide()"
                     mask="DD/MM/YYYY"
@@ -91,7 +92,7 @@
             rounded
             outlined
             @keyup.enter="login_account"
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             placeholder="password"
             ref="password"
             v-model="authObject.password"
@@ -100,7 +101,7 @@
             :rules="[ val => val && val.length > 0 || 'Por favor, insira uma senha válida']"
           >
             <template v-slot:append>
-              <q-icon
+              <q-icon :color="darkModeConf.iconVar"
                 :name="isPwd ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
                 @click="isPwd = !isPwd"
@@ -112,7 +113,7 @@
               rounded
               label="Registar"
               type="submit"
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               class="full-width"
             />
@@ -120,11 +121,12 @@
           <div>
             <q-btn
               class="full-width"
+              :color="darkModeConf.iconVar"
               rounded
               outline
               label="Entrar na conta"
               icon="arrow_back"
-              to="/account"
+              to="/account/login"
             />
           </div>
         </q-form>

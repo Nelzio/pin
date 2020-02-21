@@ -29,7 +29,7 @@
         <q-list>
           <q-item>
             <q-item-section avatar top>
-              <q-icon name="attach_money" />
+              <q-icon :color="darkModeConf.iconVar" name="attach_money" />
             </q-item-section>
             <q-item-section>
               <q-item-label :class="getFont.title">{{ getStore.price }} MZN</q-item-label>
@@ -40,7 +40,7 @@
 
           <q-item class="text-left">
             <q-item-section top avatar>
-              <q-icon name="phone" />
+              <q-icon :color="darkModeConf.iconVar" name="phone" />
             </q-item-section>
 
             <q-item-section>
@@ -53,7 +53,7 @@
 
           <q-item>
             <q-item-section top avatar>
-              <q-icon name="description" />
+              <q-icon :color="darkModeConf.iconVar" name="description" />
             </q-item-section>
 
             <q-item-section>

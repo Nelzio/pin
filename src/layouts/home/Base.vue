@@ -48,12 +48,12 @@
           size="lg"
         />
 
-        <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap">
+        <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap text-primary text-weight-bolder title-font">
           <q-btn flat round to="/">
             <q-img src="statics/img/home/appLogo.png" style="height: 50px" alt />
           </q-btn>Superactive
         </q-toolbar-title>
-        <q-toolbar-title shrink class="row items-center no-wrap" v-else>
+        <q-toolbar-title shrink class="row items-center no-wrap text-primary text-weight-bolder title-font" v-else>
           <q-btn flat round to="/">
             <q-img src="statics/img/home/appLogo.png" style="height: 50px" alt />
           </q-btn>Superactive
@@ -72,8 +72,8 @@
           style="width: 50%;"
         >
           <template v-slot:append>
-            <q-icon v-if="valueSearch === ''" name="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="valueSearch = ''" />
+            <q-icon :color="darkModeConf.iconVar" v-if="valueSearch === ''" name="search" />
+            <q-icon :color="darkModeConf.iconVar" v-else name="clear" class="cursor-pointer" @click="valueSearch = ''" />
           </template>
         </q-input>
 
@@ -83,18 +83,16 @@
           <!-- <q-btn round dense flat icon="notifications">
             <q-badge color="primary" text-color="white" floating>2</q-badge>
           </q-btn>-->
-          <q-btn v-if="isUserAuth" round dense flat icon="message" size="lg" to="/chat">
+          <q-btn v-if="isUserAuth" round dense flat icon="message" :color="darkModeConf.iconVar" size="lg" to="/chat">
             <q-badge v-if="numMessage" color="primary" text-color="white" floating>{{ numMessage }}</q-badge>
           </q-btn>
-          <q-btn round flat>
+          <q-btn v-if="isUserAuth" round flat>
             <q-avatar>
-              <q-img v-if="isUserAuth" :src="user.photoURL" />
-              <q-img v-else src="https://cdn.quasar.dev/img/boy-avatar.png" />
+              <q-img :src="user.photoURL" />
             </q-avatar>
-            <q-tooltip>Account</q-tooltip>
             <q-menu transition-show="jump-down" transition-hide="jump-up">
               <q-list style="min-width: 100px">
-                <template v-if="isUserAuth">
+                <template>
                   <q-item to="/profile" clickable>
                     <q-item-section>Perfil</q-item-section>
                   </q-item>
@@ -103,11 +101,13 @@
                     <q-item-section>Sair</q-item-section>
                   </q-item>
                 </template>
-                <q-item v-else to="/account" clickable>
-                  <q-item-section>Entrar</q-item-section>
-                </q-item>
               </q-list>
             </q-menu>
+          </q-btn>
+          <q-btn v-else round flat to="/account">
+            <q-avatar>
+              <q-icon name="account_circle" size="lg" color="primary" />
+            </q-avatar>
           </q-btn>
         </div>
       </q-toolbar>
@@ -127,8 +127,8 @@
           placeholder="Pesquisar"
         >
           <template v-slot:append>
-            <q-icon v-if="valueSearch === ''" name="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="valueSearch = ''" />
+            <q-icon :color="darkModeConf.iconVar" v-if="valueSearch === ''" name="search" />
+            <q-icon :color="darkModeConf.iconVar" v-else name="clear" class="cursor-pointer" @click="valueSearch = ''" />
           </template>
         </q-input>
       </q-toolbar>
@@ -140,7 +140,7 @@
       v-if="!$q.screen.gt.sm && !backIcon"
     >
       <q-tabs
-        :active-color="darkModeConf.color"
+        :active-color="darkModeConf.iconVar"
         align="justify"
         indicator-color="transparent"
         class="text-grey"
@@ -152,34 +152,6 @@
         <!--<q-route-tab name="profile" icon="person" to="/profile" />-->
       </q-tabs>
     </q-footer>
-
-    <!-- (Optional) A Drawer you can add one more with side="right" or change this one's side -->
-    <!-- <q-drawer v-model="leftDrawerOpen" bordered behavior="mobile" @click="leftDrawerOpen = false">
-      <q-scroll-area class="fit">
-        <q-toolbar class="GPL__toolbar">
-          <q-toolbar-title class="row items-center text-grey-8">
-            <span class="q-ml-sm">Superactive Negocio</span>
-          </q-toolbar-title>
-        </q-toolbar>
-
-        <q-list padding>
-          <q-item
-            v-for="link in links1"
-            :key="link.text"
-            :to="link.to"
-            clickable
-            class="GPL__drawer-item"
-          >
-            <q-item-section avatar>
-              <q-icon :name="link.icon" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
-      </q-scroll-area>
-    </q-drawer>-->
 
     <q-drawer
       v-if="$route.path == '/vacancies'"
@@ -198,7 +170,7 @@
         <q-list padding>
           <q-item clickable v-ripple @click="filterVal = '', drowerFilter = false">
             <q-item-section avatar>
-              <q-icon name="list" />
+              <q-icon :color="darkModeConf.iconVar" name="list" />
             </q-item-section>
 
             <q-item-section>
@@ -252,7 +224,7 @@
         <q-list padding>
           <q-item clickable v-ripple @click="filterVal = '', drowerFilterStore = false">
             <q-item-section avatar>
-              <q-icon name="list" />
+              <q-icon :color="darkModeConf.iconVar" name="list" />
             </q-item-section>
 
             <q-item-section>
@@ -297,28 +269,28 @@
       <q-page-sticky v-if="$q.screen.gt.sm" expand position="left">
         <div class="fit q-pt-xl q-px-sm column">
           <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/">
-            <q-icon size="lg" name="home" />
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="home" />
             <div class="GPL__side-btn__label">Home</div>
           </q-btn>
 
           <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/vacancies">
-            <q-icon size="lg" name="work" />
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="work" />
             <div class="GPL__side-btn__label">Vagas</div>
           </q-btn>
 
           <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/store">
-            <q-icon size="lg" name="store" />
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="store" />
             <div class="GPL__side-btn__label">Negócio</div>
             <!-- <q-badge floating color="red" text-color="white" style="top: 8px right: 16px">
               1
             </q-badge>-->
           </q-btn>
           <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/profile">
-            <q-icon size="lg" name="person" />
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="person" />
             <div class="GPL__side-btn__label">Perfil</div>
           </q-btn>
           <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/settings">
-            <q-icon size="lg" name="settings" />
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="settings" />
             <div class="GPL__side-btn__label">Definições</div>
           </q-btn>
         </div>
@@ -501,32 +473,27 @@ export default {
 
     getChat() {
       const vm = this;
-      const ref = firestoreDb.collection("chat");
-      var chatData = [];
-      ref
-        .where("receptorUser", "==", vm.user.email)
-        .where("readed", "==", false)
-        .onSnapshot(function(querySnapshot) {
-          chatData = [];
-          vm.numMessage = 0;
-          querySnapshot.forEach(function(doc) {
-            chatData.push({
-              key: doc.id,
-              email: doc.data().email,
-              displayName: doc.data().displayName,
-              receptorUser: doc.data().receptorUser,
-              readed: doc.data().readed
+      if (this.isUserAuth) {
+        const ref = firestoreDb.collection("chat");
+        var chatData = [];
+        ref
+          .where("receptorUser", "==", vm.user.email)
+          .where("readed", "==", false)
+          .onSnapshot(function(querySnapshot) {
+            chatData = [];
+            vm.numMessage = 0;
+            querySnapshot.forEach(function(doc) {
+              chatData.push({
+                key: doc.id,
+                email: doc.data().email,
+                displayName: doc.data().displayName,
+                receptorUser: doc.data().receptorUser,
+                readed: doc.data().readed
+              });
+              vm.numMessage += 1;
             });
-
-            vm.numMessage += 1;
           });
-
-          // chatData.forEach(element => {
-          //   if(element.receptorUser == vm.user.email) {
-          //     vm.numMessage += 1
-          //   }
-          // });
-        });
+      }
     },
 
     accessibilityMode() {
@@ -540,11 +507,16 @@ export default {
     }
   },
 
+  beforeCreate() {
+    if (!LocalStorage.getItem("notFirst")) {
+      this.$router.push("/welcome");
+    }
+  },
 
   created() {
-    if (!LocalStorage.getItem("notFirst")) {
-      this.$router.push("/welcome/app");
-    }
+    // if (!LocalStorage.getItem("notFirst")) {
+    //   this.$router.push("/welcome");
+    // }
 
     this.getChat();
   },

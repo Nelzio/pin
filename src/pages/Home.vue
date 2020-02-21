@@ -12,7 +12,7 @@
     >
       <q-carousel-slide name="primeiro" class="column no-wrap flex-center">
         <q-btn round color="white" size="39px">
-          <q-icon color="primary" name="img:statics/app-logo-128x128.png" size="96px" />
+          <q-icon color="primary" name="img:statics/img/home/appLogoHome.png" size="96px" />
         </q-btn>
         <div class="q-mt-md text-center text-white">
           <div class="text-h4">Superactive</div>

@@ -58,7 +58,7 @@
       <q-btn
         fab
         icon="add"
-        :color="darkModeConf.color"
+        :color="darkModeConf.iconVar"
         :class="darkModeConf.textBtn"
         to="/profile/vacancy/add"
       />

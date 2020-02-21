@@ -10,11 +10,12 @@
               icon="settings_applications"
               label="Definições do app"
               :class="getFont.text"
+              
             >
               <q-card>
                 <q-item>
                   <q-item-section avatar>
-                    <q-icon name="highlight" />
+                    <q-icon :color="darkModeConf.iconVar" name="highlight" />
                   </q-item-section>
 
                   <q-item-section>
@@ -22,7 +23,7 @@
                   </q-item-section>
 
                   <q-item-section side>
-                    <q-toggle :color="darkModeConf.color" v-model="mode" />
+                    <q-toggle :color="darkModeConf.icon" v-model="mode" />
                   </q-item-section>
                 </q-item>
 
@@ -30,7 +31,7 @@
 
                 <q-item>
                   <q-item-section avatar>
-                    <q-icon name="vibration" />
+                    <q-icon :color="darkModeConf.iconVar" name="vibration" />
                   </q-item-section>
 
                   <q-item-section>
@@ -38,13 +39,13 @@
                   </q-item-section>
 
                   <q-item-section side>
-                    <q-toggle :color="darkModeConf.color" v-model="vibrateMode" />
+                    <q-toggle :color="darkModeConf.icon" v-model="vibrateMode" />
                   </q-item-section>
                 </q-item>
 
                 <q-item>
                   <q-item-section avatar>
-                    <q-icon name="format_size" />
+                    <q-icon :color="darkModeConf.iconVar" name="format_size" />
                   </q-item-section>
 
                   <q-item-section>
@@ -73,7 +74,7 @@
               <q-card>
                 <q-item clickable v-ripple to="/account/edit">
                   <q-item-section avatar>
-                    <q-icon name="edit" />
+                    <q-icon :color="darkModeConf.iconVar" name="edit" />
                   </q-item-section>
 
                   <q-item-section>
@@ -83,7 +84,7 @@
 
                 <q-item clickable v-ripple @click="deletDialog = true">
                   <q-item-section avatar>
-                    <q-icon name="delete_forever" />
+                    <q-icon :color="darkModeConf.iconVar" name="delete_forever" />
                   </q-item-section>
 
                   <q-item-section>

@@ -66,7 +66,7 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import HomeContent from "../components/HomeContent";
+import HomeContent from "components/HomeContent.vue";
 export default {
   name: "PageIndex",
   components: { HomeContent },

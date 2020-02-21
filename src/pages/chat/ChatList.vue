@@ -160,7 +160,7 @@ export default {
   created() {},
   mounted() {
     this.getChat();
-    this.$root.$emit("textToSpeechRouter", "Pagina de lista de conversas com.");
+    this.$root.$emit("textToSpeechRouter", "Pagina de lista de conversas.");
   }
 };
 </script>
