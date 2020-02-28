@@ -18,7 +18,7 @@
           <q-input
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="userEdit.phoneNumber"
             label="Telefone"
             icon="phone"
@@ -30,7 +30,7 @@
           <q-input
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="userEdit.adress"
             label="Endereço"
             icon="place"
@@ -39,7 +39,7 @@
             :rules="[ val => val && val.length > 0 || 'Introduza o seu bairro']"
           />
           <q-input
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             rounded
             outlined
             v-model="userEdit.date"
@@ -50,7 +50,7 @@
               <q-icon :color="darkModeConf.iconVar" name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
                   <q-date
-                    :color="darkModeConf.color"
+                    :color="darkModeConf.iconVar"
                     v-model="userEdit.date"
                     @input="() => $refs.qDateProxy.hide()"
                     mask="DD/MM/YYYY"
@@ -62,7 +62,7 @@
           <q-input
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="userEdit.profission"
             label="Profissão"
             placeholeder="Canalizador"
@@ -72,7 +72,7 @@
           <q-input
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="userEdit.education"
             label="Educação"
             placeholeder="Licenciatura em Gestão, curso de informática"
@@ -84,7 +84,7 @@
               rounded
               label="Enviar"
               type="login"
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               class="full-width"
             />

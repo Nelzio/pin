@@ -8,7 +8,7 @@
           <q-card-actions>
             <q-btn
               rounded
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               class="full-width"
               label="Inserir imagem"
@@ -28,7 +28,7 @@
           />
 
           <q-input
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             rounded
             outlined
             v-model="vacancy.title"
@@ -36,11 +36,11 @@
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza O título']"
           />
-          <!-- <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
+          <!-- <q-input :color="darkModeConf.iconVar" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
           <q-select
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="vacancy.category"
             :options="categories"
             label="Categoria"
@@ -48,13 +48,13 @@
           <q-select
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="vacancy.place"
             :options="places"
             label="Província"
           />
           <q-input
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             rounded
             outlined
             v-model="vacancy.validate"
@@ -65,7 +65,7 @@
               <q-icon :color="darkModeConf.iconVar" name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
                   <q-date
-                    :color="darkModeConf.color"
+                    :color="darkModeConf.iconVar"
                     v-model="vacancy.validate"
                     @input="() => $refs.qDateProxy.hide()"
                     mask="DD/MM/YYYY"
@@ -75,7 +75,7 @@
             </template>
           </q-input>
           <q-editor
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="vacancy.description"
             min-height="8rem"
             lazy-rules
@@ -85,7 +85,7 @@
             <q-btn
               rounded
               class="full-width"
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               label="Enviar"
               @click="addVacancy()"

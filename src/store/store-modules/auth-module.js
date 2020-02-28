@@ -125,7 +125,7 @@ const actions = {
                                         .catch((error) => {
                                             Loading.hide()
                                             console.log(error)
-                                            alert("Error adding document: ", error)
+                                            showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
                                         })
                                 }
                             })
@@ -167,8 +167,14 @@ const actions = {
                         // despois de atualizar o user deve add a tabela users da db
                         ref.get().then((doc) => {
                             if (doc.exists) {
-                                this.$router.push('/')
-                                Loading.hide()
+                                if (LocalStorage.getItem("routeBack")) {
+                                    this.$router.push(LocalStorage.getItem("routeBack"))
+                                    LocalStorage.set("routeBack", "")
+                                    Loading.hide()
+                                } else {
+                                    this.$router.push('/')
+                                    Loading.hide()
+                                }
                             } else {
                                 // If user desen't exist
                                 const dataUser = {
@@ -187,12 +193,17 @@ const actions = {
                                     commit('SET_AUTH_USER', true)
                                     commit('AUTH_USER', dataUser)
                                     Notify.create('A sua conta foi criada com sucesso!')
-                                    vm.$router.push('/')
-                                    Loading.hide()
+                                    if (LocalStorage.getItem("routeBack")) {
+                                        vm.$router.push(LocalStorage.getItem("routeBack"))
+                                        Loading.hide()
+                                    } else {
+                                        vm.$router.push('/')
+                                        Loading.hide()
+                                    }
                                 })
                                     .catch((error) => {
                                         Loading.hide()
-                                        alert("Error adding document: ", error)
+                                        showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
                                     })
                             }
                         })
@@ -205,14 +216,130 @@ const actions = {
             .catch(error => {
                 commit("AUTH_USER", null)
                 Loading.hide()
-                showErrorMessage(error.message)
+                // showErrorMessage(error.message)
+                showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
             })
     },
 
 
-    googleSingIn({ commit }) {
+    googleSignInCordova({ commit }) {
+        Loading.show()
+        var provider = new firebase.auth.GoogleAuthProvider();
+
+        firebase.auth().signInWithRedirect(provider).then(function () {
+            firebase.auth().getRedirectResult().then(function (result) {
+                if (result.credential) {
+                    // This gives you a Google Access Token.
+                    // You can use it to access the Google API.
+                    var token = result.credential.accessToken;
+                    // The signed-in user info.
+                    var user = result.user;
+
+                    const ref = firestoreDb.collection('users').doc(result.user.email) // email is the key
+                    //   this.user = result.user
+                    const userData = {
+                        displayName: result.user.displayName,
+                        email: result.user.email,
+                        emailVerified: result.user.emailVerified,
+                        phoneNumber: result.user.phoneNumber,
+                        photoURL: result.user.photoURL,
+                        refreshToken: result.user.refreshToken,
+                        uid: result.user.uid
+                    }
+
+                    commit('AUTH_USER', userData)
+                    commit('SET_AUTH_USER', true)
+                    Notify.create('Sessão iniciada com sucesso!')
+                    // this.$router.push("/")
+                    Loading.hide()
+
+                    ref.get().then((doc) => {
+                        alert("1Problem here");
+                        if (doc.exists) {
+                            const data = {
+                                id: doc.id,
+                                displayName: doc.data().displayName,
+                                email: doc.data().email,
+                                photoURL: doc.data().photoURL,
+                                phoneNumber: doc.data().phoneNumber,
+                                adress: doc.data().adress,
+                                profission: doc.data().profission,
+                                education: doc.data().education,
+                                date: doc.data().date
+                            }
+                            commit('SET_USER_DATA', data)
+                            alert("2Problem here");
+                            if (LocalStorage.getItem("routeBack")) {
+                                alert("Problem here");
+                                this.$router.push(LocalStorage.getItem("routeBack"))
+                                LocalStorage.set("routeBack", "")
+                                Loading.hide()
+                            } else {
+                                alert("2.2Problem here");
+                                this.$router.push("/")
+                                Loading.hide()
+                            }
+                        } else {
+                            // If user desen't exist
+                            const dataUser = {
+                                displayName: result.user.displayName,
+                                email: result.user.email,
+                                photoURL: result.user.photoURL,
+                                phoneNumber: "",
+                                adress: "",
+                                profission: "",
+                                education: "",
+                                date: ""
+                            }
+
+                            ref.set(dataUser).then((docRef) => {
+                                console.log("Updated")
+                                alert("3Problem here");
+                                if (LocalStorage.getItem("routeBack")) {
+                                    alert("4Problem here");
+                                    this.$router.push(LocalStorage.getItem("routeBack"))
+                                    LocalStorage.set("routeBack", "")
+                                    Loading.hide()
+                                } else {
+                                    this.$router.push("/")
+                                    Loading.hide()
+                                }
+                            })
+                                .catch((error) => {
+                                    Loading.hide()
+                                    showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
+                                })
+                        }
+                        alert("5Problem here");
+                    })
+                    // ...
+                    alert("6Problem here");
+                }
+            }).catch(function (error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                alert("7Problem here");
+                alert(error.message);
+            });
+        }).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert("8Problem here");
+            alert(error.message);
+        });
+    },
+
+
+    googleSignIn({ commit }) {
         Loading.show()
         const provider = new firebase.auth.GoogleAuthProvider()
+        // if(window.hasOwnProperty("cordova")){
+        //     var signInMethod = firebase.auth().signInWithRedirect
+        // } else {
+        //     var signInMethod = firebase.auth().signInWithPopup
+        // }
         firebase.auth().signInWithPopup(provider).then((result) => {
             const ref = firestoreDb.collection('users').doc(result.user.email) // email is the key
             //   this.user = result.user
@@ -234,7 +361,7 @@ const actions = {
 
             ref.get().then((doc) => {
                 if (doc.exists) {
-                    data = {
+                    const data = {
                         id: doc.id,
                         displayName: doc.data().displayName,
                         email: doc.data().email,
@@ -246,8 +373,14 @@ const actions = {
                         date: doc.data().date
                     }
                     commit('SET_USER_DATA', data)
-                    this.$router.push("/")
-                    Loading.hide()
+                    if (LocalStorage.getItem("routeBack")) {
+                        this.$router.push(LocalStorage.getItem("routeBack"))
+                        LocalStorage.set("routeBack", "")
+                        Loading.hide()
+                    } else {
+                        this.$router.push("/")
+                        Loading.hide()
+                    }
                 } else {
                     // If user desen't exist
                     const dataUser = {
@@ -263,12 +396,18 @@ const actions = {
 
                     ref.set(dataUser).then((docRef) => {
                         console.log("Updated")
-                        this.$router.push("/")
-                        Loading.hide()
+                        if (LocalStorage.getItem("routeBack")) {
+                            this.$router.push(LocalStorage.getItem("routeBack"))
+                            LocalStorage.set("routeBack", "")
+                            Loading.hide()
+                        } else {
+                            this.$router.push("/")
+                            Loading.hide()
+                        }
                     })
                         .catch((error) => {
                             Loading.hide()
-                            alert("Error adding document: ", error)
+                            showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
                         })
                 }
             })
@@ -288,7 +427,7 @@ const actions = {
         })
     },
 
-    facebookSingIn({ commit }) {
+    facebookSignIn({ commit }) {
         var provider = new firebase.auth.FacebookAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function (result) {
             // This gives you a Facebook Access Token. You can use it to access the Facebook API.
@@ -330,8 +469,14 @@ const actions = {
                         date: doc.data().date
                     }
                     commit('SET_USER_DATA', data)
-                    this.$router.push("/")
-                    Loading.hide()
+                    if (LocalStorage.getItem("routeBack")) {
+                        this.$router.push(LocalStorage.getItem("routeBack"))
+                        LocalStorage.set("routeBack", "")
+                        Loading.hide()
+                    } else {
+                        this.$router.push("/")
+                        Loading.hide()
+                    }
                 } else {
                     // If user desen't exist
                     const dataUser = {
@@ -347,12 +492,18 @@ const actions = {
 
                     ref.set(dataUser).then((docRef) => {
                         console.log("Updated")
-                        this.$router.push("/")
-                        Loading.hide()
+                        if (LocalStorage.getItem("routeBack")) {
+                            this.$router.push(LocalStorage.getItem("routeBack"))
+                            LocalStorage.set("routeBack", "")
+                            Loading.hide()
+                        } else {
+                            this.$router.push("/")
+                            Loading.hide()
+                        }
                     })
                         .catch((error) => {
                             Loading.hide()
-                            alert("Error adding document: ", error)
+                            showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
                         })
                 }
             })
@@ -363,7 +514,7 @@ const actions = {
         }).catch(function (error) {
             // Handle Errors here.
             var errorCode = error.code;
-            var errorMessage = error.message;
+            var errorMessage = "Ops! Ocorreu um erro durante o processamento.";
             console.log(errorMessage)
             // The email of the user's account used.
             var email = error.email;
@@ -430,7 +581,7 @@ const actions = {
             .then((user) => {
                 commit('AUTH_USER', user.user);
                 commit('SET_AUTH_USER', true);
-                
+
                 const ref = firestoreDb.collection('users').doc(user.user.email)
                 ref.get().then((doc) => {
                     if (doc.exists) {
@@ -450,14 +601,21 @@ const actions = {
                         Notify.create('Sessão iniciada com sucesso!')
                         this.$router.push("/")
                     } else {
-                        Loading.hide()
+                        // Loading.hide()
                         Notify.create('Sessão iniciada com sucesso!')
-                        this.$router.push('/')
+                        if (LocalStorage.getItem("routeBack")) {
+                            this.$router.push(LocalStorage.getItem("routeBack"))
+                            LocalStorage.set("routeBack", "")
+                            Loading.hide()
+                        } else {
+                            this.$router.push("/")
+                            Loading.hide()
+                        }
                     }
                 })
             })
             .catch(error => {
-                showErrorMessage(error.message)
+                showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
             })
     },
 
@@ -470,7 +628,7 @@ const actions = {
     checkAuthUser({ commit }) {
         if (!offline.data().isOnline) {
             // this.$router.go(-1)
-            return alert("Está sem internet")
+            return showErrorMessage("Está sem internet")
         }
         firebaseAuth.onAuthStateChanged(user => {
             if (user) {
@@ -525,7 +683,7 @@ const actions = {
                 })
             }).catch((error) => {
                 Loading.hide()
-                alert("Error removing document: ", error);
+                showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
             });
         }).catch(err => console.log(err))
 

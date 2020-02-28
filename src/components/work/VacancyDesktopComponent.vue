@@ -28,7 +28,14 @@
         style="min-height: 200px;"
         @click="$router.push('/vacancies/details/'+vacancy.key)"
       />
-      <q-skeleton v-else height="230px" square />
+      <q-img
+        v-ripple
+        v-else
+        src="statics/img/nophoto.png"
+        style="min-height: 180px;"
+        @click="$router.push('/vacancies/details/'+vacancy.key)"
+      />
+      
 
       <q-card-section class="q-pb-none">
         <div :class="getFont.title">{{ vacancy.title }}</div>

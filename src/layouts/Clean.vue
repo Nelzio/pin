@@ -2,9 +2,9 @@
   <q-layout view="hHh Lpr fFf">
     <!-- Be sure to play with the Layout demo on docs -->
     <q-header elevated>
-      <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]">
-        <q-btn icon="arrow_back" flat round dense @click="$router.go(-1)" size="lg" />
-        <q-toolbar-title class="text-center">Superactive | Conta</q-toolbar-title>
+      <q-toolbar :class="[darkModeConf.bgColor]">
+        <q-btn icon="arrow_back" :color="darkModeConf.iconVar" flat round dense @click="$router.go(-1)" size="lg" />
+        <q-toolbar-title class="text-center text-primary text-h6">Superactive | Conta</q-toolbar-title>
         <!-- <q-btn
           flat
           round

@@ -219,6 +219,7 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 import { Loading } from "quasar";
 import { firebaseAuth, firestoreDb, fireStorage } from "boot/firebase";
+import { showErrorMessage } from "../../functions/handle-error-messages";
 import offline from "v-offline";
 export default {
   // name: 'PageName',
@@ -342,8 +343,8 @@ export default {
     listCandidatures(user) {
       // done
       if (!offline.data().isOnline) {
-        return alert("Sem internet");
-      }
+      return showErrorMessage("Está sem internet.")
+    }
       this.vacanciesAply = [];
       const ref = firestoreDb.collection("vacancies");
       const vm = this;
@@ -377,7 +378,7 @@ export default {
       // done
       var storageRef = fireStorage.ref();
       if (!offline.data().isOnline) {
-        return alert("Sem internet");
+        showErrorMessage("Está sem internet.")
       }
       const vm = this;
       // vm.myVacancies = []
@@ -409,7 +410,7 @@ export default {
     listStoreMyHere(user) {
       var storageRef = fireStorage.ref();
       if (!offline.data().isOnline) {
-        return alert("Sem internet");
+        showErrorMessage("Está sem internet.")
       }
       const vm = this;
       const ref = firestoreDb.collection("stories");

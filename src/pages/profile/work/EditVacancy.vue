@@ -10,7 +10,7 @@
           <q-card-actions>
             <q-btn
               rounded
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               class="full-width"
               label="Trocar imagem"
@@ -30,17 +30,17 @@
           />
           <q-input
             ref="titleInput"
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             rounded
             outlined
             label="Titulo"
             v-model="vacancyData.title"
           />
-          <!-- <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
+          <!-- <q-input :color="darkModeConf.iconVar" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
           <q-select
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="vacancyData.category"
             :options="categories"
             label="Categoria"
@@ -48,13 +48,13 @@
           <q-select
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="vacancyData.place"
             :options="places"
             label="Província"
           />
           <q-input
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             label="Data de validade"
             rounded
             outlined
@@ -66,7 +66,7 @@
               <q-icon :color="darkModeConf.iconVar" name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
                   <q-date
-                    :color="darkModeConf.color"
+                    :color="darkModeConf.iconVar"
                     v-model="vacancyData.validate"
                     @input="() => $refs.qDateProxy.hide()"
                     mask="DD/MM/YYYY"
@@ -76,7 +76,7 @@
             </template>
           </q-input>
           <q-editor
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="vacancyData.description"
             min-height="8rem"
           />
@@ -84,7 +84,7 @@
             <q-btn
               rounded
               class="full-width"
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               label="Enviar"
               @click="updateVacancyThis()"

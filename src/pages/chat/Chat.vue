@@ -413,9 +413,9 @@ export default {
       if(this.getUser.displayName) {
         this.$root.$emit(
           "textToSpeechRouter",
-          "Pagina de conversa com" +
+          "Página de conversa com" +
             this.getUser.displayName +
-            ".\n Pressione a tela até vibrar para poder falar.\n Para parar a gravação pressione a tela novamente"
+            ".\n Pressione a tela até vibrar para poder falar.\n Para parar a gravação pressione a tela novamente."
         );
       }
     }

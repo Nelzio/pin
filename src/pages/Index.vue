@@ -99,7 +99,7 @@ export default {
     // this.$root.$emit("textToSpeechRouter", "Pagina Inicial");
     this.$root.$emit(
       "textToSpeechRouter",
-      "Pagina Inicial"
+      "Pagina Inicial.\n Para navegar entre as paginas, deslise o dedo para as laterais."
     );
   }
 };

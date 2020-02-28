@@ -1,5 +1,5 @@
 <template>
-  <q-page v-touch-swipe.mouse.right="accountSwipe" class="flex flex-center">
+  <q-page v-touch-swipe.mouse.right="accountSwipe" v-touch-hold:600.mouse="handleHold" class="flex flex-center">
     <!-- content -->
     <!-- <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
@@ -63,7 +63,7 @@
 					</div>
         </q-form>
 
-         <q-btn color="white" text-color="black" label="Standard" @click="googleSingIn()" />
+         <q-btn color="white" text-color="black" label="Standard" @click="googleSignIn()" />
         
       </div>
     </div>-->
@@ -76,7 +76,7 @@
         class="full-width btn-fixed-width"
         label="Entrar com google"
         icon="img:https://imagepng.org/wp-content/uploads/2019/08/google-icon-1.png"
-        @click="googleSingIn()"
+        @click="login('google')"
       />
       <q-btn
         align="between"
@@ -84,7 +84,7 @@
         size="lg"
         class="full-width btn-fixed-width"
         left-icon
-        @click="facebookSingIn()"
+        @click="facebookSignIn()"
       >
         <q-icon color="blue" name="ion-logo-facebook" />
         <div>Entrar com facebook</div>
@@ -130,15 +130,28 @@ export default {
     };
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"])
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
   },
   methods: {
     ...mapActions("auth", [
       "loginUser",
       "registerUser",
-      "googleSingIn",
-      "facebookSingIn"
+      "googleSignIn",
+      "googleSignInCordova",
+      "facebookSignIn",
     ]),
+
+    login(method) {
+      if(window.hasOwnProperty("cordova")) {
+        if(method == "google") {
+          this.googleSignInCordova()
+        }
+      } else {
+        if(method == "google") {
+          this.googleSignIn()
+        }
+      }
+    },
 
     isPasswordValid(email) {
       var re = /^(([^<>()\[\]\\.,:\s@"]+(\.[^<>()\[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -156,6 +169,18 @@ export default {
         this.loginUser(this.authObject);
       }
     },
+
+    handleHold({ evt, ...info }) {
+      if (this.vibrateState) {
+        if(window.hasOwnProperty("cordova")){
+          navigator.vibrate(200);
+        } else {
+          window.navigator.vibrate(200);
+        }
+        this.login("google")
+      }
+    },
+
     accountSwipe(val) {
       // if (val.direction === "left") {
       //   this.$router.push("/account/create")
@@ -173,7 +198,7 @@ export default {
   mounted() {
     this.$root.$emit(
       "textToSpeechRouter",
-      "Pagina de login. Pode se autenticar com conta google, facebook ou por email"
+      "Pagina de login. Pode se autenticar com conta Google, Facebook ou por email.\n Pressione a tela para entrar com a conta Google."
     );
   },
 

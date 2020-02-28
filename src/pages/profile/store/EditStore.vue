@@ -10,7 +10,7 @@
           <q-card-actions>
             <q-btn
               rounded
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               class="full-width"
               label="Trocar imagem"
@@ -30,7 +30,7 @@
           />
 
           <q-input
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             rounded
             outlined
             v-model="storeData.title"
@@ -38,11 +38,11 @@
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza O título']"
           />
-          <!-- <q-input :color="darkModeConf.color" rounded outlined v-model="store.description" label="Descricao" /> -->
+          <!-- <q-input :color="darkModeConf.iconVar" rounded outlined v-model="store.description" label="Descricao" /> -->
           <q-select
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="storeData.category"
             :options="categories"
             label="Categoria"
@@ -51,7 +51,7 @@
           <q-select
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="storeData.subCategory"
             :options="subCategories"
             label="Sub Categoria"
@@ -60,7 +60,7 @@
           <q-select
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="storeData.place"
             :options="places"
             label="Província"
@@ -70,16 +70,16 @@
             rounded
             outlined
             v-model="storeData.price"
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             label="Preço"
           >
             <template v-slot:append>
-              <q-checkbox :color="darkModeConf.color" v-model="storeData.priceVariable" />
+              <q-checkbox :color="darkModeConf.iconVar" v-model="storeData.priceVariable" />
               <div class="text-body1">Negociavel</div>
             </template>
           </q-input>
           <q-editor
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="storeData.description"
             min-height="8rem"
             lazy-rules
@@ -89,7 +89,7 @@
             <q-btn
               rounded
               class="full-width"
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               label="Enviar"
               @click="updateStoreThis()"

@@ -10,6 +10,7 @@
         <q-btn
           @click="$router.go(-1)"
           v-if="backIcon"
+          :color="darkModeConf.iconVar"
           flat
           dense
           round
@@ -30,6 +31,7 @@
         <q-btn
           @click="drowerFilter = !drowerFilter"
           v-if="$route.path == '/vacancies'"
+          :color="darkModeConf.iconVar"
           flat
           dense
           round
@@ -40,6 +42,7 @@
         <q-btn
           @click="drowerFilterStore = !drowerFilterStore"
           v-if="$route.path == '/store'"
+          :color="darkModeConf.iconVar"
           flat
           dense
           round
@@ -48,12 +51,12 @@
           size="lg"
         />
 
-        <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap text-primary text-weight-bolder title-font">
+        <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font">
           <q-btn flat round to="/">
             <q-img src="statics/img/home/appLogo.png" style="height: 50px" alt />
           </q-btn>Superactive
         </q-toolbar-title>
-        <q-toolbar-title shrink class="row items-center no-wrap text-primary text-weight-bolder title-font" v-else>
+        <q-toolbar-title shrink class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font" v-else>
           <q-btn flat round to="/">
             <q-img src="statics/img/home/appLogo.png" style="height: 50px" alt />
           </q-btn>Superactive

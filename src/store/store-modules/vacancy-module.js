@@ -258,7 +258,7 @@ const actions = {
   listVacancy({ commit }) { // done
     var storageRef = fireStorage.ref()
     if (!offline.data().isOnline) {
-      return alert("Sem internet")
+      showErrorMessage("Está sem internet.")
     }
     const ref = firestoreDb.collection('vacancies')
     var vacanciesData = []
@@ -294,7 +294,7 @@ const actions = {
   listVacancyMy({ commit }, user) { // done
     var storageRef = fireStorage.ref()
     if (!offline.data().isOnline) {
-      return alert("Sem internet")
+      return showErrorMessage("Está sem internet.")
     }
     const ref = firestoreDb.collection('vacancies')
     var vacancies = []
@@ -321,6 +321,9 @@ const actions = {
 
   detailVacancy({ commit }, id) { // test
     // Loading.show()
+    if (!offline.data().isOnline) {
+      return showErrorMessage("Está sem internet.")
+    }
     const ref = firestoreDb.collection('vacancies').doc(id);
     let data = {
       key: "",
@@ -360,6 +363,9 @@ const actions = {
 
 
   deleteVacancy({ commit }, id) {
+    if (!offline.data().isOnline) {
+      return showErrorMessage("Está sem internet.")
+    }
     Loading.show()
     commit("SET_VACANCY_DELETED", false)
     var storageRef = fireStorage.ref()

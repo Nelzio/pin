@@ -59,6 +59,7 @@ const routes = [
     component: () => import('layouts/Clean.vue'),
     children: [
       { path: '', component: () => import('pages/account/Login.vue') },
+      { path: 'ui', component: () => import('pages/account/LoginUI.vue') },
       { path: 'login', component: () => import('pages/account/LoginEmail.vue') },
       { path: 'create', component: () => import('pages/account/Create.vue') },
       { path: 'resetpwd', component: () => import('pages/account/ResetPassWD.vue') },

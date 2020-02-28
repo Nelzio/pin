@@ -52,7 +52,7 @@
                     <!-- <q-item-label class="text-h6">Tamanho do texto</q-item-label> -->
                     <q-select
                       v-model="fontSize"
-                      :color="darkModeConf.color"
+                      :color="darkModeConf.iconVar"
                       :class="getFont.text"
                       :options="fontText"
                       label="Tamanho de texto"

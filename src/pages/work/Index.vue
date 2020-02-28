@@ -63,7 +63,7 @@
       </q-list>
     </div>-->
 
-    <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user">
+    <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user && isUserAuth">
       <q-btn
         fab
         icon="add"
@@ -113,7 +113,7 @@ export default {
     ]),
     ...mapState("vacancy", ["vacancies", "vacancy"]),
     ...mapGetters("vacancy", ["getVacancies", "getVacancy"]),
-    ...mapGetters("auth", ["user"])
+    ...mapGetters("auth", ["user", "isUserAuth"])
   },
   methods: {
     ...mapActions("settings", ["setSettings", "playSound"]),

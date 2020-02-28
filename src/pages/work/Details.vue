@@ -28,12 +28,12 @@
               <div class="col-10" :class="getFont.text">{{ getVacancy.category }}</div>
             </q-card-section>
             <q-card-section class="row q-pt-none">
-              <div class="col-12" :class="getFont.text">{{ getVacancy.description }}</div>
+              <div class="col-12" :class="getFont.text"><div v-html="getVacancy.description"></div></div>
             </q-card-section>
           </q-card>
         </div>
 
-        <div class="row justify-end q-gutter-x-md" v-if="user">
+        <div class="row justify-end q-gutter-x-md" v-if="user && isUserAuth">
           <q-btn
             v-if="!vacancyDone"
             rounded
@@ -44,7 +44,18 @@
             @click="apply = true"
           />
           <q-btn v-else rounded color="red" label="Cancelar" icon="close" @click="apply = true" />
-          <!-- <q-btn round outline color="teal" icon="share" /> -->
+        </div>
+        <div class="row justify-end q-gutter-x-md" v-else>
+          <q-btn
+            v-if="!vacancyDone"
+            rounded
+            :color="darkModeConf.color"
+            :class="darkModeConf.textBtn"
+            label="Candidatar-se"
+            icon="done_all"
+            @click="routeToAccount()"
+          />
+          <q-btn v-else rounded color="red" label="Cancelar" icon="close" @click="apply = true" />
         </div>
       </div>
     </div>
@@ -86,6 +97,7 @@
 import { Loading, Notify } from "quasar";
 import { mapState, mapActions, mapGetters } from "vuex";
 import { firestoreDb } from "boot/firebase";
+import { LocalStorage } from "quasar";
 import offline from "v-offline";
 export default {
   // name: 'PageName',
@@ -107,10 +119,17 @@ export default {
     ...mapState("vacancy", ["vacancies", "vacancyDtl"]),
     ...mapGetters("vacancy", ["getVacancies", "getVacancy"]),
     ...mapGetters("settings", ["getFont"]),
-    ...mapGetters("auth", ["user", "userData"])
+    ...mapGetters("auth", ["user", "userData", "isUserAuth"])
   },
   methods: {
     ...mapActions("vacancy", ["listVacancy", "detailVacancy"]),
+
+    routeToAccount () {
+      LocalStorage.set("routeBack", this.$route.fullPath)
+      this.$router.push("/account")
+
+    },
+
     speak(userInput) {
       if (this.synth.speaking) {
         // console.error('speechSynthesis.speaking');
@@ -179,7 +198,7 @@ export default {
         ". Categoría: " +
         this.getVacancy.category +
         ". Descrição: " +
-        this.getVacancy.description;
+        this.convertToPlain(this.getVacancy.description);
       if (window.hasOwnProperty("cordova")) {
         this.speakCordova(text);
       } else {
@@ -193,6 +212,7 @@ export default {
         this.$router.go(-1);
       }
     },
+
     handleRepeat() {
       var vm = this;
 
@@ -251,6 +271,11 @@ export default {
       this.aplyVacancyMethod({ id: this.$route.params.id, data: this.userData });
     },
 
+    convertToPlain(rtf) {
+      rtf = rtf.replace(/\\par[d]?/g, "");
+      return rtf.replace(/\{\*?\\[^{}]+}|[{}]|\\\n?[A-Za-z]+\n?(?:-?\d+)?[ ]?/g, "").trim();
+    },
+
     aplyVacancyMethod(payload) {
       if (!offline.data().isOnline) {
         return alert("Está sem internet");
@@ -303,7 +328,7 @@ export default {
     this.detailVacancy(this.$route.params.id);
   },
   mounted() {
-    if (this.user) {
+    if (this.user && this.isUserAuth) {
       this.getAply();
     }
 

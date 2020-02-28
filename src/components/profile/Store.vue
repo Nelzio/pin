@@ -9,7 +9,13 @@
         style="min-height: 200px;"
         @click="$router.push('/profile/store/details/'+store.key)"
       />
-      <q-skeleton v-else height="230px" square />
+      <q-img
+        v-ripple
+        v-else
+        src="statics/img/nophoto.png"
+        style="min-height: 200px;"
+        @click="$router.push('/profile/store/details/'+store.key)"
+      />
       <q-card-section :class="getFont.title">{{ store.title }}</q-card-section>
       <q-card-actions align="right">
         <q-btn

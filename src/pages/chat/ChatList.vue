@@ -4,12 +4,13 @@
     <div class="row justify-center">
       <div class="col-12 col-md-6">
         <q-list separator>
+          <!-- :to="'/chat/' + chat.email" -->
           <q-item
             clickable
             v-ripple
             v-for="chat in chatData"
             :key="chat.key"
-            :to="'/chat/' + chat.email"
+            @click="listenClick(chat.email, chat.displayName)"
           >
             <q-item-section avatar>
               <q-avatar size="60px">
@@ -40,7 +41,8 @@ export default {
   // name: 'PageName',
   data() {
     return {
-      chatData: []
+      chatData: [],
+      touchNums: 0,
     };
   },
 
@@ -155,12 +157,35 @@ export default {
         }
       }
       return false;
+    },
+
+    listenClick(email, name) {
+      if (this.vibrateState) {
+        if(window.hasOwnProperty("cordova")){
+          navigator.vibrate(200);
+        } else {
+          window.navigator.vibrate(200);
+        }
+        var vm = this;
+        this.$root.$emit("textToSpeechRouter", name)
+
+        this.touchNums += 1;
+
+        if (this.touchNums >= 2) {
+          this.touchNums = -80;
+          this.$router.push('/chat/' + email)
+        }
+
+        setTimeout(() => {
+          vm.touchNums = 0;
+        }, 2000);
+      }
     }
   },
   created() {},
   mounted() {
     this.getChat();
-    this.$root.$emit("textToSpeechRouter", "Pagina de lista de conversas.");
+    this.$root.$emit("textToSpeechRouter", "Página de lista de conversas.\n Clique uma vez pra ouvir o que está clicando e clique duas vezes para entrar na conversa.");
   }
 };
 </script>

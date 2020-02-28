@@ -23,6 +23,13 @@
         style="min-height: 200px;"
         @click="$router.push('/store/details/'+store.key)"
       />
+      <q-img
+        v-ripple
+        v-else-if="imgLoaded"
+        src="statics/img/nophoto.png"
+        style="min-height: 200px;"
+        @click="$router.push('/store/details/'+store.key)"
+      />
       <q-skeleton v-else height="230px" square />
 
       <q-card-section class="q-pb-none">

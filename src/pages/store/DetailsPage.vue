@@ -40,7 +40,8 @@
 
           <q-item class="text-left">
             <q-item-section top avatar>
-              <q-icon :color="darkModeConf.iconVar" name="phone" />
+              <!-- <q-icon :color="darkModeConf.iconVar" name="phone" /> -->
+              <q-btn round flat @click="callPhone(getUser.phoneNumber)" :color="darkModeConf.iconVar" icon="phone" />
             </q-item-section>
 
             <q-item-section>
@@ -58,7 +59,7 @@
 
             <q-item-section>
               <q-item-label :class="getFont.title">Descrição</q-item-label>
-              <q-item-label :class="getFont.text">{{ getStore.description }}</q-item-label>
+              <q-item-label :class="getFont.text"><div v-html="getStore.description"></div></q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -102,6 +103,12 @@ export default {
       "deleteStore"
     ]),
     ...mapActions("user", ["detailUserStore"]),
+
+    callPhone(number) {
+      if(number) {
+        window.open("tel:"+number);
+      }
+    },
 
     speak(userInput) {
       if (this.synth.speaking) {
@@ -160,6 +167,12 @@ export default {
       );
     },
 
+    convertToPlain(rtf) {
+      rtf = rtf.replace(/\\par[d]?/g, "");
+      return rtf.replace(/\{\*?\\[^{}]+}|[{}]|\\\n?[A-Za-z]+\n?(?:-?\d+)?[ ]?/g, "").trim();
+    },
+
+
     handleHold({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)  getStore.price getUser.phoneNumber getStore.description
@@ -172,7 +185,7 @@ export default {
         " meticais. numero de telefone: " +
         this.converNumbPhone(this.getUser.phoneNumber) +
         ";. descrição: " +
-        this.getStore.description;
+        this.convertToPlain(this.getStore.description);
       if (window.hasOwnProperty("cordova")) {
         this.speakCordova(text);
       } else {

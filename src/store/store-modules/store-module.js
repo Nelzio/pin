@@ -269,9 +269,9 @@ const actions = {
 
   listStore({ commit }) { // done
     var storageRef = fireStorage.ref()
-    if (!offline.data().isOnline) {
-      return alert("Sem internet")
-    }
+    // if (!offline.data().isOnline) {
+    //   return alert("Sem internet")
+    // }
     const ref = firestoreDb.collection('stories')
     var storiesData = []
     ref.where("public", "==", true)
@@ -298,9 +298,9 @@ const actions = {
 
   listStoreMy({ commit }, user) { // done
     var storageRef = fireStorage.ref()
-    if (!offline.data().isOnline) {
-      return alert("Sem internet")
-    }
+    // if (!offline.data().isOnline) {
+    //   return alert("Sem internet")
+    // }
     const ref = firestoreDb.collection('stories')
     var stories = []
     ref.where("user", "==", user).where("public", "==", true)

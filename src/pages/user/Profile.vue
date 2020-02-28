@@ -42,7 +42,8 @@
                 <q-list>
                   <q-item class="text-left">
                     <q-item-section top avatar>
-                      <q-icon :color="darkModeConf.iconVar" name="phone" />
+                      <!-- <q-icon :color="darkModeConf.iconVar" name="phone" /> -->
+                      <q-btn round flat @click="callPhone(getUser.phoneNumber)" :color="darkModeConf.iconVar" icon="phone" />
                     </q-item-section>
 
                     <q-item-section>
@@ -217,6 +218,12 @@ export default {
   },
   methods: {
     ...mapActions("user", ["detailUserStore"]),
+
+    callPhone(number) {
+      if(number) {
+        window.open("tel:"+number);
+      }
+    },
 
     handleHold({ evt, ...info }) {
       // console.log(info)
