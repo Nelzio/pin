@@ -247,7 +247,7 @@ const actions = {
         // this.uploadAuxFunc(payload)
 
       }).catch(function (error) {
-        console.log("Erro ao deletar o file")
+        console.log("Erro ao Remover o file")
         dispatch('uploadAuxFunc', payload)
         // Uh-oh, an error occurred!
       });
@@ -382,7 +382,7 @@ const actions = {
       }).catch(function (error) {
         // Uh-oh, an error occurred!
         commit("SET_VACANCY_DELETED", true)
-        console.log("Erro ao deletar imagem")
+        console.log("Erro ao Remover imagem")
         Loading.hide()
       });
 

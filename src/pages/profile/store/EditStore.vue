@@ -54,8 +54,8 @@
             :color="darkModeConf.iconVar"
             v-model="storeData.subCategory"
             :options="subCategories"
-            label="Sub Categoria"
-            :rules="[ val => val && val.length > 0 || 'Selecione a sub categoria']"
+            label="Subcategoria"
+            :rules="[ val => val && val.length > 0 || 'Selecione a sub subcategoria']"
           />
           <q-select
             rounded
@@ -64,7 +64,7 @@
             v-model="storeData.place"
             :options="places"
             label="Província"
-            :rules="[ val => val && val.length > 0 || 'Selecione a provincia']"
+            :rules="[ val => val && val.length > 0 || 'Selecione a província']"
           />
           <q-input
             rounded
@@ -75,7 +75,7 @@
           >
             <template v-slot:append>
               <q-checkbox :color="darkModeConf.iconVar" v-model="storeData.priceVariable" />
-              <div class="text-body1">Negociavel</div>
+              <div class="text-body1">Negociável</div>
             </template>
           </q-input>
           <q-editor

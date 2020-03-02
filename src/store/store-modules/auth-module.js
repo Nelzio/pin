@@ -223,7 +223,8 @@ const actions = {
 
 
     googleSignInCordova({ commit }) {
-        Loading.show()
+        Loading.show();
+        const vm = this;
         var provider = new firebase.auth.GoogleAuthProvider();
 
         firebase.auth().signInWithRedirect(provider).then(function () {
@@ -271,12 +272,12 @@ const actions = {
                             alert("2Problem here");
                             if (LocalStorage.getItem("routeBack")) {
                                 alert("Problem here");
-                                this.$router.push(LocalStorage.getItem("routeBack"))
+                                vm.$router.push(LocalStorage.getItem("routeBack"))
                                 LocalStorage.set("routeBack", "")
                                 Loading.hide()
                             } else {
                                 alert("2.2Problem here");
-                                this.$router.push("/")
+                                vm.$router.push("/")
                                 Loading.hide()
                             }
                         } else {
@@ -297,11 +298,11 @@ const actions = {
                                 alert("3Problem here");
                                 if (LocalStorage.getItem("routeBack")) {
                                     alert("4Problem here");
-                                    this.$router.push(LocalStorage.getItem("routeBack"))
+                                    vm.$router.push(LocalStorage.getItem("routeBack"))
                                     LocalStorage.set("routeBack", "")
                                     Loading.hide()
                                 } else {
-                                    this.$router.push("/")
+                                    vm.$router.push("/")
                                     Loading.hide()
                                 }
                             })
@@ -678,7 +679,7 @@ const actions = {
                     Loading.hide()
                 }).catch(function (error) {
                     // An error happened.
-                    Notify.create('Erro ao deletar')
+                    Notify.create('Erro ao Remover')
                     Loading.hide()
                 })
             }).catch((error) => {

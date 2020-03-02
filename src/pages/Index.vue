@@ -96,10 +96,10 @@ export default {
 
   },
   mounted() {
-    // this.$root.$emit("textToSpeechRouter", "Pagina Inicial");
+    // this.$root.$emit("textToSpeechRouter", "Página Inicial");
     this.$root.$emit(
       "textToSpeechRouter",
-      "Pagina Inicial.\n Para navegar entre as paginas, deslise o dedo para as laterais."
+      "Página Inicial.\n Para navegar entre as páginas, deslise o dedo para as laterais."
     );
   }
 };

@@ -53,8 +53,8 @@
             :color="darkModeConf.iconVar"
             v-model="store.subCategory"
             :options="subCategories"
-            label="Sub Categoria"
-            :rules="[ val => val && val.length > 0 || 'Selecione a sub categoria']"
+            label="Subcategoria"
+            :rules="[ val => val && val.length > 0 || 'Selecione a subcategoria']"
           />
           <q-select
             rounded
@@ -68,7 +68,7 @@
           <q-input rounded outlined v-model="store.price" :color="darkModeConf.iconVar" label="Preço">
             <template v-slot:append>
               <q-checkbox :color="darkModeConf.iconVar" v-model="store.priceVariable" />
-              <div class="text-body1">Negociavel</div>
+              <div class="text-body1">Negociável</div>
             </template>
           </q-input>
           <q-editor

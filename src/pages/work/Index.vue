@@ -168,7 +168,7 @@ export default {
           rate: 1
         },
         function() {
-          alert("Text succesfully spoken");
+          // console.log("Text succesfully spoken");
         },
         function(reason) {
           alert(reason);

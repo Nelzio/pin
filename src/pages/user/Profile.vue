@@ -183,7 +183,7 @@
                   </q-avatar>
                 </q-item-section>
                 <q-item-section>
-                  <div class="text-bold" :class="getFont.text">{{ storeNum }} produtos e Serviços</div>
+                  <div class="text-bold" :class="getFont.text">{{ storeNum }} produtos e serviços</div>
                 </q-item-section>
               </q-item>
             </q-card>

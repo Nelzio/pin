@@ -85,10 +85,10 @@
             <div :class="getFont.title">Confirmar</div>
           </q-card-section>
 
-          <q-card-section class="q-pt-none" :class="getFont.text">Deletar {{ getStore.title }}?</q-card-section>
+          <q-card-section class="q-pt-none" :class="getFont.text">Remover {{ getStore.title }}?</q-card-section>
 
           <q-card-actions align="right" class="bg-white text-teal">
-            <q-btn rounded outline color="red" label="Deletar" @click="deleteStoreThis(getStore.key)" />
+            <q-btn rounded outline color="red" label="Remover" @click="deleteStoreThis(getStore.key)" />
             <q-btn rounded outline color="grey" label="Cancelar" v-close-popup />
           </q-card-actions>
         </q-card>
@@ -96,7 +96,7 @@
 
       <q-dialog v-model="confirDeleteSuccess">
         <q-card>
-          <q-card-section class="text-green" :class="getFont.title">Deletado com sucesso</q-card-section>
+          <q-card-section class="text-green" :class="getFont.title">Removido com sucesso</q-card-section>
 
           <q-card-actions align="right">
             <q-btn flat label="OK" color="primary" @click="$router.go(-1)" v-close-popup />
@@ -214,13 +214,13 @@ export default {
             .catch(function(error) {
               // Uh-oh, an error occurred!
               vm.confirDeleteSuccess = true;
-              console.log("Erro ao deletar imagem");
+              console.log("Erro ao Remover imagem");
               Loading.hide();
             });
         })
         .catch(error => {
           Loading.hide();
-          alert("Error removing document: ", error);
+          console.log("Error removing document: ", error);
         });
     },
   },

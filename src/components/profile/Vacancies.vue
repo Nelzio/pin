@@ -46,14 +46,14 @@
           <q-card-section
             class="q-pt-none"
             :class="getFont.text"
-          >Deletar vaga de {{ vacancy.title }}?</q-card-section>
+          >Remover vaga de {{ vacancy.title }}?</q-card-section>
 
           <q-card-actions align="right" class="bg-white text-teal">
             <q-btn
               rounded
               outline
               color="red"
-              label="Deletar"
+              label="Remover"
               @click="deleteVacancyThis(vacancy.key)"
             />
             <q-btn rounded outline color="grey" label="Cancelar" v-close-popup />
@@ -139,7 +139,7 @@ export default {
             .catch(function(error) {
               // Uh-oh, an error occurred!
               vm.confirDeleteSuccess = true;
-              console.log("Erro ao deletar imagem");
+              console.log("Erro ao Remover imagem");
               Loading.hide();
             });
         })

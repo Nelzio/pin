@@ -35,7 +35,7 @@
                   </q-item-section>
 
                   <q-item-section>
-                    <q-item-label :class="getFont.text">Vibrador e narar</q-item-label>
+                    <q-item-label :class="getFont.text">Vibrar e narar</q-item-label>
                   </q-item-section>
 
                   <q-item-section side>
@@ -68,8 +68,8 @@
               default-opened
               icon="perm_identity"
               label="Definições de conta"
-              :caption="user.displayName"
               :class="getFont.text"
+              :caption="user.displayName"
             >
               <q-card>
                 <q-item clickable v-ripple to="/account/edit">
@@ -79,6 +79,16 @@
 
                   <q-item-section>
                     <q-item-label :class="getFont.text">Editar conta</q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item clickable v-ripple @click="logOutDialog = true">
+                  <q-item-section avatar>
+                    <q-icon :color="darkModeConf.iconVar" name="delete_forever" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label :class="getFont.text">Sair da conta</q-item-label>
                   </q-item-section>
                 </q-item>
 
@@ -103,9 +113,21 @@
             <q-card-section>
               <div :class="getFont.text">Atençao</div>
             </q-card-section>
-            <q-card-section>Tem a certeza de que quer deletar a conta?</q-card-section>
+            <q-card-section>Tem a certeza de que quer Remover a conta?</q-card-section>
             <q-card-actions align="right">
-              <q-btn rounded label="Deletar conta" color="red" @click="deleteUser(user.email)" />
+              <q-btn rounded label="Remover conta" color="red" @click="deleteUser(user.email)" />
+              <q-btn rounded outline label="Cancelar" color="grey" v-close-popup />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+        <q-dialog v-model="deletDialog">
+          <q-card class="text-red">
+            <q-card-section>
+              <div :class="getFont.text">Atençao</div>
+            </q-card-section>
+            <q-card-section>Tem a certeza de que quer sair da conta?</q-card-section>
+            <q-card-actions align="right">
+              <q-btn rounded label="Sair" color="red" @click="signOut()" />
               <q-btn rounded outline label="Cancelar" color="grey" v-close-popup />
             </q-card-actions>
           </q-card>
@@ -124,8 +146,8 @@ export default {
       mode: true,
       vibrateMode: false,
       deletDialog: false,
-      fontSize: "Normal",
-      fontText: ["Pequeno", "Normal", "Grande"],
+      fontSize: "Médio",
+      fontText: ["Pequeno", "Médio", "Grande"],
       snap: {
         min: 2,
         max: 12
@@ -172,7 +194,7 @@ export default {
       "setVibrate",
       "setAppMode"
     ]),
-    ...mapActions("auth", ["detailUser", "deleteUser"]),
+    ...mapActions("auth", ["detailUser", "deleteUser", "signOut"]),
 
     handleSwipe(val) {
       if (val.direction === "right") {
@@ -200,7 +222,7 @@ export default {
     funcFont() {
       if (this.fontSize == "Pequeno") {
         this.setFont(1);
-      } else if (this.fontSize == "Normal") {
+      } else if (this.fontSize == "Médio") {
         this.setFont(2);
       } else {
         this.setFont(3);
@@ -211,7 +233,7 @@ export default {
     if (this.fontConfig == 1) {
       this.fontSize = "Pequeno";
     } else if (this.fontConfig == 2) {
-      this.fontSize = "Normal";
+      this.fontSize = "Médio";
     } else {
       this.fontSize = "Grande";
     }
@@ -245,7 +267,7 @@ export default {
       if (this.fontConfig == 1) {
         this.fontSize = "Pequeno";
       } else if (this.fontConfig == 2) {
-        this.fontSize = "Normal";
+        this.fontSize = "Médio";
       } else {
         this.fontSize = "Grande";
       }

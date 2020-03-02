@@ -2,53 +2,6 @@
   <q-page class="q-pb-xl">
     <!-- content -->
 
-    <!-- <div>
-    <div class="q-pl-sm text-h6">
-      Filtrar
-    </div>
-    <div>
-      <q-scroll-area
-        horizontal
-      >
-        <div class="row no-wrap q-pa-sm q-gutter-sm">
-          <q-card>
-            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-          </q-card>
-          <q-card>
-            <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-          </q-card>
-        </div>
-      </q-scroll-area>
-    </div>
-    </div>-->
-
     <div
       v-if="!stories || loading"
       class="row justify-center q-gutter-y-md"
