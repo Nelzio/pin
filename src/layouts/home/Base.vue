@@ -284,7 +284,7 @@
           <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/store">
             <q-icon :color="darkModeConf.iconVar" size="lg" name="store" />
             <div class="GPL__side-btn__label">Negócio</div>
-            <!-- <q-badge floating color="red" text-color="white" style="top: 8px right: 16px">
+            <!-- <q-badge floating :color="darkModeConf.iconVar" text-color="white" style="top: 8px right: 16px">
               1
             </q-badge>-->
           </q-btn>
@@ -437,6 +437,7 @@ export default {
           // speak
           sInstance.pitch = this.pitch;
           sInstance.rate = this.rate;
+          sInstance.lang = 'pt-PT';
           this.synth.speak(sInstance);
         } else {
           let sInstance = new SpeechSynthesisUtterance(
@@ -455,6 +456,7 @@ export default {
           // speak
           sInstance.pitch = this.pitch;
           sInstance.rate = this.rate;
+          sInstance.lang = 'pt-PT';
           this.synth.speak(sInstance);
         }
       }

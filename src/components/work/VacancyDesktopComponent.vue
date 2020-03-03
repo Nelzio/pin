@@ -47,7 +47,7 @@
         <q-btn
           rounded
           outline
-          :color="darkModeConf.colorBtn"
+          :color="darkModeConf.iconVar"
           :text-color="darkModeConf.textBtn"
           icon="details"
           label="Detalhes"

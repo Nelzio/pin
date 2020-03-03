@@ -84,7 +84,7 @@
 
                 <q-item clickable v-ripple @click="logOutDialog = true">
                   <q-item-section avatar>
-                    <q-icon :color="darkModeConf.iconVar" name="delete_forever" />
+                    <q-icon :color="darkModeConf.iconVar" name="logout" />
                   </q-item-section>
 
                   <q-item-section>
@@ -111,24 +111,24 @@
         <q-dialog v-model="deletDialog">
           <q-card class="text-red">
             <q-card-section>
-              <div :class="getFont.text">Atençao</div>
+              <div :class="getFont.title">Atençao</div>
             </q-card-section>
-            <q-card-section>Tem a certeza de que quer Remover a conta?</q-card-section>
+            <q-card-section :class="getFont.text">Tem a certeza de que quer Remover a conta?</q-card-section>
             <q-card-actions align="right">
               <q-btn rounded label="Remover conta" color="red" @click="deleteUser(user.email)" />
-              <q-btn rounded outline label="Cancelar" color="grey" v-close-popup />
+              <q-btn rounded outline label="Cancelar" :color="darkModeConf.iconVar" v-close-popup />
             </q-card-actions>
           </q-card>
         </q-dialog>
-        <q-dialog v-model="deletDialog">
-          <q-card class="text-red">
+        <q-dialog v-model="logOutDialog">
+          <q-card>
             <q-card-section>
-              <div :class="getFont.text">Atençao</div>
+              <div :class="getFont.title">Atençao</div>
             </q-card-section>
-            <q-card-section>Tem a certeza de que quer sair da conta?</q-card-section>
+            <q-card-section :class="getFont.text">Tem a certeza de que quer sair da conta?</q-card-section>
             <q-card-actions align="right">
-              <q-btn rounded label="Sair" color="red" @click="signOut()" />
-              <q-btn rounded outline label="Cancelar" color="grey" v-close-popup />
+              <q-btn rounded label="Sair" icon="logout" :color="darkModeConf.iconVar" @click="signOut()" />
+              <q-btn rounded outline label="Cancelar" :color="darkModeConf.iconVar" v-close-popup />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -146,6 +146,7 @@ export default {
       mode: true,
       vibrateMode: false,
       deletDialog: false,
+      logOutDialog: false,
       fontSize: "Médio",
       fontText: ["Pequeno", "Médio", "Grande"],
       snap: {
@@ -177,8 +178,11 @@ export default {
 
     // Vibração
     if (this.vibrateState) {
-      navigator.vibrate(200);
-      window.navigator.vibrate(200);
+      if(window.hasOwnProperty("cordova")){
+        navigator.vibrate(200);
+      } else {
+        window.navigator.vibrate(200);
+      }
     }
     // Play do áudio
     // if (this.settings.isNarratorActive) {

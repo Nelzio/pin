@@ -168,6 +168,7 @@ const actions = {
                         ref.get().then((doc) => {
                             if (doc.exists) {
                                 if (LocalStorage.getItem("routeBack")) {
+                                    this.$router.push("/")
                                     this.$router.push(LocalStorage.getItem("routeBack"))
                                     LocalStorage.set("routeBack", "")
                                     Loading.hide()
@@ -194,6 +195,7 @@ const actions = {
                                     commit('AUTH_USER', dataUser)
                                     Notify.create('A sua conta foi criada com sucesso!')
                                     if (LocalStorage.getItem("routeBack")) {
+                                        vm.$router.push("/")
                                         vm.$router.push(LocalStorage.getItem("routeBack"))
                                         Loading.hide()
                                     } else {
@@ -255,7 +257,7 @@ const actions = {
                     Loading.hide()
 
                     ref.get().then((doc) => {
-                        alert("1Problem here");
+                        // // alert("1Problem here");
                         if (doc.exists) {
                             const data = {
                                 id: doc.id,
@@ -269,14 +271,16 @@ const actions = {
                                 date: doc.data().date
                             }
                             commit('SET_USER_DATA', data)
-                            alert("2Problem here");
+                            // // alert("2Problem here");
                             if (LocalStorage.getItem("routeBack")) {
-                                alert("Problem here");
-                                vm.$router.push(LocalStorage.getItem("routeBack"))
+                                // // alert("Problem here");
+                                vm.$router.go(-1);
+                                // vm.$router.push("/")
+                                // vm.$router.push(LocalStorage.getItem("routeBack"))
                                 LocalStorage.set("routeBack", "")
                                 Loading.hide()
                             } else {
-                                alert("2.2Problem here");
+                                // // alert("2.2Problem here");
                                 vm.$router.push("/")
                                 Loading.hide()
                             }
@@ -295,10 +299,12 @@ const actions = {
 
                             ref.set(dataUser).then((docRef) => {
                                 console.log("Updated")
-                                alert("3Problem here");
+                                // // alert("3Problem here");
                                 if (LocalStorage.getItem("routeBack")) {
-                                    alert("4Problem here");
-                                    vm.$router.push(LocalStorage.getItem("routeBack"))
+                                    // // alert("4Problem here");
+                                    vm.$router.go(-1);
+                                    // vm.$router.push("/")
+                                    // vm.$router.push(LocalStorage.getItem("routeBack"))
                                     LocalStorage.set("routeBack", "")
                                     Loading.hide()
                                 } else {
@@ -311,10 +317,10 @@ const actions = {
                                     showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
                                 })
                         }
-                        alert("5Problem here");
+                        // // alert("5Problem here");
                     })
                     // ...
-                    alert("6Problem here");
+                    // // alert("6Problem here");
                 }
             }).catch(function (error) {
                 // Handle Errors here.
@@ -375,7 +381,9 @@ const actions = {
                     }
                     commit('SET_USER_DATA', data)
                     if (LocalStorage.getItem("routeBack")) {
-                        this.$router.push(LocalStorage.getItem("routeBack"))
+                        this.$router.go(-1);
+                        // this.$router.push("/")
+                        // this.$router.push(LocalStorage.getItem("routeBack"))
                         LocalStorage.set("routeBack", "")
                         Loading.hide()
                     } else {
@@ -398,7 +406,9 @@ const actions = {
                     ref.set(dataUser).then((docRef) => {
                         console.log("Updated")
                         if (LocalStorage.getItem("routeBack")) {
-                            this.$router.push(LocalStorage.getItem("routeBack"))
+                            this.$router.go(-1);
+                            // this.$router.push("/")
+                            // this.$router.push(LocalStorage.getItem("routeBack"))
                             LocalStorage.set("routeBack", "")
                             Loading.hide()
                         } else {
@@ -471,6 +481,7 @@ const actions = {
                     }
                     commit('SET_USER_DATA', data)
                     if (LocalStorage.getItem("routeBack")) {
+                        this.$router.push("/")
                         this.$router.push(LocalStorage.getItem("routeBack"))
                         LocalStorage.set("routeBack", "")
                         Loading.hide()
@@ -494,6 +505,7 @@ const actions = {
                     ref.set(dataUser).then((docRef) => {
                         console.log("Updated")
                         if (LocalStorage.getItem("routeBack")) {
+                            this.$router.push("/")
                             this.$router.push(LocalStorage.getItem("routeBack"))
                             LocalStorage.set("routeBack", "")
                             Loading.hide()
@@ -605,6 +617,7 @@ const actions = {
                         // Loading.hide()
                         Notify.create('Sessão iniciada com sucesso!')
                         if (LocalStorage.getItem("routeBack")) {
+                            this.$router.push("/")
                             this.$router.push(LocalStorage.getItem("routeBack"))
                             LocalStorage.set("routeBack", "")
                             Loading.hide()

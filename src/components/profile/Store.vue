@@ -26,7 +26,7 @@
           :to="'/profile/store/details/'+store.key"
         />
         <q-btn outline rounded icon="edit" :to="'/profile/store/edit/'+store.key" />
-        <q-btn outline rounded color="red" icon="delete" @click="confirDelete = true" />
+        <q-btn outline rounded :color="darkModeConf.iconVar" icon="delete" @click="confirDelete = true" />
         <q-btn
           outline
           rounded
@@ -46,7 +46,7 @@
           <q-card-section class="q-pt-none" :class="getFont.text">Remover {{ store.title }}?</q-card-section>
 
           <q-card-actions align="right" class="bg-white text-teal">
-            <q-btn rounded outline color="red" label="Remover" @click="deleteStoreThis(store.key)" />
+            <q-btn rounded outline :color="darkModeConf.iconVar" label="Remover" @click="deleteStoreThis(store.key)" />
             <q-btn rounded outline color="grey" label="Cancelar" v-close-popup />
           </q-card-actions>
         </q-card>
@@ -92,8 +92,11 @@ export default {
       // console.log(evt)
       // console.log(val)
       // console.log(this.store)
-      navigator.vibrate(200);
-      window.navigator.vibrate(200);
+      if(window.hasOwnProperty("cordova")){
+        navigator.vibrate(200);
+      } else {
+        window.navigator.vibrate(200);
+      }
       this.$root.$emit(
         "textToSpeechRouter",
         "Você adicionou" +

@@ -26,7 +26,7 @@
           :to="'/profile/vacancy/details/'+vacancy.key"
         />
         <q-btn outline rounded icon="edit" :to="'/profile/vacancy/edit/'+vacancy.key" />
-        <q-btn outline rounded color="red" icon="delete" @click="confirDelete = true" />
+        <q-btn outline rounded :color="darkModeConf.iconVar" icon="delete" @click="confirDelete = true" />
         <q-btn
           outline
           rounded
@@ -52,7 +52,7 @@
             <q-btn
               rounded
               outline
-              color="red"
+              :color="darkModeConf.iconVar"
               label="Remover"
               @click="deleteVacancyThis(vacancy.key)"
             />
@@ -107,8 +107,11 @@ export default {
     ...mapActions("auth", ["detailUser", "checkAuthUser"]),
 
     handleHold({ ...info }) {
-      navigator.vibrate(200);
-      window.navigator.vibrate(200);
+      if(window.hasOwnProperty("cordova")){
+        navigator.vibrate(200);
+      } else {
+        window.navigator.vibrate(200);
+      }
       this.$root.$emit(
         "textToSpeechRouter",
         "Você adicionou" + this.vacancy.title + ".\n Clique para detalhes."

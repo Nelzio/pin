@@ -117,6 +117,7 @@ export default {
       }
       if (userInput !== "") {
         let sInstance = new SpeechSynthesisUtterance(userInput);
+        sInstance.lang = 'pt-PT';
         sInstance.onend = function(event) {
           // console.log('SpeechSynthesisUtterance.onend');
         };
@@ -167,29 +168,34 @@ export default {
       );
     },
 
-    convertToPlain(rtf) {
-      rtf = rtf.replace(/\\par[d]?/g, "");
-      return rtf.replace(/\{\*?\\[^{}]+}|[{}]|\\\n?[A-Za-z]+\n?(?:-?\d+)?[ ]?/g, "").trim();
+    convertToPlain(text) {
+      if ((text===null) || (text===''))
+      return false;
+      else
+      str = text.toString();
+      return str.replace( /(<([^>]+)>)/ig, '').replace(/([A-Z])/g, '\n $1');
     },
 
 
     handleHold({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)  getStore.price getUser.phoneNumber getStore.description
-      var text =
-        this.getStore.title +
-        ". categoria: " +
-        this.getStore.category +
-        "; Preço: " +
-        this.getStore.price +
-        " meticais. numero de telefone: " +
-        this.converNumbPhone(this.getUser.phoneNumber) +
-        ";. descrição: " +
-        this.convertToPlain(this.getStore.description);
-      if (window.hasOwnProperty("cordova")) {
-        this.speakCordova(text);
-      } else {
-        this.speak(text);
+      if (this.vibrateState) {
+        var text =
+          this.getStore.title +
+          ". categoria: " +
+          this.getStore.category +
+          "; Preço: " +
+          this.getStore.price +
+          " meticais. numero de telefone: " +
+          this.converNumbPhone(this.getUser.phoneNumber) +
+          ";. descrição: " +
+          this.convertToPlain(this.getStore.description);
+        if (window.hasOwnProperty("cordova")) {
+          this.speakCordova(text);
+        } else {
+          this.speak(text);
+        }
       }
       // console.log(this.vacancy)
     },
@@ -218,30 +224,32 @@ export default {
     },
 
     handleRepeat() {
-      var vm = this;
+      if (this.vibrateState) {
+        var vm = this;
 
-      this.touchNums += 1;
+        this.touchNums += 1;
 
-      if (this.touchNums >= 5) {
-        this.touchNums = -80;
-        navigator.vibrate(200);
-        window.navigator.vibrate(200);
-        if (!this.user) {
-          var text = "Usuário não autenticado.";
-          if (window.hasOwnProperty("cordova")) {
-            this.speakCordova(text);
-          } else {
-            this.speak(text);
+        if (this.touchNums >= 5) {
+          this.touchNums = -80;
+          navigator.vibrate(200);
+          window.navigator.vibrate(200);
+          if (!this.user) {
+            var text = "Usuário não autenticado.";
+            if (window.hasOwnProperty("cordova")) {
+              this.speakCordova(text);
+            } else {
+              this.speak(text);
+            }
+            return;
           }
-          return;
+
+          this.$router.push("/chat/" + this.getUser.email);
         }
 
-        this.$router.push("/chat/" + this.getUser.email);
+        setTimeout(() => {
+          vm.touchNums = 0;
+        }, 5000);
       }
-
-      setTimeout(() => {
-        vm.touchNums = 0;
-      }, 5000);
     }
   },
   created() {

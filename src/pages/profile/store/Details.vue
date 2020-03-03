@@ -73,7 +73,7 @@
             :icon="statusStore ? 'visibility' : 'visibility_off'"
             @click="makePublic(getStore.key, getStore, statusStore)"
           />
-          <q-btn outline rounded color="red" icon="delete" @click="confirDelete = true" />
+          <q-btn outline rounded :color="darkModeConf.iconVar" icon="delete" @click="confirDelete = true" />
         </div>
       </div>
     </div>
@@ -88,7 +88,7 @@
           <q-card-section class="q-pt-none" :class="getFont.text">Remover {{ getStore.title }}?</q-card-section>
 
           <q-card-actions align="right" class="bg-white text-teal">
-            <q-btn rounded outline color="red" label="Remover" @click="deleteStoreThis(getStore.key)" />
+            <q-btn rounded outline :color="darkModeConf.iconVar" label="Remover" @click="deleteStoreThis(getStore.key)" />
             <q-btn rounded outline color="grey" label="Cancelar" v-close-popup />
           </q-card-actions>
         </q-card>

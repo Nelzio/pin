@@ -29,6 +29,7 @@
             </q-card-section>
             <q-card-section class="row q-pt-none">
               <div class="col-12" :class="getFont.text"><div v-html="getVacancy.description"></div></div>
+              <!-- <div class="col-12" :class="getFont.text">{{getVacancy.description}}</div> -->
             </q-card-section>
           </q-card>
         </div>
@@ -43,7 +44,7 @@
             icon="done_all"
             @click="apply = true"
           />
-          <q-btn v-else rounded color="red" label="Cancelar" icon="close" @click="apply = true" />
+          <q-btn v-else rounded :color="darkModeConf.iconVar" label="Cancelar" icon="close" @click="apply = true" />
         </div>
         <div class="row justify-end q-gutter-x-md" v-else>
           <q-btn
@@ -55,7 +56,7 @@
             icon="done_all"
             @click="routeToAccount()"
           />
-          <q-btn v-else rounded color="red" label="Cancelar" icon="close" @click="apply = true" />
+          <q-btn v-else rounded :color="darkModeConf.iconVar" label="Cancelar" icon="close" @click="apply = true" />
         </div>
       </div>
     </div>
@@ -83,7 +84,7 @@
               label="Candidatar"
               @click="aply()"
             />
-            <q-btn v-else rounded outline color="red" label="Retirar" @click="deleteCandidate()" />
+            <q-btn v-else rounded outline :color="darkModeConf.iconVar" label="Retirar" @click="deleteCandidate()" />
             <q-btn rounded outline label="Cancelar" v-close-popup />
           </q-card-actions>
         </q-card>
@@ -137,6 +138,7 @@ export default {
       }
       if (userInput !== "") {
         let sInstance = new SpeechSynthesisUtterance(userInput);
+        sInstance.lang = 'pt-PT';
         sInstance.onend = function(event) {
           // console.log('SpeechSynthesisUtterance.onend');
         };
@@ -190,19 +192,21 @@ export default {
     handleHold({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
-      var text =
-        "Vaga para " +
-        this.getVacancy.title +
-        ". Local: " +
-        this.getVacancy.place +
-        ". Categoría: " +
-        this.getVacancy.category +
-        ". Descrição: " +
-        this.convertToPlain(this.getVacancy.description);
-      if (window.hasOwnProperty("cordova")) {
-        this.speakCordova(text);
-      } else {
-        this.speak(text);
+      if (this.vibrateState) {
+        var text =
+          "Vaga para " +
+          this.getVacancy.title +
+          ". Local: " +
+          this.getVacancy.place +
+          ". Categoría: " +
+          this.getVacancy.category +
+          ". Descrição: " +
+          this.convertToPlain(this.getVacancy.description);
+        if (window.hasOwnProperty("cordova")) {
+          this.speakCordova(text);
+        } else {
+          this.speak(text);
+        }
       }
       // console.log(this.vacancy)
     },
@@ -214,31 +218,33 @@ export default {
     },
 
     handleRepeat() {
-      var vm = this;
+      if (this.vibrateState) {
+        var vm = this;
 
-      this.touchNums += 1;
+        this.touchNums += 1;
 
-      if (this.touchNums >= 5) {
-        this.submitGo = true;
-        this.touchNums = -80;
-        navigator.vibrate(200);
-        window.navigator.vibrate(200);
-        if (!this.user) {
-          var text = "Usuário não autenticado.";
-          this.speak(text);
-          return;
+        if (this.touchNums >= 5) {
+          this.submitGo = true;
+          this.touchNums = -80;
+          navigator.vibrate(200);
+          window.navigator.vibrate(200);
+          if (!this.user || !this.isUserAuth) {
+            var text = "Usuário não autenticado.";
+            this.speak(text);
+            return;
+          }
+
+          if (this.vacancyDone) {
+            this.deleteCandidate();
+          } else {
+            this.aply();
+          }
         }
 
-        if (this.vacancyDone) {
-          this.deleteCandidate();
-        } else {
-          this.aply();
-        }
+        setTimeout(() => {
+          vm.touchNums = 0;
+        }, 5000);
       }
-
-      setTimeout(() => {
-        vm.touchNums = 0;
-      }, 5000);
     },
 
     getAply() {
@@ -271,10 +277,15 @@ export default {
       this.aplyVacancyMethod({ id: this.$route.params.id, data: this.userData });
     },
 
-    convertToPlain(rtf) {
-      rtf = rtf.replace(/\\par[d]?/g, "");
-      return rtf.replace(/\{\*?\\[^{}]+}|[{}]|\\\n?[A-Za-z]+\n?(?:-?\d+)?[ ]?/g, "").trim();
+    convertToPlain(text) {
+      if ((text===null) || (text===''))
+      return false;
+      else
+      str = text.toString();
+      return str.replace( /(<([^>]+)>)/ig, '').replace(/([A-Z])/g, '\n $1');
     },
+
+    
 
     aplyVacancyMethod(payload) {
       if (!offline.data().isOnline) {

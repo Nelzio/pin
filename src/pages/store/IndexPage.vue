@@ -178,6 +178,7 @@ export default {
       }
       if (userInput !== "") {
         let sInstance = new SpeechSynthesisUtterance(userInput);
+        sInstance.lang = 'pt-PT';
         sInstance.onend = function(event) {
           // console.log('SpeechSynthesisUtterance.onend');
         };

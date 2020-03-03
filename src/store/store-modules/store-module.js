@@ -115,7 +115,7 @@ const actions = {
 
   createStore({ commit }, payload) { // done
     if (!offline.data().isOnline) {
-      return alert("Está sem internet")
+      return showErrorMessage("Está sem internet.")
     }
     Loading.show()
     const ref = firestoreDb.collection('stories')
@@ -233,6 +233,9 @@ const actions = {
 
 
   updateStore({ commit, dispatch }, payload) {
+    if (!offline.data().isOnline) {
+      return showErrorMessage("Está sem internet.")
+    }
     Loading.show()
     commit("SET_STORE_CHANGE", false)
     var storageRef = fireStorage.ref();
@@ -269,57 +272,67 @@ const actions = {
 
   listStore({ commit }) { // done
     var storageRef = fireStorage.ref()
-    // if (!offline.data().isOnline) {
-    //   return alert("Sem internet")
-    // }
+    if (!offline.data().isOnline) {
+      showErrorMessage("Está sem internet.")
+    }
     const ref = firestoreDb.collection('stories')
     var storiesData = []
+    var itemsReady = [""];
     ref.where("public", "==", true)
       .onSnapshot(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          storiesData.push({
-            key: doc.id,
-            title: doc.data().title,
-            user: doc.data().user,
-            description: doc.data().description,
-            img: doc.data().img,
-            public: doc.data().public,
-            category: doc.data().category,
-            place: doc.data().place,
-            subCategory: doc.data().subCategory,
-            price: doc.data().price,
-            priceVariable: doc.data().priceVariable,
-          })
-        });
-        commit('SET_STORIES', storiesData)
+        if (offline.data().isOnline) {
+          querySnapshot.forEach(function (doc) {
+            if (!itemsReady.includes(doc.id)) {
+              itemsReady.push(doc.id)
+              storiesData.push({
+                key: doc.id,
+                title: doc.data().title,
+                user: doc.data().user,
+                description: doc.data().description,
+                img: doc.data().img,
+                public: doc.data().public,
+                category: doc.data().category,
+                place: doc.data().place,
+                subCategory: doc.data().subCategory,
+                price: doc.data().price,
+                priceVariable: doc.data().priceVariable,
+              })
+            }
+          });
+          commit('SET_STORIES', storiesData)
+        }
       });
   },
 
 
   listStoreMy({ commit }, user) { // done
     var storageRef = fireStorage.ref()
-    // if (!offline.data().isOnline) {
-    //   return alert("Sem internet")
-    // }
+    if (!offline.data().isOnline) {
+      showErrorMessage("Está sem internet.")
+    }
     const ref = firestoreDb.collection('stories')
     var stories = []
+    var itemsReady = [""];
     ref.where("user", "==", user).where("public", "==", true)
       .onSnapshot(function (querySnapshot) {
         // stories = []
         querySnapshot.forEach(function (doc) {
-          stories.push({
-            key: doc.id,
-            title: doc.data().title,
-            user: doc.data().user,
-            description: doc.data().description,
-            img: doc.data().img,
-            public: doc.data().public,
-            category: doc.data().category,
-            place: doc.data().place,
-            subCategory: doc.data().subCategory,
-            price: doc.data().price,
-            priceVariable: doc.data().priceVariable,
-          })
+          if (!itemsReady.includes(doc.id)) {
+            itemsReady.push(doc.id)
+            stories.push({
+              key: doc.id,
+              title: doc.data().title,
+              user: doc.data().user,
+              description: doc.data().description,
+              img: doc.data().img,
+              public: doc.data().public,
+              category: doc.data().category,
+              place: doc.data().place,
+              subCategory: doc.data().subCategory,
+              price: doc.data().price,
+              priceVariable: doc.data().priceVariable,
+            })
+          }
         });
         commit('SET_STORIES', stories)
       });

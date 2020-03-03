@@ -261,7 +261,8 @@ const actions = {
       showErrorMessage("Está sem internet.")
     }
     const ref = firestoreDb.collection('vacancies')
-    var vacanciesData = []
+    var vacanciesData = [];
+    var itemsReady = [""];
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -270,23 +271,26 @@ const actions = {
     today = mm + '/' + dd + '/' + yyyy;
     ref.where("public", "==", true)
       .onSnapshot(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          var date = doc.data().validate.split("/")
-          if (date[1] + "/" + date[0] + "/" + date[2] >= today) {
-            vacanciesData.push({
-              key: doc.id,
-              title: doc.data().title,
-              user: doc.data().user,
-              description: doc.data().description,
-              img: doc.data().img,
-              public: doc.data().public,
-              place: doc.data().place,
-              validate: doc.data().validate,
-              category: doc.data().category
-            })
-          }
-        });
-        commit('SET_VACANCIES', vacanciesData)
+        if (offline.data().isOnline) {
+          querySnapshot.forEach(function (doc) {
+            var date = doc.data().validate.split("/")
+            if ((date[1] + "/" + date[0] + "/" + date[2] >= today) && !itemsReady.includes(doc.id)) {
+              itemsReady.push(doc.id)
+              vacanciesData.push({
+                key: doc.id,
+                title: doc.data().title,
+                user: doc.data().user,
+                description: doc.data().description,
+                img: doc.data().img,
+                public: doc.data().public,
+                place: doc.data().place,
+                validate: doc.data().validate,
+                category: doc.data().category
+              })
+            }
+          });
+          commit('SET_VACANCIES', vacanciesData)
+        }
       });
   },
 

@@ -154,8 +154,11 @@ export default {
       // console.log(info)
       // console.log(evt)
       // gravar audio
-      navigator.vibrate(200);
-      window.navigator.vibrate(200);
+      if(window.hasOwnProperty("cordova")){
+        navigator.vibrate(200);
+      } else {
+        window.navigator.vibrate(200);
+      }
       if (this.recording) {
         this.stopRecord();
       } else {

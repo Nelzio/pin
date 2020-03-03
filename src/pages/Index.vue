@@ -93,7 +93,6 @@ export default {
         this.$router.push("/account");
       }
     },
-
   },
   mounted() {
     // this.$root.$emit("textToSpeechRouter", "Página Inicial");
