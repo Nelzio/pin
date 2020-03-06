@@ -38,7 +38,7 @@
           <q-btn
             v-if="!vacancyDone"
             rounded
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             :class="darkModeConf.textBtn"
             label="Candidatar-se"
             icon="done_all"
@@ -181,7 +181,7 @@ export default {
           rate: 1
         },
         function() {
-          // console.log("Text succesfully spoken");
+          console.log("Text succesfully spoken");
         },
         function(reason) {
           alert(reason);
@@ -281,7 +281,7 @@ export default {
       if ((text===null) || (text===''))
       return false;
       else
-      str = text.toString();
+      var str = text.toString();
       return str.replace( /(<([^>]+)>)/ig, '').replace(/([A-Z])/g, '\n $1');
     },
 

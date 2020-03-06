@@ -19,8 +19,12 @@
     "firebaseui": "^4.4.0",
     "quasar": "^1.8.0",
     "v-offline": "^1.1.0",
+    "vue-dplayer": "^0.0.10",
     "vue-pdf": "^4.0.7",
-    "vue-social-sharing": "^2.4.7"
+    "vue-social-sharing": "^2.4.7",
+    "vue-video": "^0.1.7",
+    "vue-video-player": "^5.0.2",
+    "vuejs-video-player": "^0.0.2"
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0",

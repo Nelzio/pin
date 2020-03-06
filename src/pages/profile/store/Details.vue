@@ -1,13 +1,21 @@
 <template>
-  <q-page padding>
+  <q-page>
     <!-- content -->
     <div class="row justify-center">
       <div class="col-12 col-md-8">
         <q-card flat>
           <q-img :src="getStore.img" />
         </q-card>
-
-        <div class="row no-wrap items-center">
+        <div v-if="mobile" class="row no-wrap items-center justify-end q-pa-md">
+          <q-btn
+            @click="socialShare('https://hack-a2a7b.firebaseapp.com/store/details/' + getStore.key, {title: 'Superactive Store', description: getStore.title})"
+            outline
+            :color="darkModeConf.iconVar"
+            rounded
+            label="Partilhar"
+            icon="share" />
+        </div>
+        <div v-else class="row no-wrap items-center q-pa-md">
           <div class="col ellipsis" :class="getFont.title">{{ getStore.title }}</div>
           <div class="col ellipsis">
             <social-sharing
@@ -17,12 +25,12 @@
               :quote="getStore.title"
               inline-template
             >
-              <div class="row q-gutter-md">
+              <div class="row q-gutter-md justify-end">
                 <network network="facebook">
-                  <q-btn outline rounded icon="ion-logo-facebook" />
+                  <q-btn outline color="blue" rounded icon="ion-logo-facebook" />
                 </network>
                 <network network="whatsapp">
-                  <q-btn outline rounded icon="ion-logo-whatsapp" />
+                  <q-btn outline color="green" rounded icon="ion-logo-whatsapp" />
                 </network>
               </div>
             </social-sharing>
@@ -65,11 +73,12 @@
             </q-item-section>
           </q-item>
         </q-list>
-        <div class="row q-gutter-md">
-          <q-btn outline rounded icon="edit" :to="'/profile/store/edit/'+getStore.key" />
+        <div class="row q-gutter-md q-pa-md">
+          <q-btn outline rounded :color="darkModeConf.iconVar" icon="edit" :to="'/profile/store/edit/'+getStore.key" />
           <q-btn
             outline
             rounded
+            :color="darkModeConf.iconVar"
             :icon="statusStore ? 'visibility' : 'visibility_off'"
             @click="makePublic(getStore.key, getStore, statusStore)"
           />
@@ -126,6 +135,7 @@ export default {
       statusStore: false,
       confirDelete: false,
       confirDeleteSuccess: false,
+      mobile: false,
     };
   },
   computed: {
@@ -223,9 +233,32 @@ export default {
           console.log("Error removing document: ", error);
         });
     },
+
+    socialShare (url, opts) {
+      var options = {
+        message: opts.title, // not supported on some apps (Facebook, Instagram)
+        url: url,
+        chooserTitle: opts.description // Android only, you can override the default share sheet title
+      }
+      
+      var onSuccess = function(result) {
+        console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
+        console.log("Shared to app: " + result.app); // On Android result.app is currently empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+      }
+      
+      var onError = function(msg) {
+        console.log("Sharing failed with message: " + msg);
+      }
+      
+      window.plugins.socialsharing.shareWithOptions(options, onSuccess, onError);
+    }
   },
   created() {
     this.detailStore(this.$route.params.idPS);
+
+    if(window.hasOwnProperty("cordova")){
+      this.mobile = true;
+    }
     
 
     this.$root.$emit("textToSpeechRouter", "Detalhes de produto ou serviço");

@@ -45,6 +45,7 @@ const mutations = {
     },
     SET_VIBRATE(state, val) {
         state.vibrateState = val
+        LocalStorage.set("vibrate", val)
     }
 
 }

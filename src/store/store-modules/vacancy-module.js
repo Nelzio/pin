@@ -271,7 +271,7 @@ const actions = {
     today = mm + '/' + dd + '/' + yyyy;
     ref.where("public", "==", true)
       .onSnapshot(function (querySnapshot) {
-        if (offline.data().isOnline) {
+        if (offline.data().isOnline && querySnapshot.length !== vacanciesData.length) {
           querySnapshot.forEach(function (doc) {
             var date = doc.data().validate.split("/")
             if ((date[1] + "/" + date[0] + "/" + date[2] >= today) && !itemsReady.includes(doc.id)) {

@@ -38,7 +38,7 @@
           v-for="vacancy in vacancies"
           :key="vacancy.key"
         >
-          <vacancy-desktop-component :lorem="lorem" :vacancy="vacancy" />
+          <vacancy-component :lorem="lorem" :vacancy="vacancy" />
         </div>
       </div>
       <div v-else class="row q-gutter-y-md">
@@ -49,7 +49,7 @@
           v-for="vacancy in data_var"
           :key="vacancy.key"
         >
-          <vacancy-desktop-component :lorem="lorem" :vacancy="vacancy" />
+          <vacancy-component :lorem="lorem" :vacancy="vacancy" />
         </div>
       </div>
     </div>
@@ -69,11 +69,10 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import VacancyComponent from "components/work/VacancyComponent";
-import VacancyDesktopComponent from "components/work/VacancyDesktopComponent";
 import { firestoreDb } from "boot/firebase";
 import offline from "v-offline";
 export default {
-  components: { VacancyDesktopComponent, VacancyComponent },
+  components: { VacancyComponent },
   name: "Vacancies",
   props: ["val_search", "filterVal"],
   data() {
@@ -122,23 +121,34 @@ export default {
       const ref = firestoreDb.collection("vacancies");
       var vacancies = [];
       const vm = this;
+      var itemsReady = [""];
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+
+      today = mm + '/' + dd + '/' + yyyy;
       ref
-        .where("user", "==", user)
+        .where("user", "==", user).where("public", "==", true)
         .get()
         .then(function(querySnapshot) {
           // vacancies = []
           querySnapshot.forEach(function(doc) {
-            vacancies.push({
-              key: doc.id,
-              title: doc.data().title,
-              user: doc.data().user,
-              description: doc.data().description,
-              img: doc.data().img,
-              public: doc.data().public,
-              place: doc.data().place,
-              validate: doc.data().validate,
-              category: doc.data().category
-            });
+            var date = doc.data().validate.split("/")
+            if ((date[1] + "/" + date[0] + "/" + date[2] >= today) && !itemsReady.includes(doc.id)) {
+              itemsReady.push(doc.id);
+              vacancies.push({
+                key: doc.id,
+                title: doc.data().title,
+                user: doc.data().user,
+                description: doc.data().description,
+                img: doc.data().img,
+                public: doc.data().public,
+                place: doc.data().place,
+                validate: doc.data().validate,
+                category: doc.data().category
+              });
+            }
           });
           vm.vacancies = vacancies;
         });

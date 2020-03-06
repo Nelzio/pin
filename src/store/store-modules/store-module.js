@@ -280,7 +280,7 @@ const actions = {
     var itemsReady = [""];
     ref.where("public", "==", true)
       .onSnapshot(function (querySnapshot) {
-        if (offline.data().isOnline) {
+        if (offline.data().isOnline && querySnapshot.length !== storiesData.length) {
           querySnapshot.forEach(function (doc) {
             if (!itemsReady.includes(doc.id)) {
               itemsReady.push(doc.id)

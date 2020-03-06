@@ -16,47 +16,36 @@
         </q-item-section>
       </q-item>
 
+      <q-skeleton v-if="!imgLoaded" height="230px" square />
       <q-img
         v-ripple
-        v-if="store.img && imgLoaded"
+        v-else-if="store.img && imgLoaded"
         :src="store.img"
         style="min-height: 200px;"
         @click="$router.push('/store/details/'+store.key)"
       />
       <q-img
         v-ripple
-        v-else-if="imgLoaded"
+        v-else
         src="statics/img/nophoto.png"
         style="min-height: 200px;"
         @click="$router.push('/store/details/'+store.key)"
       />
-      <q-skeleton v-else height="230px" square />
 
       <q-card-section class="q-pb-none">
         <div :class="getFont.title">{{ store.title }}</div>
         <div :class="getFont.title">{{ store.price }} MZN</div>
       </q-card-section>
 
-      <!-- <q-card-section class="q-pt-none q-pb-none">{{ store.description }}</q-card-section> -->
-
       <q-card-actions align="right" :title="store.key">
         <q-btn
           rounded
           outline
           :color="darkModeConf.iconVar"
-          :text-color="darkModeConf.textBtn"
           icon="details"
           label="Detalhes"
           :to="'/store/details/'+store.key"
         />
-        <!-- <q-btn
-            round
-            outline
-            size="sm"
-            flat
-            :color="appMode.modeName === 'dark' ? 'white' : ''"
-            icon="volume_up"
-        />-->
       </q-card-actions>
     </q-card>
   </div>

@@ -21,15 +21,17 @@
         <q-btn
           outline
           rounded
+          :color="darkModeConf.iconVar"
           label="Detalhes"
           icon="details"
           :to="'/profile/store/details/'+store.key"
         />
-        <q-btn outline rounded icon="edit" :to="'/profile/store/edit/'+store.key" />
+        <q-btn outline rounded :color="darkModeConf.iconVar" icon="edit" :to="'/profile/store/edit/'+store.key" />
         <q-btn outline rounded :color="darkModeConf.iconVar" icon="delete" @click="confirDelete = true" />
         <q-btn
           outline
           rounded
+          :color="darkModeConf.iconVar"
           :icon="statusStore ? 'visibility' : 'visibility_off'"
           @click="makePublic(store.key, store, statusStore)"
         />

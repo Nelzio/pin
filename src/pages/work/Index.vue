@@ -38,7 +38,7 @@
           v-for="vacancy in vacancies"
           :key="vacancy.key"
         >
-          <vacancy-desktop-component :lorem="lorem" :vacancy="vacancy" />
+          <vacancy-component :lorem="lorem" :vacancy="vacancy" />
         </div>
       </div>
       <div v-else class="row q-gutter-y-md">
@@ -49,7 +49,7 @@
           v-for="vacancy in data_var"
           :key="vacancy.key"
         >
-          <vacancy-desktop-component :lorem="lorem" :vacancy="vacancy" />
+          <vacancy-component :lorem="lorem" :vacancy="vacancy" />
         </div>
       </div>
     </div>
@@ -66,21 +66,21 @@
     <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user && isUserAuth">
       <q-btn
         fab
-        icon="add"
         :color="darkModeConf.iconVar"
         :class="darkModeConf.textBtn"
         to="/profile/vacancy/add"
-      />
+      >
+        <q-icon size="lg" name="add" />
+      </q-btn>
     </q-page-sticky>
   </q-page>
 </template>
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import VacancyComponent from "../../components/work/VacancyComponent";
-import VacancyDesktopComponent from "../../components/work/VacancyDesktopComponent";
+import VacancyComponent from "components/work/VacancyComponent";
 export default {
-  components: { VacancyDesktopComponent, VacancyComponent },
+  components: { VacancyComponent },
   name: "Vacancies",
   props: ["val_search", "filterVal"],
   data() {
@@ -169,7 +169,7 @@ export default {
           rate: 1
         },
         function() {
-          // console.log("Text succesfully spoken");
+          console.log("Text succesfully spoken");
         },
         function(reason) {
           alert(reason);

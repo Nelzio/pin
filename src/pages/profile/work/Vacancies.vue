@@ -7,7 +7,7 @@
         <!-- sec 6 -->
         <div v-if="myVacancies.length">
           <div class="row">
-            <div class="col-12 col-md-4 q-pa-sm" v-for="vacancy in myVacancies" :key="vacancy.key">
+            <div ref="item" class="col-12 col-md-4 q-pa-sm" v-for="vacancy in myVacancies" :key="vacancy.key">
               <Vacancy :vacancy="vacancy" />
             </div>
           </div>
@@ -89,7 +89,32 @@ export default {
           if (update) vm.myVacancies = myVacancies;
         }
       });
-    }
+    },
+
+    lazeItems() {
+      if (!(this.itemsLayzeRef == this.$refs.item)) {
+        this.itemsLayzeRef = this.$refs.item;
+      }
+      let active = false;
+      if (active === false && this.itemsLayzeRef) {
+        active = true;
+        this.itemsLayzeRef.forEach(function(item) {
+          var position =
+            window.innerHeight - item.getBoundingClientRect().bottom;
+          var interval1 = item.getBoundingClientRect().top - 55;
+          var interval2 = item.getBoundingClientRect().top + 55;
+          if (position <= interval2 && position >= interval1) {
+            // setTimeout(function() {
+            navigator.vibrate(350);
+            window.navigator.vibrate(350);
+            // console.log("Workkkk")
+            // }, 200)
+          }
+        });
+        active = false;
+      }
+    },
+
   },
   created() {
     this.checkAuthUser();

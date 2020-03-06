@@ -1,12 +1,12 @@
 <template>
   <q-page
-    class="q-gutter-y-md q-pt-md"
+    class="q-gutter-y-md q-pt-md q-pb-xl"
     v-touch-swipe.mouse.left.right="handleSwipe"
     v-touch-hold:600.mouse="handleHold"
   >
     <!-- content -->
 
-    <div class="row justify-center">
+    <div class="row justify-center q-pb-xl">
       <div class="col-12 col-md-8">
         <!-- sec1 -->
         <div class="text-center">
@@ -120,10 +120,41 @@
             </q-tab-panels>
           </q-card>
         </div>
+        
+        <div class="row text-center justify-center">
+          <q-card class="col-12">
+            <q-card-section>
+                <!-- <my-video ref="player" :sources="video.sources" :options="video.options"></my-video> -->
+                <q-video v-if="videoDownload.videoUrl" :src="videoDownload.videoUrl"/>
+            </q-card-section>
+
+            <q-card-actions>
+              <q-btn
+                rounded
+                class="full-width"
+                label="Carregar vídeo"
+                icon="play"
+                :color="darkModeConf.iconVar"
+                :class="darkModeConf.textBtn"
+                @click="proccessFile()"
+              />
+            </q-card-actions>
+            
+          </q-card>
+          <q-form class="q-gutter-md" ref="storeForm">
+            <input
+              id="fileInput"
+              type="file"
+              hidden
+              ref="fileVideo"
+              accept="video/*"
+              @change="onChangeVideo"
+            />
+          </q-form>
+        </div>
 
         <!-- btn conect -->
-        <div class="row justify-center q-pa-md">
-          <!-- <q-btn rounded class="full-width" :color="darkModeConf.color" :class="darkModeConf.textBtn" label="Contactar" /> -->
+        <!-- <div class="row justify-center q-pa-md">
           <q-btn
             rounded
             class="full-width"
@@ -133,7 +164,7 @@
             icon="edit"
             to="account/edit"
           />
-        </div>
+        </div> -->
 
         <q-separator />
 
@@ -212,21 +243,50 @@
         </div>
       </div>
     </div>
+    <div>
+      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-btn
+          v-if="scrollNum < 150"
+          rounded
+          size="lg"
+          :color="darkModeConf.iconVar"
+          :class="darkModeConf.textBtn"
+          label="Editar perfil"
+          icon="edit"
+          to="account/edit"
+        />
+        <q-btn
+          v-else
+          fab
+          :color="darkModeConf.iconVar"
+          :class="darkModeConf.textBtn"
+          to="account/edit"
+        >
+          <q-icon name="edit" size="lg" />
+        </q-btn>
+        
+      </q-page-sticky>
+    </div>
   </q-page>
 </template>
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { Loading } from "quasar";
-import { firebaseAuth, firestoreDb, fireStorage } from "boot/firebase";
+import { firebaseAuth, firestoreDb, fireStorage, firebase } from "boot/firebase";
 import { showErrorMessage } from "../../functions/handle-error-messages";
+import myVideo from 'vue-video';
+// import VueDPlayer from 'vue-dplayer'
+// import 'vue-dplayer/dist/vue-dplayer.css'
 import offline from "v-offline";
 export default {
   // name: 'PageName',
+
   data() {
     return {
       tab: "bio",
       confirDeleteSuccess: false,
+      errorFileDialog: false,
       confirDelete: false,
       confirDeleteAux: false,
       isPublic: true,
@@ -238,9 +298,27 @@ export default {
       myVacancies: [],
       myVacanciesAux: [],
       vacancyNum: 0,
-      storeNum: 0
+      storeNum: 0,
+      scrollNum: 0,
+      video: {
+        sources: [{
+          src: 'https://firebasestorage.googleapis.com/v0/b/hack-a2a7b.appspot.com/o/videos%2Fnelziositoe%40gmail.com?alt=media&token=f9ad9952-a781-4bfa-a706-d38ff3ee4fb6',
+          type: 'video/mp4'
+        }],
+        options: {
+          autoplay: false,
+          volume: 0.6,
+          poster: 'statics/app-logo-128x128.png'
+        }
+      },
+      videoUpload: {
+        video: null,
+        user: ""
+      },
+      videoDownload: {}
     };
   },
+  components: { myVideo },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapState("vacancy", [
@@ -251,7 +329,10 @@ export default {
       "vacancyDetail"
     ]),
     ...mapGetters("auth", ["user", "userData"]),
-    ...mapGetters("settings", ["getFont"])
+    ...mapGetters("settings", ["getFont"]),
+    // player() {
+    //   return this.$refs.videoPlayer.player
+    // }
   },
   methods: {
     ...mapActions("vacancy", [
@@ -263,6 +344,125 @@ export default {
       "deleteVacancy"
     ]),
     ...mapActions("auth", ["detailUser", "checkAuthUser"]),
+
+    playVIdeo() {
+      this.$refs.player.play()
+    },
+
+
+    proccessFile() {
+      // document.getElementById("fileInput").click()
+      console.log(this.$refs)
+      this.$refs.fileVideo.click();
+    },
+    onChangeVideo(event) {
+      const files = event.target.files;
+      let filename = files[0].name;
+      let file = files[0];
+      if (!(file && file["type"].split("/")[0] === "video")) {
+        return (this.errorFileDialog = true);
+      }
+      const fileReader = new FileReader();
+      fileReader.addEventListener("load", () => {
+        this.video.sources[0].src = fileReader.result;
+      });
+      fileReader.readAsDataURL(files[0]);
+      this.videoUpload.video = files[0];
+      this.uploadVideo(this.videoUpload);
+    },
+    uploadVideo (payload) {
+      const vm = this;
+    // Upload file and metadata to the object
+    var storageRef = fireStorage.ref();
+    var uploadTask = storageRef.child('videos/' + payload.user).put(payload.video);
+
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+      function (snapshot) {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED: // or 'paused'
+            console.log('Upload is paused');
+            break;
+          case firebase.storage.TaskState.RUNNING: // or 'running'
+            console.log('Upload is running');
+            break;
+        }
+      }, function (error) {
+
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case 'storage/unauthorized':
+            // User doesn't have permission to access the object
+            break;
+
+          case 'storage/canceled':
+            // User canceled the upload
+            break;
+
+          case 'storage/unknown':
+            // Unknown error occurred, inspect error.serverResponse
+            break;
+        }
+      }, function () {
+        // Upload completed successfully, now we can get the download URL
+        uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+          console.log('File available at', downloadURL);
+          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+            console.log('File available at', downloadURL);
+            vm.videoDB({videoUrl: downloadURL, user: vm.user.email})
+          });
+        });
+      });
+    },
+
+    videoDB(payload) { // done
+    const vm = this;
+    if (!offline.data().isOnline) {
+      return alert("Está sem internet")
+    }
+    // Loading.show()
+    const ref = firestoreDb.collection('videos').doc(payload.user);
+    // Create a root reference
+    var storageRef = fireStorage.ref();
+    // Create the file metadata
+    ref.set(payload).then((docRef) => {
+      console.log("Inserido")
+      console.log(docRef)
+      vm.getVideo(payload.user)
+    })
+      .catch((error) => {
+        // Loading.hide()
+        alert("Error adding document: ", error)
+      })
+
+  },
+
+  getVideo(id) { // test
+    // Loading.show()
+    const vm = this;
+    if (!offline.data().isOnline) {
+      return showErrorMessage("Está sem internet.")
+    }
+    const ref = firestoreDb.collection('videos').doc(id);
+    ref.get().then((doc) => {
+      if (doc.exists) {
+        vm.videoDownload = {
+          key: doc.id,
+          videoUrl: doc.data().videoUrl,
+          user: doc.data().user,
+        }
+        vm.video.sources[0].src = doc.data().videoUrl
+        // Loading.hide()
+      } else {
+        console.log("No such document!")
+        // Loading.hide()
+      }
+    });
+  },
 
     // deleteVacancyThis(id) {
     //   const vm = this;
@@ -300,7 +500,8 @@ export default {
       // }
 
       if (val.direction === "right") {
-        this.$router.push("/settings");
+        // this.$router.push("/settings");
+        this.$router.go(-1)
       }
     },
 
@@ -434,7 +635,12 @@ export default {
         }
       });
       return converted;
-    }
+    },
+    windowScroll () {
+      this.scrollNum = window.scrollY
+    },
+
+    // Video Player functions
   },
   created() {
     this.checkAuthUser();
@@ -443,7 +649,11 @@ export default {
     this.listStoreMyHere(this.user.email);
   },
   mounted() {
+    this.getVideo(this.user.email)
     // this.listVacancyMy(this.user.email)
+    this.videoUpload.user = this.user.email
+    
+    window.addEventListener("scroll", this.windowScroll);
     this.listCandidatures(this.user.email);
 
     this.$root.$emit(

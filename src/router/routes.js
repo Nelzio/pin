@@ -17,6 +17,7 @@ const routes = [
       { path: 'chat/:idReceptor', component: () => import('pages/chat/Chat.vue') },
       { path: 'chat', component: () => import('pages/chat/ChatList.vue') },
       { path: 'tts', component: () => import('pages/tests/TextToSpeach.vue') },
+      { path: 'playlist', component: () => import('pages/tests/PlayList.vue') },
       { path: 'center', component: () => import('pages/tests/OnCenter.vue') },
     ]
   },

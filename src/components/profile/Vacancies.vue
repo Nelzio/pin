@@ -21,15 +21,17 @@
         <q-btn
           outline
           rounded
+          :color="darkModeConf.iconVar"
           label="Detalhes"
           icon="details"
           :to="'/profile/vacancy/details/'+vacancy.key"
         />
-        <q-btn outline rounded icon="edit" :to="'/profile/vacancy/edit/'+vacancy.key" />
+        <q-btn outline rounded :color="darkModeConf.iconVar" icon="edit" :to="'/profile/vacancy/edit/'+vacancy.key" />
         <q-btn outline rounded :color="darkModeConf.iconVar" icon="delete" @click="confirDelete = true" />
         <q-btn
           outline
           rounded
+          :color="darkModeConf.iconVar"
           :icon="vacancyStatus ? 'visibility' : 'visibility_off'"
           @click="makePublic(vacancy.key, vacancy, vacancyStatus)"
         />

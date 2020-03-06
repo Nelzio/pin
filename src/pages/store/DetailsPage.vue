@@ -1,6 +1,5 @@
 <template>
   <q-page
-    padding
     @click="handleRepeat()"
     v-touch-swipe.mouse.left.right="handleSwipe"
     v-touch-hold:600.mouse="handleHold"
@@ -12,12 +11,12 @@
           <q-img :src="getStore.img" />
         </q-card>
 
-        <div class="row no-wrap items-center">
+        <div class="row no-wrap items-center q-pa-md">
           <div class="col ellipsis" :class="getFont.title">{{ getStore.title }}</div>
           <div class="col ellipsis" :class="getFont.title">
             <q-btn
               rounded
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               icon="message"
               label="Contactar"
@@ -27,7 +26,7 @@
         </div>
 
         <q-list>
-          <q-item>
+          <q-item v-if="getStore.price">
             <q-item-section avatar top>
               <q-icon :color="darkModeConf.iconVar" name="attach_money" />
             </q-item-section>
@@ -36,12 +35,12 @@
             </q-item-section>
           </q-item>
 
-          <q-separator spaced inset="item" />
+          <q-separator v-if="getStore.price" spaced inset="item" />
 
           <q-item class="text-left">
             <q-item-section top avatar>
               <!-- <q-icon :color="darkModeConf.iconVar" name="phone" /> -->
-              <q-btn round flat @click="callPhone(getUser.phoneNumber)" :color="darkModeConf.iconVar" icon="phone" />
+              <q-btn round outline @click="callPhone(getUser.phoneNumber)" :color="darkModeConf.iconVar" icon="phone" />
             </q-item-section>
 
             <q-item-section>
@@ -160,7 +159,7 @@ export default {
           rate: 1
         },
         function() {
-          // console.log("Text succesfully spoken");
+          console.log("Text succesfully spoken");
         },
         function(reason) {
           alert(reason);
@@ -172,7 +171,7 @@ export default {
       if ((text===null) || (text===''))
       return false;
       else
-      str = text.toString();
+      var str = text.toString();
       return str.replace( /(<([^>]+)>)/ig, '').replace(/([A-Z])/g, '\n $1');
     },
 

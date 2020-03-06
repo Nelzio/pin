@@ -25,8 +25,8 @@
             <q-tabs
               v-model="tab"
               dense
-              :active-color="darkModeConf.color"
-              :indicator-color="darkModeConf.color"
+              :active-color="darkModeConf.iconVar"
+              :indicator-color="darkModeConf.iconVar"
               class="text-grey"
               align="justify"
               narrow-indicator
@@ -124,6 +124,13 @@
             </q-tab-panels>
           </q-card>
         </div>
+        <div class="row text-center justify-center">
+          <q-card class="col-12">
+            <!-- <my-video ref="player" :sources="video.sources" :options="video.options"></my-video> -->
+            <q-video v-if="videoDownload.videoUrl" :src="videoDownload.videoUrl"/>
+            
+          </q-card>
+        </div>
         <q-separator />
       </div>
     </div>
@@ -198,19 +205,33 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 import { firestoreDb } from "boot/firebase";
 import offline from "v-offline";
+import myVideo from 'vue-video';
 export default {
   // name: 'PageName',
   data() {
     return {
       tab: "bio",
       vacancies: [],
+      videoDownload: {},
       vacancyNum: 0,
       storeNum: 0,
       pitch: 0.8,
       rate: 1,
-      synth: window.speechSynthesis
+      synth: window.speechSynthesis,
+      video: {
+        sources: [{
+          src: '',
+          type: 'video/mp4'
+        }],
+        options: {
+          autoplay: false,
+          volume: 0.6,
+          poster: 'statics/app-logo-128x128.png'
+        }
+      },
     };
   },
+  components: { myVideo },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapGetters("user", ["getUser"]),
@@ -224,6 +245,30 @@ export default {
         window.open("tel:"+number);
       }
     },
+
+    getVideo(id) { // test
+    // Loading.show()
+    const vm = this;
+    if (!offline.data().isOnline) {
+      return showErrorMessage("Está sem internet.")
+    }
+    const ref = firestoreDb.collection('videos').doc(id);
+    ref.get().then((doc) => {
+      if (doc.exists) {
+        vm.videoDownload = {
+          key: doc.id,
+          videoUrl: doc.data().videoUrl,
+          user: doc.data().user,
+        }
+        vm.video.sources[0].src = doc.data().videoUrl
+        console.log(vm.videoDownload)
+        // Loading.hide()
+      } else {
+        console.log("No such document!")
+        // Loading.hide()
+      }
+    });
+  },
 
     handleHold({ evt, ...info }) {
       // console.log(info)
@@ -278,11 +323,29 @@ export default {
         return alert("Sem internet");
       }
       const vm = this;
+      var itemsReady = [""];
+      var today = new Date();
+      var num = 0;
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+
+      today = mm + '/' + dd + '/' + yyyy;
       // vm.myVacancies = []
       var myVacanciesAux = [];
       const ref = firestoreDb.collection("vacancies");
-      ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
-        vm.vacancyNum = querySnapshot.docs.length;
+      ref.where("user", "==", user).where("public", "==", true).onSnapshot(function(querySnapshot) {
+        num = 0
+        querySnapshot.forEach(function(doc) {
+          if (doc.data().validate) {
+              var date = doc.data().validate.split("/");
+              if ((date[1] + "/" + date[0] + "/" + date[2] >= today) && !itemsReady.includes(doc.id)) {
+                itemsReady.push(doc.id);
+                num += 1
+              }
+            }
+          });
+        vm.vacancyNum = num;
       });
     },
 
@@ -292,7 +355,7 @@ export default {
       }
       const vm = this;
       const ref = firestoreDb.collection("stories");
-      ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
+      ref.where("user", "==", user).where("public", "==", true).onSnapshot(function(querySnapshot) {
         vm.storeNum = querySnapshot.docs.length;
       });
     },
@@ -316,6 +379,7 @@ export default {
   },
   created() {
     this.detailUserStore(this.$route.params.idUser);
+    this.getVideo(this.$route.params.idUser);
   },
   mounted() {
     this.listVacancy(this.$route.params.idUser);

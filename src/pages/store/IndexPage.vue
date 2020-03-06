@@ -118,11 +118,13 @@
     <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user && isUserAuth">
       <q-btn
         fab
-        icon="add"
         :color="darkModeConf.iconVar"
         :class="darkModeConf.textBtn"
         to="/profile/store/add"
-      />
+      >
+        <q-icon size="lg" name="add" />
+      </q-btn>
+      
     </q-page-sticky>
   </q-page>
 </template>
@@ -220,7 +222,7 @@ export default {
           rate: 1
         },
         function() {
-          // console.log("Text succesfully spoken");
+          console.log("Text succesfully spoken");
         },
         function(reason) {
           alert(reason);
