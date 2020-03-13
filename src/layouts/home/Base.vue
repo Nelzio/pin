@@ -437,7 +437,7 @@ export default {
           // speak
           sInstance.pitch = this.pitch;
           sInstance.rate = this.rate;
-          sInstance.lang = 'pt-PT';
+          sInstance.lang = 'pt-BR';
           this.synth.speak(sInstance);
         } else {
           let sInstance = new SpeechSynthesisUtterance(
@@ -456,7 +456,7 @@ export default {
           // speak
           sInstance.pitch = this.pitch;
           sInstance.rate = this.rate;
-          sInstance.lang = 'pt-PT';
+          sInstance.lang = 'pt-BR';
           this.synth.speak(sInstance);
         }
       }
@@ -466,7 +466,7 @@ export default {
       if (this.vibrateState === 1) {
         TTS.speak({
           text: userInput,
-          locale: 'pt-PT',
+          locale: 'pt-BR',
           rate: 1
         }, function () {
           // console.log('Text succesfully spoken');

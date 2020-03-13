@@ -80,62 +80,104 @@ const actions = {
                 // Upload completed successfully, now we can get the download URL
                 uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
                     console.log('File available at', downloadURL);
-                    uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-                        console.log('File available at', downloadURL);
-                        const ref = firestoreDb.collection('users').doc(payload.email) // email is the key
+                    const ref = firestoreDb.collection('users').doc(payload.email) // email is the key
+                    // adicionar outros dados do usuario em sua conta
+                    var user = firebase.auth().currentUser;
+                    const loginUser = {
+                        displayName: payload.displayName,
+                        email: payload.email,
+                        photoURL: downloadURL,
+                        phoneNumber: payload.phoneNumber,
+                        date: payload.date
+                    }
 
-                        // adicionar outros dados do usuario em sua conta
-                        var user = firebase.auth().currentUser;
-                        const loginUser = {
-                            displayName: payload.displayName,
-                            email: payload.email,
-                            photoURL: downloadURL,
-                            phoneNumber: payload.phoneNumber,
-                            date: payload.date
+                    user.updateProfile(loginUser).then(function () {
+                        // Update successful.
+                        // despois de atualizar o user deve add a tabela users da db
+                        user = firebase.auth().currentUser;
+                        const userData = {
+                            displayName: user.displayName,
+                            email: user.email,
+                            emailVerified: user.emailVerified,
+                            phoneNumber: user.phoneNumber,
+                            photoURL: user.photoURL,
+                            refreshToken: user.refreshToken,
+                            uid: user.uid
                         }
 
-                        user.updateProfile(loginUser).then(function () {
-                            // Update successful.
-                            // despois de atualizar o user deve add a tabela users da db
-                            ref.get().then((doc) => {
-                                if (doc.exists) {
-                                    payload.$router.push('/')
-                                    Loading.hide()
-                                } else {
-                                    // If user desen't exist
-                                    const dataUser = {
-                                        displayName: payload.displayName,
-                                        email: payload.email,
-                                        photoURL: downloadURL,
-                                        phoneNumber: payload.phoneNumber,
-                                        adress: "",
-                                        profission: "",
-                                        education: "",
-                                        date: payload.date
-                                    }
+                        commit('SET_AUTH_USER', true)
+                        commit('AUTH_USER', userData)
 
-                                    ref.set(dataUser).then((docRef) => {
-                                        console.log("Updated")
+                        ref.get().then((doc) => {
+                            if (doc.exists) {
+                                const dataUser = {
+                                    displayName: doc.data().displayName,
+                                    email: doc.data().email,
+                                    photoURL: downloadURL,
+                                    phoneNumber: doc.data().phoneNumber,
+                                    adress: doc.data().adress,
+                                    profission: doc.data().profission,
+                                    education: doc.data().education,
+                                    profileType: doc.data().profileType,
+                                    description: doc.data().description,
+                                    date: doc.data().date
+                                }
+
+                                ref.set(dataUser).then((docRef) => {
+                                    // console.log("Updated")
+                                    commit('SET_USER_DATA', dataUser)
+                                    if(payload.older) {
+                                        Notify.create('A sua conta foi editada com sucesso!')
+                                        payload.vm.$router.go(-1)
+                                    } else {
                                         Notify.create('A sua conta foi criada com sucesso!')
-                                        commit('SET_AUTH_USER', true)
-                                        commit('AUTH_USER', dataUser)
+                                        payload.vm.$router.push('/')
+                                    }
+                                    Loading.hide()
+                                })
+                                .catch((error) => {
+                                    Loading.hide()
+                                    console.log(error)
+                                    showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
+                                })
+                            } else {
+                                // If user desen't exist
+                                const dataUser = {
+                                    displayName: payload.displayName,
+                                    email: payload.email,
+                                    photoURL: downloadURL,
+                                    phoneNumber: payload.phoneNumber,
+                                    adress: "",
+                                    profission: "",
+                                    education: "",
+                                    profileType: "",
+                                    description: "",
+                                    date: ""
+                                }
+
+                                ref.set(dataUser).then((docRef) => {
+                                    // console.log("Updated")
+                                    if (LocalStorage.getItem("routeBack")) {
+                                        payload.vm.$router.push("/")
+                                        payload.vm.$router.push(LocalStorage.getItem("routeBack"))
+                                        Loading.hide()
+                                    } else {
                                         payload.vm.$router.push('/')
                                         Loading.hide()
+                                    }
+                                })
+                                    .catch((error) => {
+                                        Loading.hide()
+                                        showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
                                     })
-                                        .catch((error) => {
-                                            Loading.hide()
-                                            console.log(error)
-                                            showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
-                                        })
-                                }
-                            })
-                        }).catch(function (error) {
-                            // An error happened.
-                        });
-
-
-
+                            }
+                        })
+                    }).catch(function (error) {
+                        // An error happened.
                     });
+
+
+
                 });
             });
     },
@@ -186,11 +228,13 @@ const actions = {
                                     adress: "",
                                     profission: "",
                                     education: "",
-                                    date: payload.date
+                                    profileType: "",
+                                    description: "",
+                                    date: ""
                                 }
 
                                 ref.set(dataUser).then((docRef) => {
-                                    console.log("Updated")
+                                    // console.log("Updated")
                                     commit('SET_AUTH_USER', true)
                                     commit('AUTH_USER', dataUser)
                                     Notify.create('A sua conta foi criada com sucesso!')
@@ -268,6 +312,8 @@ const actions = {
                                 adress: doc.data().adress,
                                 profission: doc.data().profission,
                                 education: doc.data().education,
+                                profileType: doc.data().profileType,
+                                description: doc.data().description,
                                 date: doc.data().date
                             }
                             commit('SET_USER_DATA', data)
@@ -294,11 +340,13 @@ const actions = {
                                 adress: "",
                                 profission: "",
                                 education: "",
+                                profileType: "",
+                                description: "",
                                 date: ""
                             }
 
                             ref.set(dataUser).then((docRef) => {
-                                console.log("Updated")
+                                // console.log("Updated")
                                 // // alert("3Problem here");
                                 if (LocalStorage.getItem("routeBack")) {
                                     // // alert("4Problem here");
@@ -377,6 +425,9 @@ const actions = {
                         adress: doc.data().adress,
                         profission: doc.data().profission,
                         education: doc.data().education,
+                        profileType: doc.data().profileType,
+                        description: doc.data().description,
+                        education: doc.data().education,
                         date: doc.data().date
                     }
                     commit('SET_USER_DATA', data)
@@ -400,6 +451,8 @@ const actions = {
                         adress: "",
                         profission: "",
                         education: "",
+                        profileType: "",
+                                    description: "",
                         date: ""
                     }
 
@@ -445,7 +498,6 @@ const actions = {
             var token = result.credential.accessToken;
             // The signed-in user info.
             var user = result.user;
-            console.log(result)
 
 
             const ref = firestoreDb.collection('users').doc(result.user.uid) // email is the key
@@ -477,6 +529,8 @@ const actions = {
                         adress: doc.data().adress,
                         profission: doc.data().profission,
                         education: doc.data().education,
+                        profileType: doc.data().profileType,
+                        description: doc.data().description,
                         date: doc.data().date
                     }
                     commit('SET_USER_DATA', data)
@@ -499,11 +553,13 @@ const actions = {
                         adress: "",
                         profission: "",
                         education: "",
+                        profileType: "",
+                                    description: "",
                         date: ""
                     }
 
                     ref.set(dataUser).then((docRef) => {
-                        console.log("Updated")
+                        // console.log("Updated")
                         if (LocalStorage.getItem("routeBack")) {
                             this.$router.push("/")
                             this.$router.push(LocalStorage.getItem("routeBack"))
@@ -537,19 +593,120 @@ const actions = {
         });
     },
 
-    editUser({ commit }, payload) {
+    // getUser() {
+
+    //     ref.get().then((doc) => {
+    //         if (doc.exists) {
+    //             const data = {
+    //                 id: doc.id,
+    //                 displayName: doc.data().displayName,
+    //                 email: doc.data().email,
+    //                 photoURL: doc.data().photoURL,
+    //                 phoneNumber: doc.data().phoneNumber,
+    //                 adress: doc.data().adress,
+    //                 profission: doc.data().profission,
+    //                 education: doc.data().education,
+    //                 profileType: doc.data().profileType,
+    //                 description: doc.data().description,
+    //                 education: doc.data().education,
+    //                 date: doc.data().date
+    //             }
+    //             commit('SET_USER_DATA', data)
+    //             if (LocalStorage.getItem("routeBack")) {
+    //                 this.$router.go(-1);
+    //                 // this.$router.push("/")
+    //                 // this.$router.push(LocalStorage.getItem("routeBack"))
+    //                 LocalStorage.set("routeBack", "")
+    //                 Loading.hide()
+    //             } else {
+    //                 this.$router.push("/")
+    //                 Loading.hide()
+    //             }
+    //         }
+    //     })
+
+    // },
+
+    editUser({ commit, dispatch }, payload) {
         // Edit or add a user
         Loading.show()
         const ref = firestoreDb.collection('users').doc(payload.id) // email is the key
         ref.set(payload.data).then((docRef) => {
-            console.log("Updated")
-            this.$router.go(-1)
-            Loading.hide()
+            const data = {
+                id: payload.data.id,
+                displayName: payload.data.displayName,
+                email: payload.data.email,
+                photoURL: payload.data.photoURL,
+                phoneNumber: payload.data.phoneNumber,
+                adress: payload.data.adress,
+                profission: payload.data.profission,
+                education: payload.data.education,
+                profileType: payload.data.profileType,
+                description: payload.data.description,
+                education: payload.data.education,
+                date: payload.data.date
+            }
+            commit('SET_USER_DATA', data)
+
+
+            var dataUpload = {
+                data: {
+                    displayName: payload.data.displayName,
+                    photoURL: payload.data.photoURL,
+                    phoneNumber: payload.data.phoneNumber,
+                    date: payload.data.date,
+                    email: payload.data.email
+                },
+                img: payload.img
+            }
+            
+            dispatch('updateUser', dataUpload)
         })
             .catch((error) => {
                 Loading.hide()
                 showErrorMessage("Error adding document: ", error)
             })
+    },
+
+    updateUser({ commit, dispatch }, payload) {
+        const vm = this;
+        if (payload.img) {
+            const data = {
+                displayName: payload.data.displayName,
+                photoURL: payload.data.photoURL,
+                phoneNumber: payload.data.phoneNumber,
+                date: payload.data.date,
+                email: payload.data.email,
+                img: payload.img,
+                older: true,
+                vm: this
+            };
+            dispatch('uploadAuxFunc', data);
+        } else {
+            var user = firebase.auth().currentUser;
+            user.updateProfile(payload.data).then(function() {
+                // Update successful.
+                user = firebase.auth().currentUser;
+                const userData = {
+                    displayName: user.displayName,
+                    email: user.email,
+                    emailVerified: user.emailVerified,
+                    phoneNumber: user.phoneNumber,
+                    photoURL: user.photoURL,
+                    refreshToken: user.refreshToken,
+                    uid: user.uid
+                }
+
+                commit('AUTH_USER', userData)
+
+                vm.$router.go(-1)
+                Loading.hide()
+            }).catch(function(error) {
+            // An error happened.
+                Loading.hide()
+                showErrorMessage("Erro ao editar usuário: ", error)
+            });
+        }
     },
 
     detailUser({ commit }, id) {
@@ -567,6 +724,8 @@ const actions = {
                     adress: doc.data().adress,
                     profission: doc.data().profission,
                     education: doc.data().education,
+                    profileType: doc.data().profileType,
+                        description: doc.data().description,
                     date: doc.data().date
                 }
                 commit('SET_USER_DATA', data)
@@ -581,6 +740,8 @@ const actions = {
                     adress: "",
                     profission: "",
                     education: "",
+                    profileType: "",
+                                    description: "",
                     date: ""
                 }
                 commit('SET_USER_DATA', data)
@@ -607,6 +768,8 @@ const actions = {
                             adress: doc.data().adress,
                             profission: doc.data().profission,
                             education: doc.data().education,
+                            profileType: doc.data().profileType,
+                        description: doc.data().description,
                             date: doc.data().date
                         }
                         commit('SET_USER_DATA', data);
@@ -665,12 +828,13 @@ const actions = {
 
     signOut({ commit }) {
         Loading.show()
+        const vm = this;
         firebaseAuth.signOut()
             .then(() => {
                 commit('SET_AUTH_USER', false)
                 commit('AUTH_USER', null)
                 commit('SET_USER_DATA', null)
-                this.$router.push('/')
+                vm.$router.push('/')
                 Loading.hide()
             })
     },
@@ -700,8 +864,6 @@ const actions = {
                 showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
             });
         }).catch(err => console.log(err))
-
-
 
     }
 

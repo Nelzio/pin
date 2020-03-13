@@ -1,5 +1,5 @@
 <template>
-  <q-page v-touch-swipe.mouse.left="accountSwipe">
+  <q-page v-touch-swipe.mouse.left.right="accountSwipe">
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
@@ -123,16 +123,16 @@ export default {
     },
 
     accountSwipe(val) {
-      // if (val.direction === "left") {
-      //   this.$router.push("/account/create")
-      // }
+      if (val.direction === "right") {
+        this.$router.go(-1)
+      }
 
       if (val.direction === "left") {
         this.$router.push("/account/create");
       }
-      if (val.direction === "up") {
-        this.$router.push("/");
-      }
+      // if (val.direction === "up") {
+      //   this.$router.push("/");
+      // }
     }
   },
 

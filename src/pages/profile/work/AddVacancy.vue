@@ -11,6 +11,7 @@
               :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               class="full-width"
+              icon="insert_photo"
               label="Inserir imagem"
               @click="proccessFile()"
             />
@@ -34,7 +35,7 @@
             v-model="vacancy.title"
             label="Titulo"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza O título']"
+            :rules="[ val => val && val.length > 0 || 'Introduza o título']"
           />
           <!-- <q-input :color="darkModeConf.iconVar" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
           <q-select
@@ -44,6 +45,7 @@
             v-model="vacancy.category"
             :options="categories"
             label="Categoria"
+            :rules="[ val => val && val.length > 0 || 'Introduza a categoria']"
           />
           <q-select
             rounded
@@ -52,11 +54,13 @@
             v-model="vacancy.place"
             :options="places"
             label="Província"
+            :rules="[ val => val && val.length > 0 || 'Introduza a província']"
           />
           <q-input
             :color="darkModeConf.iconVar"
             rounded
             outlined
+            label="Data de validade"
             v-model="vacancy.validate"
             mask="##/##/####"
             :rules="[ val => val && val.length > 0 || 'Introduza a data de validade']"
@@ -96,7 +100,7 @@
     </div>
 
     <div>
-      <q-dialog v-model="confirmInsert">
+      <!-- <q-dialog v-model="confirmInsert">
         <q-card>
           <q-card-section class="text-h5 text-green">Vaga inserida com sucesso</q-card-section>
 
@@ -104,14 +108,38 @@
             <q-btn flat label="OK" color="green" v-close-popup />
           </q-card-actions>
         </q-card>
-      </q-dialog>
+      </q-dialog> -->
 
-      <q-dialog v-model="errorFileDialog">
+      <!-- <q-dialog v-model="errorFileDialog">
         <q-card>
           <q-card-section class="text-h5 text-red">Por favor, insira uma imagem válida.</q-card-section>
 
           <q-card-actions align="right">
             <q-btn flat label="OK" color="red" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog> -->
+
+      <q-dialog v-model="confirmInsert">
+        <q-card style="widht: 90vw">
+          <q-card-section>
+            <div :class="getFont.title">Adição de vaga</div>
+          </q-card-section>
+          <q-card-section :class="getFont.text">Vaga inserida com sucesso.</q-card-section>
+          <q-card-actions align="right">
+            <q-btn rounded outline label="OK" :color="darkModeConf.iconVar" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="errorFileDialog">
+        <q-card>
+          <q-card-section>
+            <div :class="getFont.title">Atenção</div>
+          </q-card-section>
+          <q-card-section :class="getFont.text">Por favor, insira uma imagem válida.</q-card-section>
+          <q-card-actions align="right">
+            <q-btn rounded outline label="OK" :color="darkModeConf.iconVar" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -132,7 +160,7 @@ export default {
         user: "",
         description: "",
         img: "",
-        public: false,
+        public: true,
         category: "",
         validate: "",
         place: ""
@@ -186,6 +214,7 @@ export default {
   computed: {
     ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
     ...mapState("vacancy", ["vacancyDtl"]),
+    ...mapGetters("settings", ["getFont"]),
     ...mapGetters("auth", ["user"])
   },
   methods: {
@@ -222,13 +251,17 @@ export default {
   watch: {
     vacancyDtl() {
       if (!this.vacancyDtl.title) {
+        this.imageUrl = "";
         this.vacancy = {
           title: "",
           user: "",
           description: "",
-          img: ""
+          img: "",
+          public: true,
+          category: "",
+          validate: "",
+          place: ""
         };
-        this.imageUrl = "";
         this.$refs.vacancyForm.resetValidation();
         this.confirmInsert = true;
       }

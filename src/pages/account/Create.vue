@@ -38,9 +38,9 @@
             :color="darkModeConf.iconVar"
             v-model="authObject.displayName"
             ref="name"
-            label="Nome completo"
+            label="Nome"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Por favor, indique o seu nome']"
+            :rules="[ val => val && val.length > 0 || 'Por favor, introduza o nome da instituição ou pessoa']"
           />
           <q-input
             rounded
@@ -65,7 +65,7 @@
             :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
           />
 
-          <q-input
+          <!-- <q-input
             :color="darkModeConf.iconVar"
             rounded
             outlined
@@ -86,7 +86,7 @@
                 </q-popup-proxy>
               </q-icon>
             </template>
-          </q-input>
+          </q-input> -->
 
           <q-input
             rounded
@@ -96,6 +96,7 @@
             placeholder="password"
             ref="password"
             v-model="authObject.password"
+            label="password"
             :type="isPwd ? 'password' : 'text'"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Por favor, insira uma senha válida']"
@@ -173,7 +174,6 @@ export default {
     onSubmit() {
       this.$refs.email.validate();
       this.$refs.password.validate();
-      console.log("Ola");
       if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
         // this.$emit("registerUser", {email: this.authObject.email, password: this.authObject.password});
         this.registerUser(this.authObject);
@@ -182,16 +182,12 @@ export default {
     },
     accountSwipe(val) {
       if (val.direction === "right") {
-        this.$router.push("/account");
+        this.$router.go(-1);
       }
 
-      // if (val.direction === 'left') {
-      //   this.$router.push('/account/reset')
+      // if (val.direction === "up") {
+      //   this.$router.push("/");
       // }
-
-      if (val.direction === "up") {
-        this.$router.push("/");
-      }
     },
 
     proccessFile() {

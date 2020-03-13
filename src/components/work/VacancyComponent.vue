@@ -66,13 +66,15 @@ export default {
   data() {
     return {
       user: {
-        displayName: "",
+        displayName:"",
         email: "",
         photoURL: "",
         phoneNumber: "",
         adress: "",
         profission: "",
         education: "",
+        profileType: "",
+        description: "",
         date: ""
       },
       lazyImages: [],
@@ -101,19 +103,23 @@ export default {
             adress: doc.data().adress,
             profission: doc.data().profission,
             education: doc.data().education,
+            profileType: doc.data().profileType,
+            description: doc.data().description,
             date: doc.data().date
           };
         } else {
           // If user desen't exist
           data = {
             id: null,
-            displayName: "",
+            displayName:"",
             email: "",
             photoURL: "",
             phoneNumber: "",
             adress: "",
             profission: "",
             education: "",
+            profileType: "",
+            description: "",
             date: ""
           };
         }

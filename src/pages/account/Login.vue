@@ -186,12 +186,15 @@ export default {
       //   this.$router.push("/account/create")
       // }
 
+      // if (val.direction === "right") {
+      //   this.$router.push("/");
+      // }
       if (val.direction === "right") {
-        this.$router.push("/");
+        this.$router.go(-1)
       }
-      if (val.direction === "up") {
-        this.$router.push("/");
-      }
+      // if (val.direction === "up") {
+      //   this.$router.push("/");
+      // }
     }
   },
 

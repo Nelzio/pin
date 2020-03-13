@@ -1,6 +1,7 @@
 import { LocalStorage, Loading, Notify } from 'quasar'
 import { firebaseAuth, firestoreDb, firebase } from "../../boot/firebase"
 import { showErrorMessage } from "../../functions/handle-error-messages"
+import offline from 'v-offline'
 
 const state = {
     userDetails: {},
@@ -29,35 +30,41 @@ const actions = {
         // Details of a user
         const ref = firestoreDb.collection('users').doc(user)
         let data = {}
-        ref.get().then((doc) => {
-            if (doc.exists) {
-                data = {
-                    id: doc.id,
-                    displayName: doc.data().displayName,
-                    email: doc.data().email,
-                    photoURL: doc.data().photoURL,
-                    phoneNumber: doc.data().phoneNumber,
-                    adress: doc.data().adress,
-                    profission: doc.data().profission,
-                    education: doc.data().education,
-                    date: doc.data().date
+        if (offline.data().isOnline) {
+            ref.get().then((doc) => {
+                if (doc.exists) {
+                    data = {
+                        id: doc.id,
+                        displayName: doc.data().displayName,
+                        email: doc.data().email,
+                        photoURL: doc.data().photoURL,
+                        phoneNumber: doc.data().phoneNumber,
+                        adress: doc.data().adress,
+                        profission: doc.data().profission,
+                        education: doc.data().education,
+                        profileType: doc.data().profileType,
+                        description: doc.data().description,
+                        date: doc.data().date
+                    }
+                } else {
+                    // If user desen't exist
+                    data = {
+                        id: null,
+                        displayName:"",
+                        email: "",
+                        photoURL: "",
+                        phoneNumber: "",
+                        adress: "",
+                        profission: "",
+                        education: "",
+                        profileType: "",
+                        description: "",
+                        date: ""
+                    }
                 }
-            } else {
-                // If user desen't exist
-                data = {
-                    id: null,
-                    displayName: "",
-                    email: "",
-                    photoURL: "",
-                    phoneNumber: "",
-                    adress: "",
-                    profission: "",
-                    education: "",
-                    date: ""
-                }
-            }
-            commit('SET_USER_DETAILS', data)
-        })
+                commit('SET_USER_DETAILS', data)
+            })
+        }
     }
 
 }

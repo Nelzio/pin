@@ -180,7 +180,7 @@ export default {
       }
       if (userInput !== "") {
         let sInstance = new SpeechSynthesisUtterance(userInput);
-        sInstance.lang = 'pt-PT';
+        sInstance.lang = 'pt-BR';
         sInstance.onend = function(event) {
           // console.log('SpeechSynthesisUtterance.onend');
         };
@@ -218,7 +218,7 @@ export default {
       TTS.speak(
         {
           text: userInput,
-          locale: "pt-PT",
+          locale: "pt-BR",
           rate: 1
         },
         function() {

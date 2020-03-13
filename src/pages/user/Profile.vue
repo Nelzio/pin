@@ -20,7 +20,7 @@
 
         <q-separator />
         <!-- sec2 -->
-        <div class="row text-center justify-center">
+        <div class="row justify-center">
           <q-card class="col-12">
             <q-tabs
               v-model="tab"
@@ -32,7 +32,7 @@
               narrow-indicator
             >
               <q-tab name="bio" label="Contacto" icon="contacts" />
-              <q-tab name="ocupacao" label="Sobre" icon="assignment_ind" />
+              <q-tab v-if="getUser.profileType" name="ocupacao" label="Sobre" icon="description" />
             </q-tabs>
 
             <q-separator />
@@ -43,7 +43,7 @@
                   <q-item class="text-left">
                     <q-item-section top avatar>
                       <!-- <q-icon :color="darkModeConf.iconVar" name="phone" /> -->
-                      <q-btn round flat @click="callPhone(getUser.phoneNumber)" :color="darkModeConf.iconVar" icon="phone" />
+                      <q-btn round outline @click="callPhone(getUser.phoneNumber)" :color="darkModeConf.iconVar" icon="phone" />
                     </q-item-section>
 
                     <q-item-section>
@@ -84,7 +84,7 @@
 
               <q-tab-panel name="local">Bairro da Polana caniço</q-tab-panel>
 
-              <q-tab-panel name="ocupacao">
+              <q-tab-panel v-if="getUser.profileType && getUser.profileType == 'person'" name="ocupacao">
                 <q-list>
                   <q-item class="text-left">
                     <q-item-section top avatar>
@@ -97,6 +97,8 @@
                     </q-item-section>
                   </q-item>
 
+                  <q-separator spaced inset="item" />
+
                   <q-item class="text-left">
                     <q-item-section top avatar>
                       <q-icon :color="darkModeConf.iconVar" name="work" />
@@ -108,18 +110,20 @@
                     </q-item-section>
                   </q-item>
 
-                  <q-separator spaced inset="item" />
+                  <q-separator />
 
-                  <q-item class="text-left">
+                  <q-item class="text-left" clickable v-ripple @click="getCV()">
                     <q-item-section avatar top>
                       <q-icon :color="darkModeConf.iconVar" name="school" />
                     </q-item-section>
-                    <q-item-section>
-                      <q-item-label :class="getFont.title">Formação</q-item-label>
-                      <q-item-label :class="getFont.text">{{ getUser.education }}</q-item-label>
+                    <q-item-section :class="getFont.title">
+                      Curiculum
                     </q-item-section>
                   </q-item>
                 </q-list>
+              </q-tab-panel>
+              <q-tab-panel v-else-if="getUser.profileType && getUser.profileType == 'organization'" name="ocupacao">
+                <div v-html="getUser.description"></div>
               </q-tab-panel>
             </q-tab-panels>
           </q-card>
@@ -198,21 +202,64 @@
         </div>
       </div>
     </div>
+    <div>
+      <q-dialog v-model="dialogCV" :maximized="maximizedToggle">
+        <div class="row">
+        <q-card class="bg-white">
+          <q-toolbar
+        :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+        class="GPL__toolbar"
+        style="height: 64px"
+      >
+        <q-btn
+          v-close-popup
+          :color="darkModeConf.iconVar"
+          flat
+          dense
+          round
+          icon="arrow_back"
+          aria-label="Menu"
+          size="lg"
+        />
+
+        <q-toolbar-title shrink class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font">
+          Curriculum
+        </q-toolbar-title>
+      </q-toolbar>
+          <q-card-section>
+            <pdf :src="curriculumDownload.docUrl"></pdf>
+          </q-card-section>
+          <!-- <q-card-actions align="right">
+            <q-btn label="Trocar Curiculo" color="primary" @click="dialogUpCV = true, dialog = false" />
+            <q-btn flat label="OK" color="primary" v-close-popup />
+          </q-card-actions> -->
+        </q-card>
+        </div>
+      </q-dialog>
+    </div>
   </q-page>
 </template>
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDb } from "boot/firebase";
+import { firebaseAuth, firestoreDb, fireStorage, firebase } from "boot/firebase";
 import offline from "v-offline";
-import myVideo from 'vue-video';
+import pdf from 'vue-pdf';
+// import myVideo from 'vue-video';
 export default {
   // name: 'PageName',
   data() {
     return {
       tab: "bio",
+      dialogCV: false,
+      maximizedToggle : true,
       vacancies: [],
       videoDownload: {},
+      curriculumDownload: {
+        key: "",
+        docUrl: "",
+        user: "",
+      },
       vacancyNum: 0,
       storeNum: 0,
       pitch: 0.8,
@@ -231,7 +278,7 @@ export default {
       },
     };
   },
-  components: { myVideo },
+  components: { pdf },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapGetters("user", ["getUser"]),
@@ -239,6 +286,34 @@ export default {
   },
   methods: {
     ...mapActions("user", ["detailUserStore"]),
+
+    getCV() {
+      // Loading.show()
+      
+      const vm = this;
+      if (!offline.data().isOnline) {
+        return showErrorMessage("Está sem internet.")
+      }
+      var storage = firebase.storage();
+      const ref = firestoreDb.collection('curriculum').doc(this.getUser.email);
+      ref.get().then((doc) => {
+        if (doc.exists) {
+          vm.curriculumDownload = {
+            key: doc.id,
+            docUrl: doc.data().docUrl,
+            user: doc.data().user,
+          }
+
+          console.log(vm.curriculumDownload)
+
+          vm.dialogCV = true;
+          // Loading.hide()
+        } else {
+          console.log("No such document!")
+          // Loading.hide()
+        }
+      });
+    },
 
     callPhone(number) {
       if(number) {
@@ -261,7 +336,6 @@ export default {
           user: doc.data().user,
         }
         vm.video.sources[0].src = doc.data().videoUrl
-        console.log(vm.videoDownload)
         // Loading.hide()
       } else {
         console.log("No such document!")
@@ -270,20 +344,42 @@ export default {
     });
   },
 
+  convertToPlain(text) {
+    if ((text===null) || (text===''))
+    return false;
+    else
+    var str = text.toString();
+    return str.replace( /(<([^>]+)>)/ig, '').replace(/([A-Z])/g, '\n $1');
+  },
+
     handleHold({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
-      this.$root.$emit(
-        "textToSpeechRouter",
-        this.getUser.displayName +
-          ".\n Telefone: " +
-          this.converNumbPhone(this.getUser.phoneNumber) +
-          ";\n email: " +
-          this.getUser.email +
-          "; \n profissão: " +
-          this.getUser.profission +
-          "."
-      );
+      if (this.getUser.profileType && this.getUser.profileType == "organization") {
+        this.$root.$emit(
+          "textToSpeechRouter",
+          this.getUser.displayName +
+            ".\n Telefone: " +
+            this.converNumbPhone(this.getUser.phoneNumber) +
+            ";\n email: " +
+            this.getUser.email +
+            "; \n descrição: " +
+            this.convertToPlain(this.getUser.description) +
+            "."
+        );
+      } else {
+        this.$root.$emit(
+          "textToSpeechRouter",
+          this.getUser.displayName +
+            ".\n Telefone: " +
+            this.converNumbPhone(this.getUser.phoneNumber) +
+            ";\n email: " +
+            this.getUser.email +
+            "; \n profissão: " +
+            this.getUser.profission +
+            "."
+        );
+      }
       // console.log(this.vacancy)
     },
 
@@ -382,6 +478,7 @@ export default {
     this.getVideo(this.$route.params.idUser);
   },
   mounted() {
+    // console.log(this.getUser)
     this.listVacancy(this.$route.params.idUser);
     this.listStoreMyHere(this.$route.params.idUser);
     this.$root.$emit(

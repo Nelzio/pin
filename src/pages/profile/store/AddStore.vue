@@ -94,21 +94,25 @@
 
     <div>
       <q-dialog v-model="confirmInsert">
-        <q-card>
-          <q-card-section class="text-h5 text-green">Inserido com sucesso</q-card-section>
-
+        <q-card style="widht: 90vw">
+          <q-card-section>
+            <div :class="getFont.title">Adição de negocio</div>
+          </q-card-section>
+          <q-card-section :class="getFont.text">Inserido com sucesso.</q-card-section>
           <q-card-actions align="right">
-            <q-btn flat label="OK" color="green" v-close-popup />
+            <q-btn rounded outline label="OK" :color="darkModeConf.iconVar" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
 
       <q-dialog v-model="errorFileDialog">
         <q-card>
-          <q-card-section class="text-h5 text-red">Por favor, insira uma imagem válida.</q-card-section>
-
+          <q-card-section>
+            <div :class="getFont.title">Atenção</div>
+          </q-card-section>
+          <q-card-section :class="getFont.text">Por favor, insira uma imagem válida.</q-card-section>
           <q-card-actions align="right">
-            <q-btn flat label="OK" color="red" v-close-popup />
+            <q-btn rounded outline label="OK" :color="darkModeConf.iconVar" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -171,6 +175,7 @@ export default {
   computed: {
     ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
     ...mapState("store", ["storeDtl"]),
+    ...mapGetters("settings", ["getFont"]),
     ...mapGetters("auth", ["user"])
   },
   methods: {
@@ -209,6 +214,7 @@ export default {
   watch: {
     storeDtl() {
       if (!this.storeDtl.title) {
+        this.imageUrl = "";
         this.store = {
           title: "",
           user: "",
@@ -221,7 +227,6 @@ export default {
           price: "",
           priceVariable: false
         };
-        this.imageUrl = "";
         this.$refs.storeForm.resetValidation();
         this.confirmInsert = true;
       }
