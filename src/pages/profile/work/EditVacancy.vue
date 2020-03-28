@@ -226,7 +226,8 @@ export default {
             public: doc.data().public,
             category: doc.data().category,
             validate: doc.data().validate,
-            place: doc.data().place
+            place: doc.data().place,
+            timeSend: doc.data().timeSend
           };
           this.vacancyData = data;
           this.imageUrl = data.img;

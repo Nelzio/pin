@@ -67,7 +67,7 @@
           />
           <q-input rounded outlined v-model="store.price" :color="darkModeConf.iconVar" label="Preço">
             <template v-slot:append>
-              <q-checkbox :color="darkModeConf.iconVar" v-model="store.priceVariable" />
+              <q-checkbox :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" v-model="store.priceVariable" />
               <div class="text-body1">Negociável</div>
             </template>
           </q-input>
@@ -100,7 +100,7 @@
           </q-card-section>
           <q-card-section :class="getFont.text">Inserido com sucesso.</q-card-section>
           <q-card-actions align="right">
-            <q-btn rounded outline label="OK" :color="darkModeConf.iconVar" v-close-popup />
+            <q-btn rounded outline label="OK" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -112,7 +112,7 @@
           </q-card-section>
           <q-card-section :class="getFont.text">Por favor, insira uma imagem válida.</q-card-section>
           <q-card-actions align="right">
-            <q-btn rounded outline label="OK" :color="darkModeConf.iconVar" v-close-popup />
+            <q-btn rounded outline label="OK" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -181,6 +181,8 @@ export default {
   methods: {
     ...mapActions("store", ["createStore"]),
     addStore() {
+      var today = new Date();
+      this.vacancy.timeSend = String(today);
       this.store.user = this.user.email;
       this.$refs.storeForm.validate();
       if (this.$refs.storeForm.hasError) {

@@ -129,8 +129,7 @@ const actions = {
     var img = payload.img
     payload.img = ""
     ref.add(payload).then((docRef) => {
-      console.log("Inserido")
-      console.log(docRef)
+      
       storeData = docRef
 
       if (!img) {
@@ -296,8 +295,12 @@ const actions = {
                 subCategory: doc.data().subCategory,
                 price: doc.data().price,
                 priceVariable: doc.data().priceVariable,
+                timeSend: new Date(doc.data().timeSend)
               })
             }
+          });
+          storiesData.sort(function(a, b) {
+            return b.timeSend - a.timeSend;
           });
           commit('SET_STORIES', storiesData)
         }
@@ -331,8 +334,12 @@ const actions = {
               subCategory: doc.data().subCategory,
               price: doc.data().price,
               priceVariable: doc.data().priceVariable,
+              timeSend: new Date(doc.data().timeSend)
             })
           }
+        });
+        stories.sort(function(a, b) {
+          return b.timeSend - a.timeSend;
         });
         commit('SET_STORIES', stories)
       });
@@ -369,6 +376,7 @@ const actions = {
           subCategory: doc.data().subCategory,
           price: doc.data().price,
           priceVariable: doc.data().priceVariable,
+          timeSend: new Date(doc.data().timeSend)
         }
         commit('SET_STORE', data)
         commit('SET_STORE_DTL_CHANGE', true)

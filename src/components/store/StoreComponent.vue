@@ -12,7 +12,7 @@
 
         <q-item-section>
           <q-item-label>{{ user.displayName }}</q-item-label>
-          <q-item-label caption>{{ user.email }}</q-item-label>
+          <q-item-label v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'" caption>{{ user.email }}</q-item-label>
         </q-item-section>
       </q-item>
 
@@ -34,7 +34,7 @@
 
       <q-card-section class="q-pb-none">
         <div :class="getFont.title">{{ store.title }}</div>
-        <div :class="getFont.title">{{ store.price }} MZN</div>
+        <div v-if="store.price" :class="getFont.title">{{ store.price }} MZN</div>
       </q-card-section>
 
       <q-card-actions align="right" :title="store.key">

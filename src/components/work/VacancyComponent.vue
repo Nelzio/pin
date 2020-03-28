@@ -17,7 +17,7 @@
 
         <q-item-section>
           <q-item-label>{{ user.displayName }}</q-item-label>
-          <q-item-label caption>{{ user.email }}</q-item-label>
+          <q-item-label v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'" caption>{{ user.email }}</q-item-label>
         </q-item-section>
       </q-item>
 

@@ -66,7 +66,7 @@ export default {
                     user: doc.data().user,
                     img: doc.data().img
                   });
-                  if (count == 3) return;
+                  // if (count == 3) return;
                 }
               });
           });

@@ -150,8 +150,8 @@ export default {
       loading: true,
       data_var: [],
       cardClass: "",
-      pitch: 0.8,
-      rate: 1,
+      pitch: 0.9,
+      rate: 0.8,
       synth: window.speechSynthesis,
       itemsLayzeRef: [],
       lazyImages: []
@@ -219,7 +219,8 @@ export default {
         {
           text: userInput,
           locale: "pt-BR",
-          rate: 1
+          pitch: this.pitch,
+          rate: this.rate
         },
         function() {
           console.log("Text succesfully spoken");
@@ -381,7 +382,7 @@ export default {
 
     this.$root.$emit(
       "textToSpeechRouter",
-      "Pagina de produtos e serviços.\n Ao rolar, o telefone vai vibrar quando um item estiver no centro.\n Pressione no centro para ouvir."
+      "Página de produtos e serviços.\n Ao rolar, o telefone vai vibrar quando um item estiver no centro.\n Pressione no centro para ouvir."
     );
   },
   watch: {

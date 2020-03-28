@@ -127,8 +127,7 @@ const actions = {
     var img = payload.img
     payload.img = ""
     ref.add(payload).then((docRef) => {
-      console.log("Inserido")
-      console.log(docRef)
+      
       vacancyData = docRef
 
       if (!img) {
@@ -285,9 +284,14 @@ const actions = {
                 public: doc.data().public,
                 place: doc.data().place,
                 validate: doc.data().validate,
-                category: doc.data().category
+                category: doc.data().category,
+                timeSend: new Date(doc.data().timeSend)
               })
             }
+          });
+          
+          vacanciesData.sort(function(a, b) {
+            return b.timeSend - a.timeSend;
           });
           commit('SET_VACANCIES', vacanciesData)
         }
@@ -315,8 +319,12 @@ const actions = {
             public: doc.data().public,
             place: doc.data().place,
             validate: doc.data().validate,
-            category: doc.data().category
+            category: doc.data().category,
+            timeSend: new Date(doc.data().timeSend)
           })
+        });
+        vacancies.sort(function(a, b) {
+          return b.timeSend - a.timeSend;
         });
         commit('SET_VACANCIES', vacancies)
       });
@@ -339,6 +347,7 @@ const actions = {
       palce: "",
       validate: "",
       category: "",
+      timeSend: ""
     }
     commit('SET_VACANCY', data)
     commit('SET_VACANCY_DTL_CHANGE', false)
@@ -354,6 +363,7 @@ const actions = {
           place: doc.data().place,
           validate: doc.data().validate,
           category: doc.data().category,
+          timeSend: new Date(doc.data().timeSend)
         }
         commit('SET_VACANCY', data)
         commit('SET_VACANCY_DTL_CHANGE', true)

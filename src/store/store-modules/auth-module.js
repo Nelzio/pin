@@ -1,6 +1,14 @@
 import { LocalStorage, Loading, Notify } from 'quasar'
 import { firebaseAuth, firestoreDb, fireStorage, firebase } from "../../boot/firebase"
 import { showErrorMessage } from "../../functions/handle-error-messages"
+
+import { deleteCandidature } from "../../functions/usermanager/deleteCandidature"
+import { deleteChat } from "../../functions/usermanager/deleteChat"
+import { deleteCV } from "../../functions/usermanager/deleteCV"
+import { deleteStore } from "../../functions/usermanager/deleteStore"
+import { deleteVacancies } from "../../functions/usermanager/deleteVacancies"
+import { deleteVideo } from "../../functions/usermanager/deleteVideo"
+
 import offline from 'v-offline'
 
 const state = {
@@ -126,7 +134,7 @@ const actions = {
                                 ref.set(dataUser).then((docRef) => {
                                     // console.log("Updated")
                                     commit('SET_USER_DATA', dataUser)
-                                    if(payload.older) {
+                                    if (payload.older) {
                                         Notify.create('A sua conta foi editada com sucesso!')
                                         payload.vm.$router.go(-1)
                                     } else {
@@ -135,11 +143,11 @@ const actions = {
                                     }
                                     Loading.hide()
                                 })
-                                .catch((error) => {
-                                    Loading.hide()
-                                    console.log(error)
-                                    showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
-                                })
+                                    .catch((error) => {
+                                        Loading.hide()
+                                        console.log(error)
+                                        showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
+                                    })
                             } else {
                                 // If user desen't exist
                                 const dataUser = {
@@ -181,6 +189,7 @@ const actions = {
                 });
             });
     },
+
 
     registerUser({ commit, dispatch }, payload) {
         Loading.show()
@@ -374,14 +383,12 @@ const actions = {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
-                alert("7Problem here");
                 alert(error.message);
             });
         }).catch(function (error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
-            alert("8Problem here");
             alert(error.message);
         });
     },
@@ -452,7 +459,7 @@ const actions = {
                         profission: "",
                         education: "",
                         profileType: "",
-                                    description: "",
+                        description: "",
                         date: ""
                     }
 
@@ -475,36 +482,142 @@ const actions = {
                         })
                 }
             })
-
-
-
-
-
-
-
-
-
-
         }).catch(err => {
             console.log(err)
             Loading.hide()
         })
     },
 
-    facebookSignIn({ commit }) {
+
+    facebookSignInCordova({ commit }) {
+        Loading.show();
+        const vm = this;
         var provider = new firebase.auth.FacebookAuthProvider();
+        firebase.auth().signInWithRedirect(provider).then(function () {
+            firebase.auth().getRedirectResult().then(function (result) {
+                if (result.credential) {
+                    // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+                    var token = result.credential.accessToken;
+                    // The signed-in user info.
+                    var user = result.user;
+
+
+                    var data = {};
+
+
+                    const ref = firestoreDb.collection('users').doc(result.user.uid + "@superactive.com") // email is the key
+                    //   this.user = result.user
+                    const userData = {
+                        displayName: result.user.displayName,
+                        // email: result.user.email,
+                        email: result.user.uid + "@superactive.com",
+                        emailVerified: result.user.emailVerified,
+                        phoneNumber: result.user.phoneNumber,
+                        photoURL: result.user.photoURL,
+                        refreshToken: result.user.refreshToken,
+                        uid: result.user.uid
+                    }
+
+                    commit('AUTH_USER', userData)
+                    commit('SET_AUTH_USER', true)
+                    Notify.create('Sessão iniciada com sucesso!')
+                    // this.$router.push("/")
+                    // Loading.hide()
+
+                    ref.get().then((doc) => {
+                        if (doc.exists) {
+                            data = {
+                                id: doc.id,
+                                displayName: doc.data().displayName,
+                                email: result.user.uid + "@superactive.com",
+                                photoURL: doc.data().photoURL,
+                                phoneNumber: doc.data().phoneNumber,
+                                adress: doc.data().adress,
+                                profission: doc.data().profission,
+                                education: doc.data().education,
+                                profileType: doc.data().profileType,
+                                description: doc.data().description,
+                                date: doc.data().date
+                            }
+                            commit('SET_USER_DATA', data)
+                            if (LocalStorage.getItem("routeBack")) {
+                                vm.$router.push("/")
+                                vm.$router.push(LocalStorage.getItem("routeBack"))
+                                LocalStorage.set("routeBack", "")
+                                Loading.hide()
+                            } else {
+                                vm.$router.push("/")
+                                Loading.hide()
+                            }
+                        } else {
+                            // If user desen't exist
+                            const dataUser = {
+                                displayName: result.user.displayName,
+                                email: result.user.uid + "@superactive.com",
+                                photoURL: result.user.photoURL,
+                                phoneNumber: "",
+                                adress: "",
+                                profission: "",
+                                education: "",
+                                profileType: "",
+                                description: "",
+                                date: ""
+                            }
+
+                            ref.set(dataUser).then((docRef) => {
+                                // console.log("Updated")
+                                commit('SET_USER_DATA', dataUser);
+                                if (LocalStorage.getItem("routeBack")) {
+                                    vm.$router.push("/")
+                                    vm.$router.push(LocalStorage.getItem("routeBack"))
+                                    LocalStorage.set("routeBack", "")
+                                    Loading.hide()
+                                } else {
+                                    vm.$router.push("/")
+                                    Loading.hide()
+                                }
+                            })
+                                .catch((error) => {
+                                    Loading.hide()
+                                    showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
+                                })
+                        }
+                    })
+                }
+            }).catch(function (error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                alert(error.message);
+            });
+        }).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert(error.message);
+        });
+    },
+
+
+    facebookSignIn({ commit }) {
+        Loading.show()
+        var provider = new firebase.auth.FacebookAuthProvider();
+        const vm = this;
         firebase.auth().signInWithPopup(provider).then(function (result) {
             // This gives you a Facebook Access Token. You can use it to access the Facebook API.
             var token = result.credential.accessToken;
             // The signed-in user info.
             var user = result.user;
 
+            var data = {};
 
-            const ref = firestoreDb.collection('users').doc(result.user.uid) // email is the key
+
+            const ref = firestoreDb.collection('users').doc(result.user.uid + "@superactive.com") // email is the key
             //   this.user = result.user
             const userData = {
                 displayName: result.user.displayName,
-                email: result.user.email,
+                // email: result.user.email,
+                email: result.user.uid + "@superactive.com",
                 emailVerified: result.user.emailVerified,
                 phoneNumber: result.user.phoneNumber,
                 photoURL: result.user.photoURL,
@@ -523,7 +636,7 @@ const actions = {
                     data = {
                         id: doc.id,
                         displayName: doc.data().displayName,
-                        email: doc.data().email,
+                        email: result.user.uid + "@superactive.com",
                         photoURL: doc.data().photoURL,
                         phoneNumber: doc.data().phoneNumber,
                         adress: doc.data().adress,
@@ -535,38 +648,39 @@ const actions = {
                     }
                     commit('SET_USER_DATA', data)
                     if (LocalStorage.getItem("routeBack")) {
-                        this.$router.push("/")
-                        this.$router.push(LocalStorage.getItem("routeBack"))
+                        vm.$router.push("/")
+                        vm.$router.push(LocalStorage.getItem("routeBack"))
                         LocalStorage.set("routeBack", "")
                         Loading.hide()
                     } else {
-                        this.$router.push("/")
+                        vm.$router.push("/")
                         Loading.hide()
                     }
                 } else {
                     // If user desen't exist
                     const dataUser = {
                         displayName: result.user.displayName,
-                        email: result.user.email,
+                        email: result.user.uid + "@superactive.com",
                         photoURL: result.user.photoURL,
                         phoneNumber: "",
                         adress: "",
                         profission: "",
                         education: "",
                         profileType: "",
-                                    description: "",
+                        description: "",
                         date: ""
                     }
 
                     ref.set(dataUser).then((docRef) => {
                         // console.log("Updated")
+                        commit('SET_USER_DATA', dataUser);
                         if (LocalStorage.getItem("routeBack")) {
-                            this.$router.push("/")
-                            this.$router.push(LocalStorage.getItem("routeBack"))
+                            vm.$router.push("/")
+                            vm.$router.push(LocalStorage.getItem("routeBack"))
                             LocalStorage.set("routeBack", "")
                             Loading.hide()
                         } else {
-                            this.$router.push("/")
+                            vm.$router.push("/")
                             Loading.hide()
                         }
                     })
@@ -582,6 +696,7 @@ const actions = {
             // ...
         }).catch(function (error) {
             // Handle Errors here.
+            Loading.hide()
             var errorCode = error.code;
             var errorMessage = "Ops! Ocorreu um erro durante o processamento.";
             console.log(errorMessage)
@@ -659,7 +774,7 @@ const actions = {
                 },
                 img: payload.img
             }
-            
+
             dispatch('updateUser', dataUpload)
         })
             .catch((error) => {
@@ -684,7 +799,7 @@ const actions = {
             dispatch('uploadAuxFunc', data);
         } else {
             var user = firebase.auth().currentUser;
-            user.updateProfile(payload.data).then(function() {
+            user.updateProfile(payload.data).then(function () {
                 // Update successful.
                 user = firebase.auth().currentUser;
                 const userData = {
@@ -701,8 +816,8 @@ const actions = {
 
                 vm.$router.go(-1)
                 Loading.hide()
-            }).catch(function(error) {
-            // An error happened.
+            }).catch(function (error) {
+                // An error happened.
                 Loading.hide()
                 showErrorMessage("Erro ao editar usuário: ", error)
             });
@@ -725,7 +840,7 @@ const actions = {
                     profission: doc.data().profission,
                     education: doc.data().education,
                     profileType: doc.data().profileType,
-                        description: doc.data().description,
+                    description: doc.data().description,
                     date: doc.data().date
                 }
                 commit('SET_USER_DATA', data)
@@ -741,7 +856,7 @@ const actions = {
                     profission: "",
                     education: "",
                     profileType: "",
-                                    description: "",
+                    description: "",
                     date: ""
                 }
                 commit('SET_USER_DATA', data)
@@ -753,6 +868,7 @@ const actions = {
         Loading.show()
         firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
             .then((user) => {
+                console.log(user)
                 commit('AUTH_USER', user.user);
                 commit('SET_AUTH_USER', true);
 
@@ -769,7 +885,7 @@ const actions = {
                             profission: doc.data().profission,
                             education: doc.data().education,
                             profileType: doc.data().profileType,
-                        description: doc.data().description,
+                            description: doc.data().description,
                             date: doc.data().date
                         }
                         commit('SET_USER_DATA', data);
@@ -792,17 +908,12 @@ const actions = {
                 })
             })
             .catch(error => {
+                Loading.hide()
                 showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
             })
     },
 
-    // login () {
-    //     Auth.signInWithEmailAndPassword(this.email, this.password)
-    //         .then(() => this.$router.push('/dashboard'))
-    //         .catch(err => this.errors.push(err.message))
-    // },
-
-    checkAuthUser({ commit }) {
+    checkAuthUser({ commit }, route) {
         if (!offline.data().isOnline) {
             // this.$router.go(-1)
             return showErrorMessage("Está sem internet")
@@ -814,17 +925,14 @@ const actions = {
                 commit('SET_AUTH_USER', false)
                 commit('AUTH_USER', null)
                 commit('SET_USER_DATA', null)
-                this.$router.push('/account')
+                if (route && route == "back") {
+                    this.$router.go(-1)
+                } else {
+                    this.$router.push('/account')
+                }
             }
         })
     },
-
-    // logoutUser({ commit }) {
-    //     firebaseAuth.signOut()
-    //     commit('SET_AUTH_USER', false)
-    //     commit('AUTH_USER', null)
-    //     this.$router.push('/')
-    // },
 
     signOut({ commit }) {
         Loading.show()
@@ -839,32 +947,198 @@ const actions = {
             })
     },
 
-    deleteUser({ commit }, id) {
-        // Loading.show()
-        var user
-        const provider = new firebase.auth.GoogleAuthProvider()
-        firebase.auth().signInWithPopup(provider).then((result) => {
-            user = firebaseAuth.currentUser
-            firestoreDb.collection('users').doc(id).delete().then(() => {
-                user.delete().then(function () {
-                    // User deleted.
-                    commit('SET_AUTH_USER', false)
-                    commit('AUTH_USER', null)
-                    commit('SET_USER_DATA', null)
-                    Notify.create('Usuario Excluido')
-                    this.$router.push('/')
+    deleteUser({ commit }, payload) {
+        Loading.show()
+        const vm = this;
+        var user = firebase.auth().currentUser;
+
+
+        console.log(user)
+        console.log(user.providerData[0].providerId)
+
+
+        if (user.providerData[0].providerId == "password") {
+            var credential = firebase.auth.EmailAuthProvider.credential(
+                user.email,
+                payload.password
+            );
+
+            console.log(credential)
+            user.reauthenticateWithCredential(credential).then(function () {
+                // User re-authenticated.
+                user = firebase.auth().currentUser;
+                const ref = firestoreDb.collection('users').doc(payload.id)
+                ref.get().then((doc) => {
+                    if (doc.exists) {
+                        user.delete().then(function () {
+                            // User deleted.
+                            commit('SET_AUTH_USER', false)
+                            commit('AUTH_USER', null)
+                            commit('SET_USER_DATA', null)
+
+                            deleteCandidature(payload.id)
+                            deleteChat(payload.id)
+                            deleteCV(payload.id)
+                            deleteStore(payload.id)
+                            deleteVacancies(payload.id)
+                            deleteVideo(payload.id)
+
+                            Notify.create('Usuario Excluido')
+                            vm.$router.push('/')
+                            Loading.hide()
+                        }).catch(function (error) {
+                            // An error happened.
+                            Notify.create('Erro ao Remover1')
+                            Loading.hide()
+                        })
+                    } else {
+                        // If user desen't exist
+                        user.delete().then(function () {
+                            // User deleted.
+                            commit('SET_AUTH_USER', false)
+                            commit('AUTH_USER', null)
+                            commit('SET_USER_DATA', null)
+                            Notify.create('Usuario Excluido')
+                            vm.$router.push('/')
+                            Loading.hide()
+                        }).catch(function (error) {
+                            // An error happened.
+                            Notify.create('Erro ao Remover2')
+                            Loading.hide()
+                        })
+                    }
+                }).catch((error) => {
                     Loading.hide()
+                    showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
+                });
+
+            }).catch(function (error) {
+                // An error happened.
+                Loading.hide()
+                console.log("Done't")
+            });
+        } else {
+            if (user.providerData[0].providerId == "google.com") {
+                var provider = new firebase.auth.GoogleAuthProvider();
+            } else {
+                var provider = new firebase.auth.FacebookAuthProvider();
+            }
+            if (window.hasOwnProperty("cordova")) {
+                firebase.auth().signInWithRedirect(provider).then(function () {
+                    firebase.auth().getRedirectResult().then(function (result) {
+                        if (result.credential) {
+                            user = firebase.auth().currentUser;
+                            const ref = firestoreDb.collection('users').doc(payload.id)
+                            ref.get().then((doc) => {
+                                if (doc.exists) {
+                                    user.delete().then(function () {
+                                        // User deleted.
+                                        commit('SET_AUTH_USER', false)
+                                        commit('AUTH_USER', null)
+                                        commit('SET_USER_DATA', null)
+
+                                        deleteCandidature(payload.id)
+                                        deleteChat(payload.id)
+                                        deleteCV(payload.id)
+                                        deleteStore(payload.id)
+                                        deleteVacancies(payload.id)
+                                        deleteVideo(payload.id)
+
+                                        Notify.create('Usuario Excluido')
+                                        vm.$router.push('/')
+                                        Loading.hide()
+                                    }).catch(function (error) {
+                                        // An error happened.
+                                        Notify.create('Erro ao Remover1')
+                                        Loading.hide()
+                                    })
+                                } else {
+                                    // If user desen't exist
+                                    user.delete().then(function () {
+                                        // User deleted.
+                                        commit('SET_AUTH_USER', false)
+                                        commit('AUTH_USER', null)
+                                        commit('SET_USER_DATA', null)
+                                        Notify.create('Usuario Excluido')
+                                        vm.$router.push('/')
+                                        Loading.hide()
+                                    }).catch(function (error) {
+                                        // An error happened.
+                                        Notify.create('Erro ao Remover2')
+                                        Loading.hide()
+                                    })
+                                }
+                            }).catch((error) => {
+                                Loading.hide()
+                                showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
+                            });
+                        }
+                    }).catch(function (error) {
+                        // Handle Errors here.
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        alert(error.message);
+                    });
                 }).catch(function (error) {
-                    // An error happened.
-                    Notify.create('Erro ao Remover')
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    alert(error.message);
+                });
+            } else {
+                firebase.auth().signInWithPopup(provider).then((result) => {
+                    //   this.user = result.user
+                    user = firebase.auth().currentUser;
+                    const ref = firestoreDb.collection('users').doc(payload.id)
+                    ref.get().then((doc) => {
+                        if (doc.exists) {
+                            user.delete().then(function () {
+                                // User deleted.
+                                commit('SET_AUTH_USER', false)
+                                commit('AUTH_USER', null)
+                                commit('SET_USER_DATA', null)
+
+                                deleteCandidature(payload.id)
+                                deleteChat(payload.id)
+                                deleteCV(payload.id)
+                                deleteStore(payload.id)
+                                deleteVacancies(payload.id)
+                                deleteVideo(payload.id)
+
+                                Notify.create('Usuario Excluido')
+                                vm.$router.push('/')
+                                Loading.hide()
+                            }).catch(function (error) {
+                                // An error happened.
+                                Notify.create('Erro ao Remover1')
+                                Loading.hide()
+                            })
+                        } else {
+                            // If user desen't exist
+                            user.delete().then(function () {
+                                // User deleted.
+                                commit('SET_AUTH_USER', false)
+                                commit('AUTH_USER', null)
+                                commit('SET_USER_DATA', null)
+                                Notify.create('Usuario Excluido')
+                                vm.$router.push('/')
+                                Loading.hide()
+                            }).catch(function (error) {
+                                // An error happened.
+                                Notify.create('Erro ao Remover2')
+                                Loading.hide()
+                            })
+                        }
+                    }).catch((error) => {
+                        Loading.hide()
+                        showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
+                    });
+                }).catch(err => {
+                    console.log(err)
                     Loading.hide()
                 })
-            }).catch((error) => {
-                Loading.hide()
-                showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
-            });
-        }).catch(err => console.log(err))
-
+            }
+        }
     }
 
 }

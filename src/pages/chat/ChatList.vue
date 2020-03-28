@@ -4,30 +4,11 @@
     <div class="row justify-center">
       <div class="col-12 col-md-6">
         <q-list separator>
-          <!-- :to="'/chat/' + chat.email" -->
-          <q-item
-            clickable
-            v-ripple
-            v-for="chat in chatData"
+          <chat-list 
+            v-for="chat in chatList"
             :key="chat.key"
-            @click="listenClick(chat.email, chat.displayName)"
-          >
-            <q-item-section avatar>
-              <q-avatar size="60px">
-                <q-img :src="chat.imgUserUrl" alt />
-              </q-avatar>
-            </q-item-section>
-            <q-item-section v-if="user.displayName == chat.displayName">
-              <div :class="getFont.title">Você</div>
-              <div v-if="chat.message" :class="getFont.text">{{ chat.message.slice(0, 20) }}</div>
-              <div v-else :class="getFont.text">Mensagem de voz</div>
-            </q-item-section>
-            <q-item-section v-else>
-              <div :class="getFont.title">{{ chat.displayName }}</div>
-              <div v-if="chat.message" :class="getFont.text">{{ chat.message.slice(0, 20) }}...</div>
-              <div v-else :class="getFont.text">Mensagem de voz</div>
-            </q-item-section>
-          </q-item>
+            :chat="chat"
+          />
         </q-list>
       </div>
     </div>
@@ -37,13 +18,18 @@
 <script>
 import { firestoreDb, fireStorage, firebase } from "boot/firebase";
 import { mapState, mapActions, mapGetters } from "vuex";
+import ChatList from "components/chat/ChatList.vue"
 export default {
   // name: 'PageName',
   data() {
     return {
       chatData: [],
+      chatList: [],
       touchNums: 0,
     };
+  },
+  components: {
+    ChatList
   },
 
   computed: {
@@ -63,87 +49,52 @@ export default {
       // console.log(info)
     },
 
-    getChat() {
+    getChat2() {
       const vm = this;
-      const ref = firestoreDb.collection("chat");
-			var chatData = [];
-			var chatData2 = [];
-      var chatDataAux = [{ email: "", receptorUser: "" }];
-      var chatReceptor = [""];
-      var checkObj = false;
-      // const
-      ref.onSnapshot(function(querySnapshot) {
-				chatData = [];
-				chatData2 = [];
-				chatDataAux = [];
-				chatReceptor = [""]
-        querySnapshot.forEach(function(doc) {
-          if (
-            doc.data().receptorUser == vm.user.email ||
-            doc.data().email == vm.user.email
-          ) {
-						chatData.push({
-							key: doc.id,
-							email: doc.data().email,
-							displayName: doc.data().displayName,
-							audio: doc.data().audio,
-							imgUserUrl: doc.data().imgUserUrl,
-							timeSend: new Date(doc.data().timeSend),
-							message: doc.data().message,
-							receptorUser: doc.data().receptorUser
-						});
-          }
-        });
-        chatData.sort(function(a, b) {
-          return  b.timeSend - a.timeSend;
-				});
-				
-				chatData.forEach(element => {
-					if (
-              !vm.objectPropInArray(
-                chatDataAux,
-                "email",
-                element.email,
-                "receptorUser",
-                element.receptorUser
-              )
-            ) {
-              if (element.email === vm.user.email) {
-                if (!chatReceptor.includes(element.receptorUser)) {
-                  chatData2.push({
-                     key: element.key,
-                    email: element.receptorUser,
-                    displayName: element.displayName,
-                    audio: element.audio,
-                    imgUserUrl: element.imgUserUrl,
-                    timeSend: new Date(element.timeSend),
-                    message: element.message,
-                    receptorUser: element.email
+
+      var chatData = [];
+      var chatIDs = [""]
+      const refDoc = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]);
+      refDoc.onSnapshot((doc) => {
+        if (doc.exists) {
+          if(doc.data().peopleChat) {
+            doc.data().peopleChat.forEach(element => {
+              if (element !== "nobody") {
+                var refSender = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(element);
+                refSender.onSnapshot(function(querySnapshot) {
+                  chatData = [];
+                  querySnapshot.forEach(function(doc) {
+                    if (!chatIDs.includes(chatIDs)) {
+                      chatData.push({
+                        key: doc.id,
+                        receptorUser: doc.data().email,
+                        email: doc.data().receptorUser,
+                        sender: doc.data().sender,
+                        displayName: doc.data().displayName,
+                        audio: doc.data().audio ? doc.data().audio : "",
+                        imgUserUrl: doc.data().imgUserUrl,
+                        timeSend: new Date(doc.data().timeSend),
+                        message: doc.data().message,
+                        readed: doc.data().readed
+                      });
+                      chatIDs.push(doc.id)
+                    }
                   });
-                  chatReceptor.push(element.receptorUser);
-                }
-              } else {
-                if (!chatReceptor.includes(element.email)) {
-                  chatData2.push({
-                    key: element.key,
-                    email: element.email,
-                    displayName: element.displayName,
-                    audio: element.audio,
-                    imgUserUrl: element.imgUserUrl,
-                    timeSend: new Date(element.timeSend),
-                    message: element.message,
-                    receptorUser: element.receptorUser
+                  chatData.sort(function(a, b) {
+                    return a.timeSend - b.timeSend;
                   });
-                  chatReceptor.push(element.email);
-                }
+                  if (chatData[chatData.length - 1]) {
+                    vm.chatList.push(chatData[chatData.length - 1]);
+                    vm.chatList.sort(function(a, b) {
+                      return b.timeSend - a.timeSend;
+                    });
+                  } 
+                    
+                });
               }
-						}
-						chatDataAux.push({
-              email: element.email,
-              receptorUser: element.receptorUser
             });
-				});
-        vm.chatData = chatData2;
+          }
+        }
       });
     },
 
@@ -158,33 +109,11 @@ export default {
       }
       return false;
     },
-
-    listenClick(email, name) {
-      if (this.vibrateState) {
-        if(window.hasOwnProperty("cordova")){
-          navigator.vibrate(200);
-        } else {
-          window.navigator.vibrate(200);
-        }
-        var vm = this;
-        this.$root.$emit("textToSpeechRouter", name)
-
-        this.touchNums += 1;
-
-        if (this.touchNums >= 2) {
-          this.touchNums = -80;
-          this.$router.push('/chat/' + email)
-        }
-
-        setTimeout(() => {
-          vm.touchNums = 0;
-        }, 2000);
-      }
-    }
   },
   created() {},
   mounted() {
-    this.getChat();
+    // this.getChat();
+    this.getChat2();
     this.$root.$emit("textToSpeechRouter", "Página de lista de conversas.\n Clique uma vez pra ouvir o que está clicando e clique duas vezes para entrar na conversa.");
   }
 };

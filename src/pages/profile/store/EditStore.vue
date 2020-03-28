@@ -218,7 +218,8 @@ export default {
             place: doc.data().place,
             subCategory: doc.data().subCategory,
             price: doc.data().price,
-            priceVariable: doc.data().priceVariable
+            priceVariable: doc.data().priceVariable,
+            timeSend: doc.data().timeSend
           };
           this.storeData = data;
           this.imageUrl = data.img;

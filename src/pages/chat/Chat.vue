@@ -1,12 +1,12 @@
 <template>
   <q-page
     padding
-    class="q-pt-md q-pb-xl"
+    class="q-pt-xl q-pb-xl"
     v-touch-swipe.mouse.right="handleSwipe"
     v-touch-hold:800.mouse="handleHold"
   >
     <!-- content -->
-    <div class="row justify-center">
+    <div class="row justify-center q-pt-md">
       <div class="col-12 col-md-7">
         <div v-for="message in chatData" :key="message.key">
           <chat :message="message" />
@@ -28,19 +28,17 @@
     </div>-->
 
     <q-footer v-if="!$q.screen.gt.sm">
-      <q-toolbar class="bg-grey-3 text-black row">
+      <q-toolbar class="row" :class="[darkModeConf.bgColor, darkModeConf.textColor]">
         <!-- <q-btn round flat icon="insert_emoticon" class="q-mr-sm" /> -->
-        <q-form @submit="sendMessage()" class="col-12">
-          <div class="text-black row">
+        <q-form @submit="sendMessage" class="col-12" :class="[darkModeConf.bgColor, darkModeConf.textColor]">
+          <div class="row" :class="[darkModeConf.bgColor, darkModeConf.textColor, getFont.text]">
             <q-input
               v-if="recording"
               v-model="fullTimer"
               rounded
               outlined
               dense
-              :class="getFont.text"
               class="WAL__field col-grow q-mr-sm"
-              bg-color="white"
               disable
             />
             <q-input
@@ -48,25 +46,22 @@
               rounded
               outlined
               dense
-              :class="getFont.text"
-              class="WAL__field col-grow q-mr-sm"
-              bg-color="white"
+              class="col-grow q-mr-sm"
               v-model="message.message"
               placeholder="Escreva a sua mensagem"
             />
-            <q-btn :color="darkModeConf.iconVar" v-if="message.message" round flat icon="send" @click="sendMessage()" />
-            <q-btn :color="darkModeConf.iconVar" v-else-if="!recording" round flat icon="mic" @click="recordAudio()" />
-            <q-btn v-else round flat icon="stop" color="red" @click="stopRecord()" />
+            <q-btn v-if="message.message" round flat icon="send" type="submit" />
+            <q-btn v-else-if="!recording" round flat icon="mic" @click="recordAudio()" />
+            <q-btn v-else round flat :class="darkModeConf.textBtn" icon="stop" color="red" @click="stopRecord()" />
           </div>
         </q-form>
       </q-toolbar>
     </q-footer>
 
     <q-page-sticky position="bottom" v-if="$q.screen.gt.sm">
-      <q-toolbar class="bg-grey-3 text-black row" style="width: 50vw;">
-        <!-- <q-btn round flat icon="insert_emoticon" class="q-mr-sm" /> -->
-        <q-form @submit="sendMessage()" class="col-12">
-          <div class="text-black row">
+      <q-toolbar class="bg-grey-3 row" :class="[darkModeConf.bgColor, darkModeConf.textColor]" style="width: 50vw;">
+        <q-form @submit="sendMessage" class="col-12">
+          <div class="row" :class="[darkModeConf.bgColor, darkModeConf.textColor]">
             <q-input
               v-if="recording"
               v-model="fullTimer"
@@ -89,7 +84,7 @@
               v-model="message.message"
               placeholder="Escreva a sua mensagem"
             />
-            <q-btn :color="darkModeConf.iconVar" v-if="message.message" round flat icon="send" @click="sendMessage()" />
+            <q-btn :color="darkModeConf.iconVar" v-if="message.message" round flat icon="send" type="submit" />
             <q-btn :color="darkModeConf.iconVar" v-else-if="!recording" round flat icon="mic" @click="recordAudio()" />
             <q-btn v-else round flat icon="stop" color="red" @click="stopRecord()" />
           </div>
@@ -129,14 +124,13 @@ export default {
       fullTimer: "00min : 00sec",
       recording: false,
       refreshInterval: null,
-      message: "",
       timeslice: null,
-
       chatData: [],
       message: {
         audio: "",
         message: ""
-      }
+      },
+      setChatId: false,
     };
   },
 
@@ -242,7 +236,7 @@ export default {
       //   return alert("Sem internet")
       // }
       const vm = this;
-      const ref = firestoreDb.collection("chat");
+      const ref = firestoreDb.collection("chat").doc(this.$route.params.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
       var chatData = [];
       var chatDataObj = {};
       // const
@@ -250,37 +244,18 @@ export default {
         chatData = [];
         chatDataObj = {};
         querySnapshot.forEach(function(doc) {
-          if (
-            doc.data().receptorUser == vm.user.email ||
-            doc.data().email == vm.user.email
-          ) {
-            chatData.push({
-              key: doc.id,
-              email: doc.data().email,
-              displayName: doc.data().displayName,
-              audio: doc.data().audio,
-              imgUserUrl: doc.data().imgUserUrl,
-              timeSend: new Date(doc.data().timeSend),
-              message: doc.data().message,
-              receptorUser: doc.data().receptorUser,
-              readed: doc.data().readed
-            });
-            if (!doc.data().readed) {
-              chatDataObj = {
-                key: doc.id,
-                email: doc.data().email,
-                displayName: doc.data().displayName,
-                audio: doc.data().audio,
-                imgUserUrl: doc.data().imgUserUrl,
-                timeSend: doc.data().timeSend,
-                message: doc.data().message,
-                receptorUser: doc.data().receptorUser,
-                readed: doc.data().readed
-              };
-              vm.updateMessage(chatDataObj);
-            }
-            // }
-          }
+          chatData.push({
+            key: doc.id,
+            receptorUser: doc.data().email,
+            email: doc.data().receptorUser,
+            sender: doc.data().sender,
+            displayName: doc.data().displayName,
+            audio: doc.data().audio ? doc.data().audio : "",
+            imgUserUrl: doc.data().imgUserUrl,
+            timeSend: new Date(doc.data().timeSend),
+            message: doc.data().message,
+            readed: doc.data().readed
+          });
         });
         chatData.sort(function(a, b) {
           return a.timeSend - b.timeSend;
@@ -289,24 +264,40 @@ export default {
         window.scroll(0, window.innerHeight + 200);
       });
     },
+    getChatToRead() {
+      const vm = this;
+      const ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.$route.params.idReceptor.split('@')[0]);
+      var chatDataObj = {};
+      
+      ref.onSnapshot(function(querySnapshot) {
+        chatDataObj = {};
+        querySnapshot.forEach(function(doc) {
+          if (!doc.data().readed && doc.data().sender !== vm.user.email) {
+            chatDataObj = {
+              key: doc.id,
+              email: doc.data().email,
+              sender: doc.data().sender,
+              displayName: doc.data().displayName,
+              audio: doc.data().audio ? doc.data().audio : "",
+              imgUserUrl: doc.data().imgUserUrl,
+              timeSend: doc.data().timeSend,
+              message: doc.data().message,
+              receptorUser: doc.data().receptorUser,
+              readed: true
+            };
+            vm.updateMessage(chatDataObj);
+          }
+        });
+      });
+    },
 
     updateMessage(payload) {
-      if (this.user.email == payload.receptorUser) {
-        var ref = firestoreDb.collection("chat").doc(payload.key);
-        var chatData = {
-          email: payload.email,
-          displayName: payload.displayName,
-          audio: payload.audio,
-          imgUserUrl: payload.imgUserUrl,
-          timeSend: payload.timeSend,
-          message: payload.message,
-          receptorUser: payload.receptorUser,
-          readed: true
-        };
-        ref.set(chatData).then(docRef => {
-          // console.log("done")
+        var ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.$route.params.idReceptor.split('@')[0]).doc(payload.key);
+        ref.set(payload).then(docRef => {
+          this.$root.$emit("countMessages", "Count Messages")
+        }).catch((error) => {
+          alert("Error update document: ", error);
         });
-      }
     },
 
     sendMessage() {
@@ -320,16 +311,59 @@ export default {
 
       this.message.receptorUser = this.$route.params.idReceptor;
       this.message.email = this.user.email;
+      this.message.sender = this.user.email;
       this.message.displayName = this.user.displayName;
       this.message.timeSend = String(today);
       this.message.imgUserUrl = this.user.photoURL;
       this.message.readed = false;
 
-      const ref = firestoreDb.collection("chat");
+      const ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.$route.params.idReceptor.split('@')[0]);
+      const refReceptor = firestoreDb.collection("chat").doc(this.$route.params.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
       ref.add(this.message).then(docRef => {
-        this.message = {
-          message: ""
-        };
+        this.message.receptorUser = this.user.email;
+        this.message.email = this.$route.params.idReceptor;
+        refReceptor.add(this.message).then(docRef => {
+          this.message = {
+            message: ""
+          };
+          if(!this.setChatId) {
+            this.setChatId = true;
+            const refDoc = firestoreDb.collection("chat").doc(vm.user.email.split('@')[0]);
+            refDoc.get().then((doc) => {
+              if (doc.exists) {
+                if(!doc.data().peopleChat) {
+                  var chatId = {peopleChat: ["nobody"]}
+                } else {
+                  var chatId = {peopleChat: doc.data().peopleChat};
+                }
+              } else {
+                var chatId = {peopleChat: ["nobody"]}
+              }
+              if(!chatId.peopleChat.includes(vm.$route.params.idReceptor)) {
+                chatId.peopleChat.push(vm.$route.params.idReceptor);
+                refDoc.set(chatId);
+              }
+
+
+              const refDocRecep = firestoreDb.collection("chat").doc(vm.$route.params.idReceptor.split('@')[0]);
+              refDocRecep.get().then((docRecep) => {
+                if (docRecep.exists) {
+                  if(!docRecep.data().peopleChat) {
+                    var chatId = {peopleChat: ["nobody"]}
+                  } else {
+                    var chatId = {peopleChat: docRecep.data().peopleChat};
+                  }
+                } else {
+                  var chatId = {peopleChat: ["nobody"]}
+                }
+                if(!chatId.peopleChat.includes(vm.user.email.split('@')[0])) {
+                  chatId.peopleChat.push(vm.user.email.split('@')[0]);
+                  refDocRecep.set(chatId);
+                }
+              });
+            });
+          }
+        });
       });
     },
 
@@ -339,26 +373,73 @@ export default {
       var today = new Date();
       this.message.receptorUser = this.$route.params.idReceptor;
       this.message.email = this.user.email;
+      this.message.sender = this.user.email;
       this.message.displayName = this.user.displayName;
       this.message.timeSend = String(today);
       this.message.imgUserUrl = this.user.photoURL;
       this.message.readed = false;
       this.message.audio = voice;
 
-      const ref = firestoreDb.collection("chat");
+      const ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.$route.params.idReceptor.split('@')[0]);
+      const refReceptor = firestoreDb.collection("chat").doc(this.$route.params.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
       ref.add(this.message).then(docRef => {
-        this.message = {
-          audio: null,
-          message: ""
-        };
+        this.message.receptorUser = this.user.email;
+        this.message.email = this.$route.params.idReceptor;
+        refReceptor.add(this.message).then(docRef => {
+          this.message = {
+            message: ""
+          };
+          if(!this.setChatId) {
+            this.setChatId = true;
+            const refDoc = firestoreDb.collection("chat").doc(vm.user.email.split('@')[0]);
+            refDoc.get().then((doc) => {
+              if (doc.exists) {
+                if(!doc.data().peopleChat) {
+                  var chatId = {peopleChat: ["nobody"]}
+                } else {
+                  var chatId = {peopleChat: doc.data().peopleChat};
+                }
+              } else {
+                var chatId = {peopleChat: ["nobody"]}
+              }
+              if(!chatId.peopleChat.includes(vm.$route.params.idReceptor)) {
+                chatId.peopleChat.push(vm.$route.params.idReceptor);
+                refDoc.set(chatId);
+              }
+
+
+              const refDocRecep = firestoreDb.collection("chat").doc(vm.$route.params.idReceptor);
+              refDocRecep.get().then((docRecep) => {
+                if (docRecep.exists) {
+                  if(!docRecep.data().peopleChat) {
+                    var chatId = {peopleChat: ["nobody"]}
+                  } else {
+                    var chatId = {peopleChat: docRecep.data().peopleChat};
+                  }
+                } else {
+                  var chatId = {peopleChat: ["nobody"]}
+                }
+                if(!chatId.peopleChat.includes(vm.user.email.split('@')[0])) {
+                  chatId.peopleChat.push(vm.user.email.split('@')[0]);
+                  refDocRecep.set(chatId);
+                }
+              });
+            });
+          }
+        });
       });
+      
     },
 
-    uploadFile(file) {
+    uploadFile(filen) {
       const vm = this;
       var storageRef = fireStorage.ref();
       // Upload file and metadata to the object 'images/mountains.jpg'
-      var uploadTask = storageRef.child("files").put(file);
+      
+      
+      var resultAudioName = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);;
+      var audioName = vm.user.displayName.split(' ')[0] + resultAudioName + '.mp3'
+      var uploadTask = storageRef.child('chat/' + audioName).put(file);
 
       // Listen for state changes, errors, and completion of the upload.
       uploadTask.on(
@@ -396,18 +477,19 @@ export default {
         function() {
           // Upload completed successfully, now we can get the download URL
           uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-            // // // console.log('File available at', downloadURL);
-            vm.sendMessageVoice({ audioUrl: downloadURL, time: vm.timer.ss });
+            console.log('File available at', downloadURL);
+            vm.sendMessageVoice({ audioUrl: downloadURL, time: vm.timer.ss,  name: audioName});
           });
         }
       );
     }
   },
   created() {
-    this.getChat();
     this.detailUserStore(this.$route.params.idReceptor);
   },
   mounted() {
+    this.getChat();
+    this.getChatToRead()
     window.scroll(0, window.innerHeight + 200);
     
   }, 

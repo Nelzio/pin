@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="message.email !== user.email">
+    <div v-if="message.sender !== user.email">
       <q-chat-message
         v-if="!message.audio"
         :class="getFont.text"
@@ -128,7 +128,7 @@ export default {
     }
   },
   mounted () {
-    console.log(this.message)
+    // console.log(this.message)
   }
 };
 </script>

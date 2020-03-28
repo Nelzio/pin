@@ -29,7 +29,7 @@
                 <div class="col-10" :class="getFont.text">{{ getVacancy.category }}</div>
               </q-card-section>
               <q-card-section class="row q-pt-none">
-                <div class="col-12" :class="getFont.text">{{ getVacancy.description }}</div>
+                <div class="col-12" :class="getFont.text" v-html="getVacancy.description"></div>
               </q-card-section>
             </q-card>
           </q-tab-panel>

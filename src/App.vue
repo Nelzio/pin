@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { LocalStorage } from "quasar";
 import offline from "v-offline";
 import { mapState, mapActions } from "vuex";
 export default {
@@ -21,13 +22,13 @@ export default {
     ...mapState("settings", ["appMode", "darkModeConf"])
   },
   methods: {
-    ...mapActions("settings", ["setSettings", "setIsConected", "setAppMode"]),
+    ...mapActions("settings", ["setSettings", "setIsConected", "setVibrate"]),
     ...mapActions("auth", ["checkAuthUser"]),
   },
   created() {
     // Verificando se o utilizador tem configurações no LocalStorage
-    let settings = this.$q.localStorage.getItem("stgs");
-    let appMode = this.$q.localStorage.getItem("appMode");
+    // // let settings = this.$q.localStorage.getItem("stgs");
+    // // let appMode = this.$q.localStorage.getItem("appMode");
 
     
 
@@ -56,6 +57,18 @@ export default {
     if (this.$route.path == "/welcome") {
       this.$q.addressbarColor.set("#075e54");
     }
+
+    if (LocalStorage.getItem("vibrate") !== null) {
+      if(LocalStorage.getItem("vibrate") === 1) {
+        this.setVibrate(1)
+      } else {
+        this.setVibrate(0)
+      }
+    } else {
+      this.setVibrate(1)
+    }
+
+    
   },
   watch: {
     darkModeConf(val) {

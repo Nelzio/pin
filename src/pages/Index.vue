@@ -61,46 +61,71 @@
         </q-card-section>
       </q-card>
     </div>
+    <!-- <audio ref="testAudio" :src="audioPath" autoplay /> -->
+    <audio ref="testAudio" :src="audioPath" />
   </q-page>
 </template>
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import HomeContent from "components/HomeContent.vue";
+import pdf from 'vue-pdf';
 export default {
   name: "PageIndex",
   components: { HomeContent },
   data() {
     return {
-      lorem:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      pitch: 0.8,
-      rate: 1,
+      audioPath: "statics/audios/homepage.mp3",
+      lorem: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      pitch: 0.9,
+      rate: 0.8,
       synth: window.speechSynthesis
     };
   },
   computed: {
-    ...mapState("settings", ["vibrateState"]),
+    ...mapState("settings", ["vibrateState", "homeSpeak"]),
     ...mapGetters("settings", ["getFont"])
   },
   methods: {
     ...mapActions("settings", ["playSound", "vibrate"]),
+
+    speakAudioStart() {
+      if (this.$root.$store.state.homeSpeak && this.vibrateState) {
+        this.$refs.testAudio.play();
+        this.$root.$store.state.homeSpeak = false;
+      } else {
+        this.$root.$emit(
+          "textToSpeechRouter",
+          "Página Inicial.\n Para navegar entre as páginas, deslise o dedo para as laterais."
+        );
+      }
+    },
+
     handleSwipe(val) {
       if (val.direction === "left") {
         this.$router.push("/vacancies");
       }
-      if (val.direction === "down") {
-        this.$router.push("/account");
+      
+      if (val.direction === "down" && this.vibrateState) {
+        this.$refs.testAudio.play();
       }
+      // if (val.direction === "down") {
+      //   this.$router.push("/account");
+      // }
     },
   },
   mounted() {
+    this.speakAudioStart()
     // this.$root.$emit("textToSpeechRouter", "Página Inicial");
-    this.$root.$emit(
-      "textToSpeechRouter",
-      "Página Inicial.\n Para navegar entre as páginas, deslise o dedo para as laterais."
-    );
+    
   }
 };
 </script>
+
+<style lang="sass">
+  // .pdfcontent.q-card__section
+  //   width: 676px
+  //   height: 915px
+    
+</style>
 

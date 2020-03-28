@@ -74,7 +74,7 @@
         rounded
         size="lg"
         class="full-width btn-fixed-width"
-        label="Entrar com google"
+        label="Google"
         icon="img:https://imagepng.org/wp-content/uploads/2019/08/google-icon-1.png"
         @click="login('google')"
       />
@@ -84,10 +84,10 @@
         size="lg"
         class="full-width btn-fixed-width"
         left-icon
-        @click="facebookSignIn()"
+        @click="login('facebook')"
       >
         <q-icon color="blue" name="ion-logo-facebook" />
-        <div>Entrar com facebook</div>
+        <div>Facebook</div>
       </q-btn>
 
       <q-btn
@@ -95,7 +95,7 @@
         rounded
         size="lg"
         class="full-width btn-fixed-width"
-        label="Entrar com email"
+        label="Email"
         icon="email"
         to="/account/login"
       />
@@ -116,6 +116,7 @@
 </template>
 
 <script>
+import { Loading } from "quasar";
 import { mapState, mapActions } from "vuex";
 export default {
   name: "LoginFormsComponent",
@@ -139,16 +140,21 @@ export default {
       "googleSignIn",
       "googleSignInCordova",
       "facebookSignIn",
+      "facebookSignInCordova"
     ]),
 
     login(method) {
       if(window.hasOwnProperty("cordova")) {
         if(method == "google") {
           this.googleSignInCordova()
+        } else if (method == "facebook") {
+          this.facebookSignInCordova()
         }
       } else {
         if(method == "google") {
           this.googleSignIn()
+        } else if (method == "facebook") {
+          this.facebookSignIn()
         }
       }
     },
@@ -199,9 +205,10 @@ export default {
   },
 
   mounted() {
+    Loading.hide();
     this.$root.$emit(
       "textToSpeechRouter",
-      "Pagina de login. Pode se autenticar com conta Google, Facebook ou por email.\n Pressione a tela para entrar com a conta Google."
+      "Página de login. Pode se autenticar com conta Google, Facebook ou por email.\n Pressione a tela para entrar com a conta Google."
     );
   },
 

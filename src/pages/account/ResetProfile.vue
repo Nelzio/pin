@@ -18,7 +18,7 @@
               <q-img :src="imageUrl" />
             </q-avatar>
             <q-badge floating :color="darkModeConf.iconVar">
-              <q-icon color="white" name="edit" />
+              <q-icon :class="darkModeConf.textBtn"  name="edit" />
             </q-badge>
           </q-btn>
         </div>

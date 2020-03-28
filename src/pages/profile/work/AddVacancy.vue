@@ -221,7 +221,9 @@ export default {
     ...mapActions("vacancy", ["listVacancy", "createVacancy"]),
     addVacancy() {
       // console.log(this.vacancy)
+      var today = new Date();
       this.vacancy.user = this.user.email;
+      this.vacancy.timeSend = String(today);
       this.$refs.vacancyForm.validate();
       if (this.$refs.vacancyForm.hasError) {
         this.formHasError = true;
@@ -260,7 +262,8 @@ export default {
           public: true,
           category: "",
           validate: "",
-          place: ""
+          place: "",
+          timeSend: ""
         };
         this.$refs.vacancyForm.resetValidation();
         this.confirmInsert = true;

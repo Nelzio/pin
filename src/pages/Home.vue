@@ -70,16 +70,16 @@ export default {
         { label: 2, value: "segundo" },
         { label: 3, value: "terceiro" }
       ],
-      audioPath: "statics/audios/tts.mp3",
+      audioPath: "statics/audios/welcome.mp3",
       vibrateMode: true,
       slide: "primeiro",
-      pitch: 0.8,
-      rate: 1,
+      pitch: 0.9,
+      rate: 0.8,
       synth: window.speechSynthesis,
       lorem:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       textToSpeechRouter:
-        "Bem-vindo a plataforma Superactive.\n Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Deslize o dedo para a esquerda 3 vezes para ir a página inicial.\n Para desativar o modo de narração e vibração, vai até a pagina de preferências e desabilite o modo de narração e vibração.\n Para repetir o áudio, deslize do dedo do topo da tela para baixo."
+        "Bem-vindo a plataforma Superactive.\n Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Deslize o dedo para a esquerda 3 vezes para ir a página inicial.\n Para desativar o modo de narração e vibração, vai até a Página de preferências e desabilite o modo de narração e vibração.\n Para repetir o áudio, deslize do dedo do topo da tela para baixo."
     };
   },
   computed: {
@@ -87,7 +87,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("settings", ["setVibrate", "setAppMode"]),
+    ...mapActions("settings", ["setVibrate"]),
 
     next() {
       if (this.slide == "primeiro") {
@@ -122,7 +122,7 @@ export default {
 
     accessibilityMode() {
       var textToSpeechRouter =
-        "Bem-vindo a plataforma Superactive.\n Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Deslize o dedo para a esquerda 3 vezes para ir a página inicial.\n Para desativar o modo de narração e vibração, vai até a pagina de preferências e desabilite o modo de narração e vibração.\n Para repetir o áudio, deslize do dedo do topo da tela para baixo.";
+        "Bem-vindo a plataforma Superactive. Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Para navegar até a página inicial deslize o dedo três vezes para a esquerda.\n Para desativar o modo de narração e vibração, vai até a página de preferências ou clique no botão no canto inferior direito da tela e desabilite o.\n Para repetir o áudio, deslize o dedo do topo da tela para baixo.";
       if (window.hasOwnProperty("cordova")) {
         this.speakCordova(textToSpeechRouter);
       } else {

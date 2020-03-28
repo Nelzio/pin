@@ -17,7 +17,7 @@ const state = {
         }
     },
     fontConfig: LocalStorage.getItem("fontSize") ? LocalStorage.getItem("fontSize") : 2,
-    appMode: 1,
+    appMode: LocalStorage.getItem("lightMode") ? LocalStorage.getItem("lightMode") : 1,
     darkModeConf: {
         bgColor: "bg-white",
         textColor: "text-black",
@@ -26,7 +26,8 @@ const state = {
         icon: "primary",
         iconVar: "primary",
     },
-    vibrateState: 1,
+    homeSpeak: true,
+    vibrateState: LocalStorage.getItem("vibrate") ? LocalStorage.getItem("vibrate") : 1,
 }
 
 const mutations = {
@@ -39,6 +40,7 @@ const mutations = {
     },
     setAppMode(state, val) {
         state.appMode = val
+        LocalStorage.set('lightMode', val)
     },
     appModeSave(state, val) {
         state.darkModeConf = val
@@ -143,13 +145,6 @@ const actions = {
     //     LocalStorage.set('appMode', state.appMode) //stgs - settings key
     // },
 
-    // ===== Audio options
-    playSound({ }, audioPath) {
-        // if(audioPath) {
-        //     var audio = new Audio(audioPath);
-        //     audio.play();
-        // }
-    },
 
     // ===== Vibration options
     // vibrate ({}, audioPath = null) {

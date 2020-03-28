@@ -391,8 +391,8 @@ export default {
         "Eventos",
         "Técnicos"
       ],
-      pitch: 0.8,
-      rate: 1,
+      pitch: 0.9,
+      rate: 0.8,
       synth: window.speechSynthesis,
       itemsLayzeRef: []
     };
@@ -403,6 +403,7 @@ export default {
   },
   methods: {
     ...mapActions("auth", ["signOut"]),
+    ...mapActions("settings", ["setAppMode"]),
 
     backIconFunc(to) {
       // active/ deactivate icon
@@ -467,7 +468,7 @@ export default {
         TTS.speak({
           text: userInput,
           locale: 'pt-BR',
-          rate: 1
+          rate: 0.8
         }, function () {
           // console.log('Text succesfully spoken');
         }, function (reason) {
@@ -476,29 +477,50 @@ export default {
       }
     },
 
-    getChat() {
-      const vm = this;
-      if (this.isUserAuth) {
-        const ref = firestoreDb.collection("chat");
-        var chatData = [];
-        ref
-          .where("receptorUser", "==", vm.user.email)
-          .where("readed", "==", false)
-          .onSnapshot(function(querySnapshot) {
-            chatData = [];
-            vm.numMessage = 0;
-            querySnapshot.forEach(function(doc) {
-              chatData.push({
-                key: doc.id,
-                email: doc.data().email,
-                displayName: doc.data().displayName,
-                receptorUser: doc.data().receptorUser,
-                readed: doc.data().readed
+    // getChat() {
+    //   const vm = this;
+    //   if (this.isUserAuth) {
+    //     const ref = firestoreDb.collection("chat");
+    //     var chatData = [];
+    //     ref
+    //       .where("receptorUser", "==", vm.user.email)
+    //       .where("readed", "==", false)
+    //       .onSnapshot(function(querySnapshot) {
+    //         chatData = [];
+    //         vm.numMessage = 0;
+    //         querySnapshot.forEach(function(doc) {
+    //           chatData.push({
+    //             key: doc.id,
+    //             email: doc.data().email,
+    //             displayName: doc.data().displayName,
+    //             receptorUser: doc.data().receptorUser,
+    //             readed: doc.data().readed
+    //           });
+    //           vm.numMessage += 1;
+    //         });
+    //       });
+    //   }
+    // },
+
+    getChat(vm) {
+      const ref = firestoreDb.collection("chat").doc(vm.user.email.split('@')[0]);
+      var chatDataObj = {};
+      
+      ref.onSnapshot(function(doc) {
+        if(doc.exists) {
+          vm.numMessage = 0;
+            doc.data().peopleChat.forEach(element => {
+              var refToCount = firestoreDb.collection("chat").doc(vm.user.email.split('@')[0]).collection(element);
+              refToCount.where("readed", "==", false).onSnapshot(function(querySnap) {
+                querySnap.forEach(function(doc) {
+                  if(!doc.data().readed && doc.data().sender !== vm.user.email) {
+                    vm.numMessage += 1;
+                  }
+                });
               });
-              vm.numMessage += 1;
             });
-          });
-      }
+        }
+      });
     },
 
     accessibilityMode() {
@@ -522,17 +544,38 @@ export default {
     // if (!LocalStorage.getItem("notFirst")) {
     //   this.$router.push("/welcome");
     // }
-
-    this.getChat();
   },
 
 
   mounted() {
-    if (this.appMode) {
-      this.$q.dark.set(false);
+    const vm = this;
+    if (LocalStorage.getItem("lightMode") !== null) {
+      if(LocalStorage.getItem("lightMode") === 1) {
+        this.setAppMode(1)
+      } else {
+        this.setAppMode(0)
+      }
     } else {
-      this.$q.dark.set(true);
+      this.setAppMode(1)
     }
+
+
+    if(this.user && this.isUserAuth) {
+      this.getChat(vm);
+    }
+
+    this.$root.$on("countMessages", val => {
+      this.getChat(vm);
+    });
+      
+    
+    // if (this.appMode == 1) {
+    //   this.$q.dark.set(false);
+    // } else {
+    //   this.$q.dark.set(true);
+    // }
+
+    // // // // // // this.$root.$store.state.vibrateState
 
     this.accessibilityMode();
 

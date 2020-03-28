@@ -42,7 +42,7 @@
             <q-tab-panels v-model="tab" animated>
               <q-tab-panel name="bio">
                 <q-list>
-                  <q-item class="text-left">
+                  <q-item v-if="userData.phoneNumber" class="text-left">
                     <q-item-section top avatar>
                       <q-icon :color="darkModeConf.iconVar" name="phone" />
                     </q-item-section>
@@ -53,9 +53,9 @@
                     </q-item-section>
                   </q-item>
 
-                  <q-separator spaced inset="item" />
+                  <q-separator v-if="userData.email.split('@')[userData.email.split('@').length - 1] !== 'superactive'" spaced inset="item" />
 
-                  <q-item class="text-left">
+                  <q-item v-if="userData.email.split('@')[userData.email.split('@').length - 1] !== 'superactive'" class="text-left">
                     <q-item-section top avatar>
                       <q-icon :color="darkModeConf.iconVar" name="email" />
                     </q-item-section>
@@ -66,7 +66,7 @@
                     </q-item-section>
                   </q-item>
 
-                  <q-separator spaced inset="item" />
+                  <q-separator v-if="userData.phoneNumber || userData.email.split('@')[userData.email.split('@').length - 1] !== 'superactive'" spaced inset="item" />
 
                   <q-item class="text-left">
                     <q-item-section avatar top>
@@ -294,7 +294,7 @@
           <q-card-section class="row">
             <div :class="getFont.title">Tipo de perfil</div>
             <q-space />
-            <div :class="getFont.title"><q-btn round icon="close" :color="darkModeConf.iconVar" v-close-popup /></div>
+            <div :class="getFont.title"><q-btn flat round icon="close" v-close-popup /></div>
 
           </q-card-section>
           <q-card-section class="q-gutter-y-md">
@@ -676,7 +676,7 @@ export default {
       Loading.show()
       var storageRef = fireStorage.ref()
 
-      var desertRef = storageRef.child('vacanvideoscies/' + id);
+      var desertRef = storageRef.child('videos/' + id);
 
       desertRef.delete().then(function () {
           // File deleted successfully
@@ -701,7 +701,7 @@ export default {
       var storageRef = fireStorage.ref();
       // Create the file metadata
       ref.set(payload).then((docRef) => {
-        console.log("Inserido")
+        
         console.log(docRef)
         vm.getVideo(payload.user)
         Loading.hide()
@@ -727,7 +727,7 @@ export default {
       var storageRef = fireStorage.ref();
       // Create the file metadata
       ref.set(payload).then((docRef) => {
-        console.log("Inserido")
+        
         console.log(docRef)
         Loading.hide()
       })
@@ -984,7 +984,7 @@ export default {
     // Video Player functions
   },
   created() {
-    this.checkAuthUser();
+    this.checkAuthUser("back");
     this.detailUser(this.user.email);
     this.listVacancyMyHere(this.user.email);
     this.listStoreMyHere(this.user.email);
@@ -1002,7 +1002,7 @@ export default {
 
     this.$root.$emit(
       "textToSpeechRouter",
-      "Pagina do seu perfil.\n Pressione para ouvir detalhes do seu perfil"
+      "Página do seu perfil.\n Pressione para ouvir detalhes do seu perfil"
     );
   }
   // watch: {

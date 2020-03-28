@@ -1,9 +1,9 @@
 <template>
   <q-page
-    @click="handleRepeat()"
+    @click="handleRepeat"
     v-touch-swipe.mouse.left.right="handleSwipe"
     padding
-    v-touch-hold:600.mouse="handleHold"
+    v-touch-hold:800.mouse="handleHold"
   >
     <!-- content -->
     <div class="row justify-center">
@@ -42,9 +42,9 @@
             :class="darkModeConf.textBtn"
             label="Candidatar-se"
             icon="done_all"
-            @click="apply = true"
+            @click="applyDialog = true"
           />
-          <q-btn v-else rounded :color="darkModeConf.iconVar" label="Cancelar" icon="close" @click="apply = true" />
+          <q-btn v-else rounded :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" label="Cancelar" icon="close" @click="applyDialog = true" />
         </div>
         <div class="row justify-end q-gutter-x-md" v-else>
           <q-btn
@@ -56,13 +56,13 @@
             icon="done_all"
             @click="routeToAccount()"
           />
-          <q-btn v-else rounded :color="darkModeConf.iconVar" label="Cancelar" icon="close" @click="apply = true" />
+          <q-btn v-else rounded :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" label="Cancelar" icon="close" @click="applyDialog = true" />
         </div>
       </div>
     </div>
 
     <div>
-      <q-dialog v-model="apply">
+      <q-dialog v-model="applyDialog">
         <q-card style="width: 700px; max-width: 80vw;">
           <q-card-section>
             <div class="text-h5">Confirmar</div>
@@ -75,7 +75,7 @@
           >Candidatar-se a vaga?</q-card-section>
           <q-card-section v-else class="q-pt-none" :class="getFont.title">Retirar candidatura?</q-card-section>
 
-          <q-card-actions align="right" class="bg-white">
+          <q-card-actions align="right">
             <q-btn
               v-if="!vacancyDone"
               rounded
@@ -84,8 +84,27 @@
               label="Candidatar"
               @click="aply()"
             />
-            <q-btn v-else rounded outline :color="darkModeConf.iconVar" label="Retirar" @click="deleteCandidate()" />
+            <q-btn v-else rounded outline color="green" label="Retirar" @click="deleteCandidate()" />
             <q-btn rounded outline label="Cancelar" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="applyDialogDone">
+        <q-card style="width: 700px; max-width: 80vw;">
+          <q-card-section>
+            <div class="text-h5">Confirmar</div>
+          </q-card-section>
+
+          <q-card-section
+            v-if="vacancyDone"
+            class="q-pt-none"
+            :class="getFont.title"
+          >Candidatar-se feita com sucesso</q-card-section>
+          <q-card-section v-else class="q-pt-none" :class="getFont.title">Candidatar-se cancelada com sucesso</q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn rounded outline label="OK" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -106,10 +125,11 @@ export default {
     return {
       tab: "details",
       socialNet: false,
-      apply: false,
+      applyDialog: false,
       vacancyDone: false,
-      pitch: 0.8,
-      rate: 1,
+      applyDialogDone: false,
+      pitch: 0.9,
+      rate: 0.8,
       synth: window.speechSynthesis,
       touchNums: 0,
       submitGo: false
@@ -178,13 +198,14 @@ export default {
         {
           text: userInput,
           locale: "pt-BR",
-          rate: 1
+          pitch: this.pitch,
+          rate: this.rate
         },
         function() {
           console.log("Text succesfully spoken");
         },
         function(reason) {
-          alert(reason);
+          console.log(reason);
         }
       );
     },
@@ -222,28 +243,41 @@ export default {
         var vm = this;
 
         this.touchNums += 1;
+        console.log(vm.touchNums)
 
-        if (this.touchNums >= 5) {
-          this.submitGo = true;
+        if (this.touchNums === 5 ) {
+          Loading.show();
           this.touchNums = -80;
           navigator.vibrate(200);
           window.navigator.vibrate(200);
           if (!this.user || !this.isUserAuth) {
             var text = "Usuário não autenticado.";
-            this.speak(text);
-            return;
-          }
-
-          if (this.vacancyDone) {
-            this.deleteCandidate();
+            if (window.hasOwnProperty("cordova")) {
+              this.speakCordova(text);
+            } else {
+              this.speak(text);
+            }
+            setTimeout(() => {
+              vm.$router.push("/account")
+            }, 5000);
           } else {
-            this.aply();
+            if (this.vacancyDone) {
+              Loading.hide();
+              this.deleteCandidate();
+              this.submitGo = true;
+            } else {
+              // this.aply();
+              Loading.hide();
+              this.submitGo = true;
+              this.aplyVacancyMethod({ id: this.$route.params.id, data: this.userData });
+            }
           }
         }
 
         setTimeout(() => {
           vm.touchNums = 0;
-        }, 5000);
+          console.log(vm.touchNums)
+        }, 10000);
       }
     },
 
@@ -264,16 +298,6 @@ export default {
     },
 
     aply() {
-      // const data = {
-      //   photoURL: this.user.photoURL,
-      //   displayName: this.user.displayName,
-      //   phoneNumber: this.userData.phoneNumber,
-      //   email: this.user.email,
-      //   adress: this.userData.adress,
-      //   profission: this.userData.profission,
-      //   education: this.userData.education,
-      //   date: this.userData.date
-      // };
       this.aplyVacancyMethod({ id: this.$route.params.id, data: this.userData });
     },
 
@@ -288,6 +312,7 @@ export default {
     
 
     aplyVacancyMethod(payload) {
+      const vm = this;
       if (!offline.data().isOnline) {
         return alert("Está sem internet");
       }
@@ -301,8 +326,18 @@ export default {
         .set(payload.data)
         .then(docRef => {
           console.log("aply success" + docRef);
-          this.apply = false;
+          if (window.hasOwnProperty("cordova")) {
+            this.speakCordova("Candidatura feita com sucesso.");
+          } else {
+            this.speak("Candidatura feita com sucesso.");
+          }
+          this.applyDialog = false;
           this.getAply();
+          if (!this.vibrateState) {
+            setTimeout(() => {
+              vm.applyDialogDone = true;
+            }, 2000);
+          }
           Loading.hide();
         })
         .catch(error => {
@@ -312,6 +347,7 @@ export default {
     },
 
     deleteCandidate() {
+      const vm = this;
       if (!offline.data().isOnline) {
         return alert("Está sem internet");
       }
@@ -323,9 +359,18 @@ export default {
         .doc(this.user.email)
         .delete()
         .then(() => {
-          this.apply = false;
+          this.applyDialog = false;
+          if (window.hasOwnProperty("cordova")) {
+            this.speakCordova("Candidatura removida com sucesso.");
+          } else {
+            this.speak("Candidatura removida com sucesso.");
+          }
           this.getAply();
-          console.log("Deleted candidate");
+          if (!this.vibrateState) {
+            setTimeout(() => {
+              vm.applyDialogDone = true;
+            }, 2000);
+          }
           Loading.hide();
         })
         .catch(error => {

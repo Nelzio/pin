@@ -20,8 +20,8 @@ export default {
   data() {
     return {
       userInput: 'Seja louvado o Nosso Senhor.',
-      pitch: 0.8,
-      rate: 1,
+      pitch: 0.9,
+      rate: 0.8,
       synth: window.speechSynthesis,
       validation: false
     }

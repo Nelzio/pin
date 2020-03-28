@@ -94,7 +94,7 @@ export default {
     this.SignInUI()
     this.$root.$emit(
       "textToSpeechRouter",
-      "Pagina de login. Pode se autenticar com conta google, facebook ou por email"
+      "Página de login. Pode se autenticar com conta google, facebook ou por email"
     );
   },
 

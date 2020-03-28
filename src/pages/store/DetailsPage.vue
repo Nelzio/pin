@@ -8,7 +8,8 @@
     <div class="row justify-center">
       <div class="col-12 col-md-8">
         <q-card flat>
-          <q-img :src="getStore.img" />
+          <q-img v-if="getStore.img" :src="getStore.img" />
+          <q-img v-else src="statics/img/nophoto.png" />
         </q-card>
 
         <div class="row no-wrap items-center q-pa-md">
@@ -79,8 +80,8 @@ export default {
     return {
       tab: "details",
       candidates: [],
-      pitch: 0.8,
-      rate: 1,
+      pitch: 0.9,
+      rate: 0.8,
       synth: window.speechSynthesis,
       touchNums: 0
     };
@@ -156,7 +157,8 @@ export default {
         {
           text: userInput,
           locale: "pt-BR",
-          rate: 1
+          pitch: this.pitch,
+          rate: this.rate
         },
         function() {
           console.log("Text succesfully spoken");
