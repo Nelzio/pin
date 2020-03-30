@@ -84,15 +84,15 @@ export default {
   },
   computed: {
     ...mapState("settings", ["vibrateState", "homeSpeak"]),
-    ...mapGetters("settings", ["getFont"])
+    ...mapGetters("settings", ["getFont", "getStart"])
   },
   methods: {
-    ...mapActions("settings", ["playSound", "vibrate"]),
+    ...mapActions("settings", ["playSound", "vibrate", "setStart"]),
 
     speakAudioStart() {
-      if (this.$root.$store.state.homeSpeak && this.vibrateState) {
+      if (this.getStart && this.vibrateState) {
         this.$refs.testAudio.play();
-        this.$root.$store.state.homeSpeak = false;
+        this.setStart(false)
       } else {
         this.$root.$emit(
           "textToSpeechRouter",

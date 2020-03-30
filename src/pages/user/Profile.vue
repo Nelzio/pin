@@ -131,7 +131,7 @@
         <div class="row text-center justify-center">
           <q-card class="col-12">
             <!-- <my-video ref="player" :sources="video.sources" :options="video.options"></my-video> -->
-            <q-video v-if="videoDownload.videoUrl" :src="videoDownload.videoUrl"/>
+            <q-video v-if="videoDownload.videoUrl" :src="videoDownload.videoUrl" controls controlsList="nodownload"/>
             
           </q-card>
         </div>

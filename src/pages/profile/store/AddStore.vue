@@ -138,6 +138,7 @@ export default {
         place: "",
         subCategory: "",
         price: "",
+        timeSend: "",
         priceVariable: false
       },
       imageUrl: "",
@@ -182,7 +183,7 @@ export default {
     ...mapActions("store", ["createStore"]),
     addStore() {
       var today = new Date();
-      this.vacancy.timeSend = String(today);
+      this.store.timeSend = String(today);
       this.store.user = this.user.email;
       this.$refs.storeForm.validate();
       if (this.$refs.storeForm.hasError) {

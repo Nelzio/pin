@@ -63,7 +63,7 @@
             </q-expansion-item>
 
             <q-expansion-item
-              v-if="user"
+              v-if="user && isUserAuth" 
               expand-separator
               default-opened
               icon="perm_identity"
@@ -72,7 +72,7 @@
               :caption="user.displayName"
             >
               <q-card>
-                <q-item v-if="user && isUserAuth" clickable v-ripple to="/account/edit">
+                <q-item clickable v-ripple to="/account/edit">
                   <q-item-section avatar>
                     <q-icon :color="darkModeConf.iconVar" name="edit" />
                   </q-item-section>
@@ -82,7 +82,7 @@
                   </q-item-section>
                 </q-item>
 
-                <q-item v-if="user && isUserAuth" clickable v-ripple @click="logOutDialog = true">
+                <q-item clickable v-ripple @click="logOutDialog = true">
                   <q-item-section avatar>
                     <q-icon :color="darkModeConf.iconVar" name="logout" />
                   </q-item-section>
@@ -91,23 +91,34 @@
                     <q-item-label :class="getFont.text">Sair da conta</q-item-label>
                   </q-item-section>
                 </q-item>
-                <q-item v-else clickable v-ripple to="/account">
-                  <q-item-section avatar>
-                    <q-icon :color="darkModeConf.iconVar" name="account_circle" />
-                  </q-item-section>
 
-                  <q-item-section>
-                    <q-item-label :class="getFont.text">Entrar na conta</q-item-label>
-                  </q-item-section>
-                </q-item>
-
-                <q-item v-if="user && isUserAuth" clickable v-ripple @click="deletDialog = true">
+                <q-item clickable v-ripple @click="deletDialog = true">
                   <q-item-section avatar>
                     <q-icon :color="darkModeConf.iconVar" name="delete_forever" />
                   </q-item-section>
 
                   <q-item-section>
                     <q-item-label :class="getFont.text">Remover conta</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-card>
+            </q-expansion-item>
+            <q-expansion-item
+              v-else
+              expand-separator
+              default-opened
+              icon="perm_identity"
+              label="Definições de conta"
+              :class="getFont.text"
+            >
+              <q-card>
+                <q-item clickable v-ripple to="/account">
+                  <q-item-section avatar>
+                    <q-icon :color="darkModeConf.iconVar" name="account_circle" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label :class="getFont.text">Entrar na conta</q-item-label>
                   </q-item-section>
                 </q-item>
               </q-card>

@@ -16,6 +16,7 @@ const state = {
     category: "",
     place: "",
     subCategory: "",
+    timeSend: "",
     price: "",
     priceVariable: false,
   },
@@ -144,6 +145,7 @@ const actions = {
           place: "",
           subCategory: "",
           price: "",
+          timeSend: "",
           priceVariable: false,
         }
         commit('SET_STORE', data)
@@ -209,6 +211,7 @@ const actions = {
                   place: "",
                   subCategory: "",
                   price: "",
+                  timeSend: "",
                   priceVariable: false,
                 }
                 commit('SET_STORE', data)

@@ -31,6 +31,9 @@ const state = {
 }
 
 const mutations = {
+    IS_START(state, val) {
+        state.homeSpeak = val
+    },
     setIsConected(state, val) {
         state.isConected = val
     },
@@ -69,12 +72,17 @@ const getters = {
 
     getMode(state) {
         return state.appMode
+    },
+    getStart(state) {
+        return state.homeSpeak
     }
 
 }
 
 const actions = {
-
+    setStart({ commit }, val) {
+        commit('IS_START', val)
+    },
     setFont({ commit }, val) {
         commit('SET_FONT_SIZE', val)
     },
