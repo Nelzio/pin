@@ -1,8 +1,12 @@
 import { firestoreDb } from "boot/firebase";
 
 function deleteFunc(ref) {
-    Loading.show();
-    ref.delete()
+    ref.delete().then(() => {
+      console.log("candidature delete")
+    }).catch((error) => {
+      console.log("candidature delete Error")
+      console.log(error)
+  })
 };
 
 

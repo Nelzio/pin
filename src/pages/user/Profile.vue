@@ -147,7 +147,7 @@
           :class="darkModeConf.textBtn"
           icon="message"
           label="Contactar"
-          :to="'/chat/' + this.$route.params.idUser"
+          @click="routeToChat()"
         />
       </div>
     </div>
@@ -288,10 +288,18 @@ export default {
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapGetters("user", ["getUser"]),
-    ...mapGetters("settings", ["getFont"])
+    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("auth", ["isUserAuth"]),
   },
   methods: {
     ...mapActions("user", ["detailUserStore"]),
+    routeToChat () {
+      if (!this.isUserAuth) {
+        this.$router.push("/account")
+      } else {
+        this.$router.push('/chat/' + this.$route.params.idUser)
+      }
+    },
 
 
     zoomPDF() {
@@ -414,11 +422,6 @@ export default {
       }
     },
 
-    handleSwipe(val) {
-      if (val.direction === "right") {
-        this.$router.go(-1);
-      }
-    },
 
     handleRepeat() {
       var vm = this;

@@ -143,6 +143,7 @@ export default {
 
   methods: {
     ...mapActions("user", ["detailUserStore"]),
+    ...mapActions("auth", ["checkAuthUser"]),
 
     handleHold({ evt, ...info }) {
       // console.log(info)
@@ -488,6 +489,7 @@ export default {
     this.detailUserStore(this.$route.params.idReceptor);
   },
   mounted() {
+    this.checkAuthUser();
     this.getChat();
     this.getChatToRead()
     window.scroll(0, window.innerHeight + 200);

@@ -17,7 +17,10 @@ export function deleteVideo(id) {
     const ref = firestoreDb.collection('videos').doc(id);
     ref.onSnapshot((doc) => {
         if (doc.exists) {
-            ref.delete()
+            ref.delete().catch((error) => {
+                console.log("video delete Error")
+                console.log(error)
+            });
             deleteVideoFile(id)
         } else {
             console.log("No such document!")

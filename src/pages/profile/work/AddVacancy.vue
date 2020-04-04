@@ -45,6 +45,7 @@
             v-model="vacancy.category"
             :options="categories"
             label="Categoria"
+            lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza a categoria']"
           />
           <q-select
@@ -54,6 +55,7 @@
             v-model="vacancy.place"
             :options="places"
             label="Província"
+            lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza a província']"
           />
           <q-input
@@ -63,6 +65,7 @@
             label="Data de validade"
             v-model="vacancy.validate"
             mask="##/##/####"
+            lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza a data de validade']"
           >
             <template v-slot:append>

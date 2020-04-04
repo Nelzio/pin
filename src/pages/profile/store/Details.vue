@@ -38,7 +38,7 @@
         </div>
 
         <q-list>
-          <q-item>
+          <q-item v-if="getStore.price">
             <q-item-section avatar top>
               <q-icon :color="darkModeConf.iconVar" name="attach_money" />
             </q-item-section>
@@ -47,7 +47,7 @@
             </q-item-section>
           </q-item>
 
-          <q-separator spaced inset="item" />
+          <q-separator v-if="getStore.price" spaced inset="item" />
 
           <q-item class="text-left">
             <q-item-section top avatar>
@@ -69,7 +69,7 @@
 
             <q-item-section>
               <q-item-label :class="getFont.title">Descrição</q-item-label>
-              <q-item-label :class="getFont.text">{{ getStore.description }}</q-item-label>
+              <q-item-label :class="getFont.text"><div v-html="getStore.description"></div></q-item-label>
             </q-item-section>
           </q-item>
         </q-list>

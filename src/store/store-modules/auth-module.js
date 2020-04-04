@@ -947,6 +947,16 @@ const actions = {
             })
     },
 
+    // deleteUser({ commit }, payload) {
+    //     deleteCandidature(payload.id)
+    //     deleteChat(payload.id)
+    //     deleteCV(payload.id)
+    //     deleteStore(payload.id)
+    //     console.log("Continua")
+    //     deleteVacancies(payload.id)
+    //     deleteVideo(payload.id)
+    // },
+
     deleteUser({ commit }, payload) {
         Loading.show()
         const vm = this;
@@ -970,42 +980,57 @@ const actions = {
                 const ref = firestoreDb.collection('users').doc(payload.id)
                 ref.get().then((doc) => {
                     if (doc.exists) {
-                        user.delete().then(function () {
-                            // User deleted.
-                            commit('SET_AUTH_USER', false)
-                            commit('AUTH_USER', null)
-                            commit('SET_USER_DATA', null)
-
-                            deleteCandidature(payload.id)
-                            deleteChat(payload.id)
-                            deleteCV(payload.id)
-                            deleteStore(payload.id)
-                            deleteVacancies(payload.id)
-                            deleteVideo(payload.id)
-
-                            Notify.create('Usuario Excluido')
-                            vm.$router.push('/')
-                            Loading.hide()
-                        }).catch(function (error) {
-                            // An error happened.
-                            Notify.create('Erro ao Remover1')
-                            Loading.hide()
-                        })
+                        deleteCandidature(payload.id)
+                        deleteChat(payload.id)
+                        deleteCV(payload.id)
+                        deleteStore(payload.id)
+                        deleteVacancies(payload.id)
+                        deleteVideo(payload.id)
+                        setTimeout(() => {
+                            user.delete().then(function () {
+                                // User deleted.
+                                commit('SET_AUTH_USER', false)
+                                commit('AUTH_USER', null)
+                                commit('SET_USER_DATA', null)
+    
+    
+                                Notify.create('Usuario Excluido')
+                                vm.$router.push('/')
+                                Loading.hide()
+                            }).catch(function (error) {
+                                // An error happened.
+                                Notify.create('Erro ao Remover1')
+                                Loading.hide()
+                            })
+                        }, 15000);
                     } else {
                         // If user desen't exist
-                        user.delete().then(function () {
-                            // User deleted.
-                            commit('SET_AUTH_USER', false)
-                            commit('AUTH_USER', null)
-                            commit('SET_USER_DATA', null)
-                            Notify.create('Usuario Excluido')
-                            vm.$router.push('/')
-                            Loading.hide()
-                        }).catch(function (error) {
-                            // An error happened.
-                            Notify.create('Erro ao Remover2')
-                            Loading.hide()
-                        })
+
+                        deleteCandidature(payload.id)
+                        deleteChat(payload.id)
+                        deleteCV(payload.id)
+                        deleteStore(payload.id)
+                        deleteVacancies(payload.id)
+                        deleteVideo(payload.id)
+                        setTimeout(() => {
+                            user.delete().then(function () {
+                                // User deleted.
+                                commit('SET_AUTH_USER', false)
+                                commit('AUTH_USER', null)
+                                commit('SET_USER_DATA', null)
+    
+    
+                                setTimeout(() => {
+                                    Notify.create('Usuario Excluido')
+                                    vm.$router.push('/')
+                                    Loading.hide()
+                                }, 15000);
+                            }).catch(function (error) {
+                                // An error happened.
+                                Notify.create('Erro ao Remover2')
+                                Loading.hide()
+                            })
+                        }, 15000);
                     }
                 }).catch((error) => {
                     Loading.hide()
@@ -1018,10 +1043,10 @@ const actions = {
                 console.log("Done't")
             });
         } else {
-            if (user.providerData[0].providerId == "google.com") {
-                var provider = new firebase.auth.GoogleAuthProvider();
-            } else {
+            if (user.providerData[0].providerId == "facebook.com") {
                 var provider = new firebase.auth.FacebookAuthProvider();
+            } else {
+                var provider = new firebase.auth.GoogleAuthProvider();
             }
             if (window.hasOwnProperty("cordova")) {
                 firebase.auth().signInWithRedirect(provider).then(function () {
@@ -1031,42 +1056,53 @@ const actions = {
                             const ref = firestoreDb.collection('users').doc(payload.id)
                             ref.get().then((doc) => {
                                 if (doc.exists) {
-                                    user.delete().then(function () {
-                                        // User deleted.
-                                        commit('SET_AUTH_USER', false)
-                                        commit('AUTH_USER', null)
-                                        commit('SET_USER_DATA', null)
-
-                                        deleteCandidature(payload.id)
-                                        deleteChat(payload.id)
-                                        deleteCV(payload.id)
-                                        deleteStore(payload.id)
-                                        deleteVacancies(payload.id)
-                                        deleteVideo(payload.id)
-
-                                        Notify.create('Usuario Excluido')
-                                        vm.$router.push('/')
-                                        Loading.hide()
-                                    }).catch(function (error) {
-                                        // An error happened.
-                                        Notify.create('Erro ao Remover1')
-                                        Loading.hide()
-                                    })
+                                    deleteCandidature(payload.id)
+                                    deleteChat(payload.id)
+                                    deleteCV(payload.id)
+                                    deleteStore(payload.id)
+                                    deleteVacancies(payload.id)
+                                    deleteVideo(payload.id)
+                                    setTimeout(() => {
+                                        user.delete().then(function () {
+                                            // User deleted.
+                                            commit('SET_AUTH_USER', false)
+                                            commit('AUTH_USER', null)
+                                            commit('SET_USER_DATA', null)
+                                            
+                                            Notify.create('Usuario Excluido')
+                                            vm.$router.push('/')
+                                            Loading.hide()
+                                            
+                                        }).catch(function (error) {
+                                            // An error happened.
+                                            Notify.create('Erro ao Remover1')
+                                            Loading.hide()
+                                        })
+                                    }, 15000);
                                 } else {
                                     // If user desen't exist
-                                    user.delete().then(function () {
-                                        // User deleted.
-                                        commit('SET_AUTH_USER', false)
-                                        commit('AUTH_USER', null)
-                                        commit('SET_USER_DATA', null)
-                                        Notify.create('Usuario Excluido')
-                                        vm.$router.push('/')
-                                        Loading.hide()
-                                    }).catch(function (error) {
-                                        // An error happened.
-                                        Notify.create('Erro ao Remover2')
-                                        Loading.hide()
-                                    })
+                                    deleteCandidature(payload.id)
+                                    deleteChat(payload.id)
+                                    deleteCV(payload.id)
+                                    deleteStore(payload.id)
+                                    deleteVacancies(payload.id)
+                                    deleteVideo(payload.id)
+                                    setTimeout(() => {
+                                        user.delete().then(function () {
+                                            // User deleted.
+                                            commit('SET_AUTH_USER', false)
+                                            commit('AUTH_USER', null)
+                                            commit('SET_USER_DATA', null)
+    
+                                            Notify.create('Usuario Excluido')
+                                            vm.$router.push('/')
+                                            Loading.hide()
+                                        }).catch(function (error) {
+                                            // An error happened.
+                                            Notify.create('Erro ao Remover2')
+                                            Loading.hide()
+                                        })
+                                    }, 15000);
                                 }
                             }).catch((error) => {
                                 Loading.hide()
@@ -1092,42 +1128,52 @@ const actions = {
                     const ref = firestoreDb.collection('users').doc(payload.id)
                     ref.get().then((doc) => {
                         if (doc.exists) {
-                            user.delete().then(function () {
-                                // User deleted.
-                                commit('SET_AUTH_USER', false)
-                                commit('AUTH_USER', null)
-                                commit('SET_USER_DATA', null)
-
-                                deleteCandidature(payload.id)
-                                deleteChat(payload.id)
-                                deleteCV(payload.id)
-                                deleteStore(payload.id)
-                                deleteVacancies(payload.id)
-                                deleteVideo(payload.id)
-
-                                Notify.create('Usuario Excluido')
-                                vm.$router.push('/')
-                                Loading.hide()
-                            }).catch(function (error) {
-                                // An error happened.
-                                Notify.create('Erro ao Remover1')
-                                Loading.hide()
-                            })
+                            deleteCandidature(payload.id)
+                            deleteChat(payload.id)
+                            deleteCV(payload.id)
+                            deleteStore(payload.id)
+                            deleteVacancies(payload.id)
+                            deleteVideo(payload.id)
+                            setTimeout(() => {
+                                user.delete().then(function () {
+                                    // User deleted.
+                                    commit('SET_AUTH_USER', false)
+                                    commit('AUTH_USER', null)
+                                    commit('SET_USER_DATA', null)
+    
+                                    Notify.create('Usuario Excluido')
+                                    vm.$router.push('/')
+                                    Loading.hide()
+                                }).catch(function (error) {
+                                    // An error happened.
+                                    Notify.create('Erro ao Remover1')
+                                    Loading.hide()
+                                })
+                            }, 15000);
                         } else {
                             // If user desen't exist
-                            user.delete().then(function () {
-                                // User deleted.
-                                commit('SET_AUTH_USER', false)
-                                commit('AUTH_USER', null)
-                                commit('SET_USER_DATA', null)
-                                Notify.create('Usuario Excluido')
-                                vm.$router.push('/')
-                                Loading.hide()
-                            }).catch(function (error) {
-                                // An error happened.
-                                Notify.create('Erro ao Remover2')
-                                Loading.hide()
-                            })
+                            deleteCandidature(payload.id)
+                            deleteChat(payload.id)
+                            deleteCV(payload.id)
+                            deleteStore(payload.id)
+                            deleteVacancies(payload.id)
+                            deleteVideo(payload.id)
+                            setTimeout(() => {
+                                user.delete().then(function () {
+                                    // User deleted.
+                                    commit('SET_AUTH_USER', false)
+                                    commit('AUTH_USER', null)
+                                    commit('SET_USER_DATA', null)
+    
+                                    Notify.create('Usuario Excluido')
+                                    vm.$router.push('/')
+                                    Loading.hide()
+                                }).catch(function (error) {
+                                    // An error happened.
+                                    Notify.create('Erro ao Remover2')
+                                    Loading.hide()
+                                })
+                            }, 15000);
                         }
                     }).catch((error) => {
                         Loading.hide()

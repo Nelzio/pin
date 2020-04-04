@@ -1,4 +1,4 @@
-import { firestoreDb } from "boot/firebase";
+import { firestoreDb, firebase } from "boot/firebase";
 
 export function deleteCV(user) {
     var storageRef = firebase.storage();
@@ -12,8 +12,14 @@ export function deleteCV(user) {
         }
 
         var refDoc = storageRef.child('curriculum/' + user.split('@')[0] + '.pdf');
-        refDoc.delete()
-        ref.delete()
+        refDoc.delete().catch((error) => {
+            console.log("curriculum delete Error")
+            console.log(error)
+        });
+        ref.delete().catch((error) => {
+            console.log("curriculum delete Error")
+            console.log(error)
+        });
 
       } else {
         console.log("No such document!")

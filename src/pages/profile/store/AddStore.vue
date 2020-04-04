@@ -45,6 +45,7 @@
             v-model="store.category"
             :options="categories"
             label="Categoria"
+            lazy-rules
             :rules="[ val => val && val.length > 0 || 'Selecione a categoria']"
           />
           <q-select
@@ -54,6 +55,7 @@
             v-model="store.subCategory"
             :options="subCategories"
             label="Subcategoria"
+            lazy-rules
             :rules="[ val => val && val.length > 0 || 'Selecione a subcategoria']"
           />
           <q-select
@@ -63,6 +65,7 @@
             v-model="store.place"
             :options="places"
             label="Província"
+            lazy-rules
             :rules="[ val => val && val.length > 0 || 'Selecione a provincia']"
           />
           <q-input rounded outlined v-model="store.price" :color="darkModeConf.iconVar" label="Preço">
@@ -100,7 +103,7 @@
           </q-card-section>
           <q-card-section :class="getFont.text">Inserido com sucesso.</q-card-section>
           <q-card-actions align="right">
-            <q-btn rounded outline label="OK" v-close-popup />
+            <q-btn :color="darkModeConf.iconVar" rounded outline label="OK" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -112,7 +115,7 @@
           </q-card-section>
           <q-card-section :class="getFont.text">Por favor, insira uma imagem válida.</q-card-section>
           <q-card-actions align="right">
-            <q-btn rounded outline label="OK" v-close-popup />
+            <q-btn :color="darkModeConf.iconVar" rounded outline label="OK" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -133,7 +136,7 @@ export default {
         user: "",
         description: "",
         img: "",
-        public: false,
+        public: true,
         category: "",
         place: "",
         subCategory: "",

@@ -100,8 +100,8 @@
             v-if="vacancyDone"
             class="q-pt-none"
             :class="getFont.title"
-          >Candidatar-se feita com sucesso</q-card-section>
-          <q-card-section v-else class="q-pt-none" :class="getFont.title">Candidatar-se cancelada com sucesso</q-card-section>
+          >Candidatura feita com sucesso</q-card-section>
+          <q-card-section v-else class="q-pt-none" :class="getFont.title">Candidatura cancelada com sucesso</q-card-section>
 
           <q-card-actions align="right">
             <q-btn rounded outline label="OK" v-close-popup />

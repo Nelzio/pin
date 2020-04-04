@@ -39,6 +39,7 @@ export default {
   },
 
   methods: {
+    ...mapActions("auth", ["checkAuthUser"]),
     handleSwipe(val) {
       if (val.direction === "right") {
         this.$router.go(-1);
@@ -113,6 +114,7 @@ export default {
   created() {},
   mounted() {
     // this.getChat();
+    this.checkAuthUser();
     this.getChat2();
     this.$root.$emit("textToSpeechRouter", "Página de lista de conversas.\n Clique uma vez pra ouvir o que está clicando e clique duas vezes para entrar na conversa.");
   }

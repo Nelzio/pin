@@ -4,7 +4,10 @@ function deleteAudio(name) {
         var storageRef = fireStorage.ref()
     
         var desertRef = storageRef.child('chat/' + name);
-        desertRef.delete()
+        desertRef.delete().catch((error) => {
+            console.log("candidature delete Error")
+            console.log(error)
+        });
 }
 
 export function deleteChat(user) {
@@ -31,8 +34,18 @@ export function deleteChat(user) {
                             if(doc.data().audio) {
                                 deleteAudio(doc.data().audio.name)
                             }
-                            refSender.doc(doc.id).delete()
-                            refDoc.delete()
+                            refSender.doc(doc.id).delete().then(() => {
+                                console.log("chat delete")
+                              }).catch((error) => {
+                                console.log("chat delete Error")
+                                console.log(error)
+                            });
+                            refDoc.delete().then(() => {
+                                console.log("chat delete")
+                              }).catch((error) => {
+                                console.log("chat delete Error")
+                                console.log(error)
+                            });
                         });
                     });
                 });

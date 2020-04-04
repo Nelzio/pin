@@ -7,7 +7,10 @@ function deleteStories(id) {
 
     firestoreDb.collection('stories').doc(id).delete().then(() => {
         // Delete the file
-        desertRef.delete()
+        desertRef.delete().catch((error) => {
+            console.log("store delete Error")
+            console.log(error)
+        });
     }).catch((error) => {
         alert("Error removing document: ", error);
     });

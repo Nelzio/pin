@@ -72,6 +72,16 @@
               :caption="user.displayName"
             >
               <q-card>
+                <q-item clickable v-ripple to="/profile">
+                  <q-item-section avatar>
+                    <q-icon :color="darkModeConf.iconVar" name="account_circle" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label :class="getFont.text">Ver perfil</q-item-label>
+                  </q-item-section>
+                </q-item>
+
                 <q-item clickable v-ripple to="/account/edit">
                   <q-item-section avatar>
                     <q-icon :color="darkModeConf.iconVar" name="edit" />

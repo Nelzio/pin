@@ -53,9 +53,9 @@
                     </q-item-section>
                   </q-item>
 
-                  <q-separator v-if="userData.email.split('@')[userData.email.split('@').length - 1] !== 'superactive'" spaced inset="item" />
+                  <q-separator v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'" spaced inset="item" />
 
-                  <q-item v-if="userData.email.split('@')[userData.email.split('@').length - 1] !== 'superactive'" class="text-left">
+                  <q-item v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'" class="text-left">
                     <q-item-section top avatar>
                       <q-icon :color="darkModeConf.iconVar" name="email" />
                     </q-item-section>
@@ -237,7 +237,7 @@
                   </q-item-section>
                   <q-item-section>
                     <div class="text-bold" :class="getFont.title">{{ candidate.title}}</div>
-                    <div :class="getFont.text">{{ candidate.user }}</div>
+                    <div v-if="candidate.user.split('@')[candidate.user.split('@').length - 1] !== 'superactive.com'" :class="getFont.text">{{ candidate.user }}</div>
                   </q-item-section>
                 </q-item>
               </q-card>

@@ -7,7 +7,10 @@ function deleteVacancy(id) {
 
     firestoreDb.collection('vacancies').doc(id).delete().then(() => {
         // Delete the file
-        desertRef.delete()
+        desertRef.delete().catch((error) => {
+            console.log("vacancy file delete Error")
+            console.log(error)
+        });
     }).catch((error) => {
         alert("Error removing document: ", error);
     });
