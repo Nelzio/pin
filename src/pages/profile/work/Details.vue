@@ -14,22 +14,22 @@
             <q-card bordered class="my-card col-sm-12">
               <q-img v-if="getVacancy.img" :src="getVacancy.img" style="min-height: 200px;" />
               <q-card-section>
-                <div class="text-h5">{{ getVacancy.title }}</div>
+                <div :class="getFont.title">{{ getVacancy.title }}</div>
               </q-card-section>
               <q-card-section class="row q-pt-none">
                 <div class="col text-center">
-                  <q-icon name="place" size="lg" />
+                  <q-icon :color="darkModeConf.iconVar" name="place" size="lg" />
                 </div>
-                <div class="col-10 text-body1">{{ getVacancy.place }}</div>
+                <div class="col-10" :class="getFont.text">{{ getVacancy.place }}</div>
               </q-card-section>
               <q-card-section class="row q-pt-none">
                 <div class="col text-center">
-                  <q-icon name="filter_list" size="lg" />
+                  <q-icon :color="darkModeConf.iconVar" name="filter_list" size="lg" />
                 </div>
-                <div class="col-10 text-body1">{{ getVacancy.category }}</div>
+                <div class="col-10" :class="getFont.text">{{ getVacancy.category }}</div>
               </q-card-section>
               <q-card-section class="row q-pt-none">
-                <div class="col-12 text-body1">{{ getVacancy.description }}</div>
+                <div class="col-12" :class="getFont.text" v-html="getVacancy.description"></div>
               </q-card-section>
             </q-card>
           </q-tab-panel>
@@ -45,11 +45,11 @@
                 >
                   <q-item-section avatar>
                     <q-avatar size="65px">
-                      <img :src="candidate.photoURL" />
+                      <q-img :src="candidate.photoURL" />
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
-                    <div class="text-bold text-body1">{{ candidate.displayName}}</div>
+                    <div class="text-bold" :class="getFont.text">{{ candidate.displayName}}</div>
                     <div>{{ candidate.profission }}</div>
                   </q-item-section>
                   <q-item-section side>
@@ -78,7 +78,7 @@
             <q-tab name="aplayed" label="Candidatos" />
           </q-tabs>
         </div>
-      </div> -->
+      </div>-->
     </q-page-sticky>
   </q-page>
 </template>
@@ -98,7 +98,8 @@ export default {
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapState("vacancy", ["vacancies", "vacancyDtl"]),
-    ...mapGetters("vacancy", ["getVacancies", "getVacancy"])
+    ...mapGetters("vacancy", ["getVacancies", "getVacancy"]),
+    ...mapGetters("settings", ["getFont"])
   },
   methods: {
     ...mapActions("vacancy", [
@@ -125,7 +126,7 @@ export default {
             id: doc.id,
             photoURL: doc.data().photoURL,
             displayName: doc.data().displayName,
-            telephone: doc.data().telephone,
+            phoneNumber: doc.data().phoneNumber,
             email: doc.data().email,
             adress: doc.data().adress,
             profission: doc.data().profission,

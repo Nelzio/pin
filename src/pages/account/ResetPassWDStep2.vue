@@ -1,16 +1,15 @@
 <template>
-  <q-page v-touch-swipe.mouse.right.left.down="accountSwipe">
+  <q-page v-touch-swipe.mouse.right.left="accountSwipe">
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
-        <q-icon size="100px" name="person_add" />
+        <q-icon :color="darkModeConf.iconVar" size="100px" name="person_add" />
       </div>
       <!-- <div class="col-12">
           Entrar ou se Inscrever
       </div>-->
       <div class="q-pa-lg col-md-4 col-12">
         <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-
           <q-input
             rounded
             outlined
@@ -25,7 +24,7 @@
             :rules="[ val => val && val.length > 0 || 'Por favor, insira uma senha válida']"
           >
             <template v-slot:append>
-              <q-icon
+              <q-icon :color="darkModeConf.iconVar"
                 :name="isPwd ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
                 @click="isPwd = !isPwd"
@@ -47,7 +46,7 @@
             :rules="[ val => val && val.length > 0 && val == authObject.password || 'Senha diferente']"
           >
             <template v-slot:append>
-              <q-icon
+              <q-icon :color="darkModeConf.iconVar"
                 :name="isPwd ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
                 @click="isPwd = !isPwd"
@@ -72,7 +71,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapState, mapActions } from "vuex";
 export default {
   name: "RegisterFormComponent",
   data() {
@@ -107,19 +106,19 @@ export default {
         this.$emit("loginUser", this.authObject);
       }
     },
-    accountSwipe (val) {
-        if (val.direction === 'right') {
-          this.$router.push('/account')
-        }
-
-        // if (val.direction === 'left') {
-        //   this.$router.push('/account/reset')
-        // }
-
-        if (val.direction === 'down') {
-          this.$router.push('/')
-        }
+    accountSwipe(val) {
+      if (val.direction === "right") {
+        this.$router.push("/account");
       }
+
+      // if (val.direction === 'left') {
+      //   this.$router.push('/account/reset')
+      // }
+
+      if (val.direction === "down") {
+        this.$router.push("/");
+      }
+    }
   },
 
   filters: {

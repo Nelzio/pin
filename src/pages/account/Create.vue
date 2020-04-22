@@ -1,33 +1,53 @@
 <template>
-  <q-page padding v-touch-swipe.mouse.right.left.up="accountSwipe">
+  <q-page padding v-touch-swipe.mouse.right.left="accountSwipe">
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
-      <div class="col-12 text-center">
-        <q-icon size="100px" name="person_add" />
-      </div>
       <!-- <div class="col-12">
           Entrar ou se Inscrever
       </div>-->
-      <div class="q-pa-lg col-md-4 col-12">
-        <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-          <q-input
-            rounded
-            outlined
-            dense
-            :color="darkModeConf.color"
-            v-model="authObject.name"
-            ref="name"
-            label="Nome completo"
-            lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Por favor, indique o su nome']"
+      <div class="q-pa-sm col-md-4 col-12">
+        <div class="col-12 text-center q-mb-xl">
+          <q-btn v-if="!imageUrl" round size="40px" @click="proccessFile()">
+            <q-icon :color="darkModeConf.iconVar" name="person_add" />
+            <q-badge floating :color="darkModeConf.iconVar">
+              <q-icon color="white" name="insert_photo" />
+            </q-badge>
+          </q-btn>
+          <q-btn v-else round @click="proccessFile()">
+            <q-avatar size="120px">
+              <q-img :src="imageUrl" />
+            </q-avatar>
+            <q-badge floating :color="darkModeConf.iconVar">
+              <q-icon color="white" name="insert_photo" />
+            </q-badge>
+          </q-btn>
+        </div>
+
+        <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-y-md">
+          <input
+            id="fileInput"
+            type="file"
+            hidden
+            ref="fileImg"
+            accept="image/*"
+            @change="onChangeImg"
           />
           <q-input
             rounded
             outlined
-            dense
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
+            v-model="authObject.displayName"
+            ref="name"
+            label="Nome"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Por favor, introduza o nome da instituição ou pessoa']"
+          />
+          <q-input
+            rounded
+            outlined
+            :color="darkModeConf.iconVar"
             ref="number"
-            v-model="authObject.number"
+            v-model="authObject.phoneNumber"
             label="Numero de telefone"
             mask="#########"
             lazy-rules
@@ -37,8 +57,7 @@
           <q-input
             rounded
             outlined
-            dense
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             ref="email"
             v-model="authObject.email"
             label="Email"
@@ -46,21 +65,44 @@
             :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
           />
 
+          <!-- <q-input
+            :color="darkModeConf.iconVar"
+            rounded
+            outlined
+            v-model="authObject.date"
+            label="Data de nascimento"
+            mask="##/##/####"
+            :rules="[ val => val && val.length > 0 || 'Introduza a sua data de nascimento']"
+          >
+            <template v-slot:append>
+              <q-icon :color="darkModeConf.iconVar" name="event" class="cursor-pointer">
+                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date
+                    :color="darkModeConf.iconVar"
+                    v-model="authObject.date"
+                    @input="() => $refs.qDateProxy.hide()"
+                    mask="DD/MM/YYYY"
+                  />
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input> -->
+
           <q-input
             rounded
             outlined
             @keyup.enter="login_account"
-            dense
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             placeholder="password"
             ref="password"
             v-model="authObject.password"
+            label="password"
             :type="isPwd ? 'password' : 'text'"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Por favor, insira uma senha válida']"
           >
             <template v-slot:append>
-              <q-icon
+              <q-icon :color="darkModeConf.iconVar"
                 :name="isPwd ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
                 @click="isPwd = !isPwd"
@@ -72,41 +114,46 @@
               rounded
               label="Registar"
               type="submit"
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
-              class="full-width" />
-            
+              class="full-width"
+            />
+          </div>
+          <div>
+            <q-btn
+              class="full-width"
+              :color="darkModeConf.iconVar"
+              rounded
+              outline
+              label="Entrar na conta"
+              icon="arrow_back"
+              to="/account/login"
+            />
           </div>
         </q-form>
-      </div>
-    </div>
-
-    <div class="row justify-center">
-      <div class="col-12 q-pa-lg">
-         <q-btn
-           class="full-width"
-           rounded
-           outline
-           label="Entrar na conta"
-           icon="arrow_back"
-           to="/account" />
       </div>
     </div>
   </q-page>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapState, mapActions } from "vuex";
 export default {
   name: "RegisterFormComponent",
   data() {
     return {
       authObject: {
-        name: "",
-        number: null,
+        displayName: "",
+        phoneNumber: "",
         email: "",
-        password: ""
+        password: "",
+        img: "",
+        adress: "",
+        profission: "",
+        education: "",
+        date: ""
       },
+      imageUrl: "",
       isPwd: true
     };
   },
@@ -127,26 +174,43 @@ export default {
     onSubmit() {
       this.$refs.email.validate();
       this.$refs.password.validate();
-      console.log("Ola")
       if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
         // this.$emit("registerUser", {email: this.authObject.email, password: this.authObject.password});
-        this.registerUser({email: this.authObject.email, password: this.authObject.password})
+        this.registerUser(this.authObject);
       }
       // this.$emit("registerUser", {email: this.authObject.email, password: this.authObject.password})
     },
-    accountSwipe (val) {
-        if (val.direction === 'right') {
-          this.$router.push('/account')
-        }
-
-        // if (val.direction === 'left') {
-        //   this.$router.push('/account/reset')
-        // }
-
-        if (val.direction === 'up') {
-          this.$router.push('/')
-        }
+    accountSwipe(val) {
+      if (val.direction === "right") {
+        this.$router.go(-1);
       }
+
+      // if (val.direction === "up") {
+      //   this.$router.push("/");
+      // }
+    },
+
+    proccessFile() {
+      this.$refs.fileImg.click();
+    },
+    onChangeImg(event) {
+      const files = event.target.files;
+      let filename = files[0].name;
+      let file = files[0];
+      if (!(file && file["type"].split("/")[0] === "image")) {
+        return (this.errorFileDialog = true);
+      }
+      const fileReader = new FileReader();
+      fileReader.addEventListener("load", () => {
+        this.imageUrl = fileReader.result;
+      });
+      fileReader.readAsDataURL(files[0]);
+      this.authObject.img = files[0];
+    }
+  },
+
+  mounted() {
+    this.$root.$emit("textToSpeechRouter", "Criar conta");
   },
 
   filters: {

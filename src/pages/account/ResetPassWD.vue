@@ -1,34 +1,34 @@
 <template>
-  <q-page v-touch-swipe.mouse.right.left.down="accountSwipe">
+  <q-page v-touch-swipe.mouse.right.left="accountSwipe">
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
-        <q-icon size="100px" name="account_circle" />
+        <q-icon :color="darkModeConf.iconVar" size="100px" name="account_circle" />
       </div>
       <div class="q-pa-lg col-md-4 col-12">
         <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-md">
           <q-input
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             dense
             ref="email"
-            v-model="authObject.email"
-            label="Numero de telefone"
-            placeholder="Numero de telefone"
-            mask="#########"
+            v-model="email"
+            label="Email do usuário"
+            placeholder="exemplo@dominio.com"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
+            :rules="[ val => val && val.length > 0 && isPasswordValid || 'Introduza o seu email']"
           />
 
           <div>
             <q-btn
               rounded
               label="Enviar"
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               class="full-width"
-              to="resetpwd2" />
+              type="submit"
+            />
           </div>
         </q-form>
       </div>
@@ -37,7 +37,8 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapState, mapActions } from "vuex";
+import { firebaseAuth } from "../../boot/firebase";
 export default {
   name: "LoginFormsComponent",
   data() {
@@ -47,10 +48,11 @@ export default {
         email: "",
         password: ""
       },
+      email: "",
       isPwd: true
     };
   },
-	computed: {
+  computed: {
     ...mapState("settings", ["appMode", "darkModeConf"])
   },
   methods: {
@@ -61,15 +63,30 @@ export default {
       return re.test(String(email).toLowerCase());
     },
 
+    sendEmaiPassReset() {
+      var auth = firebaseAuth;
+
+      auth
+        .sendPasswordResetEmail(this.email)
+        .then(function() {
+          // Email sent.
+          console.log("email enviado");
+        })
+        .catch(function(error) {
+          // An error happened.
+          console.log("Erro");
+          console.log(error);
+        });
+    },
+
     onReset() {
       alert("must reset form.");
     },
     onSubmit() {
       this.$refs.email.validate();
-      this.$refs.password.validate();
 
-      if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
-        this.$emit("loginUser", this.authObject);
+      if (!this.$refs.email.hasError) {
+        this.sendEmaiPassReset();
       }
     },
     accountSwipe(val) {
@@ -84,6 +101,10 @@ export default {
         this.$router.push("/");
       }
     }
+  },
+
+  mounted() {
+    this.$root.$emit("textToSpeechRouter", "Editar senha do usuário");
   },
 
   filters: {

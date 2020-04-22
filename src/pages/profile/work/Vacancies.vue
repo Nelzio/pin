@@ -1,164 +1,129 @@
 <template>
-  <q-page class="q-gutter-y-md q-pt-md">
+  <q-page class="q-gutter-y-md q-pb-xl">
     <!-- content -->
 
-    <div>
-      <!-- sec 6 -->
-      <div class="row justify-center">
-        <div class="col-12 col-md-8 q-pa-sm" v-for="vacancy in vacancies" :key="vacancy.key">
-          <q-card class="my-card">
-            <q-img
-              v-if="vacancy.img"
-              :src="vacancy.img"
-              spinner-color="white"
-              style="min-height: 200px;"
-            />
-            <q-card-section>{{ vacancy.title }}</q-card-section>
-            <q-card-actions align="right">
-              <q-btn
-                outline
-                rounded
-                label="Detalhes"
-                :to="'/profile/vacancy/details/'+vacancy.key"
-              />
-              <q-btn outline rounded icon="edit" :to="'/profile/vacancy/edit/'+vacancy.key" />
-              <q-btn
-                outline
-                rounded
-                color="red"
-                icon="delete"
-                @click="vacancyDtlFunc(vacancy.key)"
-              />
-              <q-btn
-                outline
-                rounded
-                :icon="vacancy.public ? 'visibility' : 'visibility_off'"
-                @click="makePublic(vacancy.key, vacancy)"
-              />
-            </q-card-actions>
-          </q-card>
+    <div class="row justify-center q-pb-xl">
+      <div class="col-12 col-md-11">
+        <!-- sec 6 -->
+        <div v-if="myVacancies.length">
+          <div class="row">
+            <div ref="item" class="col-12 col-md-4 q-pa-sm" v-for="vacancy in myVacancies" :key="vacancy.key">
+              <Vacancy :vacancy="vacancy" />
+            </div>
+          </div>
         </div>
       </div>
-      <div>
-        <q-dialog v-model="confirDelete">
-          <q-card style="width: 700px; max-width: 80vw;">
-            <q-card-section>
-              <div class="text-h5">Confirmar</div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none text-h6">Deletar vaga de {{ vacancyDtl.title }}?</q-card-section>
-
-            <q-card-actions align="right" class="bg-white text-teal">
-              <q-btn
-                rounded
-                outline
-                color="red"
-                label="Deletar"
-                @click="deleteVacancyThis(vacancyDtl.key)"
-              />
-              <q-btn rounded outline color="grey" label="Cancelar" v-close-popup />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
-
-        <q-dialog v-model="confirDeleteSuccess">
-          <q-card>
-            <q-card-section class="text-h5 text-green">Vaga deletada com sucesso</q-card-section>
-
-            <q-card-actions align="right">
-              <q-btn flat label="OK" color="primary" v-close-popup />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
-      </div>
     </div>
+
+    <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user">
+      <q-btn
+        fab
+        icon="add"
+        :color="darkModeConf.iconVar"
+        :class="darkModeConf.textBtn"
+        to="/profile/vacancy/add"
+      />
+    </q-page-sticky>
   </q-page>
 </template>
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { firebaseAuth } from "boot/firebase";
+import { Loading } from "quasar";
+import { firebaseAuth, firestoreDb, fireStorage } from "boot/firebase";
+import offline from "v-offline";
+import Vacancy from "components/profile/Vacancies.vue";
 export default {
   // name: 'PageName',
+  components: {
+    Vacancy
+  },
   data() {
     return {
       tab: "bio",
-      confirDeleteSuccess: false,
-      confirDelete: false,
-      confirDeleteAux: false,
-      isPublic: true,
-      vacancyDel: {
-        title: "",
-        key: null
-      }
+      myVacancies: []
     };
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapState("vacancy", [
-      "vacancies",
-      "vacancyDtl",
-      "vacancyDeleted",
-      "vacancyUploaded",
-      "vacancyDetail"
-    ]),
+    ...mapGetters("settings", ["getFont"]),
     ...mapGetters("auth", ["user", "userData"])
   },
   methods: {
-    ...mapActions("vacancy", [
-      "listVacancy",
-      "listVacancyMy",
-      "createVacancy",
-      "detailVacancy",
-      "updateVacancy",
-      "deleteVacancy"
-    ]),
-    ...mapActions("auth", ["checkAuthUser"]),
+    ...mapActions("auth", ["detailUser", "checkAuthUser"]),
 
-    deleteVacancyThis(id) {
+    handleHold({ ...info }) {
+      console.log(info);
+      // console.log(evt)
+      // console.log(val)
+      // console.log(this.vacancy)
+    },
+
+    listVacancyMyHere(user) {
+      // done
+      var storageRef = fireStorage.ref();
+      if (!offline.data().isOnline) {
+        return alert("Sem internet");
+      }
       const vm = this;
+      var myVacancies = [];
+      var update = false;
+      const ref = firestoreDb.collection("vacancies");
+      ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
+        if (vm.myVacancies.length !== querySnapshot.docs.length) {
+          myVacancies = [];
+          update = true;
+          querySnapshot.forEach(function(doc) {
+            myVacancies.push({
+              key: doc.id,
+              title: doc.data().title,
+              user: doc.data().user,
+              description: doc.data().description,
+              img: doc.data().img,
+              public: doc.data().public,
+              place: doc.data().place,
+              validate: doc.data().validate,
+              category: doc.data().category
+            });
+          });
+          if (update) vm.myVacancies = myVacancies;
+        }
+      });
+    },
 
-      this.deleteVacancy(id).then(function() {
-        vm.confirDeleteAux = false;
-        vm.confirDelete = false;
-      });
+    lazeItems() {
+      if (!(this.itemsLayzeRef == this.$refs.item)) {
+        this.itemsLayzeRef = this.$refs.item;
+      }
+      let active = false;
+      if (active === false && this.itemsLayzeRef) {
+        active = true;
+        this.itemsLayzeRef.forEach(function(item) {
+          var position =
+            window.innerHeight - item.getBoundingClientRect().bottom;
+          var interval1 = item.getBoundingClientRect().top - 55;
+          var interval2 = item.getBoundingClientRect().top + 55;
+          if (position <= interval2 && position >= interval1) {
+            // setTimeout(function() {
+            navigator.vibrate(350);
+            window.navigator.vibrate(350);
+            // console.log("Workkkk")
+            // }, 200)
+          }
+        });
+        active = false;
+      }
     },
-    vacancyDtlFunc(id) {
-      console.log(id);
-      this.detailVacancy(id);
-      console.log("Nelzio Sitoe delll");
-    },
-    makePublic(id, data) {
-      let dataAux = {
-        title: data.title,
-        user: data.user,
-        description: data.description,
-        img: data.img,
-        public: !data.public
-      };
-      this.updateVacancy({
-        id: id,
-        data: dataAux,
-        img: ""
-      });
-    }
+
   },
-  created() {},
-  mounted() {
-    this.listVacancyMy(this.user.email);
+  created() {
     this.checkAuthUser();
+    this.detailUser(this.user.email);
+    this.listVacancyMyHere(this.user.email);
   },
-  watch: {
-    vacancyDetail() {
-      if (this.vacancyDetail) {
-        this.confirDelete = true;
-      }
-    },
-    vacancyDeleted() {
-      if (this.vacancyDeleted) {
-        this.confirDeleteSuccess = true;
-      }
-    }
+  mounted() {
+    // this.listVacancyMy(this.user.email)
+    // this.listVacancyMyHere(this.user.email);
   }
 };
 </script>

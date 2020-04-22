@@ -17,6 +17,15 @@
           "splashscreenHash": false,
           "splashscreenType": "generate",
           "backgroundColor": "#075e54"
+        },
+        "capacitor": {
+          "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d",
+          "splashscreenHash": false,
+          "splashscreenType": "generate",
+          "backgroundColor": "#075e54"
+        },
+        "spa": {
+          "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d"
         }
       },
       "build": {

@@ -6,11 +6,11 @@
     <div class="row justify-center">
       <div class="q-gutter-y-md col-12 col-md-8">
         <q-card class="my-card">
-          <img :src="imageUrl" alt />
+          <q-img :src="imageUrl" alt />
           <q-card-actions>
             <q-btn
               rounded
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               class="full-width"
               label="Trocar imagem"
@@ -30,17 +30,17 @@
           />
           <q-input
             ref="titleInput"
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             rounded
             outlined
             label="Titulo"
             v-model="vacancyData.title"
           />
-          <!-- <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
+          <!-- <q-input :color="darkModeConf.iconVar" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
           <q-select
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="vacancyData.category"
             :options="categories"
             label="Categoria"
@@ -48,17 +48,43 @@
           <q-select
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="vacancyData.place"
             :options="places"
             label="Província"
           />
-          <q-editor :color="darkModeConf.color" v-model="vacancyData.description" min-height="8rem" />
+          <q-input
+            :color="darkModeConf.iconVar"
+            label="Data de validade"
+            rounded
+            outlined
+            v-model="vacancyData.validate"
+            mask="##/##/####"
+            :rules="[ val => val && val.length > 0 || 'Introduza a data de validade']"
+          >
+            <template v-slot:append>
+              <q-icon :color="darkModeConf.iconVar" name="event" class="cursor-pointer">
+                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date
+                    :color="darkModeConf.iconVar"
+                    v-model="vacancyData.validate"
+                    @input="() => $refs.qDateProxy.hide()"
+                    mask="DD/MM/YYYY"
+                  />
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+          <q-editor
+            :color="darkModeConf.iconVar"
+            v-model="vacancyData.description"
+            min-height="8rem"
+          />
           <div>
             <q-btn
               rounded
               class="full-width"
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               label="Enviar"
               @click="updateVacancyThis()"
@@ -107,6 +133,7 @@ export default {
         title: "",
         public: false,
         category: "",
+        validate: "",
         place: ""
       },
       vacancyDataTemp: {
@@ -116,6 +143,7 @@ export default {
         title: "",
         public: false,
         category: "",
+        validate: "",
         place: ""
       },
       fileImage: null,
@@ -197,7 +225,9 @@ export default {
             img: doc.data().img,
             public: doc.data().public,
             category: doc.data().category,
-            place: doc.data().place
+            validate: doc.data().validate,
+            place: doc.data().place,
+            timeSend: doc.data().timeSend
           };
           this.vacancyData = data;
           this.imageUrl = data.img;

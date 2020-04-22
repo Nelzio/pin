@@ -44,7 +44,7 @@ module.exports = function (ctx) {
       //            (not treeshaking Quasar; biggest bundle size; convenient)
       all: 'auto',
 
-      components: ['QSpace'],
+      components: ['QSpace', "QBtn"],
       directives: [
           'TouchSwipe'
       ],
@@ -72,7 +72,7 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       scopeHoisting: true,
-      // vueRouterMode: 'history',
+      vueRouterMode: 'history',
       // showProgress: false,
       // gzip: true,
       // analyze: true,
@@ -144,8 +144,8 @@ module.exports = function (ctx) {
 
     // https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
     cordova: {
-      // id: 'org.cordova.quasar.app',
-      // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
+      id: 'org.superactive.app',
+      noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
     },
 
     // https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron

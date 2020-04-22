@@ -1,283 +1,280 @@
 <template>
-  <q-page padding>
+  <q-page
+    @click="handleRepeat()"
+    v-touch-swipe.mouse.left.right="handleSwipe"
+    v-touch-hold:600.mouse="handleHold"
+  >
     <!-- content -->
     <div class="row justify-center">
       <div class="col-12 col-md-8">
-        <!-- <q-carousel
-          swipeable
-          animated
-          arrows
-          v-model="slide"
-          :fullscreen.sync="fullscreen"
-          infinite
-        >
-          <q-carousel-slide style="height: 100%;" :name="1" img-src="https://cdn.awsli.com.br/600x1000/60/60876/produto/28035638/9e1cebfb32.jpg" />
-          <q-carousel-slide style="height: 100%;" :name="2" img-src="https://cdn.awsli.com.br/600x1000/60/60876/produto/15390286/9dbae6d9ec.jpg" />
-          <q-carousel-slide style="height: 100%;" :name="3" img-src="https://i.pinimg.com/originals/73/84/48/738448f1c8692dcaa07dca48dea7b56f.jpg" />
-          <q-carousel-slide style="height: 100%;" :name="4" img-src="hhttps://i.pinimg.com/originals/e4/b2/40/e4b2409f614fc82df06ee71ec5bd8efb.jpg" />
+        <q-card flat>
+          <q-img v-if="getStore.img" :src="getStore.img" />
+          <q-img v-else src="statics/img/nophoto.png" />
+        </q-card>
 
-          <template v-slot:control>
-            <q-carousel-control
-              position="bottom-right"
-              :offset="[18, 18]"
-            >
-              <q-btn
-                push round dense color="white" text-color="primary"
-                :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                @click="fullscreen = !fullscreen"
-              />
-            </q-carousel-control>
-          </template>
-        </q-carousel> -->
-
-        <q-tab-panels
-          v-model="panelPics"
-          animated
-          swipeable
-          infinite
-          class="rounded-borders"
-        >
-          <q-tab-panel v-for="i in 4" :key="i" :name="''+i" style="padding: 0;">
-            <q-card class="my-card">
-              <img src="https://cdn.awsli.com.br/600x1000/60/60876/produto/28035638/9e1cebfb32.jpg" alt="">
-            </q-card>
-          </q-tab-panel>
-        </q-tab-panels>
-
-        <div class="row no-wrap items-center">
-          <div class="col text-h6 ellipsis">Sandalias de Cabdal</div>
+        <div class="row no-wrap items-center q-pa-md">
+          <div class="col ellipsis" :class="getFont.title">{{ getStore.title }}</div>
+          <div class="col ellipsis" :class="getFont.title">
+            <q-btn
+              rounded
+              :color="darkModeConf.iconVar"
+              :class="darkModeConf.textBtn"
+              icon="message"
+              label="Contactar"
+              :to="'/chat/' + getStore.user"
+            />
+          </div>
         </div>
 
         <q-list>
-          <q-item>
-          <q-item-section avatar top>
-              <q-icon name="attach_money" />
-          </q-item-section>
-              <q-item-section>
-              <q-item-label class="text-h5">
-                  {{totalVal}} mt
-              </q-item-label>
-              </q-item-section>
-          </q-item>
-
-          <q-separator spaced inset="item" />
-
-          <q-item>
+          <q-item v-if="getStore.price">
             <q-item-section avatar top>
-                <q-icon name="place" />
+              <q-icon :color="darkModeConf.iconVar" name="attach_money" />
             </q-item-section>
             <q-item-section>
-              <q-item-label class="text-h6">
-                Local de entrega
-              </q-item-label>
-              <q-item-label class="text-body2">
-                  Maputo
-              </q-item-label>
-              <q-item-label class="text-body2">
-                  Bairro Laulane
-              </q-item-label>
-              <q-item-label class="text-body2">
-                  Rua 10, Q 14, casa 65
-              </q-item-label>
-              <q-item-label class="text-body2">
-                Associacao
-              </q-item-label>
+              <q-item-label :class="getFont.title">{{ getStore.price }} MZN</q-item-label>
             </q-item-section>
           </q-item>
 
-          <q-separator spaced inset="item" />
+          <q-separator v-if="getStore.price" spaced inset="item" />
 
           <q-item class="text-left">
             <q-item-section top avatar>
-              <q-icon name="phone" />
+              <!-- <q-icon :color="darkModeConf.iconVar" name="phone" /> -->
+              <q-btn round outline @click="callPhone(getUser.phoneNumber)" :color="darkModeConf.iconVar" icon="phone" />
             </q-item-section>
 
             <q-item-section>
-              <q-item-label class="text-h6">Telefone</q-item-label>
-              <q-item-label>+258 84 122 4724</q-item-label>
+              <q-item-label :class="getFont.title">Telefone</q-item-label>
+              <q-item-label :class="getFont.text">{{ getUser.phoneNumber }}</q-item-label>
             </q-item-section>
           </q-item>
 
           <q-separator spaced inset="item" />
-          
 
           <q-item>
-          <q-item-section top avatar>
-              <q-icon name="description" />
-          </q-item-section>
+            <q-item-section top avatar>
+              <q-icon :color="darkModeConf.iconVar" name="description" />
+            </q-item-section>
 
-          <q-item-section>
-              <q-item-label class="text-h6">Descrição</q-item-label>
-              <q-item-label>
-              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
-              </q-item-label>
-          </q-item-section>
+            <q-item-section>
+              <q-item-label :class="getFont.title">Descrição</q-item-label>
+              <q-item-label :class="getFont.text"><div v-html="getStore.description"></div></q-item-label>
+            </q-item-section>
           </q-item>
         </q-list>
       </div>
     </div>
-
-    <!-- <q-dialog v-model="mPesa" persistent transition-show="flip-down" transition-hide="flip-up"> 
-      <q-card>
-        <q-card-section>
-          <div class="text-h6">Pagamento de {{totalVal}} Mt pelo numero: </div>
-        </q-card-section>
-        <q-card-section>
-            <q-form @submit="onSubmit" >
-            <q-input filled v-model="number" label="Numero de telefone *"
-              mask="#########"
-              lazy-rules
-              :rules="[ val => val && val.length == 9 || 'O contacto de ter 9 digitos' ]"
-            />
-            </q-form>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat icon="img:https://steemitimages.com/DQmSJbmzrztcczth6CToWeDWPAF61XChY87AZSSkkpzgUiA/image.png" label="Pagar" color="red" @click="onSubmit" />
-          <q-btn flat label="Cancelar" color="grey" @click="mPesa = false, alert = true, onReset()" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-
-    <q-dialog v-model="sucessPay">
-      <q-card class="bg-green">
-        <q-card-section>
-        <div class="text-h6">Confinação</div>
-        </q-card-section>
-        <q-card-section>
-        Pagamento de {{totalVal}} feito com sucesso
-        </q-card-section>
-        <q-card-actions align="right">
-        <q-btn flat label="OK" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog> -->
-    
-
   </q-page>
 </template>
 
+
 <script>
-import axios from 'axios'
-import { QSpinnerRings, QSpinnerRadio } from 'quasar'
+import { mapState, mapActions, mapGetters } from "vuex";
+import { firestoreDb } from "boot/firebase";
+import { QSpinnerRings, QSpinnerRadio } from "quasar";
+import offline from "v-offline";
 export default {
   // name: 'PageName',
-  data () {
+  data() {
     return {
-      panelPics: '1',
-      slide: 1,
-      number: null,
-      sucessPay: false,
-      confim: false,
-      mPesa: false,
-      totalVal: 2,
-      fullscreen: false
-    }
+      tab: "details",
+      candidates: [],
+      pitch: 0.9,
+      rate: 0.8,
+      synth: window.speechSynthesis,
+      touchNums: 0
+    };
+  },
+  computed: {
+    ...mapState("settings", ["appMode", "darkModeConf"]),
+    ...mapState("store", ["stories", "storeDtl"]),
+    ...mapGetters("store", ["getStories", "getStore"]),
+    ...mapGetters("auth", ["user", "userData"]),
+    ...mapGetters("user", ["getUser"]),
+    ...mapGetters("settings", ["getFont"])
   },
   methods: {
-    payment () {
-      let vm = this
-      this.totalVal = 0
-      // console.log(this.selected)
-      this.gridCol = 'col-12'
-      if(this.selected.length > 1){
-        this.gridCol = 'col-8'
+    ...mapActions("store", [
+      "listStore",
+      "createStore",
+      "detailStore",
+      "updateStore",
+      "deleteStore"
+    ]),
+    ...mapActions("user", ["detailUserStore"]),
+
+    callPhone(number) {
+      if(number) {
+        window.open("tel:"+number);
       }
-      this.selected.forEach(element => {
-        this.totalVal += element.value
-      });
-      this.alert = true
     },
-    onSubmit () {
-      console.log("Ola")
-      // let vm = this
-      // const url_c2b = 'https://mpesa-wsdk.herokuapp.com/api/c2b/'
-      // const api_key = 'wyi2qfh5fw270e3ytlykda4250pwouas' //exemplo, coloque a tua Api Key
-      // const public_key = 'MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAmptSWqV7cGUUJJhUBxsMLonux24u+FoTlrb+4Kgc6092JIszmI1QUoMohaDDXSVueXx6IXwYGsjjWY32HGXj1iQhkALXfObJ4DqXn5h6E8y5/xQYNAyd5bpN5Z8r892B6toGzZQVB7qtebH4apDjmvTi5FGZVjVYxalyyQkj4uQbbRQjgCkubSi45Xl4CGtLqZztsKssWz3mcKncgTnq3DHGYYEYiKq0xIj100LGbnvNz20Sgqmw/cH+Bua4GJsWYLEqf/h/yiMgiBbxFxsnwZl0im5vXDlwKPw+QnO2fscDhxZFAwV06bgG0oEoWm9FnjMsfvwm0rUNYFlZ+TOtCEhmhtFp+Tsx9jPCuOd5h2emGdSKD8A6jtwhNa7oQ8RtLEEqwAn44orENa1ibOkxMiiiFpmmJkwgZPOG/zMCjXIrrhDWTDUOZaPx/lEQoInJoE2i43VN/HTGCCw8dKQAwg0jsEXau5ixD0GUothqvuX3B9taoeoFAIvUPEq35YulprMM7ThdKodSHvhnwKG82dCsodRwY428kg2xM/UjiTENog4B6zzZfPhMxFlOSFX4MnrqkAS+8Jamhy1GgoHkEMrsT5+/ofjCx0HjKbT5NuA2V/lmzgJLl3jIERadLzuTYnKGWxVJcGLkWXlEPYLbiaKzbJb2sYxt+Kt5OxQqC1MCAwEAAQ==' //exemplo, coloque a public Api Key
-      // let data = {
-      //   api_key: api_key, 
-      //   public_key: public_key,
-      //   amount: this.totalVal, // valor da tranzacao
-      //   msidsn: this.number
-      // }
-      // /* This is for Codepen (using UMD) to work */
-      // const spinner = typeof QSpinnerRings !== 'undefined'
-      //   ? QSpinnerRings // Non-UMD, imported above
-      //   : Quasar.components.QSpinnerRings // eslint-disable-line
-      // /* End of Codepen workaround */
-      // this.$q.loading.show({
-      //   spinner,
-      //   spinnerColor: 'teal',
-      //   spinnerSize: 340,
-      //   backgroundColor: 'blue-3',
-      //   message: 'Pagamento sendo processo...',
-      //   messageColor: 'white'
-      // })
-      // // const request = Mixin.methods.client_rest(this.$store.state.tokenLog);
-      // axios.post(url_c2b, data)
-      // .then(function (response) {
-      //   console.log(response);
-      // })
-      // .catch(function (error) {
-      //   console.log(error);
-      //   vm.$q.loading.hide()
-      //   vm.mPesa = false
-      //   vm.onReset()
-      //   vm.sucessPay = false
-      //   vm.confim = true
-      // });
 
-      // /* This is for Codepen (using UMD) to work */
-      const spinner = typeof QSpinnerRings !== 'undefined'
-        ? QSpinnerRings // Non-UMD, imported above
-        : Quasar.components.QSpinnerRings // eslint-disable-line
-      // /* End of Codepen workaround */
-
-      this.$q.loading.show({
-        spinner,
-        spinnerColor: 'teal',
-        spinnerSize: 340,
-        backgroundColor: 'blue-3',
-        message: 'Pagamento sendo processo...',
-        messageColor: 'white'
-      })
-
-      // this.$q.loading.show({
-      //   delay: 400 // ms
-      // })
-
-      let vm = this
-      const url_c2b = 'https://mpesa-wsdk.herokuapp.com/api/c2b/'
-      const api_key = 'wyi2qfh5fw270e3ytlykda4250pwouas' //exemplo, coloque a tua Api Key
-      const public_key = 'MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAmptSWqV7cGUUJJhUBxsMLonux24u+FoTlrb+4Kgc6092JIszmI1QUoMohaDDXSVueXx6IXwYGsjjWY32HGXj1iQhkALXfObJ4DqXn5h6E8y5/xQYNAyd5bpN5Z8r892B6toGzZQVB7qtebH4apDjmvTi5FGZVjVYxalyyQkj4uQbbRQjgCkubSi45Xl4CGtLqZztsKssWz3mcKncgTnq3DHGYYEYiKq0xIj100LGbnvNz20Sgqmw/cH+Bua4GJsWYLEqf/h/yiMgiBbxFxsnwZl0im5vXDlwKPw+QnO2fscDhxZFAwV06bgG0oEoWm9FnjMsfvwm0rUNYFlZ+TOtCEhmhtFp+Tsx9jPCuOd5h2emGdSKD8A6jtwhNa7oQ8RtLEEqwAn44orENa1ibOkxMiiiFpmmJkwgZPOG/zMCjXIrrhDWTDUOZaPx/lEQoInJoE2i43VN/HTGCCw8dKQAwg0jsEXau5ixD0GUothqvuX3B9taoeoFAIvUPEq35YulprMM7ThdKodSHvhnwKG82dCsodRwY428kg2xM/UjiTENog4B6zzZfPhMxFlOSFX4MnrqkAS+8Jamhy1GgoHkEMrsT5+/ofjCx0HjKbT5NuA2V/lmzgJLl3jIERadLzuTYnKGWxVJcGLkWXlEPYLbiaKzbJb2sYxt+Kt5OxQqC1MCAwEAAQ==' //exemplo, coloque a public Api Key
-      
-
-      let data = {
-        api_key: api_key, 
-        public_key: public_key,
-        amount: this.totalVal, // valor da tranzacao
-        msidsn: this.number
+    speak(userInput) {
+      if (this.synth.speaking) {
+        // console.error('speechSynthesis.speaking');
+        return;
       }
+      if (userInput !== "") {
+        let sInstance = new SpeechSynthesisUtterance(userInput);
+        sInstance.lang = 'pt-BR';
+        sInstance.onend = function(event) {
+          // console.log('SpeechSynthesisUtterance.onend');
+        };
+        sInstance.onerror = function(event) {
+          // console.error('SpeechSynthesisUtterance.onerror');
+        };
 
-      axios.post(url_c2b, data)
-      .then(function (response) {
-        console.log(response);
-        vm.$q.loading.hide()
-        vm.mPesa = false,
-        vm.sucessPay = true
-      })
-      .catch(function (error) {
-        console.log(error);
-        vm.$q.loading.hide()
-        vm.mPesa = false
-        vm.onReset()
-        vm.sucessPay = false
-        vm.confim = true
+        // vibrate antes de falar
+        window.navigator.vibrate(200);
+        // speak
+        sInstance.pitch = this.pitch;
+        sInstance.rate = this.rate;
+        this.synth.speak(sInstance);
+      } else {
+        let sInstance = new SpeechSynthesisUtterance(
+          "Nenhum texto nesta área."
+        );
+        sInstance.onend = function(event) {
+          // console.log('SpeechSynthesisUtterance.onend');
+        };
+        sInstance.onerror = function(event) {
+          // console.error('SpeechSynthesisUtterance.onerror');
+        };
+
+        // vibrate antes de falar
+        window.navigator.vibrate(200);
+        // speak
+        sInstance.pitch = this.pitch;
+        sInstance.rate = this.rate;
+        this.synth.speak(sInstance);
+      }
+    },
+
+    speakCordova(userInput) {
+      navigator.vibrate(200);
+      TTS.speak(
+        {
+          text: userInput,
+          locale: "pt-BR",
+          pitch: this.pitch,
+          rate: this.rate
+        },
+        function() {
+          console.log("Text succesfully spoken");
+        },
+        function(reason) {
+          alert(reason);
+        }
+      );
+    },
+
+    convertToPlain(text) {
+      if ((text===null) || (text===''))
+      return false;
+      else
+      var str = text.toString();
+      return str.replace( /(<([^>]+)>)/ig, '').replace(/([A-Z])/g, '\n $1');
+    },
+
+
+    handleHold({ evt, ...info }) {
+      // console.log(info)
+      // console.log(evt)  getStore.price getUser.phoneNumber getStore.description
+      if (this.vibrateState) {
+        var text =
+          this.getStore.title +
+          ". categoria: " +
+          this.getStore.category +
+          "; Preço: " +
+          this.getStore.price +
+          " meticais. numero de telefone: " +
+          this.converNumbPhone(this.getUser.phoneNumber) +
+          ";. descrição: " +
+          this.convertToPlain(this.getStore.description);
+        if (window.hasOwnProperty("cordova")) {
+          this.speakCordova(text);
+        } else {
+          this.speak(text);
+        }
+      }
+      // console.log(this.vacancy)
+    },
+
+    handleSwipe(val) {
+      if (val.direction === "right") {
+        this.$router.go(-1);
+      }
+    },
+
+    converNumbPhone(number) {
+      var converted = "";
+      var count = 0;
+      const value = String(number)
+        .replace(/(.)(?=(\d{3})+$)/g, "$1,")
+        .split(",");
+      value.forEach(element => {
+        count += 1;
+        if (value.length > count) {
+          converted = converted + element + "; ";
+        } else {
+          converted = converted + element;
+        }
       });
+      return converted;
     },
-    onReset () {
-      this.number = ''
-    },
+
+    handleRepeat() {
+      if (this.vibrateState) {
+        var vm = this;
+
+        this.touchNums += 1;
+
+        if (this.touchNums >= 5) {
+          this.touchNums = -80;
+          navigator.vibrate(200);
+          window.navigator.vibrate(200);
+          if (!this.user) {
+            var text = "Usuário não autenticado.";
+            if (window.hasOwnProperty("cordova")) {
+              this.speakCordova(text);
+            } else {
+              this.speak(text);
+            }
+            return;
+          }
+
+          this.$router.push("/chat/" + this.getUser.email);
+        }
+
+        setTimeout(() => {
+          vm.touchNums = 0;
+        }, 5000);
+      }
+    }
+  },
+  created() {
+    this.detailStore(this.$route.params.id);
+  },
+  mounted() {},
+  watch: {
+    getStore() {
+      if (this.getStore.title) {
+        this.detailUserStore(this.getStore.user);
+        if (this.getUser.displayName) {
+          this.$root.$emit(
+            "textToSpeechRouter",
+            "Detalhes do " +
+              this.getStore.category +
+              " " +
+              this.getStore.title +
+              ".\n Pressione para ouvir descrição.\n Clique 5 vezes na tela para entrar em contacto com " +
+              this.getUser.displayName +
+              "."
+          );
+        }
+      }
+    }
   }
-}
+};
 </script>

@@ -2,10 +2,15 @@
   <q-layout view="hHh Lpr fFf">
     <!-- Be sure to play with the Layout demo on docs -->
     <q-header elevated height-hint="64">
-      <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" class="GPL__toolbar" style="height: 64px">
+      <q-toolbar
+        :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+        class="GPL__toolbar"
+        style="height: 64px"
+      >
         <q-btn
           @click="$router.go(-1)"
           v-if="backIcon"
+          :color="darkModeConf.iconVar"
           flat
           dense
           round
@@ -13,19 +18,31 @@
           aria-label="Menu"
           size="lg"
         />
-        <q-btn
-          to="/home"
-          v-if="$route.path == '/'"
+        <!-- <q-btn
+          to="/"
+          v-if="$route.path == '/' && !$q.screen.gt.sm"
           flat
           dense
           round
           icon="home"
           aria-label="Home"
           size="lg"
-        />
+        />-->
         <q-btn
           @click="drowerFilter = !drowerFilter"
           v-if="$route.path == '/vacancies'"
+          :color="darkModeConf.iconVar"
+          flat
+          dense
+          round
+          icon="filter_list"
+          aria-label="DowrerFilter"
+          size="lg"
+        />
+        <q-btn
+          @click="drowerFilterStore = !drowerFilterStore"
+          v-if="$route.path == '/store'"
+          :color="darkModeConf.iconVar"
           flat
           dense
           round
@@ -34,39 +51,51 @@
           size="lg"
         />
 
-        <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap"><img src="/statics/app-logo-128x128.png" style="height: 50px" alt=""> Superactive</q-toolbar-title>
-        <q-toolbar-title
-          shrink
-          class="row items-center no-wrap"
-          v-else
-        >
-        <img src="/statics/app-logo-128x128.png" style="height: 50px" alt="">
-        Superactive</q-toolbar-title>
+        <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font">
+          <q-btn flat round to="/">
+            <q-img src="statics/img/home/appLogo.png" style="height: 50px" alt />
+          </q-btn>Superactive
+        </q-toolbar-title>
+        <q-toolbar-title shrink class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font" v-else>
+          <q-btn flat round to="/">
+            <q-img src="statics/img/home/appLogo.png" style="height: 50px" alt />
+          </q-btn>Superactive
+        </q-toolbar-title>
 
         <q-space />
 
-        <q-input v-if="$q.screen.gt.sm && toSearch" :color="darkModeConf.color" outlined rounded v-model="valueSearch" input-class="text-right" placeholder="Pesquisar" style="width: 50%;">
+        <q-input
+          v-if="$q.screen.gt.sm && toSearch"
+          :color="darkModeConf.color"
+          outlined
+          rounded
+          v-model="valueSearch"
+          input-class="text-right"
+          placeholder="Pesquisar"
+          style="width: 50%;"
+        >
           <template v-slot:append>
-            <q-icon v-if="valueSearch === ''" name="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="valueSearch = ''" />
+            <q-icon :color="darkModeConf.iconVar" v-if="valueSearch === ''" name="search" />
+            <q-icon :color="darkModeConf.iconVar" v-else name="clear" class="cursor-pointer" @click="valueSearch = ''" />
           </template>
         </q-input>
 
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn round dense flat icon="notifications">
+          <!-- <q-btn round dense flat icon="notifications">
             <q-badge color="primary" text-color="white" floating>2</q-badge>
+          </q-btn>-->
+          <q-btn v-if="isUserAuth" round dense flat icon="message" :color="darkModeConf.iconVar" size="lg" to="/chat">
+            <q-badge v-if="numMessage" color="primary" text-color="white" floating>{{ numMessage }}</q-badge>
           </q-btn>
-          <q-btn round flat>
+          <q-btn v-if="isUserAuth" round flat>
             <q-avatar>
-              <img v-if="isUserAuth" :src="user.photoURL" />
-              <img v-else src="https://cdn.quasar.dev/img/boy-avatar.png" />
+              <q-img :src="user.photoURL" />
             </q-avatar>
-            <q-tooltip>Account</q-tooltip>
             <q-menu transition-show="jump-down" transition-hide="jump-up">
               <q-list style="min-width: 100px">
-                <template v-if="isUserAuth">
+                <template>
                   <q-item to="/profile" clickable>
                     <q-item-section>Perfil</q-item-section>
                   </q-item>
@@ -75,20 +104,34 @@
                     <q-item-section>Sair</q-item-section>
                   </q-item>
                 </template>
-                <q-item v-else to="/account" clickable>
-                  <q-item-section>Entrar</q-item-section>
-                </q-item>
               </q-list>
             </q-menu>
+          </q-btn>
+          <q-btn v-else round flat to="/account">
+            <q-avatar>
+              <q-icon name="account_circle" size="lg" color="primary" />
+            </q-avatar>
           </q-btn>
         </div>
       </q-toolbar>
       <!-- rounded-borders -->
-      <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" v-if="toSearch && !$q.screen.gt.sm">
-        <q-input :color="darkModeConf.color" dense outlined rounded v-model="valueSearch" input-class="text-right" class="full-width" placeholder="Pesquisar">
+      <q-toolbar
+        :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+        v-if="toSearch && !$q.screen.gt.sm"
+      >
+        <q-input
+          :color="darkModeConf.color"
+          dense
+          outlined
+          rounded
+          v-model="valueSearch"
+          input-class="text-right"
+          class="full-width"
+          placeholder="Pesquisar"
+        >
           <template v-slot:append>
-            <q-icon v-if="valueSearch === ''" name="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="valueSearch = ''" />
+            <q-icon :color="darkModeConf.iconVar" v-if="valueSearch === ''" name="search" />
+            <q-icon :color="darkModeConf.iconVar" v-else name="clear" class="cursor-pointer" @click="valueSearch = ''" />
           </template>
         </q-input>
       </q-toolbar>
@@ -97,46 +140,29 @@
     <q-footer
       elevated
       :class="[darkModeConf.bgColor, darkModeConf.textColor]"
-      v-if="!$q.screen.gt.sm && !backIcon && $route.path !== '/'"
+      v-if="!$q.screen.gt.sm && !backIcon"
     >
-      <q-tabs :active-color="darkModeConf.color" align="justify" indicator-color="transparent" class="text-grey">
-        <q-route-tab name="home" icon="home" to="/home" />
+      <q-tabs
+        :active-color="darkModeConf.iconVar"
+        align="justify"
+        indicator-color="transparent"
+        class="text-grey"
+      >
+        <q-route-tab name="home" icon="home" to="/" />
         <q-route-tab name="trabalho" icon="work" to="/vacancies" />
-        <q-route-tab name="store" icon="storefront" to="/store" />
+        <q-route-tab name="store" icon="store" to="/store" />
         <q-route-tab name="settings" icon="settings" to="/settings" />
         <!--<q-route-tab name="profile" icon="person" to="/profile" />-->
       </q-tabs>
     </q-footer>
 
-    <!-- (Optional) A Drawer you can add one more with side="right" or change this one's side -->
-    <!-- <q-drawer v-model="leftDrawerOpen" bordered behavior="mobile" @click="leftDrawerOpen = false">
-      <q-scroll-area class="fit">
-        <q-toolbar class="GPL__toolbar">
-          <q-toolbar-title class="row items-center text-grey-8">
-            <span class="q-ml-sm">Superactive Negocio</span>
-          </q-toolbar-title>
-        </q-toolbar>
-
-        <q-list padding>
-          <q-item
-            v-for="link in links1"
-            :key="link.text"
-            :to="link.to"
-            clickable
-            class="GPL__drawer-item"
-          >
-            <q-item-section avatar>
-              <q-icon :name="link.icon" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
-      </q-scroll-area>
-    </q-drawer> -->
-
-    <q-drawer v-if="$route.path == '/vacancies'" v-model="drowerFilter" bordered behavior="mobile" @click="drowerFilter = false">
+    <q-drawer
+      v-if="$route.path == '/vacancies'"
+      v-model="drowerFilter"
+      bordered
+      behavior="mobile"
+      @click="drowerFilter = false"
+    >
       <q-scroll-area class="fit">
         <q-toolbar class="GPL__toolbar">
           <q-toolbar-title class="row items-center text-grey-8">
@@ -145,42 +171,95 @@
         </q-toolbar>
 
         <q-list padding>
-          <q-item
-            clickable v-ripple
-            @click="filterVal = '', drowerFilter = false"
-          >
-          <q-item-section avatar>
-            <q-icon name="list" />
-          </q-item-section>
-            
+          <q-item clickable v-ripple @click="filterVal = '', drowerFilter = false">
+            <q-item-section avatar>
+              <q-icon :color="darkModeConf.iconVar" name="list" />
+            </q-item-section>
+
             <q-item-section>
               <q-item-label :class="darkModeConf.textColor">Todas vagas</q-item-label>
             </q-item-section>
           </q-item>
           <q-expansion-item expand-separator icon="group_work" label="Categorias">
-          <q-item
-            clickable v-ripple
-            v-for="(item, idx) in categories" :key="idx"
-            @click="filterVal = item, drowerFilter = false"
-          >
+            <q-item
+              clickable
+              v-ripple
+              v-for="(item, idx) in categories"
+              :key="idx"
+              @click="filterVal = item, drowerFilter = false"
+            >
+              <q-item-section>
+                <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-expansion-item>
+          <q-expansion-item default-opened expand-separator icon="place" label="Provincias">
+            <q-item
+              clickable
+              v-ripple
+              v-for="(item, idx) in places"
+              :key="idx"
+              @click="filterVal = item, drowerFilter = false"
+            >
+              <q-item-section>
+                <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-expansion-item>
+        </q-list>
+      </q-scroll-area>
+    </q-drawer>
+
+    <q-drawer
+      v-if="$route.path == '/store'"
+      v-model="drowerFilterStore"
+      bordered
+      behavior="mobile"
+      @click="drowerFilterStore = false"
+    >
+      <q-scroll-area class="fit">
+        <q-toolbar class="GPL__toolbar">
+          <q-toolbar-title class="row items-center text-grey-8">
+            <span class="q-ml-sm">Filtrar vagas</span>
+          </q-toolbar-title>
+        </q-toolbar>
+
+        <q-list padding>
+          <q-item clickable v-ripple @click="filterVal = '', drowerFilterStore = false">
+            <q-item-section avatar>
+              <q-icon :color="darkModeConf.iconVar" name="list" />
+            </q-item-section>
+
             <q-item-section>
-              <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+              <q-item-label :class="darkModeConf.textColor">Todas Produtos e serviços</q-item-label>
             </q-item-section>
           </q-item>
+          <q-expansion-item expand-separator icon="group_work" label="Categorias">
+            <q-item
+              clickable
+              v-ripple
+              v-for="(item, idx) in categoriesStore"
+              :key="idx"
+              @click="filterVal = item, drowerFilterStore = false"
+            >
+              <q-item-section>
+                <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+              </q-item-section>
+            </q-item>
           </q-expansion-item>
-          <q-expansion-item expand-separator icon="place" label="Provincias">
-          <q-item
-            clickable v-ripple
-            v-for="(item, idx) in places" :key="idx"
-            @click="filterVal = item, drowerFilter = false"
-          >
-            <q-item-section>
-              <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
-            </q-item-section>
-          </q-item>
+          <q-expansion-item default-opened expand-separator icon="place" label="Provincias">
+            <q-item
+              clickable
+              v-ripple
+              v-for="(item, idx) in places"
+              :key="idx"
+              @click="filterVal = item, drowerFilterStore = false"
+            >
+              <q-item-section>
+                <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+              </q-item-section>
+            </q-item>
           </q-expansion-item>
-          
-          
         </q-list>
       </q-scroll-area>
     </q-drawer>
@@ -192,53 +271,30 @@
 
       <q-page-sticky v-if="$q.screen.gt.sm" expand position="left">
         <div class="fit q-pt-xl q-px-sm column">
-          <q-btn round flat color="grey-8" stack no-caps size="40px" class="GPL__side-btn" to="/">
-            <q-icon size="lg" name="home" />
+          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/">
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="home" />
             <div class="GPL__side-btn__label">Home</div>
           </q-btn>
 
-          <q-btn
-            round
-            flat
-            color="grey-8"
-            stack
-            no-caps
-            size="40px"
-            class="GPL__side-btn"
-            to="/vacancies"
-          >
-            <q-icon size="lg" name="work" />
+          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/vacancies">
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="work" />
             <div class="GPL__side-btn__label">Vagas</div>
           </q-btn>
 
-          <q-btn
-            round
-            flat
-            color="grey-8"
-            stack
-            no-caps
-            size="40px"
-            class="GPL__side-btn"
-            to="/store"
-          >
-            <q-icon size="lg" name="store" />
-            <div class="GPL__side-btn__label">Exposição</div>
-            <!-- <q-badge floating color="red" text-color="white" style="top: 8px right: 16px">
+          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/store">
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="store" />
+            <div class="GPL__side-btn__label">Negócio</div>
+            <!-- <q-badge floating :color="darkModeConf.iconVar" text-color="white" style="top: 8px right: 16px">
               1
             </q-badge>-->
           </q-btn>
-          <q-btn
-            round
-            flat
-            color="grey-8"
-            stack
-            no-caps
-            size="40px"
-            class="GPL__side-btn"
-            to="/profile"
-          >
-            <q-icon size="lg" name="person" />
+          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/profile">
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="person" />
             <div class="GPL__side-btn__label">Perfil</div>
+          </q-btn>
+          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/settings">
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="settings" />
+            <div class="GPL__side-btn__label">Definições</div>
           </q-btn>
         </div>
       </q-page-sticky>
@@ -247,18 +303,23 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex"
+import { mapState, mapActions, mapGetters } from "vuex";
+import { LocalStorage } from "quasar";
+import { firestoreDb } from "boot/firebase";
 export default {
   // name: 'LayoutName',
 
   data() {
     return {
       textColor: "text-black",
+      numStatusVibrate: 0,
+      numMessage: 0,
       valueSearch: "",
       filterVal: "",
       leftDrawer: false,
       drowerFilter: false,
       leftDrawerOpen: false,
+      drowerFilterStore: false,
       toSearch: false,
       backIcon: false,
       tab: "home",
@@ -311,51 +372,258 @@ export default {
         "Técnico",
         "Transportes e Logística",
         "Vendas"
-      ]
-    }
+      ],
+      categoriesStore: [
+        "Produto",
+        "Serviço",
+        "Moda",
+        "Construção",
+        "Culinária",
+        "Games e Lazer",
+        "Animais",
+        "Moda",
+        "Casa",
+        "Tecnologia",
+        "Veículos",
+        "Imobiliário",
+        "Domésticos, Reparações e Mudanças",
+        "Saúde e Beleza",
+        "Eventos",
+        "Técnicos"
+      ],
+      pitch: 0.9,
+      rate: 0.8,
+      synth: window.speechSynthesis,
+      itemsLayzeRef: []
+    };
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"]),
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
     ...mapGetters("auth", ["isUserAuth", "user"])
   },
   methods: {
     ...mapActions("auth", ["signOut"]),
-    
-    backIconFunc (to) {
+    ...mapActions("settings", ["setAppMode"]),
+
+    backIconFunc(to) {
       // active/ deactivate icon
-      this.backIcon = false
-      if (to.path !== "/" && to.path !== "/vacancies" && to.path !== "/home" && to.path !== "/store" && to.path !== "/settings") this.backIcon = true
+      this.backIcon = false;
+      if (
+        to.path !== "/" &&
+        to.path !== "/vacancies" &&
+        to.path !== "/" &&
+        to.path !== "/store" &&
+        to.path !== "/settings"
+      )
+        this.backIcon = true;
     },
-    
+
+    speak(userInput) {
+      if (this.vibrateState === 1) {
+        if (this.synth.speaking) {
+          // console.error('speechSynthesis.speaking');
+          return;
+        }
+        if (userInput !== "") {
+          let sInstance = new SpeechSynthesisUtterance(userInput);
+          sInstance.onend = function(event) {
+            // console.log('SpeechSynthesisUtterance.onend');
+          };
+          sInstance.onerror = function(event) {
+            // console.error('SpeechSynthesisUtterance.onerror');
+          };
+          // vibrate antes de falar
+          //navigator.vibrate(200);
+          // window.navigator.vibrate(200);
+          // speak
+          sInstance.pitch = this.pitch;
+          sInstance.rate = this.rate;
+          sInstance.lang = 'pt-BR';
+          this.synth.speak(sInstance);
+        } else {
+          let sInstance = new SpeechSynthesisUtterance(
+            "Nenhum texto nesta área."
+          );
+          sInstance.onend = function(event) {
+            // console.log('SpeechSynthesisUtterance.onend');
+          };
+          sInstance.onerror = function(event) {
+            // console.error('SpeechSynthesisUtterance.onerror');
+          };
+
+          // vibrate antes de falar
+          //navigator.vibrate(200);
+          // window.navigator.vibrate(200);
+          // speak
+          sInstance.pitch = this.pitch;
+          sInstance.rate = this.rate;
+          sInstance.lang = 'pt-BR';
+          this.synth.speak(sInstance);
+        }
+      }
+    },
+
+    speakCordova (userInput) {
+      if (this.vibrateState === 1) {
+        TTS.speak({
+          text: userInput,
+          locale: 'pt-BR',
+          rate: 0.8
+        }, function () {
+          // console.log('Text succesfully spoken');
+        }, function (reason) {
+          console.log(reason);
+        });
+      }
+    },
+
+    // getChat() {
+    //   const vm = this;
+    //   if (this.isUserAuth) {
+    //     const ref = firestoreDb.collection("chat");
+    //     var chatData = [];
+    //     ref
+    //       .where("receptorUser", "==", vm.user.email)
+    //       .where("readed", "==", false)
+    //       .onSnapshot(function(querySnapshot) {
+    //         chatData = [];
+    //         vm.numMessage = 0;
+    //         querySnapshot.forEach(function(doc) {
+    //           chatData.push({
+    //             key: doc.id,
+    //             email: doc.data().email,
+    //             displayName: doc.data().displayName,
+    //             receptorUser: doc.data().receptorUser,
+    //             readed: doc.data().readed
+    //           });
+    //           vm.numMessage += 1;
+    //         });
+    //       });
+    //   }
+    // },
+
+    getChat(vm) {
+      const ref = firestoreDb.collection("chat").doc(vm.user.email.split('@')[0]);
+      var chatDataObj = {};
+      
+      ref.onSnapshot(function(doc) {
+        if(doc.exists) {
+          vm.numMessage = 0;
+            doc.data().peopleChat.forEach(element => {
+              var refToCount = firestoreDb.collection("chat").doc(vm.user.email.split('@')[0]).collection(element);
+              refToCount.where("readed", "==", false).onSnapshot(function(querySnap) {
+                querySnap.forEach(function(doc) {
+                  if(!doc.data().readed && doc.data().sender !== vm.user.email) {
+                    vm.numMessage += 1;
+                  }
+                });
+              });
+            });
+        }
+      });
+    },
+
+    accessibilityMode() {
+      this.$root.$on("textToSpeechRouter", val => {
+        if(window.hasOwnProperty("cordova")){
+          this.speakCordova(val);
+        } else {
+          this.speak(val);
+        }
+      });
+    }
   },
+
+  beforeCreate() {
+    if (!LocalStorage.getItem("notFirst")) {
+      this.$router.push("/welcome");
+    }
+  },
+
+  created() {
+    // if (!LocalStorage.getItem("notFirst")) {
+    //   this.$router.push("/welcome");
+    // }
+  },
+
+
   mounted() {
-    if(this.appMode) {
-      this.$q.dark.set(false)
+    const vm = this;
+    if (LocalStorage.getItem("lightMode") !== null) {
+      if(LocalStorage.getItem("lightMode") === 1) {
+        this.setAppMode(1)
       } else {
-      this.$q.dark.set(true)
+        this.setAppMode(0)
+      }
+    } else {
+      this.setAppMode(1)
     }
 
-    this.backIconFunc(this.$route)
 
-    if (this.$route.path == "/store" || this.$route.path == "/vacancies") this.toSearch = true
+    if(this.user && this.isUserAuth) {
+      this.getChat(vm);
+    }
 
+    this.$root.$on("countMessages", val => {
+      this.getChat(vm);
+    });
+      
+    
+    // if (this.appMode == 1) {
+    //   this.$q.dark.set(false);
+    // } else {
+    //   this.$q.dark.set(true);
+    // }
+
+    // // // // // // this.$root.$store.state.vibrateState
+
+    this.accessibilityMode();
+
+    this.backIconFunc(this.$route);
+
+    if (this.$route.path == "/store" || this.$route.path == "/vacancies")
+      this.toSearch = true;
   },
+
+
   watch: {
     $route(to, from) {
       // react to route changes...
-      this.toSearch = false
-      if (this.$route.path == "/store" || this.$route.path == "/vacancies") this.toSearch = true
-      this.backIconFunc(to)
-    },
-    appMode (val) {
-      if(val) {
-        this.$q.dark.set(false)
+      this.toSearch = false;
+      if (this.$route.path == "/store" || this.$route.path == "/vacancies") {
+        this.toSearch = true;
+        this.valueSearch = "";
+        this.filterVal = "";
+      }
+      this.backIconFunc(to);
+
+      if (this.vibrateState) {
+        if(window.hasOwnProperty("cordova")){
+          navigator.vibrate(200);
         } else {
-        this.$q.dark.set(true)
+          window.navigator.vibrate(200);
+        }
+      }
+    },
+    appMode(val) {
+      if (val) {
+        this.$q.dark.set(false);
+      } else {
+        this.$q.dark.set(true);
       }
     }
+
+    // vibrateState (val) {
+    //   console.log(val)
+    //   if (this.vibrateState === 1) {
+    //     this.numStatusVibrate = val
+    //   } else {
+    //     this.numStatusVibrate = val
+    //   }
+    //   // this.accessibilityMode()
+    // }
   }
-}
+};
 </script>
 
 <style lang="sass">

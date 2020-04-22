@@ -5,7 +5,8 @@ import offline from 'v-offline'
 
 
 const state = {
-  vacancies: LocalStorage.getItem("vacanciens"),
+  // vacancies: LocalStorage.getItem("vacanciens"),
+  vacancies: LocalStorage.getItem("vacanciens") ? LocalStorage.getItem("vacanciens") : [],
   vacancyDtl: {
     key: "",
     title: "",
@@ -39,7 +40,6 @@ const mutations = {
   SET_VACANCY_DELETED(state, val) {
     state.vacancyDeleted = val
   },
-
 }
 
 const getters = {
@@ -127,8 +127,7 @@ const actions = {
     var img = payload.img
     payload.img = ""
     ref.add(payload).then((docRef) => {
-      console.log("Inserido")
-      console.log(docRef)
+      
       vacancyData = docRef
 
       if (!img) {
@@ -217,11 +216,6 @@ const actions = {
         alert("Error adding document: ", error)
       })
 
-
-
-
-
-
   },
 
 
@@ -252,7 +246,7 @@ const actions = {
         // this.uploadAuxFunc(payload)
 
       }).catch(function (error) {
-        console.log("Erro ao deletar o file")
+        console.log("Erro ao Remover o file")
         dispatch('uploadAuxFunc', payload)
         // Uh-oh, an error occurred!
       });
@@ -263,26 +257,44 @@ const actions = {
   listVacancy({ commit }) { // done
     var storageRef = fireStorage.ref()
     if (!offline.data().isOnline) {
-      return alert("Sem internet")
+      showErrorMessage("Está sem internet.")
     }
     const ref = firestoreDb.collection('vacancies')
-    var vacanciesData = []
+    var vacanciesData = [];
+    var itemsReady = [""];
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
 
+    today = mm + '/' + dd + '/' + yyyy;
     ref.where("public", "==", true)
-      .get().then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          vacanciesData.push({
-            key: doc.id,
-            title: doc.data().title,
-            user: doc.data().user,
-            description: doc.data().description,
-            img: doc.data().img,
-            public: doc.data().public,
-            place: doc.data().place,
-            category: doc.data().category
-          })
-        });
-        commit('SET_VACANCIES', vacanciesData)
+      .onSnapshot(function (querySnapshot) {
+        if (offline.data().isOnline && querySnapshot.length !== vacanciesData.length) {
+          querySnapshot.forEach(function (doc) {
+            var date = doc.data().validate.split("/")
+            if ((date[1] + "/" + date[0] + "/" + date[2] >= today) && !itemsReady.includes(doc.id)) {
+              itemsReady.push(doc.id)
+              vacanciesData.push({
+                key: doc.id,
+                title: doc.data().title,
+                user: doc.data().user,
+                description: doc.data().description,
+                img: doc.data().img,
+                public: doc.data().public,
+                place: doc.data().place,
+                validate: doc.data().validate,
+                category: doc.data().category,
+                timeSend: new Date(doc.data().timeSend)
+              })
+            }
+          });
+          
+          vacanciesData.sort(function(a, b) {
+            return b.timeSend - a.timeSend;
+          });
+          commit('SET_VACANCIES', vacanciesData)
+        }
       });
   },
 
@@ -290,7 +302,7 @@ const actions = {
   listVacancyMy({ commit }, user) { // done
     var storageRef = fireStorage.ref()
     if (!offline.data().isOnline) {
-      return alert("Sem internet")
+      return showErrorMessage("Está sem internet.")
     }
     const ref = firestoreDb.collection('vacancies')
     var vacancies = []
@@ -306,15 +318,24 @@ const actions = {
             img: doc.data().img,
             public: doc.data().public,
             place: doc.data().place,
-            category: doc.data().category
+            validate: doc.data().validate,
+            category: doc.data().category,
+            timeSend: new Date(doc.data().timeSend)
           })
+        });
+        vacancies.sort(function(a, b) {
+          return b.timeSend - a.timeSend;
         });
         commit('SET_VACANCIES', vacancies)
       });
   },
 
+
   detailVacancy({ commit }, id) { // test
     // Loading.show()
+    if (!offline.data().isOnline) {
+      return showErrorMessage("Está sem internet.")
+    }
     const ref = firestoreDb.collection('vacancies').doc(id);
     let data = {
       key: "",
@@ -324,7 +345,9 @@ const actions = {
       img: "",
       public: false,
       palce: "",
+      validate: "",
       category: "",
+      timeSend: ""
     }
     commit('SET_VACANCY', data)
     commit('SET_VACANCY_DTL_CHANGE', false)
@@ -338,7 +361,9 @@ const actions = {
           img: doc.data().img,
           public: doc.data().public,
           place: doc.data().place,
+          validate: doc.data().validate,
           category: doc.data().category,
+          timeSend: new Date(doc.data().timeSend)
         }
         commit('SET_VACANCY', data)
         commit('SET_VACANCY_DTL_CHANGE', true)
@@ -352,6 +377,9 @@ const actions = {
 
 
   deleteVacancy({ commit }, id) {
+    if (!offline.data().isOnline) {
+      return showErrorMessage("Está sem internet.")
+    }
     Loading.show()
     commit("SET_VACANCY_DELETED", false)
     var storageRef = fireStorage.ref()
@@ -368,7 +396,7 @@ const actions = {
       }).catch(function (error) {
         // Uh-oh, an error occurred!
         commit("SET_VACANCY_DELETED", true)
-        console.log("Erro ao deletar imagem")
+        console.log("Erro ao Remover imagem")
         Loading.hide()
       });
 

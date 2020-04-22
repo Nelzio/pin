@@ -1,4 +1,4 @@
-# HackatonPrep
+# SuperActive App
 
 Aplicação para deficientes
 
@@ -32,7 +32,6 @@ No projecto estão descritas todas as actividades a serem feitar. Grande áreas 
 
 ### (No progecto temos como membros:
 Bernardo Mungoi - Designer (Cria prototipo visual do app)
-Nélzio Sitoe - UI (Trabalha em questões de usuabilidade do app, implementa UI e trabalha na UX)
-José Seie - Backend (Trabalha nas funcionalidades do app)
+Nélzio Sitoe - FullStake
 
 Caso um dos membros precisar de ajuda de outro, deverá informar em forma de issue e mencionar o membro que dele precisa de ajuda.

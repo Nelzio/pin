@@ -4,13 +4,14 @@
     <div class="row justify-center">
       <div class="q-gutter-y-md col-12 col-md-8">
         <q-card class="my-card">
-          <img :src="imageUrl" alt />
+          <q-img :src="imageUrl" alt />
           <q-card-actions>
             <q-btn
               rounded
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               class="full-width"
+              icon="insert_photo"
               label="Inserir imagem"
               @click="proccessFile()"
             />
@@ -28,33 +29,60 @@
           />
 
           <q-input
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             rounded
             outlined
             v-model="vacancy.title"
             label="Titulo"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza O título']"
+            :rules="[ val => val && val.length > 0 || 'Introduza o título']"
           />
-          <!-- <q-input :color="darkModeConf.color" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
+          <!-- <q-input :color="darkModeConf.iconVar" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
           <q-select
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="vacancy.category"
             :options="categories"
             label="Categoria"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Introduza a categoria']"
           />
           <q-select
             rounded
             outlined
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="vacancy.place"
             :options="places"
             label="Província"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Introduza a província']"
           />
+          <q-input
+            :color="darkModeConf.iconVar"
+            rounded
+            outlined
+            label="Data de validade"
+            v-model="vacancy.validate"
+            mask="##/##/####"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Introduza a data de validade']"
+          >
+            <template v-slot:append>
+              <q-icon :color="darkModeConf.iconVar" name="event" class="cursor-pointer">
+                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date
+                    :color="darkModeConf.iconVar"
+                    v-model="vacancy.validate"
+                    @input="() => $refs.qDateProxy.hide()"
+                    mask="DD/MM/YYYY"
+                  />
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
           <q-editor
-            :color="darkModeConf.color"
+            :color="darkModeConf.iconVar"
             v-model="vacancy.description"
             min-height="8rem"
             lazy-rules
@@ -64,7 +92,7 @@
             <q-btn
               rounded
               class="full-width"
-              :color="darkModeConf.color"
+              :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               label="Enviar"
               @click="addVacancy()"
@@ -75,7 +103,7 @@
     </div>
 
     <div>
-      <q-dialog v-model="confirmInsert">
+      <!-- <q-dialog v-model="confirmInsert">
         <q-card>
           <q-card-section class="text-h5 text-green">Vaga inserida com sucesso</q-card-section>
 
@@ -83,14 +111,38 @@
             <q-btn flat label="OK" color="green" v-close-popup />
           </q-card-actions>
         </q-card>
-      </q-dialog>
+      </q-dialog> -->
 
-      <q-dialog v-model="errorFileDialog">
+      <!-- <q-dialog v-model="errorFileDialog">
         <q-card>
           <q-card-section class="text-h5 text-red">Por favor, insira uma imagem válida.</q-card-section>
 
           <q-card-actions align="right">
             <q-btn flat label="OK" color="red" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog> -->
+
+      <q-dialog v-model="confirmInsert">
+        <q-card style="widht: 90vw">
+          <q-card-section>
+            <div :class="getFont.title">Adição de vaga</div>
+          </q-card-section>
+          <q-card-section :class="getFont.text">Vaga inserida com sucesso.</q-card-section>
+          <q-card-actions align="right">
+            <q-btn rounded outline label="OK" :color="darkModeConf.iconVar" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="errorFileDialog">
+        <q-card>
+          <q-card-section>
+            <div :class="getFont.title">Atenção</div>
+          </q-card-section>
+          <q-card-section :class="getFont.text">Por favor, insira uma imagem válida.</q-card-section>
+          <q-card-actions align="right">
+            <q-btn rounded outline label="OK" :color="darkModeConf.iconVar" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -111,8 +163,9 @@ export default {
         user: "",
         description: "",
         img: "",
-        public: false,
+        public: true,
         category: "",
+        validate: "",
         place: ""
       },
       imageUrl: "",
@@ -164,13 +217,16 @@ export default {
   computed: {
     ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
     ...mapState("vacancy", ["vacancyDtl"]),
+    ...mapGetters("settings", ["getFont"]),
     ...mapGetters("auth", ["user"])
   },
   methods: {
     ...mapActions("vacancy", ["listVacancy", "createVacancy"]),
     addVacancy() {
       // console.log(this.vacancy)
+      var today = new Date();
       this.vacancy.user = this.user.email;
+      this.vacancy.timeSend = String(today);
       this.$refs.vacancyForm.validate();
       if (this.$refs.vacancyForm.hasError) {
         this.formHasError = true;
@@ -200,13 +256,18 @@ export default {
   watch: {
     vacancyDtl() {
       if (!this.vacancyDtl.title) {
+        this.imageUrl = "";
         this.vacancy = {
           title: "",
           user: "",
           description: "",
-          img: ""
+          img: "",
+          public: true,
+          category: "",
+          validate: "",
+          place: "",
+          timeSend: ""
         };
-        this.imageUrl = "";
         this.$refs.vacancyForm.resetValidation();
         this.confirmInsert = true;
       }

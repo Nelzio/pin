@@ -11,13 +11,21 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@google-cloud/text-to-speech": "^2.1.2",
     "@quasar/extras": "^1.0.0",
     "animate.css": "^3.7.2",
     "axios": "^0.18.1",
     "firebase": "^7.3.0",
+    "firebaseui": "^4.4.0",
+    "pdfvuer": "^1.4.0",
     "quasar": "^1.8.0",
     "v-offline": "^1.1.0",
-    "vue-pdf": "^4.0.7"
+    "vue-dplayer": "^0.0.10",
+    "vue-pdf": "^4.0.7",
+    "vue-social-sharing": "^2.4.7",
+    "vue-video": "^0.1.7",
+    "vue-video-player": "^5.0.2",
+    "vuejs-video-player": "^0.0.2"
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0",

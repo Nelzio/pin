@@ -2,71 +2,101 @@ import { LocalStorage } from 'quasar'
 
 const state = {
     isConected: false, //verifica se está conectado á internet,
-    settings: {
-        mode: '',
-        isNarratorActive: false,
-        isVibrationActive: true,
-        fontSize: '10pt',
+    fonts: {
+        font1: {
+            title: "text-h6",
+            text: "text-caption",
+        },
+        font2: {
+            title: "text-h5",
+            text: "text-body1",
+        },
+        font3: {
+            title: "text-h4",
+            text: "text-h5",
+        }
     },
-    appMode: 1,
+    fontConfig: LocalStorage.getItem("fontSize") ? LocalStorage.getItem("fontSize") : 2,
+    appMode: LocalStorage.getItem("lightMode") ? LocalStorage.getItem("lightMode") : 1,
     darkModeConf: {
         bgColor: "bg-white",
         textColor: "text-black",
         color: "black",
         textBtn: "text-white",
+        icon: "primary",
+        iconVar: "primary",
     },
-    soundHome: '/statics/audios/home.wav',
-    soundError: '/statics/audios/error.wav'
+    homeSpeak: true,
+    vibrateState: LocalStorage.getItem("vibrate") ? LocalStorage.getItem("vibrate") : 1,
 }
 
 const mutations = {
-    setIsConected (state, val) {
+    IS_START(state, val) {
+        state.homeSpeak = val
+    },
+    setIsConected(state, val) {
         state.isConected = val
     },
-    setSettings (state, val) {
-        state.settings = val
+    SET_FONT_SIZE(state, val) {
+        state.fontConfig = val
+        LocalStorage.set('fontSize', val)
     },
-    setAppMode (state, val) {
+    setAppMode(state, val) {
         state.appMode = val
+        LocalStorage.set('lightMode', val)
     },
-    appModeSave (state, val) {
+    appModeSave(state, val) {
         state.darkModeConf = val
+    },
+    SET_VIBRATE(state, val) {
+        state.vibrateState = val
+        LocalStorage.set("vibrate", val)
     }
 
 }
 
 const getters = {
 
-    getSettings (state) {
-        return state.settings
+    getFont(state) {
+        if (state.fontConfig == 3) {
+            return state.fonts.font3
+        } else if (state.fontConfig == 1) {
+            return state.fonts.font1
+        }
+        return state.fonts.font2
+    },
+
+    getFontMode(state) {
+        return state.fontConfig
+    },
+
+    getMode(state) {
+        return state.appMode
+    },
+    getStart(state) {
+        return state.homeSpeak
     }
 
 }
 
 const actions = {
-
-    setIsConected ({state, commit, dispatch}, val) {
-        commit('setIsConected', val)
-        if (val) {
-            dispatch('playSound', state.soundHome)
-        } else {
-            dispatch('playSound', state.soundError)
-        }
+    setStart({ commit }, val) {
+        commit('IS_START', val)
     },
-    setSettings ({commit, dispatch}, val) {
-        // commit('setSettings', val)
-        console.log("action")
-        // dispatch('cacheSettings', val)
+    setFont({ commit }, val) {
+        commit('SET_FONT_SIZE', val)
     },
-    setAppMode ({commit, dispatch}, val) {
+    setAppMode({ commit, dispatch }, val) {
         commit('setAppMode', val)
         let payload
-        if(val) {
+        if (val) {
             payload = {
                 bgColor: "bg-white",
                 textColor: "text-black",
                 color: "black",
                 textBtn: "text-white",
+                icon: "primary",
+                iconVar: "primary",
             }
             commit('appModeSave', payload)
         } else {
@@ -75,10 +105,16 @@ const actions = {
                 textColor: "text-white",
                 color: "white",
                 textBtn: "text-black",
+                icon: "primary",
+                iconVar: "white",
             }
             commit('appModeSave', payload)
         }
         // dispatch('appModeSave', val)
+    },
+
+    setVibrate({ commit }, val) {
+        commit('SET_VIBRATE', val)
     },
 
 
@@ -117,19 +153,12 @@ const actions = {
     //     LocalStorage.set('appMode', state.appMode) //stgs - settings key
     // },
 
-    // ===== Audio options
-    playSound ({}, audioPath) {
-        if(audioPath) {
-            var audio = new Audio(audioPath);
-            audio.play();
-        }
-    },
 
     // ===== Vibration options
-    vibrate ({}, audioPath = null) {
-        console.log('Vibration triggered in: /store/modules/settings-module')
-        window.navigator.vibrate(200);
-    },
+    // vibrate ({}, audioPath = null) {
+    //     console.log('Vibration triggered in: /store/modules/settings-module')
+    //     window.navigator.vibrate(100);
+    // },
 
 }
 
