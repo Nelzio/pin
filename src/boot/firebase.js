@@ -5,15 +5,25 @@ import storage from 'firebase/storage'
 import "firebase/auth";
 import "firebase/database";
 
+// const firebaseConfig = {
+//     apiKey: "AIzaSyCw9ow5P77vpoV6yMB_ZcuFhf_f13BL8mM",
+//     authDomain: "hack-a2a7b.firebaseapp.com",
+//     databaseURL: "https://hack-a2a7b.firebaseio.com",
+//     projectId: "hack-a2a7b",
+//     storageBucket: "gs://hack-a2a7b.appspot.com",
+//     messagingSenderId: "147221850544",
+//     appId: "1:147221850544:web:c9c96cfe62f0665df28e75",
+// };
 const firebaseConfig = {
-    apiKey: "AIzaSyCw9ow5P77vpoV6yMB_ZcuFhf_f13BL8mM",
-    authDomain: "hack-a2a7b.firebaseapp.com",
-    databaseURL: "https://hack-a2a7b.firebaseio.com",
-    projectId: "hack-a2a7b",
-    storageBucket: "gs://hack-a2a7b.appspot.com",
-    messagingSenderId: "147221850544",
-    appId: "1:147221850544:web:c9c96cfe62f0665df28e75",
-};
+    apiKey: "AIzaSyDAHfnJHuKcTBc7x9VARFcoLH1xFbA1_uM",
+    authDomain: "superactive-app.firebaseapp.com",
+    databaseURL: "https://superactive-app.firebaseio.com",
+    projectId: "superactive-app",
+    storageBucket: "superactive-app.appspot.com",
+    messagingSenderId: "199039594724",
+    appId: "1:199039594724:web:15c0d946bbc3bfc5723cf1",
+    measurementId: "G-XXBNZNEM7G"
+  };
 // storageBucket: "hack-a2a7b.appspot.com",
 
 const settings = {timestampsInSnapshots: true}; // firebase

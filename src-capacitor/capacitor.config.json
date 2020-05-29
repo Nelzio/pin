@@ -1,7 +1,0 @@
-{
-  "appId": "org.cordova.quasar.app",
-  "appName": "Superactive",
-  "bundledWebRuntime": false,
-  "npmClient": "yarn",
-  "webDir": "www"
-}

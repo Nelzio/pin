@@ -82,7 +82,16 @@
                   </q-item-section>
                 </q-item>
 
-                <q-item clickable v-ripple to="/account/edit">
+                <q-item v-if="userData.profileType" clickable v-ripple to="/account/edit">
+                  <q-item-section avatar>
+                    <q-icon :color="darkModeConf.iconVar" name="edit" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <q-item-label :class="getFont.text">Editar conta</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item v-else clickable v-ripple @click='dialogAddProfile = true'>
                   <q-item-section avatar>
                     <q-icon :color="darkModeConf.iconVar" name="edit" />
                   </q-item-section>
@@ -141,7 +150,8 @@
         <q-dialog v-model="deletDialog">
           <q-card class="text-red">
             <q-card-section>
-              <div :class="getFont.title">Introduza sua senha</div>
+              <div v-if="providerId == 'password'" :class="getFont.title">Introduza sua senha</div>
+              <div v-else :class="getFont.title">Remover conta</div>
             </q-card-section>
             <q-card-section v-if="providerId == 'password'" :class="getFont.text">
               <q-input
@@ -175,13 +185,28 @@
         <q-dialog v-model="logOutDialog">
           <q-card>
             <q-card-section>
-              <div :class="getFont.title">Atençao</div>
+              <div :class="getFont.title">Sair da conta</div>
             </q-card-section>
             <q-card-section :class="getFont.text">Tem a certeza de que quer sair da conta?</q-card-section>
             <q-card-actions align="right">
               <q-btn rounded label="Sair" icon="logout" :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" @click="signOut()" />
               <q-btn rounded outline label="Cancelar" :color="darkModeConf.iconVar" v-close-popup />
             </q-card-actions>
+          </q-card>
+        </q-dialog>
+
+        <q-dialog v-model="dialogAddProfile">
+          <q-card style="width: 90vw;">
+            <q-card-section class="row">
+              <div :class="getFont.title">Tipo de perfil</div>
+              <q-space />
+              <div :class="getFont.title"><q-btn flat round icon="close" v-close-popup /></div>
+
+            </q-card-section>
+            <q-card-section class="q-gutter-y-md">
+              <q-btn @click="setStoreProfileType('person')" rounded label="Pessoa" :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" class="full-width" />
+              <q-btn @click="setStoreProfileType('organization')" rounded label="Entidade" :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" class="full-width" />
+            </q-card-section>
           </q-card>
         </q-dialog>
       </div>
@@ -191,12 +216,14 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
-import { firebase } from "boot/firebase"
+import { LocalStorage, Loading } from 'quasar';
+import { firebase } from "boot/firebase";
 export default {
   name: "PageSettings",
   data() {
     return {
       mode: true,
+      dialogAddProfile: false,
       vibrateMode: false,
       deletDialog: false,
       logOutDialog: false,
@@ -272,7 +299,11 @@ export default {
       } else {
         this.setFont(3);
       }
-    }
+    },
+    setStoreProfileType (type) {
+      LocalStorage.set("profileType", type)
+      this.$router.push("/account/edit")
+    },
   },
   created() {
     if (this.fontConfig == 1) {

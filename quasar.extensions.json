@@ -3,12 +3,15 @@
     "minify_dev": "pngquant",
     "minify_build": "zopfli",
     "cordova": {
-      "background_color": "#075e54",
+      "background_color": "#ffffff",
       "splashscreen_type": "generate"
     },
     "build_always": false,
     "__internal": {
       "dev": {
+        "spa": {
+          "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d"
+        },
         "pwa": {
           "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d"
         },
@@ -16,27 +19,15 @@
           "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d",
           "splashscreenHash": false,
           "splashscreenType": "generate",
-          "backgroundColor": "#075e54"
-        },
-        "capacitor": {
-          "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d",
-          "splashscreenHash": false,
-          "splashscreenType": "generate",
-          "backgroundColor": "#075e54"
-        },
-        "spa": {
-          "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d"
+          "backgroundColor": "#ffffff"
         }
       },
       "build": {
-        "pwa": {
-          "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d"
-        },
         "cordova": {
           "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d",
           "splashscreenHash": false,
           "splashscreenType": "generate",
-          "backgroundColor": "#075e54"
+          "backgroundColor": "#ffffff"
         }
       }
     }

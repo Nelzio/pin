@@ -82,7 +82,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"]),
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
     ...mapGetters("settings", ["getFont"])
   },
   methods: {
@@ -129,10 +129,12 @@ export default {
     handleHold({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
-      this.$root.$emit("textToSpeech", {
-        vacancy: this.vacancy,
-        user: this.user.displayName
-      });
+      if (this.vibrateState) {
+        this.$root.$emit("textToSpeech", {
+          vacancy: this.vacancy,
+          user: this.user.displayName
+        });
+      }
       // console.log(this.vacancy)
     },
 

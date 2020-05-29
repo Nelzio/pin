@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "hack-a2a7b"
+    "default": "hack-a2a7b",
+    "main": "superactive-app"
   }
 }
