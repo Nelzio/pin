@@ -422,7 +422,9 @@ export default {
       if (this.vibrateState === 1) {
         if (this.synth.speaking) {
           // console.error('speechSynthesis.speaking');
-          return;
+          // console.log("Teste")
+          this.synth.cancel()
+          // return;
         }
         if (userInput !== "") {
           let sInstance = new SpeechSynthesisUtterance(userInput);
@@ -505,7 +507,7 @@ export default {
     getChat(vm) {
       const ref = firestoreDb.collection("chat").doc(vm.user.email.split('@')[0]);
       var chatDataObj = {};
-      
+
       ref.onSnapshot(function(doc) {
         if(doc.exists) {
           vm.numMessage = 0;
@@ -567,8 +569,8 @@ export default {
     this.$root.$on("countMessages", val => {
       this.getChat(vm);
     });
-      
-    
+
+
     // if (this.appMode == 1) {
     //   this.$q.dark.set(false);
     // } else {

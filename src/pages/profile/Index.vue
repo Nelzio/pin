@@ -15,9 +15,6 @@
           </q-avatar>
 
           <div :class="getFont.title">{{ user.displayName }}</div>
-          <!-- <div class="text-caption">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas excepturi unde vitae eaque labore
-          </div>-->
         </div>
 
         <q-separator />
@@ -53,9 +50,16 @@
                     </q-item-section>
                   </q-item>
 
-                  <q-separator v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'" spaced inset="item" />
+                  <q-separator
+                    v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'"
+                    spaced
+                    inset="item"
+                  />
 
-                  <q-item v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'" class="text-left">
+                  <q-item
+                    v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'"
+                    class="text-left"
+                  >
                     <q-item-section top avatar>
                       <q-icon :color="darkModeConf.iconVar" name="email" />
                     </q-item-section>
@@ -66,7 +70,11 @@
                     </q-item-section>
                   </q-item>
 
-                  <q-separator v-if="userData.phoneNumber || userData.email.split('@')[userData.email.split('@').length - 1] !== 'superactive'" spaced inset="item" />
+                  <q-separator
+                    v-if="userData.phoneNumber || userData.email.split('@')[userData.email.split('@').length - 1] !== 'superactive'"
+                    spaced
+                    inset="item"
+                  />
 
                   <q-item class="text-left">
                     <q-item-section avatar top>
@@ -80,7 +88,10 @@
                 </q-list>
               </q-tab-panel>
 
-              <q-tab-panel v-if="userData.profileType && userData.profileType == 'person'" name="ocupacao">
+              <q-tab-panel
+                v-if="userData.profileType && userData.profileType == 'person'"
+                name="ocupacao"
+              >
                 <q-list>
                   <q-item class="text-left">
                     <q-item-section top avatar>
@@ -104,7 +115,7 @@
                     </q-item-section>
                   </q-item>
 
-                  <q-separator spaced inset="item" />
+                  <!-- <q-separator spaced inset="item" />
 
                   <q-item class="text-left">
                     <q-item-section avatar top>
@@ -112,53 +123,60 @@
                     </q-item-section>
                     <q-item-section>
                       <q-item-label :class="getFont.title">Curiculum</q-item-label>
-                      <!-- <q-item-label :class="getFont.text">{{ userData.education }}</q-item-label> -->
-                      <q-item-label :class="getFont.text">
-                        <div class="row justify-end q-gutter-sm">
-                          <q-btn
-                            rounded
-                            size="sm"
-                            label="Ver"
-                            icon="visibility"
-                            :color="darkModeConf.iconVar"
-                            :class="darkModeConf.textBtn"
-                            @click="getCV()"
-                          />
-                          <q-btn
-                            rounded
-                            size="sm"
-                            label="Carregar"
-                            icon="upload_file"
-                            :color="darkModeConf.iconVar"
-                            :class="darkModeConf.textBtn"
-                            @click="proccessFile('doc')"
-                          />
-                        </div>
-                      </q-item-label>
                     </q-item-section>
-                  </q-item>
+                    <q-item-section top side>
+                      <div class="text-grey-8 q-gutter-xs">
+                        <q-btn flat dense round icon="more_vert">
+                          <q-menu persistent auto-close>
+                            <q-list style="min-width: 100px">
+                              <q-item clickable @click="$root.$emit('cvDialog', true)">
+                                <q-item-section top avatar>
+                                  <q-icon :color="darkModeConf.iconVar" name="visibility" />
+                                </q-item-section>
+                                <q-item-section>Ver</q-item-section>
+                              </q-item>
+                              <q-item clickable @click="$root.$emit('uploadCV')">
+                                <q-item-section top avatar>
+                                  <q-icon :color="darkModeConf.iconVar" name="upload_file" />
+                                </q-item-section>
+                                <q-item-section>Carregar</q-item-section>
+                              </q-item>
+                              <q-item clickable>
+                                <q-item-section top avatar>
+                                  <q-icon :color="darkModeConf.iconVar" name="delete" />
+                                </q-item-section>
+                                <q-item-section>Apagar</q-item-section>
+                              </q-item>
+                            </q-list>
+                          </q-menu>
+                        </q-btn>
+                      </div>
+                    </q-item-section>
+                  </q-item> -->
                 </q-list>
               </q-tab-panel>
-              <q-tab-panel v-else-if="userData.profileType && userData.profileType == 'organization'" name="ocupacao">
+              <q-tab-panel
+                v-else-if="userData.profileType && userData.profileType == 'organization'"
+                name="ocupacao"
+              >
                 <div v-html="userData.description"></div>
               </q-tab-panel>
             </q-tab-panels>
           </q-card>
         </div>
-        
+
         <div class="row">
           <q-card class="col-12">
-            <q-video v-if="videoDownload.videoUrl" :src="videoDownload.videoUrl"/>
-            <!-- <q-card-section>
-                <q-video v-if="videoDownload.videoUrl" :src="videoDownload.videoUrl"/>
-            </q-card-section> -->
+            <q-video
+              v-if="videoDownload.videoUrl && videoDownload.from == 'link'"
+              :ratio="16/9"
+              :src="videoDownload.videoUrl"
+            />
+            <VideoProfile v-else-if="videoDownload.videoUrl" :videoUrl="videoDownload.videoUrl" />
 
-            <div class="row q-pa-md" :class="getFont.text">
-              Carregar vídeo ou adicionar link
-            </div>
+            <div class="row q-pa-md" :class="getFont.text">Carregar vídeo ou adicionar link</div>
 
             <q-card-actions align="left">
-              
               <q-btn
                 rounded
                 label="Carregar"
@@ -175,8 +193,16 @@
                 :class="darkModeConf.textBtn"
                 @click="dialogAddVideoLink = true"
               />
+              <q-btn
+                v-if="videoDownload.videoUrl"
+                rounded
+                label="Apagar"
+                icon="delete"
+                :color="darkModeConf.iconVar"
+                :class="darkModeConf.textBtn"
+                @click="deleteVideoDialog = true"
+              />
             </q-card-actions>
-            
           </q-card>
           <q-form class="q-gutter-md" ref="storeForm">
             <input
@@ -187,29 +213,8 @@
               accept="video/*"
               @change="onChange"
             />
-            <input
-              id="fileInput"
-              type="file"
-              hidden
-              ref="fileDoc"
-              accept="application/pdf"
-              @change="onChangeDoc"
-            />
           </q-form>
         </div>
-
-        <!-- btn conect -->
-        <!-- <div class="row justify-center q-pa-md">
-          <q-btn
-            rounded
-            class="full-width"
-            :color="darkModeConf.iconVar"
-            :class="darkModeConf.textBtn"
-            label="Editar perfil"
-            icon="edit"
-            to="account/edit"
-          />
-        </div> -->
 
         <q-separator />
 
@@ -237,7 +242,10 @@
                   </q-item-section>
                   <q-item-section>
                     <div class="text-bold" :class="getFont.title">{{ candidate.title}}</div>
-                    <div v-if="candidate.user.split('@')[candidate.user.split('@').length - 1] !== 'superactive.com'" :class="getFont.text">{{ candidate.user }}</div>
+                    <div
+                      v-if="candidate.user.split('@')[candidate.user.split('@').length - 1] !== 'superactive.com'"
+                      :class="getFont.text"
+                    >{{ candidate.user }}</div>
                   </q-item-section>
                 </q-item>
               </q-card>
@@ -288,22 +296,40 @@
         </div>
       </div>
     </div>
+    <!-- div para pdf component -->
+    <div>
+      <CV @dialog="errorDocumentUpload" />
+    </div>
     <div>
       <q-dialog v-model="dialogAddProfile">
         <q-card style="width: 90vw;">
           <q-card-section class="row">
             <div :class="getFont.title">Tipo de perfil</div>
             <q-space />
-            <div :class="getFont.title"><q-btn flat round icon="close" v-close-popup /></div>
-
+            <div :class="getFont.title">
+              <q-btn flat round icon="close" v-close-popup />
+            </div>
           </q-card-section>
           <q-card-section class="q-gutter-y-md">
-            <q-btn @click="setStoreProfileType('person')" rounded label="Pessoa" :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" class="full-width" />
-            <q-btn @click="setStoreProfileType('organization')" rounded label="Entidade" :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" class="full-width" />
+            <q-btn
+              @click="setStoreProfileType('person')"
+              rounded
+              label="Pessoa"
+              :color="darkModeConf.iconVar"
+              :class="darkModeConf.textBtn"
+              class="full-width"
+            />
+            <q-btn
+              @click="setStoreProfileType('organization')"
+              rounded
+              label="Entidade"
+              :color="darkModeConf.iconVar"
+              :class="darkModeConf.textBtn"
+              class="full-width"
+            />
           </q-card-section>
         </q-card>
       </q-dialog>
-
 
       <q-dialog v-model="dialogAddVideoLink">
         <q-card style="width: 90vw;">
@@ -311,7 +337,7 @@
             <div :class="getFont.title">Adicionar Link</div>
           </q-card-section>
           <q-card-section :class="getFont.text">
-            <q-form ref="linkForm" class="q-gutter-md" >
+            <q-form ref="linkForm" class="q-gutter-md">
               <q-input
                 :color="darkModeConf.iconVar"
                 rounded
@@ -324,7 +350,14 @@
             </q-form>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn rounded label="Enviar link" icon="link" :class="darkModeConf.textBtn" :color="darkModeConf.iconVar" @click="addLink()" />
+            <q-btn
+              rounded
+              label="Enviar link"
+              icon="link"
+              :class="darkModeConf.textBtn"
+              :color="darkModeConf.iconVar"
+              @click="addLink()"
+            />
             <q-btn rounded outline label="Cancelar" :color="darkModeConf.iconVar" v-close-popup />
           </q-card-actions>
         </q-card>
@@ -338,6 +371,18 @@
           <q-card-section :class="getFont.text">{{ errorFileDialogMessage }}</q-card-section>
           <q-card-actions align="right">
             <q-btn rounded outline label="OK" :color="darkModeConf.iconVar" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+      <q-dialog v-model="deleteVideoDialog">
+        <q-card style="width: 90vw;">
+          <q-card-section>
+            <div :class="getFont.title">Atenção</div>
+          </q-card-section>
+          <q-card-section :class="getFont.text">Apagar video?</q-card-section>
+          <q-card-actions align="right">
+            <q-btn rounded label="Apagar" icon="delete" color="red" @click="deleteVideo" />
+            <q-btn rounded outline label="Cancelar" :color="darkModeConf.iconVar" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -373,84 +418,32 @@
           :class="darkModeConf.textBtn"
           label="Editar perfil"
           icon="edit"
-          @click='dialogAddProfile = true'
+          @click="dialogAddProfile = true"
         />
         <q-btn
           v-else
           fab
           :color="darkModeConf.iconVar"
           :class="darkModeConf.textBtn"
-          @click='dialogAddProfile = true'
+          @click="dialogAddProfile = true"
         >
           <q-icon name="edit" size="lg" />
         </q-btn>
       </q-page-sticky>
     </div>
     <div>
-      <q-dialog v-model="dialogCV" :maximized="maximizedToggle">
-        <div class="row">
-        <q-card class="bg-white">
-          <q-toolbar
-        :class="[darkModeConf.bgColor, darkModeConf.textColor]"
-        class="GPL__toolbar"
-        style="height: 64px"
-      >
-        <q-btn
-          v-close-popup
-          :color="darkModeConf.iconVar"
-          flat
-          dense
-          round
-          icon="arrow_back"
-          aria-label="Menu"
-          size="lg"
-        />
-
-        <q-space />
-
-        <q-toolbar-title shrink class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font">
-          Curriculum
-        </q-toolbar-title>
-
-        <q-space />
-
-        <q-btn
-          v-close-popup
-          :color="darkModeConf.iconVar"
-          flat
-          dense
-          round
-          icon="edit"
-          aria-label="Trocar CV"
-          size="lg"
-          @click="proccessFile('doc')"
-        />
-      </q-toolbar>
-          <q-card-section>
-            <pdf :src="curriculumDownload.docUrl"></pdf>
-          </q-card-section>
-          <!-- <q-card-actions align="right">
-            <q-btn label="Trocar Curiculo" color="primary" @click="dialogUpCV = true, dialog = false" />
-            <q-btn flat label="OK" color="primary" v-close-popup />
-          </q-card-actions> -->
-        </q-card>
-        </div>
-      </q-dialog>
-
       <q-dialog v-model="dialogUploadCV">
         <div class="row">
-        <q-card  style="max-width: 80vw;" class="bg-white">
-          <q-card-section class="row items-center">
-            <div class="text-h6">Add Curiculo</div>
-            <q-space />
-            <q-btn icon="close" flat round dense v-close-popup />
-          </q-card-section>
-          <q-card-section>
-            <q-uploader
-              url="http://localhost:4444/upload"
-            />
-          </q-card-section>
-        </q-card>
+          <q-card style="max-width: 80vw;" class="bg-white">
+            <q-card-section class="row items-center">
+              <div class="text-h6">Add Curiculo</div>
+              <q-space />
+              <q-btn icon="close" flat round dense v-close-popup />
+            </q-card-section>
+            <q-card-section>
+              <q-uploader url="http://localhost:4444/upload" />
+            </q-card-section>
+          </q-card>
         </div>
       </q-dialog>
     </div>
@@ -459,24 +452,27 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { LocalStorage, Loading } from 'quasar'
-import { firebaseAuth, firestoreDb, fireStorage, firebase } from "boot/firebase";
+import { LocalStorage, Loading } from "quasar";
+import {
+  firebaseAuth,
+  firestoreDb,
+  fireStorage,
+  firebase
+} from "boot/firebase";
 import { showErrorMessage } from "../../functions/handle-error-messages";
-import pdf from 'vue-pdf';
-// import pdf from 'pdfvuer'
-// import myVideo from 'vue-video';
-// import VueDPlayer from 'vue-dplayer'
-// import 'vue-dplayer/dist/vue-dplayer.css'
+import VideoProfile from "components/profile/VideoProfile.vue";
 import offline from "v-offline";
+import CV from "components/profile/CV.vue";
 export default {
   // name: 'PageName',
 
   data() {
     return {
       tab: "bio",
+      deleteVideoDialog: false,
       dialogAddVideoLink: false,
       dialogAddProfile: false,
-      maximizedToggle : true,
+      maximizedToggle: true,
       dialogCV: false,
       dialogUploadCV: false,
       confirDeleteSuccess: false,
@@ -497,34 +493,29 @@ export default {
       storeNum: 0,
       scrollNum: 0,
       video: {
-        sources: [{
-          src: 'https://firebasestorage.googleapis.com/v0/b/hack-a2a7b.appspot.com/o/videos%2Fnelziositoe%40gmail.com?alt=media&token=f9ad9952-a781-4bfa-a706-d38ff3ee4fb6',
-          type: 'video/mp4'
-        }],
+        sources: [
+          {
+            src:
+              "https://firebasestorage.googleapis.com/v0/b/hack-a2a7b.appspot.com/o/videos%2Fnelziositoe%40gmail.com?alt=media&token=f9ad9952-a781-4bfa-a706-d38ff3ee4fb6",
+            type: "video/mp4"
+          }
+        ],
         options: {
           autoplay: false,
           volume: 0.6,
-          poster: 'statics/app-logo-128x128.png'
+          poster: "statics/app-logo-128x128.png"
         }
       },
       videoUpload: {
         video: null,
         user: ""
       },
-      docUpload: {
-        doc: null,
-        user: ""
-      },
       videoDownload: {},
-      curriculumDownload: {
-        key: "",
-        docUrl: "",
-        user: "",
-      },
+
       pathDoc: ""
     };
   },
-  components: { pdf },
+  components: { VideoProfile, CV },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapState("vacancy", [
@@ -535,7 +526,7 @@ export default {
       "vacancyDetail"
     ]),
     ...mapGetters("auth", ["user", "userData"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont"])
     // player() {
     //   return this.$refs.videoPlayer.player
     // }
@@ -551,36 +542,37 @@ export default {
     ]),
     ...mapActions("auth", ["detailUser", "checkAuthUser"]),
 
-    setStoreProfileType (type) {
-      LocalStorage.set("profileType", type)
-      this.$router.push("/account/edit")
+    errorDocumentUpload() {
+      this.errorFileDialogMessage = "O documento deve estar no formato PDF.";
+      this.errorFileDialog = true;
+    },
+
+    setStoreProfileType(type) {
+      LocalStorage.set("profileType", type);
+      this.$router.push("/account/edit");
     },
 
     playVIdeo() {
-      this.$refs.player.play()
+      this.$refs.player.play();
     },
-
 
     proccessFile(type) {
       // document.getElementById("fileInput").click()
-      if (type == "video") {
-        this.$refs.fileVideo.click();
-      } else {
-        this.$refs.fileDoc.click();
-      }
+      this.$refs.fileVideo.click();
     },
     onChange(event) {
       if (!event.target.files) {
-        return
+        return;
       }
       const files = event.target.files;
       let filename = files[0].name;
       let file = files[0];
       if (!(file && file["type"].split("/")[0] === "video")) {
-        this.errorFileDialogMessage = "Insira um vídeo válido."
+        this.errorFileDialogMessage = "Insira um vídeo válido.";
         return (this.errorFileDialog = true);
       }
       const fileReader = new FileReader();
+      // addEventListener to preload image
       fileReader.addEventListener("load", () => {
         this.video.sources[0].src = fileReader.result;
       });
@@ -588,252 +580,217 @@ export default {
       this.videoUpload.video = files[0];
       this.uploadFile(this.videoUpload);
     },
-    onChangeDoc(event) {
-      if (!event.target.files) {
-        return
-      }
-      const files = event.target.files;
-      let filename = files[0].name;
-      let file = files[0];
-      if (!(file && file["type"].split(".")[file["type"].split(".").length - 1] === "pdf")) {
-        this.errorFileDialogMessage = "O documento deve estar no formato PDF."
-        return (this.errorFileDialog = true);
-      }
-      const fileReader = new FileReader();
-      fileReader.addEventListener("load", () => {
-        this.video.sources[0].src = fileReader.result;
-      });
-      fileReader.readAsDataURL(files[0]);
-      this.docUpload.doc = files[0];
-      this.uploadFile(this.docUpload, "doc");
-    },
-    uploadFile (payload, type) {
-      Loading.show()
+    uploadFile(payload, type) {
+      Loading.show();
       const vm = this;
       // Upload file and metadata to the object
       var storageRef = fireStorage.ref();
-      if (type == "doc") {
-        var uploadTask = storageRef.child('curriculum/' + payload.user.split('@')[0] + '.pdf').put(payload.doc);
-      } else {
-        var uploadTask = storageRef.child('videos/' + payload.user).put(payload.video);
-      }
+      var uploadTask = storageRef
+        .child("videos/" + payload.user)
+        .put(payload.video);
 
       // Listen for state changes, errors, and completion of the upload.
-      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-      function (snapshot) {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
-        switch (snapshot.state) {
-          case firebase.storage.TaskState.PAUSED: // or 'paused'
-            console.log('Upload is paused');
-            break;
-          case firebase.storage.TaskState.RUNNING: // or 'running'
-            console.log('Upload is running');
-            break;
-        }
-      }, function (error) {
+      uploadTask.on(
+        firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+        function(snapshot) {
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          var progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED: // or 'paused'
+              console.log("Upload is paused");
+              break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+              console.log("Upload is running");
+              break;
+          }
+        },
+        function(error) {
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          switch (error.code) {
+            case "storage/unauthorized":
+              Loading.hide();
+              // User doesn't have permission to access the object
+              break;
 
-        // A full list of error codes is available at
-        // https://firebase.google.com/docs/storage/web/handle-errors
-        switch (error.code) {
-          case 'storage/unauthorized':
-            Loading.hide()
-            // User doesn't have permission to access the object
-            break;
+            case "storage/canceled":
+              Loading.hide();
+              // User canceled the upload
+              break;
 
-          case 'storage/canceled':
-            Loading.hide()
-            // User canceled the upload
-            break;
-
-          case 'storage/unknown':
-            Loading.hide()
-            // Unknown error occurred, inspect error.serverResponse
-            break;
-        }
-      }, function () {
-        // Upload completed successfully, now we can get the download URL
-        uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-          console.log('File available at', downloadURL);
-          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-            console.log('File available at', downloadURL);
-            Loading.hide()
-            if (type == "doc") {
-              vm.curriculumDB({docUrl: downloadURL, user: vm.user.email})
-            } else {
-              vm.videoDB({videoUrl: downloadURL, user: vm.user.email, from: "storange"})
-            }
+            case "storage/unknown":
+              Loading.hide();
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+          }
+        },
+        function() {
+          // Upload completed successfully, now we can get the download URL
+          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+            console.log("File available at", downloadURL);
+            uploadTask.snapshot.ref
+              .getDownloadURL()
+              .then(function(downloadURL) {
+                console.log("File available at", downloadURL);
+                Loading.hide();
+                vm.videoDB({
+                  videoUrl: downloadURL,
+                  user: vm.user.email,
+                  from: "storange"
+                });
+              });
           });
-        });
-      });
+        }
+      );
     },
 
-    deleteVideo(id) {
+    deleteVideo() {
+      const vm = this;
+      console.log(vm.userData.email);
       if (!offline.data().isOnline) {
-        return showErrorMessage("Está sem internet.")
+        return showErrorMessage("Está sem internet.");
       }
-      Loading.show()
-      var storageRef = fireStorage.ref()
+      Loading.show();
 
-      var desertRef = storageRef.child('videos/' + id);
+      const ref = firestoreDb.collection("videos").doc(vm.userData.email);
+      ref
+        .get()
+        .then(doc => {
+          if (doc.exists) {
+            console.log(doc.data().from);
+            if (doc.data().from == "storange") {
+              var storageRef = fireStorage.ref();
 
-      desertRef.delete().then(function () {
-          // File deleted successfully
-          console.log("Video deletado")
-          Loading.hide()
-        }).catch(function (error) {
-          // Uh-oh, an error occurred!
-          console.log("Erro ao Remover video")
-          Loading.hide()
+              var desertRef = storageRef.child("videos/" + vm.userData.email);
+
+              desertRef
+                .delete()
+                .then(function() {
+                  // File deleted successfully
+                  console.log("video file deleted");
+                  ref
+                    .delete()
+                    .then(function() {
+                      // File deleted successfully
+                      vm.videoDownload = {};
+                      console.log("video deleted firestore");
+                      vm.deleteVideoDialog = false;
+                      Loading.hide();
+                    })
+                    .catch(error => {
+                      console.log("video delete Error firestore");
+                      console.log(error);
+                    });
+                  console.log("Video deletado");
+                })
+                .catch(function(error) {
+                  // Uh-oh, an error occurred!
+                  console.log("Erro ao Remover video");
+                  Loading.hide();
+                });
+            } else {
+              ref
+                .delete()
+                .then(function() {
+                  // File deleted successfully
+                  vm.videoDownload = {};
+                  console.log("video deleted firestore2");
+                  vm.deleteVideoDialog = false;
+                  Loading.hide();
+                })
+                .catch(error => {
+                  console.log("video delete Error firestore");
+                  console.log(error);
+                });
+            }
+          } else {
+            console.log("No such document!");
+            Loading.hide();
+          }
+        })
+        .catch(error => {
+          Loading.hide();
+          showErrorMessage("Error adding document: ", error);
         });
     },
 
     videoDB(payload) {
-      Loading.show()
+      Loading.show();
       const vm = this;
       if (!offline.data().isOnline) {
-        return alert("Está sem internet")
+        return alert("Está sem internet");
       }
       // Loading.show()
-      const ref = firestoreDb.collection('videos').doc(payload.user);
+      const ref = firestoreDb.collection("videos").doc(payload.user);
       // Create a root reference
       var storageRef = fireStorage.ref();
       // Create the file metadata
-      ref.set(payload).then((docRef) => {
-        
-        console.log(docRef)
-        vm.getVideo(payload.user)
-        Loading.hide()
-        this.dialogAddVideoLink = false;
-        this.videoLink = "";
-      })
-      .catch((error) => {
-        // Loading.hide()
-        console.log("Error adding document: ", error)
-        Loading.hide()
-      })
+      ref
+        .set(payload)
+        .then(docRef => {
+          console.log(docRef);
+          vm.getVideo(payload.user);
+          Loading.hide();
+          this.dialogAddVideoLink = false;
+          this.videoLink = "";
+        })
+        .catch(error => {
+          // Loading.hide()
+          console.log("Error adding document: ", error);
+          Loading.hide();
+        });
     },
 
-    curriculumDB(payload) {
-      Loading.show()
-      const vm = this;
-      if (!offline.data().isOnline) {
-        return alert("Está sem internet")
-      }
-      // Loading.show()
-      const ref = firestoreDb.collection('curriculum').doc(payload.user);
-      // Create a root reference
-      var storageRef = fireStorage.ref();
-      // Create the file metadata
-      ref.set(payload).then((docRef) => {
-        
-        console.log(docRef)
-        Loading.hide()
-      })
-      .catch((error) => {
-        // Loading.hide()
-        console.log("Error adding document: ", error)
-        Loading.hide()
-      })
-    },
-
-    addLink () {
+    addLink() {
       this.$refs.linkForm.validate();
       if (this.$refs.linkForm.hasError) {
         this.errorFileDialogMessage = "";
         this.errorFileDialog = true;
-        return
+        return;
       } else {
         var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
         var match = this.videoLink.match(regExp);
         if (match && match[2].length == 11) {
           // 'https://www.youtube.com/embed/' + match[2] + '?autoplay=0';
-          this.videoLink = "https://www.youtube.com/embed/" +  match[2];
+          this.videoLink = "https://www.youtube.com/embed/" + match[2];
         }
-        this.videoDB({videoUrl: this.videoLink, user: this.user.email, from: "link"});
+        this.videoDB({
+          videoUrl: this.videoLink,
+          user: this.user.email,
+          from: "link"
+        });
       }
     },
 
-    getVideo(id) { // test
+    getVideo(id) {
+      // test
       // Loading.show()
       const vm = this;
       if (!offline.data().isOnline) {
-        return showErrorMessage("Está sem internet.")
+        return showErrorMessage("Está sem internet.");
       }
-      const ref = firestoreDb.collection('videos').doc(id);
-      ref.onSnapshot((doc) => {
+      const ref = firestoreDb.collection("videos").doc(id);
+      ref.onSnapshot(doc => {
         if (doc.exists) {
           vm.videoDownload = {
             key: doc.id,
             videoUrl: doc.data().videoUrl,
             user: doc.data().user,
             from: doc.data().from
-          }
-          vm.video.sources[0].src = doc.data().videoUrl
+          };
+          console.log(doc.data().from);
+
+          console.log(vm.videoDownload);
+          // vm.video.sources[0].src = doc.data().videoUrl
           // Loading.hide()
         } else {
-          console.log("No such document!")
+          console.log("No such document!");
           // Loading.hide()
         }
       });
     },
-
-    getCV() {
-      // Loading.show()
-      
-      const vm = this;
-      if (!offline.data().isOnline) {
-        return showErrorMessage("Está sem internet.")
-      }
-      var storage = firebase.storage();
-      const ref = firestoreDb.collection('curriculum').doc(this.user.email);
-      ref.get().then((doc) => {
-        if (doc.exists) {
-          vm.curriculumDownload = {
-            key: doc.id,
-            docUrl: doc.data().docUrl,
-            user: doc.data().user,
-          }
-
-          vm.dialogCV = true;
-          // Loading.hide()
-        } else {
-          console.log("No such document!")
-          // Loading.hide()
-        }
-      });
-    },
-
-    // deleteVacancyThis(id) {
-    //   const vm = this;
-
-    //   this.deleteVacancy(id).then(function() {
-    //     vm.confirDeleteAux = false;
-    //     vm.confirDelete = false;
-    //   });
-    // },
-
-    // vacancyDtlFunc(id) {
-    //   console.log(id);
-    //   this.detailVacancy(id);
-    //   console.log("Nelzio Sitoe delll");
-    // },
-
-    // updateVacancyHere(payload) {
-    //   Loading.show();
-    //   const updateRef = firestoreDb.collection("vacancies").doc(payload.id);
-    //   updateRef
-    //     .set(payload.data)
-    //     .then(() => {
-    //       this.listVacancyMyHere(this.user.email);
-    //       Loading.hide();
-    //     })
-    //     .catch(error => {
-    //       Loading.hide();
-    //       alert("Error update document: ", error);
-    //     });
-    // },
 
     handleSwipe(val) {
       // if (val.direction === "left") {
@@ -842,7 +799,7 @@ export default {
 
       if (val.direction === "right") {
         // this.$router.push("/settings");
-        this.$router.go(-1)
+        this.$router.go(-1);
       }
     },
 
@@ -885,8 +842,8 @@ export default {
     listCandidatures(user) {
       // done
       if (!offline.data().isOnline) {
-      return showErrorMessage("Está sem internet.")
-    }
+        return showErrorMessage("Está sem internet.");
+      }
       this.vacanciesAply = [];
       const ref = firestoreDb.collection("vacancies");
       const vm = this;
@@ -920,7 +877,7 @@ export default {
       // done
       var storageRef = fireStorage.ref();
       if (!offline.data().isOnline) {
-        showErrorMessage("Está sem internet.")
+        showErrorMessage("Está sem internet.");
       }
       const vm = this;
       // vm.myVacancies = []
@@ -928,31 +885,13 @@ export default {
       const ref = firestoreDb.collection("vacancies");
       ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
         vm.vacancyNum = querySnapshot.docs.length;
-        // querySnapshot.forEach(function(doc) {
-        //   // if (vm.myVacancies.length !== querySnapshot.docs.length) {
-        //   //   vm.myVacancies.push({
-        //   //     key: doc.id,
-        //   //     title: doc.data().title,
-        //   //     user: doc.data().user,
-        //   //     description: doc.data().description,
-        //   //     img: doc.data().img,
-        //   //     public: doc.data().public,
-        //   //     place: doc.data().place,
-        //   //     validate: doc.data().validate,
-        //   //     category: doc.data().category
-        //   //   });
-        //   // }
-        //   // myVacanciesAux.push({
-        //   //   public: doc.data().public
-        //   // });
-        // });
-        // vm.myVacanciesAux = myVacanciesAux;
       });
     },
+
     listStoreMyHere(user) {
       var storageRef = fireStorage.ref();
       if (!offline.data().isOnline) {
-        showErrorMessage("Está sem internet.")
+        showErrorMessage("Está sem internet.");
       }
       const vm = this;
       const ref = firestoreDb.collection("stories");
@@ -977,9 +916,9 @@ export default {
       });
       return converted;
     },
-    windowScroll () {
-      this.scrollNum = window.scrollY
-    },
+    windowScroll() {
+      this.scrollNum = window.scrollY;
+    }
 
     // Video Player functions
   },
@@ -990,11 +929,10 @@ export default {
     this.listStoreMyHere(this.user.email);
   },
   mounted() {
-    this.getVideo(this.user.email)
+    this.getVideo(this.user.email);
     // this.listVacancyMy(this.user.email)
     this.videoUpload.user = this.user.email;
-    this.docUpload.user = this.user.email;
-    
+
     window.addEventListener("scroll", this.windowScroll);
     this.listCandidatures(this.user.email);
 
@@ -1005,21 +943,5 @@ export default {
       "Página do seu perfil.\n Pressione para ouvir detalhes do seu perfil"
     );
   }
-  // watch: {
-  //   vacancyDetail() {
-  //     if (this.vacancyDetail) {
-  //       this.confirDelete = true;
-  //     }
-  //   },
-  //   vacancyDeleted() {
-  //     if (this.vacancyDeleted) {
-  //       this.confirDeleteSuccess = true;
-  //       this.listVacancyMy(this.user.email);
-  //     }
-  //   },
-  //   vacancyUploaded() {
-  //     this.listVacancyMy(this.user.email);
-  //   }
-  // }
 };
 </script>

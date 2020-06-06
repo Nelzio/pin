@@ -33,20 +33,6 @@
           </q-card-section>
         </q-card-section>
       </q-card>
-      <!-- <q-card class="my-card" flat>
-        <q-card-section horizontal>
-          <q-card-section class="q-pt-xs">
-            <div :class="getFont.title" class="q-mt-sm q-mb-xs">Negócio</div>
-            <div
-              :class="getFont.text"
-            >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-          </q-card-section>
-
-          <q-card-section class="col-5 flex flex-center">
-            <q-img class="rounded-borders" src="statics/img/home/deal.png" />
-          </q-card-section>
-        </q-card-section>
-      </q-card>-->
       <q-card class="my-card" flat>
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs">

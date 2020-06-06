@@ -865,6 +865,57 @@ const actions = {
     },
 
     loginUser({ commit }, payload) {
+        let vm = this;
+        Loading.show()
+        firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
+            .then((user) => {
+                commit('AUTH_USER', user.user);
+                commit('SET_AUTH_USER', true);
+                firestoreDb.collection('users').doc(user.user.email).get().then((doc) => {
+                    if (doc.exists) {
+                        var data = {
+                            id: doc.id,
+                            displayName: doc.data().displayName,
+                            email: doc.data().email,
+                            photoURL: doc.data().photoURL,
+                            phoneNumber: doc.data().phoneNumber,
+                            adress: doc.data().adress,
+                            profission: doc.data().profission,
+                            education: doc.data().education,
+                            profileType: doc.data().profileType,
+                            description: doc.data().description,
+                            date: doc.data().date
+                        }
+                        commit('SET_USER_DATA', data);
+                        Loading.hide()
+                        Notify.create('Sessão iniciada com sucesso!')
+                        vm.$router.push("/")
+                    } else {
+                        // Loading.hide()
+                        Notify.create('Sessão iniciada com sucesso!')
+                        if (LocalStorage.getItem("routeBack")) {
+                            vm.$router.push("/")
+                            vm.$router.push(LocalStorage.getItem("routeBack"))
+                            LocalStorage.set("routeBack", "")
+                            Loading.hide()
+                        } else {
+                            this.$router.push("/")
+                            Loading.hide()
+                        }
+                    }
+                }).catch(error => {
+                    console.log(error)
+                    Loading.hide()
+                    showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
+                })
+            })
+            .catch(error => {
+                Loading.hide()
+                showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
+            })
+    },
+
+    loginUserr({ commit }, payload) {
         Loading.show()
         firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
             .then((user) => {
@@ -957,14 +1008,33 @@ const actions = {
     //     deleteVideo(payload.id)
     // },
 
+
+
+    deleteUserr({ commit }, payload) {
+        Loading.show()
+        var docRef = firestoreDb.collection("users").doc("nelziositoe@gmail.com");
+
+        docRef.get().then(function (doc) {
+            if (doc.exists) {
+                console.log("Document data:", doc.data());
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+            Loading.hide()
+        }).catch(function (error) {
+            Loading.hide()
+            console.log("Error getting document:", error);
+        });
+    },
     deleteUser({ commit }, payload) {
         Loading.show()
         const vm = this;
         var user = firebase.auth().currentUser;
 
 
-        console.log(user)
-        console.log(user.providerData[0].providerId)
+        // console.log(user)
+        // console.log(user.providerData[0].providerId)
 
 
         if (user.providerData[0].providerId == "password") {
@@ -992,8 +1062,8 @@ const actions = {
                                 commit('SET_AUTH_USER', false)
                                 commit('AUTH_USER', null)
                                 commit('SET_USER_DATA', null)
-    
-    
+
+
                                 Notify.create('Usuario Excluido')
                                 vm.$router.push('/')
                                 Loading.hide()
@@ -1018,8 +1088,8 @@ const actions = {
                                 commit('SET_AUTH_USER', false)
                                 commit('AUTH_USER', null)
                                 commit('SET_USER_DATA', null)
-    
-    
+
+
                                 setTimeout(() => {
                                     Notify.create('Usuario Excluido')
                                     vm.$router.push('/')
@@ -1068,11 +1138,11 @@ const actions = {
                                             commit('SET_AUTH_USER', false)
                                             commit('AUTH_USER', null)
                                             commit('SET_USER_DATA', null)
-                                            
+
                                             Notify.create('Usuario Excluido')
                                             vm.$router.push('/')
                                             Loading.hide()
-                                            
+
                                         }).catch(function (error) {
                                             // An error happened.
                                             Notify.create('Erro ao Remover1')
@@ -1093,7 +1163,7 @@ const actions = {
                                             commit('SET_AUTH_USER', false)
                                             commit('AUTH_USER', null)
                                             commit('SET_USER_DATA', null)
-    
+
                                             Notify.create('Usuario Excluido')
                                             vm.$router.push('/')
                                             Loading.hide()
@@ -1125,66 +1195,75 @@ const actions = {
                 firebase.auth().signInWithPopup(provider).then((result) => {
                     //   this.user = result.user
                     user = firebase.auth().currentUser;
-                    const ref = firestoreDb.collection('users').doc(payload.id)
-                    ref.get().then((doc) => {
-                        if (doc.exists) {
-                            deleteCandidature(payload.id)
-                            deleteChat(payload.id)
-                            deleteCV(payload.id)
-                            deleteStore(payload.id)
-                            deleteVacancies(payload.id)
-                            deleteVideo(payload.id)
-                            setTimeout(() => {
-                                user.delete().then(function () {
-                                    // User deleted.
-                                    commit('SET_AUTH_USER', false)
-                                    commit('AUTH_USER', null)
-                                    commit('SET_USER_DATA', null)
-    
-                                    Notify.create('Usuario Excluido')
-                                    vm.$router.push('/')
-                                    Loading.hide()
-                                }).catch(function (error) {
-                                    // An error happened.
-                                    Notify.create('Erro ao Remover1')
-                                    Loading.hide()
-                                })
-                            }, 15000);
-                        } else {
-                            // If user desen't exist
-                            deleteCandidature(payload.id)
-                            deleteChat(payload.id)
-                            deleteCV(payload.id)
-                            deleteStore(payload.id)
-                            deleteVacancies(payload.id)
-                            deleteVideo(payload.id)
-                            setTimeout(() => {
-                                user.delete().then(function () {
-                                    // User deleted.
-                                    commit('SET_AUTH_USER', false)
-                                    commit('AUTH_USER', null)
-                                    commit('SET_USER_DATA', null)
-    
-                                    Notify.create('Usuario Excluido')
-                                    vm.$router.push('/')
-                                    Loading.hide()
-                                }).catch(function (error) {
-                                    // An error happened.
-                                    Notify.create('Erro ao Remover2')
-                                    Loading.hide()
-                                })
-                            }, 15000);
-                        }
-                    }).catch((error) => {
-                        Loading.hide()
-                        showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
-                    });
+                    const ref = firestoreDb.collection('users').doc(user.email);
+                    setTimeout(function () {
+                        console.log("Hello");
+                        ref.get().then((doc) => {
+                            console.log("BD User")
+                            if (doc.exists) {
+                                deleteCandidature(payload.id)
+                                deleteChat(payload.id)
+                                deleteCV(payload.id)
+                                deleteStore(payload.id)
+                                deleteVacancies(payload.id)
+                                deleteVideo(payload.id)
+                                setTimeout(() => {
+                                    user.delete().then(function () {
+                                        // User deleted.
+                                        commit('SET_AUTH_USER', false)
+                                        commit('AUTH_USER', null)
+                                        commit('SET_USER_DATA', null)
+
+                                        Notify.create('Usuario Excluido')
+                                        vm.$router.push('/')
+                                        Loading.hide()
+                                    }).catch(function (error) {
+                                        // An error happened.
+                                        Notify.create('Erro ao Remover1')
+                                        Loading.hide()
+                                    })
+                                }, 15000);
+                            } else {
+                                // If user desen't exist
+                                deleteCandidature(payload.id)
+                                deleteChat(payload.id)
+                                deleteCV(payload.id)
+                                deleteStore(payload.id)
+                                deleteVacancies(payload.id)
+                                deleteVideo(payload.id)
+                                setTimeout(() => {
+                                    user.delete().then(function () {
+                                        // User deleted.
+                                        commit('SET_AUTH_USER', false)
+                                        commit('AUTH_USER', null)
+                                        commit('SET_USER_DATA', null)
+
+                                        Notify.create('Usuario Excluido')
+                                        vm.$router.push('/')
+                                        Loading.hide()
+                                    }).catch(function (error) {
+                                        // An error happened.
+                                        Notify.create('Erro ao Remover2')
+                                        Loading.hide()
+                                    })
+                                }, 15000);
+                            }
+                        }).catch((error) => {
+                            Loading.hide()
+                            showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
+                        });
+                    }, 1000);
                 }).catch(err => {
+                    console.log("Erro")
                     console.log(err)
                     Loading.hide()
                 })
             }
         }
+    },
+
+    deleteVideoUser(id) {
+        deleteVideo(id, true)
     }
 
 }

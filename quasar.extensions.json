@@ -28,6 +28,12 @@
           "splashscreenHash": false,
           "splashscreenType": "generate",
           "backgroundColor": "#ffffff"
+        },
+        "pwa": {
+          "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d"
+        },
+        "spa": {
+          "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d"
         }
       }
     }

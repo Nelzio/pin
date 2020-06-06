@@ -139,7 +139,8 @@ module.exports = function (ctx) {
             'type': 'image/png'
           }
         ]
-      }
+      },
+      workboxOptions: { skipWaiting: true }, // only for NON InjectManifest
     },
 
     // https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova

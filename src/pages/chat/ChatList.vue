@@ -1,5 +1,5 @@
 <template>
-  <q-page v-touch-swipe.mouse.right="handleSwipe" v-touch-hold:800.mouse="handleHold">
+  <q-page v-touch-swipe.mouse.right="handleSwipe" v-touch-hold:650.mouse="handleHold">
     <!-- content -->
     <div class="row justify-center">
       <div class="col-12 col-md-6">

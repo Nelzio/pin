@@ -1,5 +1,9 @@
 <template>
-  <q-page v-touch-swipe.mouse.right="accountSwipe" v-touch-hold:600.mouse="handleHold" class="flex flex-center">
+  <q-page
+    v-touch-swipe.mouse.right="accountSwipe"
+    v-touch-hold:600.mouse="handleHold"
+    class="flex flex-center"
+  >
     <!-- content -->
     <!-- <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
@@ -118,6 +122,12 @@
 <script>
 import { Loading } from "quasar";
 import { mapState, mapActions } from "vuex";
+import {
+  firebaseAuth,
+  firestoreDb,
+  fireStorage,
+  firebase
+} from "../../boot/firebase";
 export default {
   name: "LoginFormsComponent",
   data() {
@@ -131,7 +141,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"])
   },
   methods: {
     ...mapActions("auth", [
@@ -143,18 +153,44 @@ export default {
       "facebookSignInCordova"
     ]),
 
+    loginTest() {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
+      firebase.auth().languageCode = "pt";
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then(function(result) {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          var token = result.credential.accessToken;
+          // The signed-in user info.
+          var user = result.user;
+          // ...
+        })
+        .catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // The email of the user's account used.
+          var email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          var credential = error.credential;
+          // ...
+        });
+    },
+
     login(method) {
-      if(window.hasOwnProperty("cordova")) {
-        if(method == "google") {
-          this.googleSignInCordova()
+      if (window.hasOwnProperty("cordova")) {
+        if (method == "google") {
+          this.googleSignInCordova();
         } else if (method == "facebook") {
-          this.facebookSignInCordova()
+          this.facebookSignInCordova();
         }
       } else {
-        if(method == "google") {
-          this.googleSignIn()
+        if (method == "google") {
+          this.googleSignIn();
         } else if (method == "facebook") {
-          this.facebookSignIn()
+          this.facebookSignIn();
         }
       }
     },
@@ -178,12 +214,12 @@ export default {
 
     handleHold({ evt, ...info }) {
       if (this.vibrateState) {
-        if(window.hasOwnProperty("cordova")){
+        if (window.hasOwnProperty("cordova")) {
           navigator.vibrate(200);
         } else {
           window.navigator.vibrate(200);
         }
-        this.login("google")
+        this.login("google");
       }
     },
 
@@ -196,7 +232,7 @@ export default {
       //   this.$router.push("/");
       // }
       if (val.direction === "right") {
-        this.$router.go(-1)
+        this.$router.go(-1);
       }
       // if (val.direction === "up") {
       //   this.$router.push("/");

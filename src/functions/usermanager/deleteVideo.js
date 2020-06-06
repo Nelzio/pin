@@ -1,9 +1,10 @@
 import { firestoreDb, fireStorage } from "boot/firebase";
+import { LocalStorage, Loading, Notify } from 'quasar'
 
 function deleteVideoFile(id) {
     var storageRef = fireStorage.ref()
 
-    var desertRef = storageRef.child('videos/' + id);
+    var desertRef = storageRef.child('videos/' + id)
 
     desertRef.delete().then(function () {
         // File deleted successfully
@@ -17,14 +18,25 @@ export function deleteVideo(id) {
     const ref = firestoreDb.collection('videos').doc(id);
     ref.onSnapshot((doc) => {
         if (doc.exists) {
-            ref.delete().catch((error) => {
-                console.log("video delete Error")
+            if (doc.data().from == "storange") {
+                deleteVideoFile(id)
+            }
+            ref.delete().then(function () {
+                // File deleted successfully
+            }).catch((error) => {
+                console.log("video delete Error firestore")
                 console.log(error)
             });
-            deleteVideoFile(id)
+
         } else {
             console.log("No such document!")
             // Loading.hide()
         }
     });
+
+
+
+
+
+    
 }

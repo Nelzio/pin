@@ -67,7 +67,7 @@
       </q-list>
     </div>-->
 
-    <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user">
+    <!-- <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user">
       <q-btn
         fab
         icon="add"
@@ -75,7 +75,7 @@
         :class="darkModeConf.textBtn"
         to="/profile/store/add"
       />
-    </q-page-sticky>
+    </q-page-sticky> -->
   </q-page>
 </template>
 

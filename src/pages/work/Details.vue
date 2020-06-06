@@ -3,7 +3,7 @@
     @click="handleRepeat"
     v-touch-swipe.mouse.left.right="handleSwipe"
     padding
-    v-touch-hold:800.mouse="handleHold"
+    v-touch-hold:650.mouse="handleHold"
   >
     <!-- content -->
     <div class="row justify-center">

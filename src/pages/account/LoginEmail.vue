@@ -6,7 +6,7 @@
         <q-icon :color="darkModeConf.iconVar" size="100px" name="account_circle" />
       </div>
       <div class="q-pa-lg col-md-4 col-12">
-        <q-form ref="loginForm" @reset="onReset" class="q-gutter-md">
+        <q-form ref="loginForm" @submit.prevent="onSubmit" @reset="onReset" class="q-gutter-md">
           <q-input
             rounded
             outlined
@@ -43,7 +43,7 @@
             <q-btn
               rounded
               label="Entrar"
-              @click="onSubmit()"
+              @click.prevent="onSubmit()"
               type="submit"
               :color="darkModeConf.iconVar"
               class="full-width"

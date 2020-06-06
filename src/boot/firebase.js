@@ -14,17 +14,41 @@ import "firebase/database";
 //     messagingSenderId: "147221850544",
 //     appId: "1:147221850544:web:c9c96cfe62f0665df28e75",
 // };
+
 const firebaseConfig = {
-    apiKey: "AIzaSyDAHfnJHuKcTBc7x9VARFcoLH1xFbA1_uM",
-    authDomain: "superactive-app.firebaseapp.com",
-    databaseURL: "https://superactive-app.firebaseio.com",
-    projectId: "superactive-app",
-    storageBucket: "superactive-app.appspot.com",
-    messagingSenderId: "199039594724",
-    appId: "1:199039594724:web:15c0d946bbc3bfc5723cf1",
-    measurementId: "G-XXBNZNEM7G"
-  };
-// storageBucket: "hack-a2a7b.appspot.com",
+  apiKey: "AIzaSyDAHfnJHuKcTBc7x9VARFcoLH1xFbA1_uM",
+  authDomain: "superactive-app.firebaseapp.com",
+  databaseURL: "https://superactive-app.firebaseio.com",
+  projectId: "superactive-app",
+  storageBucket: "superactive-app.appspot.com",
+  messagingSenderId: "199039594724",
+  appId: "1:199039594724:web:15c0d946bbc3bfc5723cf1",
+  measurementId: "G-XXBNZNEM7G"
+};
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyCUJ3VMnJ_DMAzBPDi6I6L8DE9K2Qmgsy8",
+//   authDomain: "superativo-app.firebaseapp.com",
+//   databaseURL: "https://superativo-app.firebaseio.com",
+//   projectId: "superativo-app",
+//   storageBucket: "superativo-app.appspot.com",
+//   messagingSenderId: "139804874788",
+//   appId: "1:139804874788:web:f5aec21794149117dc60b1",
+//   measurementId: "G-5LY0C0FBCV"
+// };
+
+// var firebaseConfig = {
+//   apiKey: "AIzaSyDAHfnJHuKcTBc7x9VARFcoLH1xFbA1_uM",
+//   authDomain: "superactive-app.firebaseapp.com",
+//   databaseURL: "https://superactive-app.firebaseio.com",
+//   projectId: "superactive-app",
+//   storageBucket: "superactive-app.appspot.com",
+//   messagingSenderId: "199039594724",
+//   appId: "1:199039594724:web:9cb46d154c633d64723cf1",
+//   measurementId: "G-9KVGP2TJ2P"
+// };
+// Initialize Firebase
+// firebase.initializeApp(firebaseConfig);
 
 const settings = {timestampsInSnapshots: true}; // firebase
 
@@ -35,6 +59,7 @@ const settings = {timestampsInSnapshots: true}; // firebase
 // firestoreDb.settings(settings)
 
 firebase.initializeApp(firebaseConfig);
+// firebase.analytics();
 
 // firebase.firestore().settings(settings);
 

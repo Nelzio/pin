@@ -38,7 +38,7 @@ export default {
         StatusBar.backgroundColorByHexString("#075e54");
         StatusBar.styleBlackOpaque();
       } else {
-        this.$q.addressbarColor.set("#fff");
+        this.$q.addressbarColor.set("#075e54");
       }
     } else {
       

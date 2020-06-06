@@ -110,7 +110,7 @@
                     </q-item-section>
                   </q-item>
 
-                  <q-separator v-if="curriculumDownload.docUrl" />
+                  <!-- <q-separator v-if="curriculumDownload.docUrl" />
 
                   <q-item v-if="curriculumDownload.docUrl" class="text-left" clickable v-ripple @click="dialogCV = true;">
                     <q-item-section avatar top>
@@ -119,7 +119,7 @@
                     <q-item-section :class="getFont.title">
                       Curiculum
                     </q-item-section>
-                  </q-item>
+                  </q-item> -->
                 </q-list>
               </q-tab-panel>
               <q-tab-panel v-else-if="getUser.profileType && getUser.profileType == 'organization'" name="ocupacao">

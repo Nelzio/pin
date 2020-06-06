@@ -3,7 +3,7 @@
     padding
     class="q-pt-xl q-pb-xl"
     v-touch-swipe.mouse.right="handleSwipe"
-    v-touch-hold:800.mouse="handleHold"
+    v-touch-hold:650.mouse="handleHold"
   >
     <!-- content -->
     <div class="row justify-center q-pt-md">
@@ -432,7 +432,7 @@ export default {
       
     },
 
-    uploadFile(filen) {
+    uploadFile(file) {
       const vm = this;
       var storageRef = fireStorage.ref();
       // Upload file and metadata to the object 'images/mountains.jpg'
