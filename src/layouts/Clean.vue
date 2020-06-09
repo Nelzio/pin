@@ -4,7 +4,7 @@
     <q-header elevated>
       <q-toolbar :class="[darkModeConf.bgColor]">
         <q-btn icon="arrow_back" :color="darkModeConf.iconVar" flat round dense @click="$router.go(-1)" size="lg" />
-        <q-toolbar-title class="text-center text-primary text-h6">Superactive | Conta</q-toolbar-title>
+        <q-toolbar-title class="text-center text-primary text-h6">Superativo | Conta</q-toolbar-title>
         <!-- <q-btn
           flat
           round

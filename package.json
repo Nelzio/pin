@@ -1,8 +1,8 @@
 {
-  "name": "superactive",
+  "name": "Superativo",
   "version": "0.0.1",
   "description": "App de inclusão no mercado de oportunidades",
-  "productName": "Superactive",
+  "productName": "Superativo",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
   "author": "Nélzio Sitoe <nelziositoe@gmail.com>",

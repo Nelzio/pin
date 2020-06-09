@@ -1,4 +1,4 @@
-# SuperActive App
+# Superativo App
 
 Aplicação para deficientes
 

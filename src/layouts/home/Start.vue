@@ -10,7 +10,7 @@
         <q-btn color="white" round>
           <q-img src="statics/app-logo-128x128.png" style="height: 50px" alt="">
         </q-btn>
-        Superactive</q-toolbar-title>
+        Superativo</q-toolbar-title>
       </q-toolbar>
     </q-header>-->
     <!-- <q-header height-hint="64">
@@ -18,7 +18,7 @@
         <q-toolbar-title class="text-center">
           <q-avatar class="bg-white">
             <q-img src="statics/app-logo-128x128.png" />
-          </q-avatar>Superactive
+          </q-avatar>Superativo
         </q-toolbar-title>
       </q-toolbar>
     </q-header> -->

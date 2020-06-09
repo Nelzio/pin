@@ -54,12 +54,12 @@
         <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font">
           <q-btn flat round to="/">
             <q-img src="statics/img/home/appLogo.png" style="height: 50px" alt />
-          </q-btn>Superactive
+          </q-btn>Superativo
         </q-toolbar-title>
         <q-toolbar-title shrink class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font" v-else>
           <q-btn flat round to="/">
             <q-img src="statics/img/home/appLogo.png" style="height: 50px" alt />
-          </q-btn>Superactive
+          </q-btn>Superativo
         </q-toolbar-title>
 
         <q-space />

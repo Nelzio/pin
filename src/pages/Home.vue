@@ -15,7 +15,7 @@
           <q-icon color="primary" name="img:statics/img/home/appLogoHome.png" size="96px" />
         </q-btn>
         <div class="q-mt-md text-center text-white q-gutter-y-sm">
-          <div class="text-h4">Superactive</div>
+          <div class="text-h4">Superativo</div>
           <div class="text-h6">Bem-vindo a plataforma mais inclusiva de Moçambique.</div>
         </div>
       </q-carousel-slide>
@@ -79,7 +79,7 @@ export default {
       lorem:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       textToSpeechRouter:
-        "Bem-vindo a plataforma Superactive.\n Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Deslize o dedo para a esquerda 3 vezes para ir a página inicial.\n Para desativar o modo de narração e vibração, vai até a Página de preferências e desabilite o modo de narração e vibração.\n Para repetir o áudio, deslize do dedo do topo da tela para baixo."
+        "Bem-vindo a plataforma Superativo.\n Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Deslize o dedo para a esquerda 3 vezes para ir a página inicial.\n Para desativar o modo de narração e vibração, vai até a Página de preferências e desabilite o modo de narração e vibração.\n Para repetir o áudio, deslize do dedo do topo da tela para baixo."
     };
   },
   computed: {
@@ -122,7 +122,7 @@ export default {
 
     accessibilityMode() {
       var textToSpeechRouter =
-        "Bem-vindo a plataforma Superactive. Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Para navegar até a página inicial deslize o dedo três vezes para a esquerda.\n Para desativar o modo de narração e vibração, vai até a página de preferências ou clique no botão no canto inferior direito da tela e desabilite o.\n Para repetir o áudio, deslize o dedo do topo da tela para baixo.";
+        "Bem-vindo a plataforma Superativo. Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Para navegar até a página inicial deslize o dedo três vezes para a esquerda.\n Para desativar o modo de narração e vibração, vai até a página de preferências ou clique no botão no canto inferior direito da tela e desabilite o.\n Para repetir o áudio, deslize o dedo do topo da tela para baixo.";
       if (window.hasOwnProperty("cordova")) {
         this.speakCordova(textToSpeechRouter);
       } else {

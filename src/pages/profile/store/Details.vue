@@ -8,7 +8,7 @@
         </q-card>
         <div v-if="mobile" class="row no-wrap items-center justify-end q-pa-md">
           <q-btn
-            @click="socialShare('https://hack-a2a7b.firebaseapp.com/store/details/' + getStore.key, {title: 'Superactive Store', description: getStore.title})"
+            @click="socialShare('https://hack-a2a7b.firebaseapp.com/store/details/' + getStore.key, {title: 'Superativo Store', description: getStore.title})"
             outline
             :color="darkModeConf.iconVar"
             rounded
@@ -20,8 +20,8 @@
           <div class="col ellipsis">
             <social-sharing
               :url="'https://hack-a2a7b.firebaseapp.com/store/details/' + getStore.key"
-              title="Superactive Store"
-              description="Superactive Store"
+              title="Superativo Store"
+              description="Superativo Store"
               :quote="getStore.title"
               inline-template
             >
