@@ -86,9 +86,7 @@
           <!-- <q-btn round dense flat icon="notifications">
             <q-badge color="primary" text-color="white" floating>2</q-badge>
           </q-btn>-->
-          <q-btn v-if="isUserAuth" round dense flat icon="message" :color="darkModeConf.iconVar" size="lg" to="/chat">
-            <q-badge v-if="numMessage" color="primary" text-color="white" floating>{{ numMessage }}</q-badge>
-          </q-btn>
+          <ChatCount />
           <q-btn v-if="isUserAuth" round flat>
             <q-avatar>
               <q-img :src="user.photoURL" />
@@ -306,6 +304,7 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 import { LocalStorage } from "quasar";
 import { firestoreDb } from "boot/firebase";
+import ChatCount from "components/layout/ChatCount"
 export default {
   // name: 'LayoutName',
 
@@ -396,6 +395,9 @@ export default {
       synth: window.speechSynthesis,
       itemsLayzeRef: []
     };
+  },
+  components: {
+    ChatCount
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
@@ -566,9 +568,9 @@ export default {
       this.getChat(vm);
     }
 
-    this.$root.$on("countMessages", val => {
-      this.getChat(vm);
-    });
+    // this.$root.$on("countMessages", val => {
+    //   this.getChat(vm);
+    // });
 
 
     // if (this.appMode == 1) {
