@@ -4,11 +4,7 @@
     <div class="row justify-center">
       <div class="col-12 col-md-6">
         <q-list separator>
-          <chat-list 
-            v-for="chat in chatList"
-            :key="chat.key"
-            :chat="chat"
-          />
+          <chat-list v-for="chat in chatList" :key="chat.key" :chat="chat" />
         </q-list>
       </div>
     </div>
@@ -18,14 +14,14 @@
 <script>
 import { firestoreDb, fireStorage, firebase } from "boot/firebase";
 import { mapState, mapActions, mapGetters } from "vuex";
-import ChatList from "components/chat/ChatList.vue"
+import ChatList from "components/chat/ChatList.vue";
 export default {
   // name: 'PageName',
   data() {
     return {
       chatData: [],
       chatList: [],
-      touchNums: 0,
+      touchNums: 0
     };
   },
   components: {
@@ -52,16 +48,23 @@ export default {
 
     getChat2() {
       const vm = this;
+      var start = true;
+      var chatList = [];
 
       var chatData = [];
-      var chatIDs = [""]
-      const refDoc = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]);
-      refDoc.onSnapshot((doc) => {
+      var chatIDs = [""];
+      const refDoc = firestoreDb
+        .collection("chat")
+        .doc(this.user.email.split("@")[0]);
+      refDoc.onSnapshot(doc => {
         if (doc.exists) {
-          if(doc.data().peopleChat) {
+          if (doc.data().peopleChat) {
             doc.data().peopleChat.forEach(element => {
               if (element !== "nobody") {
-                var refSender = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(element);
+                var refSender = firestoreDb
+                  .collection("chat")
+                  .doc(this.user.email.split("@")[0])
+                  .collection(element);
                 refSender.onSnapshot(function(querySnapshot) {
                   chatData = [];
                   querySnapshot.forEach(function(doc) {
@@ -78,25 +81,57 @@ export default {
                         message: doc.data().message,
                         readed: doc.data().readed
                       });
-                      chatIDs.push(doc.id)
+                      chatIDs.push(doc.id);
                     }
                   });
                   chatData.sort(function(a, b) {
                     return a.timeSend - b.timeSend;
                   });
-                  if (chatData[chatData.length - 1]) {
-                    vm.chatList.push(chatData[chatData.length - 1]);
-                    vm.chatList.sort(function(a, b) {
-                      return b.timeSend - a.timeSend;
-                    });
-                  } 
-                    
+
+                  if (start) {
+                    if (chatData[chatData.length - 1]) {
+                      chatList.push(chatData[chatData.length - 1]);
+                      chatList.sort(function(a, b) {
+                        return b.timeSend - a.timeSend;
+                      });
+                    }
+                    setTimeout(() => {
+                      vm.chatList = vm.listRedun(chatList);
+                      start = false;
+                    }, 2000);
+                  } else {
+                    if (chatData[chatData.length - 1]) {
+                      vm.chatList.push(chatData[chatData.length - 1]);
+                      vm.chatList.sort(function(a, b) {
+                        return b.timeSend - a.timeSend;
+                      });
+                    }
+                  }
                 });
               }
             });
           }
         }
       });
+    },
+
+    listRedun(list) {
+      // retorna lista sem valores repetidos
+      var listTemp = [];
+      var listReturn = [];
+      list.forEach(function(data) {
+        list.forEach(function(data2) {
+          if (data == data2) {
+            if (!listTemp.includes(JSON.stringify(data))) {
+              listTemp.push(JSON.stringify(data));
+              listReturn.push(data);
+            }
+          }
+        });
+      });
+      console.log(listTemp);
+      console.log(listReturn);
+      return listReturn;
     },
 
     objectPropInArray(list, prop1, val1, prop2, val2) {
@@ -109,14 +144,17 @@ export default {
         }
       }
       return false;
-    },
+    }
   },
   created() {},
   mounted() {
     // this.getChat();
     this.checkAuthUser();
     this.getChat2();
-    this.$root.$emit("textToSpeechRouter", "Página de lista de conversas.\n Clique uma vez pra ouvir o que está clicando e clique duas vezes para entrar na conversa.");
+    this.$root.$emit(
+      "textToSpeechRouter",
+      "Página de lista de conversas.\n Clique uma vez pra ouvir o que está clicando e clique duas vezes para entrar na conversa."
+    );
   }
 };
 </script>
