@@ -1,55 +1,6 @@
 <template>
   <q-page class="q-pb-xl" v-touch-swipe.mouse.left.right="handleSwipe">
     <!-- content -->
-
-    <!-- <div>
-      <div class="q-pl-sm text-h6">
-        Filtrar
-      </div>
-      <div>
-        <q-scroll-area
-          horizontal
-        >
-          <div class="row no-wrap q-pa-sm q-gutter-sm">
-            <q-card>
-              <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-            </q-card>
-            <q-card>
-              <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-            </q-card>
-            <q-card>
-              <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-            </q-card>
-            <q-card>
-              <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-            </q-card>
-            <q-card>
-              <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-            </q-card>
-            <q-card>
-              <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-            </q-card>
-            <q-card>
-              <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-            </q-card>
-            <q-card>
-              <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-            </q-card>
-            <q-card>
-              <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-            </q-card>
-            <q-card>
-              <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-            </q-card>
-            <q-card>
-              <q-icon :color="darkModeConf.iconVar" name="style" size="70px" />
-            </q-card>
-            
-          </div>
-        </q-scroll-area>
-      </div>
-    </div>-->
-
     <div
       v-if="!stories || loading"
       class="row justify-center q-gutter-y-md"
@@ -82,17 +33,31 @@
     </div>
 
     <div class="q-pb-xl" :class="cardClass" v-touch-swipe.mouse.left.right="handleSwipe">
-      <div v-if="!val_search && !filterVal" class="row q-gutter-y-md">
-        <div
-          ref="item"
-          class="col-12 col-md-4"
-          :class="padding"
-          v-for="store in stories"
-          :key="store.key"
-        >
-          <store-component :lorem="lorem" :store="store" />
+      <q-infinite-scroll v-if="!val_search && !filterVal" @load="onLoad" :offset="250">
+        <div class="row q-gutter-y-md">
+          <div
+            rref="item"
+            class="col-12 col-md-4"
+            :class="padding"
+            v-for="store in tempTestStories"
+            :key="store.key"
+          >
+            <store-component :lorem="lorem" :store="store" />
+          </div>
         </div>
-      </div>
+        <q-card v-if="endPage" class="my-card q-pt-lg">
+          <q-item clickable v-ripple>
+            <q-item-section>
+              <q-item-label class="text-center text-bold" :color="darkModeConf.iconVar">End Page</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-card>
+        <template v-else v-slot:loading>
+          <div class="row justify-center q-my-md">
+            <q-spinner-dots color="primary" size="40px" />
+          </div>
+        </template>
+      </q-infinite-scroll>
       <div v-else class="row q-gutter-y-md">
         <div
           ref="item"
@@ -117,14 +82,13 @@
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user && isUserAuth">
       <q-btn
-        fab
+        fab round
         :color="darkModeConf.iconVar"
         :class="darkModeConf.textBtn"
         to="/profile/store/add"
       >
         <q-icon size="lg" name="add" />
       </q-btn>
-      
     </q-page-sticky>
   </q-page>
 </template>
@@ -154,7 +118,11 @@ export default {
       rate: 0.8,
       synth: window.speechSynthesis,
       itemsLayzeRef: [],
-      lazyImages: []
+      lazyImages: [],
+      tempTestStories: [],
+      start: 0,
+      end: 50,
+      endPage: false
     };
   },
   computed: {
@@ -173,6 +141,32 @@ export default {
     ...mapActions("store", ["listStore", "createStore"]),
     ...mapActions("user", ["detailUser"]),
 
+    onLoad(index, done) {
+      let vm = this;
+      if (this.tempTestStories.length == this.stories.length) {
+        this.endPage = true;
+      } else {
+        setTimeout(() => {
+          if (vm.tempTestStories) {
+            vm.stories.slice(vm.start, vm.end).forEach(element => {
+              vm.tempTestStories.push(element);
+            });
+            vm.start = vm.end;
+            vm.end = vm.end + 50;
+            done();
+          }
+        }, 3000);
+      }
+    },
+
+    firstLoad() {
+      this.stories.slice(this.start, this.end).forEach(element => {
+        this.tempTestStories.push(element);
+      });
+      this.start = this.end;
+      this.end = this.end + 1;
+    },
+
     speak(userInput) {
       if (this.synth.speaking) {
         // console.error('speechSynthesis.speaking');
@@ -180,7 +174,7 @@ export default {
       }
       if (userInput !== "") {
         let sInstance = new SpeechSynthesisUtterance(userInput);
-        sInstance.lang = 'pt-BR';
+        sInstance.lang = "pt-BR";
         sInstance.onend = function(event) {
           // console.log('SpeechSynthesisUtterance.onend');
         };
@@ -313,6 +307,7 @@ export default {
   },
   created() {
     this.listStore();
+    this.firstLoad();
   },
   mounted() {
     // this.lazeItems();

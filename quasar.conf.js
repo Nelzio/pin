@@ -44,7 +44,7 @@ module.exports = function (ctx) {
       //            (not treeshaking Quasar; biggest bundle size; convenient)
       all: 'auto',
 
-      components: ['QSpace', "QBtn"],
+      components: ['QSpace', "QBtn", "QInfiniteScroll"],
       directives: [
           'TouchSwipe'
       ],

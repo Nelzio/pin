@@ -33,11 +33,27 @@
         </q-form>
       </div>
     </div>
+
+    <div>
+      <q-dialog v-model="doneDialog">
+          <q-card style="width: 90vw">
+            <q-card-section>
+              <div :class="getFont.title">Alterar senha</div>
+            </q-card-section>
+            <q-card-section :class="getFont.text">{{ message }}</q-card-section>
+            <q-card-actions align="right">
+              <q-btn v-if="error" rounded label="Ok" :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" @click="closeDialog()" />
+              <q-btn v-else rounded label="Ok" :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" @click="$router.push('/')" />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+    </div>
   </q-page>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
+import { Loading } from 'quasar';
 import { firebaseAuth } from "../../boot/firebase";
 export default {
   name: "LoginFormsComponent",
@@ -49,11 +65,15 @@ export default {
         password: ""
       },
       email: "",
-      isPwd: true
+      isPwd: true,
+      message: "",
+      error: false,
+      doneDialog: false
     };
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"])
+    ...mapState("settings", ["appMode", "darkModeConf"]),
+    ...mapGetters("settings", ["getMode", "getFont"]),
   },
   methods: {
     ...mapActions("auth", ["loginUser", "registerUser"]),
@@ -63,18 +83,32 @@ export default {
       return re.test(String(email).toLowerCase());
     },
 
+    closeDialog () {
+      this.error = false;
+      this.doneDialog = false;
+    },
+
     sendEmaiPassReset() {
+      Loading.show();
+      let vm = this;
       var auth = firebaseAuth;
 
       auth
         .sendPasswordResetEmail(this.email)
         .then(function() {
           // Email sent.
-          console.log("email enviado");
+          // console.log("email enviado");
+          Loading.hide();
+          vm.message = "Verifique a sua caixa de email!"
+          vm.doneDialog = true
         })
         .catch(function(error) {
           // An error happened.
-          console.log("Erro");
+          
+          vm.message = "Email incorrecto"
+          Loading.hide();
+          vm.error = true
+          vm.doneDialog = true
           console.log(error);
         });
     },
@@ -97,9 +131,9 @@ export default {
       if (val.direction === "right") {
         this.$router.push("/");
       }
-      if (val.direction === "down") {
-        this.$router.push("/");
-      }
+      // if (val.direction === "down") {
+      //   this.$router.push("/");
+      // }
     }
   },
 

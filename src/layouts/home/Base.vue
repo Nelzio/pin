@@ -86,7 +86,7 @@
           <!-- <q-btn round dense flat icon="notifications">
             <q-badge color="primary" text-color="white" floating>2</q-badge>
           </q-btn>-->
-          <ChatCount />
+          <ChatCount :readed="readed" />
           <q-btn v-if="isUserAuth" round flat>
             <q-avatar>
               <q-img :src="user.photoURL" />
@@ -310,6 +310,7 @@ export default {
 
   data() {
     return {
+      readed: false,
       textColor: "text-black",
       numStatusVibrate: 0,
       numMessage: 0,
@@ -568,9 +569,10 @@ export default {
       this.getChat(vm);
     }
 
-    // this.$root.$on("countMessages", val => {
-    //   this.getChat(vm);
-    // });
+    // // // // // this.$root.$on("countMessages", val => {
+    // // // // //   // this.getChat(vm);
+    // // // // //   this.readed = true;
+    // // // // // });
 
 
     // if (this.appMode == 1) {

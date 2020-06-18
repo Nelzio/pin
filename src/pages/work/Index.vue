@@ -30,7 +30,7 @@
     </div>
 
     <div class="q-pb-xl" :class="cardClass">
-      <div v-if="!val_search && !filterVal" class="row q-gutter-y-md">
+      <!-- <div v-if="!val_search && !filterVal" class="row q-gutter-y-md">
         <div
           ref="item"
           class="col-12 col-md-4"
@@ -40,7 +40,33 @@
         >
           <vacancy-component :lorem="lorem" :vacancy="vacancy" />
         </div>
-      </div>
+      </div> -->
+      <q-infinite-scroll v-if="!val_search && !filterVal" @load="onLoad" :offset="250">
+        <div class="row q-gutter-y-md">
+          <div
+            rref="item"
+            class="col-12 col-md-4"
+            :class="padding"
+            v-for="vacancy in tempVacancy"
+            :key="vacancy.key"
+          >
+            <vacancy-component :lorem="lorem" :vacancy="vacancy" />
+          </div>
+        </div>
+        <q-card v-if="endPage" class="my-card q-pt-lg">
+          <q-item clickable v-ripple>
+            <q-item-section>
+              <q-item-label class="text-center text-bold" :color="darkModeConf.iconVar">End Page</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-card>
+        
+        <template v-else v-slot:loading>
+          <div class="row justify-center q-my-md">
+            <q-spinner-dots color="primary" size="40px" />
+          </div>
+        </template>
+      </q-infinite-scroll>
       <div v-else class="row q-gutter-y-md">
         <div
           ref="item"
@@ -65,7 +91,7 @@
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user && isUserAuth">
       <q-btn
-        fab
+        fab round
         :color="darkModeConf.iconVar"
         :class="darkModeConf.textBtn"
         to="/profile/vacancy/add"
@@ -101,7 +127,11 @@ export default {
       rate: 0.8,
       synth: window.speechSynthesis,
       itemsLayzeRef: [],
-      lazyImages: []
+      lazyImages: [],
+      tempVacancy: [],
+      start: 0,
+      end: 50,
+      endPage: false
     };
   },
   computed: {
@@ -119,6 +149,32 @@ export default {
     ...mapActions("settings", ["setSettings", "playSound"]),
     ...mapActions("vacancy", ["listVacancy", "createVacancy"]),
     ...mapActions("user", ["detailUser"]),
+
+    onLoad(index, done) {
+      let vm = this;
+      if (this.tempVacancy.length == this.vacancies.length) {
+        this.endPage = true;
+      } else {
+        setTimeout(() => {
+          if (vm.tempVacancy) {
+            vm.vacancies.slice(vm.start, vm.end).forEach(element => {
+              vm.tempVacancy.push(element);
+            });
+            vm.start = vm.end;
+            vm.end = vm.end + 50;
+            done();
+          }
+        }, 3000);
+      }
+    },
+
+    firstLoad() {
+      this.vacancies.slice(this.start, this.end).forEach(element => {
+        this.tempVacancy.push(element);
+      });
+      this.start = this.end;
+      this.end = this.end + 1;
+    },
 
     speak(userInput) {
       if (this.synth.speaking) {
@@ -258,6 +314,7 @@ export default {
   },
   mounted() {
     // this.lazeItems();
+    this.firstLoad()
 
     if (this.vibrateState) {
       window.addEventListener("scroll", this.lazeItems);

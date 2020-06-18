@@ -44,7 +44,7 @@
             icon="done_all"
             @click="applyDialog = true"
           />
-          <q-btn v-else rounded :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" label="Cancelar" icon="close" @click="applyDialog = true" />
+          <q-btn v-else :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" rounded label="Cancelar" icon="close" @click="applyDialog = true" />
         </div>
         <div class="row justify-end q-gutter-x-md" v-else>
           <q-btn
@@ -52,11 +52,10 @@
             rounded
             :color="darkModeConf.iconVar"
             :class="darkModeConf.textBtn"
-            label="Candidatar-se"
+            label="Candastrar-se"
             icon="done_all"
             @click="routeToAccount()"
           />
-          <q-btn v-else rounded :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" label="Cancelar" icon="close" @click="applyDialog = true" />
         </div>
       </div>
     </div>
@@ -65,7 +64,7 @@
       <q-dialog v-model="applyDialog">
         <q-card style="width: 700px; max-width: 80vw;">
           <q-card-section>
-            <div class="text-h5">Confirmar</div>
+            <div :class="getFont.title">Confirmar</div>
           </q-card-section>
 
           <q-card-section
@@ -93,7 +92,7 @@
       <q-dialog v-model="applyDialogDone">
         <q-card style="width: 700px; max-width: 80vw;">
           <q-card-section>
-            <div class="text-h5">Confirmar</div>
+            <div :class="getFont.title">Confirmar</div>
           </q-card-section>
 
           <q-card-section
@@ -104,7 +103,7 @@
           <q-card-section v-else class="q-pt-none" :class="getFont.title">Candidatura cancelada com sucesso</q-card-section>
 
           <q-card-actions align="right">
-            <q-btn rounded outline label="OK" v-close-popup />
+            <q-btn rounded outline label="OK" :color="darkModeConf.iconVar" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -326,10 +325,13 @@ export default {
         .set(payload.data)
         .then(docRef => {
           console.log("aply success" + docRef);
-          if (window.hasOwnProperty("cordova")) {
-            this.speakCordova("Candidatura feita com sucesso.");
-          } else {
-            this.speak("Candidatura feita com sucesso.");
+          if (this.vibrateState) {
+            console.log("hehehehehehehe")
+            if (window.hasOwnProperty("cordova")) {
+              this.speakCordova("Candidatura feita com sucesso.");
+            } else {
+              this.speak("Candidatura feita com sucesso.");
+            }
           }
           this.applyDialog = false;
           this.getAply();
@@ -360,10 +362,12 @@ export default {
         .delete()
         .then(() => {
           this.applyDialog = false;
-          if (window.hasOwnProperty("cordova")) {
-            this.speakCordova("Candidatura removida com sucesso.");
-          } else {
-            this.speak("Candidatura removida com sucesso.");
+          if (this.vibrateState) {
+            if (window.hasOwnProperty("cordova")) {
+              this.speakCordova("Candidatura removida com sucesso.");
+            } else {
+              this.speak("Candidatura removida com sucesso.");
+            }
           }
           this.getAply();
           if (!this.vibrateState) {

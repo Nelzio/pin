@@ -129,8 +129,8 @@ export default {
           }
         });
       });
-      console.log(listTemp);
-      console.log(listReturn);
+      // console.log(listTemp);
+      // console.log(listReturn);
       return listReturn;
     },
 

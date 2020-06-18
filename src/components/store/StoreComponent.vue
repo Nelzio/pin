@@ -15,7 +15,9 @@
           <q-item-label v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'" caption>{{ user.email }}</q-item-label>
         </q-item-section>
       </q-item>
+      
 
+        <!-- :src="store.img" -->
       <q-skeleton v-if="!imgLoaded" height="230px" square />
       <q-img
         v-ripple
@@ -140,7 +142,9 @@ export default {
             this.lazyImages.getBoundingClientRect().bottom >= 0 &&
             getComputedStyle(this.lazyImages).display !== "none"
           ) {
-            this.imgLoaded = true;
+            setTimeout(() => {
+              this.imgLoaded = true;
+            }, 1000);
           }
         }
       }
@@ -148,7 +152,9 @@ export default {
   },
 
   mounted() {
-    this.layzeImg();
+    setTimeout(() => {
+      this.layzeImg();
+    }, 1000);
     window.addEventListener("scroll", this.layzeImg);
     window.addEventListener("resize", this.layzeImg);
     window.addEventListener("orientationchange", this.layzeImg);

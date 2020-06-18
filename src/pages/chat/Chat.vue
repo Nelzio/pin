@@ -131,6 +131,7 @@ export default {
         message: ""
       },
       setChatId: false,
+      idReceptor: "",
     };
   },
 
@@ -237,7 +238,7 @@ export default {
       //   return alert("Sem internet")
       // }
       const vm = this;
-      const ref = firestoreDb.collection("chat").doc(this.$route.params.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
+      const ref = firestoreDb.collection("chat").doc(this.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
       var chatData = [];
       var chatDataObj = {};
       // const
@@ -267,13 +268,19 @@ export default {
     },
     getChatToRead() {
       const vm = this;
-      const ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.$route.params.idReceptor.split('@')[0]);
+      const ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.idReceptor.split('@')[0]);
       var chatDataObj = {};
       
       ref.onSnapshot(function(querySnapshot) {
         chatDataObj = {};
         querySnapshot.forEach(function(doc) {
-          if (!doc.data().readed && doc.data().sender !== vm.user.email) {
+          console.log(doc.data().sender)
+          console.log(vm.user.email)
+          console.log(doc.data().readed)
+          if (doc.data().message == "lalala") {
+            console.log(doc.data().message)
+          }
+          if (!doc.data().readed) {
             chatDataObj = {
               key: doc.id,
               email: doc.data().email,
@@ -287,13 +294,14 @@ export default {
               readed: true
             };
             vm.updateMessage(chatDataObj);
+            console.log("Uppppp")
           }
         });
       });
     },
 
     updateMessage(payload) {
-        var ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.$route.params.idReceptor.split('@')[0]).doc(payload.key);
+        var ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.idReceptor.split('@')[0]).doc(payload.key);
         ref.set(payload).then(docRef => {
           this.$root.$emit("countMessages", "Count Messages")
         }).catch((error) => {
@@ -310,7 +318,7 @@ export default {
       // var yyyy = today.getFullYear();
       // today = mm + '/' + dd + '/' + yyyy;
 
-      this.message.receptorUser = this.$route.params.idReceptor;
+      this.message.receptorUser = this.idReceptor;
       this.message.email = this.user.email;
       this.message.sender = this.user.email;
       this.message.displayName = this.user.displayName;
@@ -318,11 +326,11 @@ export default {
       this.message.imgUserUrl = this.user.photoURL;
       this.message.readed = false;
 
-      const ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.$route.params.idReceptor.split('@')[0]);
-      const refReceptor = firestoreDb.collection("chat").doc(this.$route.params.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
+      const ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.idReceptor.split('@')[0]);
+      const refReceptor = firestoreDb.collection("chat").doc(this.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
       ref.add(this.message).then(docRef => {
         this.message.receptorUser = this.user.email;
-        this.message.email = this.$route.params.idReceptor;
+        this.message.email = this.idReceptor;
         refReceptor.add(this.message).then(docRef => {
           this.message = {
             message: ""
@@ -381,8 +389,8 @@ export default {
       this.message.readed = false;
       this.message.audio = voice;
 
-      const ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.$route.params.idReceptor.split('@')[0]);
-      const refReceptor = firestoreDb.collection("chat").doc(this.$route.params.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
+      const ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.idReceptor.split('@')[0]);
+      const refReceptor = firestoreDb.collection("chat").doc(this.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
       ref.add(this.message).then(docRef => {
         this.message.receptorUser = this.user.email;
         this.message.email = this.$route.params.idReceptor;
@@ -487,6 +495,7 @@ export default {
   },
   created() {
     this.detailUserStore(this.$route.params.idReceptor);
+    this.idReceptor = this.$route.params.idReceptor;
   },
   mounted() {
     this.checkAuthUser();

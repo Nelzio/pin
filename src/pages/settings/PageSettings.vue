@@ -148,7 +148,7 @@
 
       <div>
         <q-dialog v-model="deletDialog">
-          <q-card class="text-red">
+          <q-card class="text-red"  style="width: 90vw">
             <q-card-section>
               <div v-if="providerId == 'password'" :class="getFont.title">Introduza sua senha</div>
               <div v-else :class="getFont.title">Remover conta</div>
@@ -183,7 +183,7 @@
           </q-card>
         </q-dialog>
         <q-dialog v-model="logOutDialog">
-          <q-card>
+          <q-card  style="width: 90vw">
             <q-card-section>
               <div :class="getFont.title">Sair da conta</div>
             </q-card-section>
@@ -247,7 +247,6 @@ export default {
       "fontConfig"
     ]),
     ...mapGetters("settings", ["getMode", "getFont"]),
-    ...mapGetters("settings", ["getFont"]),
     ...mapGetters("auth", ["user", "userData", "isUserAuth"])
 
     // ...mapGetters('settings', [

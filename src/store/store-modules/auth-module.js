@@ -1,6 +1,6 @@
 import { LocalStorage, Loading, Notify } from 'quasar'
 import { firebaseAuth, firestoreDb, fireStorage, firebase } from "../../boot/firebase"
-import { showErrorMessage } from "../../functions/handle-error-messages"
+import { showErrorMessage, loginErrorMessage } from "../../functions/handle-error-messages"
 
 import { deleteCandidature } from "../../functions/usermanager/deleteCandidature"
 import { deleteChat } from "../../functions/usermanager/deleteChat"
@@ -219,12 +219,12 @@ const actions = {
                         ref.get().then((doc) => {
                             if (doc.exists) {
                                 if (LocalStorage.getItem("routeBack")) {
-                                    this.$router.push("/")
-                                    this.$router.push(LocalStorage.getItem("routeBack"))
+                                    vm.$router.push("/")
+                                    vm.$router.push(LocalStorage.getItem("routeBack"))
                                     LocalStorage.set("routeBack", "")
                                     Loading.hide()
                                 } else {
-                                    this.$router.push('/')
+                                    vm.$router.push('/')
                                     Loading.hide()
                                 }
                             } else {
@@ -264,6 +264,7 @@ const actions = {
                         })
                     }).catch(function (error) {
                         // An error happened.
+                        showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
                     });
 
                 }
@@ -272,7 +273,7 @@ const actions = {
                 commit("AUTH_USER", null)
                 Loading.hide()
                 // showErrorMessage(error.message)
-                showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
+                loginErrorMessage("Ops! Ocorreu um erro durante o processamento.")
             })
     },
 
@@ -906,12 +907,13 @@ const actions = {
                 }).catch(error => {
                     console.log(error)
                     Loading.hide()
-                    showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
+                    showErrorMessage("Ops! Ocorreu um erro durante o processamento.", true)
                 })
             })
             .catch(error => {
                 Loading.hide()
-                showErrorMessage("Ops! Ocorreu um erro durante o processamento.")
+                console.log(error)
+                loginErrorMessage("Email ou senha incorrecto! Crie uma conta se não tiver.")
             })
     },
 
@@ -1027,6 +1029,7 @@ const actions = {
             console.log("Error getting document:", error);
         });
     },
+
     deleteUser({ commit }, payload) {
         Loading.show()
         const vm = this;
