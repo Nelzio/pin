@@ -83,7 +83,8 @@ export default {
               public: doc.data().public,
               place: doc.data().place,
               validate: doc.data().validate,
-              category: doc.data().category
+              category: doc.data().category,
+              timeSend: doc.data().timeSend
             });
           });
           if (update) vm.myVacancies = myVacancies;

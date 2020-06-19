@@ -267,20 +267,21 @@ export default {
       });
     },
     getChatToRead() {
+      // console.log("Read Mounted")
       const vm = this;
       const ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.idReceptor.split('@')[0]);
       var chatDataObj = {};
       
-      ref.onSnapshot(function(querySnapshot) {
+      ref.get().then(function(querySnapshot) {
         chatDataObj = {};
         querySnapshot.forEach(function(doc) {
-          console.log(doc.data().sender)
-          console.log(vm.user.email)
-          console.log(doc.data().readed)
-          if (doc.data().message == "lalala") {
-            console.log(doc.data().message)
-          }
-          if (!doc.data().readed) {
+          // console.log(doc.data().sender)
+          // console.log(vm.user.email)
+          // console.log(doc.data().readed)
+          // if (doc.data().message == "lalala") {
+          //   console.log(doc.data().message)
+          // }
+          if (!doc.data().readed && doc.data().sender !== vm.user.email) {
             chatDataObj = {
               key: doc.id,
               email: doc.data().email,
@@ -294,15 +295,17 @@ export default {
               readed: true
             };
             vm.updateMessage(chatDataObj);
-            console.log("Uppppp")
+            // console.log("Uppppp")
           }
         });
       });
     },
 
     updateMessage(payload) {
+      // console.log("Update Mounted")
         var ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.idReceptor.split('@')[0]).doc(payload.key);
         ref.set(payload).then(docRef => {
+          // console.log("Update method")
           this.$root.$emit("countMessages", "Count Messages")
         }).catch((error) => {
           alert("Error update document: ", error);
@@ -501,6 +504,7 @@ export default {
     this.checkAuthUser();
     this.getChat();
     this.getChatToRead()
+    // console.log("Mounted")
     window.scroll(0, window.innerHeight + 200);
     
   }, 

@@ -191,8 +191,10 @@ export default {
         place: data.place,
         category: data.category,
         validate: data.validate,
+        timeSend: data.timeSend,
         public: !val
       };
+
       this.updateVacancyHere({
         id: id,
         data: dataAux

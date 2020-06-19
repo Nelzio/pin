@@ -180,7 +180,8 @@ export default {
         place: data.place,
         subCategory: data.subCategory,
         price: data.price,
-        priceVariable: data.priceVariable
+        priceVariable: data.priceVariable,
+        timeSend: data.timeSend,
       };
       this.updateStoreHere({
         id: id,

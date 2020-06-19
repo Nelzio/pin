@@ -122,7 +122,8 @@ export default {
       tempTestStories: [],
       start: 0,
       end: 50,
-      endPage: false
+      endPage: false,
+      first: true
     };
   },
   computed: {
@@ -307,10 +308,11 @@ export default {
   },
   created() {
     this.listStore();
-    this.firstLoad();
+    // this.firstLoad();
   },
   mounted() {
     // this.lazeItems();
+    // this.first = true;
 
     if (this.vibrateState) {
       window.addEventListener("scroll", this.lazeItems);
@@ -386,10 +388,15 @@ export default {
     },
     filterVal(val) {
       this.search(val);
+    },
+    stories() {
+      // this.lazeItems();
+      if (this.first) {
+        this.firstLoad();
+        this.first = false;
+      }
     }
-    // stories() {
-    //   this.lazeItems();
-    // }
+    
   }
 };
 </script>

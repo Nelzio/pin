@@ -131,7 +131,8 @@ export default {
       tempVacancy: [],
       start: 0,
       end: 50,
-      endPage: false
+      endPage: false,
+      first: false
     };
   },
   computed: {
@@ -169,8 +170,10 @@ export default {
     },
 
     firstLoad() {
+      console.log("Hey")
       this.vacancies.slice(this.start, this.end).forEach(element => {
         this.tempVacancy.push(element);
+        console.log("Hey2")
       });
       this.start = this.end;
       this.end = this.end + 1;
@@ -314,7 +317,8 @@ export default {
   },
   mounted() {
     // this.lazeItems();
-    this.firstLoad()
+    this.first = true;
+    // this.firstLoad();
 
     if (this.vibrateState) {
       window.addEventListener("scroll", this.lazeItems);
@@ -366,10 +370,14 @@ export default {
     },
     filterVal(val) {
       this.search(val);
+    },
+    vacancies() {
+      // this.lazeItems();
+      if (this.first) {
+        this.firstLoad();
+        this.first = false;
+      }
     }
-    // vacancies() {
-    //   this.lazeItems();
-    // }
   }
 };
 </script>
