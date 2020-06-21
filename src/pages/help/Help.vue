@@ -1,28 +1,32 @@
 <template>
   <q-page padding>
-    <div class="q-gutter-y-lg q-pa-lg">
+    <div class="q-gutter-y-lg">
       <q-card class="my-card" flat>
+        <q-video
+          v-if="!$q.screen.gt.sm"
+          src="https://www.youtube.com/embed/_tyjqozrEPY"
+          :ratio="16/9"
+        />
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs">
             <div :class="getFont.title" class="q-mt-sm q-pt-xs text-justify">Superativo</div>
-            <div
-              :class="getFont.text" class="text-justify"
-            >Superativo é um aplicativo de ofertas de emprego e de auto empregabilidade. <br>
-            Os usuários podem encontrar e disponibilizar ofertas de emprego e publicar seus produtos e serviços. <br>
-            Existem dois tipos de usuários no aplicativo, nomeadamente, usuários particulares e entidades ou empresas ou organizações legais. <br>
-            O aplicativo não descrimina a ninguém, por isso foi desenvolvido pensando em todo tipo de usuário, não para pessoas com uma deficiência específica. Pode usar o aplicativo todo tipo de usuário.</div>
+            <div :class="getFont.text" class="text-justify">
+              Superativo é um aplicativo de ofertas de emprego e de auto empregabilidade.
+              <br />Os usuários podem encontrar e disponibilizar ofertas de emprego e publicar seus produtos e serviços.
+              <br />Existem dois tipos de usuários no aplicativo, nomeadamente, usuários particulares e entidades ou empresas ou organizações legais.
+              <br />O aplicativo não descrimina a ninguém, por isso foi desenvolvido pensando em todo tipo de usuário, não para pessoas com uma deficiência específica. Pode usar o aplicativo todo tipo de usuário.
+            </div>
           </q-card-section>
 
-          <q-card-section class="col-7">
-            <q-video src="https://www.youtube.com/embed/_tyjqozrEPY" :ratio="16/9"/>
+          <q-card-section v-if="$q.screen.gt.sm" class="col-7">
+            <q-video src="https://www.youtube.com/embed/_tyjqozrEPY" :ratio="16/9" />
           </q-card-section>
         </q-card-section>
       </q-card>
       <q-card class="my-card" flat>
+        <q-img v-if="!$q.screen.gt.sm" class="rounded-borders" src="statics/img/home/djob.png" />
         <q-card-section horizontal>
-          
-
-          <q-card-section class="col-5 flex flex-center">
+          <q-card-section v-if="$q.screen.gt.sm" class="col-5 flex flex-center">
             <q-img class="rounded-borders" src="statics/img/home/djob.png" />
           </q-card-section>
           <q-card-section class="q-pt-xs">
@@ -34,6 +38,7 @@
         </q-card-section>
       </q-card>
       <q-card class="my-card" flat>
+        <q-img v-if="!$q.screen.gt.sm" class="rounded-borders" src="statics/img/home/business.png" />
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs">
             <div :class="getFont.title" class="q-mt-sm q-pt-xs text-justify">Negócio</div>
@@ -41,14 +46,19 @@
               :class="getFont.text"
             >Exponha os seus produtos e serviços e também encontre produtos e serviços de outros utilizadores da plataforma. Alcance mais fácil os seu clientes e encontre rápido o que deseja.</div>
           </q-card-section>
-          <q-card-section class="col-5 flex flex-center">
+          <q-card-section v-if="$q.screen.gt.sm" class="col-5 flex flex-center">
             <q-img class="rounded-borders" src="statics/img/home/business.png" />
           </q-card-section>
         </q-card-section>
       </q-card>
       <q-card class="my-card" flat>
+        <q-img
+          v-if="!$q.screen.gt.sm"
+          class="rounded-borders"
+          src="statics/img/home/inclusive.png"
+        />
         <q-card-section horizontal>
-          <q-card-section class="col-5 flex flex-center">
+          <q-card-section v-if="$q.screen.gt.sm" class="col-5 flex flex-center">
             <q-img class="rounded-borders" src="statics/img/home/inclusive.png" />
           </q-card-section>
           <q-card-section class="q-pt-xs">
@@ -71,5 +81,8 @@ export default {
     ...mapState("settings", ["vibrateState", "homeSpeak"]),
     ...mapGetters("settings", ["getFont", "getStart"])
   },
-}
+  mounted() {
+    // console.log(this.$q.screen.lt);
+  }
+};
 </script>

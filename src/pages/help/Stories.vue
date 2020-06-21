@@ -1,9 +1,17 @@
 <template>
   <q-page padding>
-    <div class="q-gutter-y-lg q-pa-lg">
+    <div class="q-gutter-y-lg">
       <q-card class="my-card" flat>
+        <div class="flex flex-center">
+          <q-img
+            v-if="!$q.screen.gt.sm"
+            class="rounded-borders"
+            src="statics/help/stories/Imagem.png"
+            style="height: 100%; width: 60vw;"
+          />
+        </div>
         <q-card-section horizontal>
-          <q-card-section class="col-6 flex flex-center">
+          <q-card-section v-if="$q.screen.gt.sm" class="col-6 flex flex-center">
             <q-img
               class="rounded-borders"
               src="statics/help/stories/Imagem.png"
@@ -21,21 +29,36 @@
         </q-card-section>
       </q-card>
       <q-card class="my-card" flat>
+        <div class="flex flex-center">
+          <q-img
+            v-if="!$q.screen.gt.sm"
+            class="rounded-borders"
+            src="statics/help/stories/add.png"
+            style="height: 100%; width: 60vw;"
+          />
+        </div>
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs text-justify">
             <div :class="getFont.title" class="q-mt-sm q-mb-xs">Adição de produto ou serviço</div>
             <div :class="getFont.text">
-              <br /><p>Imagem da vaga: A imagem deve ser auto explicativa sobre a o produto ou serviço para facilitar a compreensão dos usuários que tenham alguma dificuldade de leitura.</p>
-              <br /><b>Título:</b> Título do produto ou serviço;
-              <br /><b>Categoria:</b> Indica se é um produto ou serviço;
-              <br /><b>Província:</b> Província em que o produto ou serviço está disponível;
-              <br /><b>Subcategoria:</b> Categoria do produto ou serviço;
-              <br /><b>Preço:</b> O produto ou serviço pode ter um preço ou não e ser negociável.
-              <br /><b>Descrição:</b>
+              <br />
+              <p>Imagem da vaga: A imagem deve ser auto explicativa sobre a o produto ou serviço para facilitar a compreensão dos usuários que tenham alguma dificuldade de leitura.</p>
+              <br />
+              <b>Título:</b> Título do produto ou serviço;
+              <br />
+              <b>Categoria:</b> Indica se é um produto ou serviço;
+              <br />
+              <b>Província:</b> Província em que o produto ou serviço está disponível;
+              <br />
+              <b>Subcategoria:</b> Categoria do produto ou serviço;
+              <br />
+              <b>Preço:</b> O produto ou serviço pode ter um preço ou não e ser negociável.
+              <br />
+              <b>Descrição:</b>
               Descrição completa e clara sobre o produto ou serviço.
             </div>
           </q-card-section>
-          <q-card-section class="col-5 flex flex-center">
+          <q-card-section v-if="$q.screen.gt.sm" class="col-5 flex flex-center">
             <q-img
               class="rounded-borders"
               src="statics/help/stories/add.png"
@@ -45,6 +68,14 @@
         </q-card-section>
       </q-card>
       <q-card class="my-card" flat>
+        <div class="flex flex-center">
+          <q-img
+            v-if="!$q.screen.gt.sm"
+            class="rounded-borders"
+            src="statics/help/stories/edit.png"
+            style="height: 100%; width: 60vw;"
+          />
+        </div>
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs text-justify">
             <div :class="getFont.title" class="q-mt-sm q-mb-xs">Edição de produto ou serviço</div>
@@ -57,7 +88,7 @@
               <div>Detalhes das vagas: O botão de detalhes do produto ou serviço redireciona o usuário para a página de detalhes de seu o produto ou serviço onde pode para além de ver a descrição, pode editar, apagar, ocultar e partilhar a publicação nas redes sociais.</div>
             </div>
           </q-card-section>
-          <q-card-section class="col-5 flex flex-center">
+          <q-card-section v-if="$q.screen.gt.sm" class="col-5 flex flex-center">
             <q-img
               class="rounded-borders"
               src="statics/help/stories/edit.png"

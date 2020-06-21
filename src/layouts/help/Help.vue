@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh Lpr lff" class="bg-grey-1">
     <q-header elevated class="bg-white text-grey-8" height-hint="64">
-      <q-toolbar class="GNL__toolbar">
+      <q-toolbar class="GNL__toolbar" :class="[darkModeConf.bgColor, darkModeConf.textColor]">
         <q-btn
           flat
           dense
@@ -35,19 +35,18 @@
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
-      bordered
-      content-class="bg-white"
       :width="200"
       :breakpoint="500"
     >
       <q-scroll-area class="fit">
-        <q-list padding class="text-grey-8">
+        <q-list padding>
           <q-item class="GNL__drawer-item" v-ripple v-for="link in links1" :key="link.text" :to="link.to" clickable>
             <q-item-section avatar>
-              <q-icon :name="link.icon" />
+              <q-icon v-if="link.img" :name="'img:' + link.img" />
+              <q-icon :color="darkModeConf.iconVar" v-else :name="link.icon" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
+              <q-item-label :class="darkModeConf.textColor">{{ link.text }}</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -67,7 +66,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view :class="[darkModeConf.bgColor, darkModeConf.textColor]" />
       <!-- <q-page padding>
           <p v-for="n in 15" :key="n">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
@@ -94,7 +93,7 @@ export default {
       byWebsite: '',
       byDate: 'Any time',
       links1: [
-        { icon: 'web', text: 'Overview', to: "/help" },
+        { icon: 'web', text: 'Overview', to: "/help", img: "statics/img/home/appLogo.png" },
         { icon: 'home', text: 'Página Inicial', to: "/help/home" },
         { icon: 'work', text: 'Vagas', to: "/help/vacancies" },
         { icon: 'store', text: 'Negocio', to: "/help/stories" },

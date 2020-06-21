@@ -1,9 +1,17 @@
 <template>
   <q-page padding>
-    <div class="q-gutter-y-lg q-pa-lg">
+    <div class="q-gutter-y-lg">
       <q-card class="my-card" flat>
+        <div class="flex flex-center">
+          <q-img
+            v-if="!$q.screen.gt.sm"
+            class="rounded-borders"
+            src="statics/help/vacancies/Imagem1.png"
+            style="height: 100%; width: 60vw;"
+          />
+        </div>
         <q-card-section horizontal>
-          <q-card-section class="col-6 flex flex-center">
+          <q-card-section v-if="$q.screen.gt.sm" class="col-6 flex flex-center">
             <q-img
               class="rounded-borders"
               src="statics/help/vacancies/Imagem1.png"
@@ -17,6 +25,14 @@
         </q-card-section>
       </q-card>
       <q-card class="my-card" flat>
+        <div class="flex flex-center">
+          <q-img
+            v-if="!$q.screen.gt.sm"
+            class="rounded-borders"
+            src="statics/help/vacancies/candidature.png"
+            style="height: 100%; width: 60vw;"
+          />
+        </div>
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs text-justify">
             <div
@@ -25,7 +41,7 @@
             >Candidatar-se a vaga e cancelar candidatura</div>
             <div :class="getFont.text">{{ candidature }}</div>
           </q-card-section>
-          <q-card-section class="col-5 flex flex-center">
+          <q-card-section v-if="$q.screen.gt.sm" class="col-5 flex flex-center">
             <q-img
               class="rounded-borders"
               src="statics/help/vacancies/candidature.png"
@@ -35,6 +51,14 @@
         </q-card-section>
       </q-card>
       <q-card class="my-card" flat>
+        <div class="flex flex-center">
+          <q-img
+            v-if="!$q.screen.gt.sm"
+            class="rounded-borders"
+            src="statics/help/vacancies/add.png"
+            style="height: 100%; width: 60vw;"
+          />
+        </div>
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs text-justify">
             <div :class="getFont.title" class="q-mt-sm q-mb-xs">Adição de vaga</div>
@@ -63,7 +87,7 @@
               </div>
             </div>
           </q-card-section>
-          <q-card-section class="col-5 flex flex-center">
+          <q-card-section v-if="$q.screen.gt.sm" class="col-5 flex flex-center">
             <q-img
               class="rounded-borders"
               src="statics/help/vacancies/add.png"
@@ -73,6 +97,14 @@
         </q-card-section>
       </q-card>
       <q-card class="my-card" flat>
+        <div class="flex flex-center">
+          <q-img
+            v-if="!$q.screen.gt.sm"
+            class="rounded-borders"
+            src="statics/help/vacancies/edit.png"
+            style="height: 100%; width: 60vw;"
+          />
+        </div>
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs text-justify">
             <div :class="getFont.title" class="q-mt-sm q-mb-xs">Edição de vaga</div>
@@ -97,7 +129,7 @@
               </div>
             </div>
           </q-card-section>
-          <q-card-section class="col-5 flex flex-center">
+          <q-card-section v-if="$q.screen.gt.sm" class="col-5 flex flex-center">
             <q-img
               class="rounded-borders"
               src="statics/help/vacancies/edit.png"

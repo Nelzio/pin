@@ -1,9 +1,17 @@
 <template>
   <q-page padding>
-    <div class="q-gutter-y-lg q-pa-lg">
+    <div class="q-gutter-y-lg">
       <q-card class="my-card" flat>
+        <div class="flex flex-center">
+        <q-img
+          v-if="!$q.screen.gt.sm"
+          class="rounded-borders"
+          src="statics/help/profile/profile.png"
+          style="height: 100%; width: 60vw;"
+        />
+        </div>
         <q-card-section horizontal>
-          <q-card-section class="col-6 flex flex-center">
+          <q-card-section v-if="$q.screen.gt.sm" class="col-6 flex flex-center">
             <q-img
               class="rounded-borders"
               src="statics/help/profile/profile.png"
@@ -19,6 +27,11 @@
         </q-card-section>
       </q-card>
       <q-card class="my-card" flat>
+          <q-img
+            v-if="!$q.screen.gt.sm"
+            class="rounded-borders"
+            src="statics/help/profile/addvideo.png"
+          />
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs text-justify">
             <div :class="getFont.title" class="q-mt-sm q-mb-xs">Adição, troca e remoção de vídeo</div>
@@ -26,11 +39,10 @@
               :class="getFont.text"
             >O vídeo do perfil pode ser adicionado de duas maneiras: Carregando um ficheiro de vídeo clicando no botão de carregar vídeo ou adicionando um link de onde possa estar o vídeo clicando no botão link.</div>
           </q-card-section>
-          <q-card-section class="col-5 flex flex-center">
+          <q-card-section v-if="$q.screen.gt.sm" class="col-5 flex flex-center">
             <q-img
               class="rounded-borders"
               src="statics/help/profile/addvideo.png"
-              style="height: 100%; width: 20vw;"
             />
           </q-card-section>
         </q-card-section>
@@ -54,8 +66,16 @@
             />
           </q-card-section>
         </q-card-section>
-      </q-card> -->
+      </q-card>-->
       <q-card class="my-card" flat>
+        <div class="flex flex-center">
+        <q-img
+          v-if="!$q.screen.gt.sm"
+          class="rounded-borders"
+          src="statics/help/profile/activity.png"
+          style="height: 100%; width: 80vw;"
+        />
+        </div>
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs text-justify">
             <div :class="getFont.title" class="q-mt-sm q-mb-xs">Candidaturas e Actividades</div>
@@ -63,11 +83,10 @@
               :class="getFont.text"
             >O aplicativo regista algumas actividades do usuário na pagina do seu perfil para facilitar o acesso delas. As actividades são: candidaturas, adição de vagas, e adição de produtos e serviços.</div>
           </q-card-section>
-          <q-card-section class="col-5 flex flex-center">
+          <q-card-section v-if="$q.screen.gt.sm" class="col-5 flex flex-center">
             <q-img
               class="rounded-borders"
               src="statics/help/profile/activity.png"
-              style="height: 100%; width: 20vw;"
             />
           </q-card-section>
         </q-card-section>
