@@ -68,6 +68,20 @@ const routes = [
       { path: 'edit', component: () => import('pages/account/ResetProfile.vue') },
     ]
   },
+  {
+    path: '/help',
+    component: () => import('layouts/help/Help.vue'),
+    children: [
+      { path: '', component: () => import('pages/help/Help.vue') },
+      { path: 'home', component: () => import('pages/help/Home.vue') },
+      { path: 'vacancies', component: () => import('pages/help/Vacancies.vue') },
+      { path: 'stories', component: () => import('pages/help/Stories.vue') },
+      { path: 'chat', component: () => import('pages/help/Chat.vue') },
+      { path: 'accessibility', component: () => import('pages/help/Accessibility.vue') },
+      { path: 'profile', component: () => import('pages/help/Profile.vue') },
+      { path: 'settings', component: () => import('pages/help/Settings.vue') },
+    ]
+  },
 ]
 
 // Always leave this as last one

@@ -130,9 +130,12 @@
         </div>
         <div class="row text-center justify-center">
           <q-card class="col-12">
-            <!-- <my-video ref="player" :sources="video.sources" :options="video.options"></my-video> -->
-            <q-video v-if="videoDownload.videoUrl" :src="videoDownload.videoUrl" controls controlsList="nodownload"/>
-            
+            <q-video
+              v-if="videoDownload.videoUrl && videoDownload.from == 'link'"
+              :ratio="16/9"
+              :src="videoDownload.videoUrl"
+            />
+            <VideoProfile v-else-if="videoDownload.videoUrl" :videoUrl="videoDownload.videoUrl" />
           </q-card>
         </div>
         <q-separator />
@@ -243,6 +246,7 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { firebaseAuth, firestoreDb, fireStorage, firebase } from "boot/firebase";
+import VideoProfile from "components/profile/VideoProfile.vue";
 import offline from "v-offline";
 import pdf from 'vue-pdf';
 // import myVideo from 'vue-video';
@@ -284,7 +288,7 @@ export default {
       },
     };
   },
-  components: { pdf },
+  components: { VideoProfile, pdf },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapGetters("user", ["getUser"]),

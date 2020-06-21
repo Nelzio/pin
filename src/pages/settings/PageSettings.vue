@@ -10,7 +10,6 @@
               icon="settings_applications"
               label="Definições do app"
               :class="getFont.text"
-              
             >
               <q-card>
                 <q-item>
@@ -63,7 +62,7 @@
             </q-expansion-item>
 
             <q-expansion-item
-              v-if="user && isUserAuth" 
+              v-if="user && isUserAuth"
               expand-separator
               default-opened
               icon="perm_identity"
@@ -91,7 +90,7 @@
                     <q-item-label :class="getFont.text">Editar conta</q-item-label>
                   </q-item-section>
                 </q-item>
-                <q-item v-else clickable v-ripple @click='dialogAddProfile = true'>
+                <q-item v-else clickable v-ripple @click="dialogAddProfile = true">
                   <q-item-section avatar>
                     <q-icon :color="darkModeConf.iconVar" name="edit" />
                   </q-item-section>
@@ -142,13 +141,22 @@
                 </q-item>
               </q-card>
             </q-expansion-item>
+            <q-item clickable v-ripple to="/help">
+              <q-item-section avatar>
+                <q-icon :color="darkModeConf.iconVar" name="help" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-item-label :class="getFont.text">Ajuda</q-item-label>
+              </q-item-section>
+            </q-item>
           </q-list>
         </div>
       </div>
 
       <div>
         <q-dialog v-model="deletDialog">
-          <q-card class="text-red"  style="width: 90vw">
+          <q-card class="text-red" style="width: 90vw">
             <q-card-section>
               <div v-if="providerId == 'password'" :class="getFont.title">Introduza sua senha</div>
               <div v-else :class="getFont.title">Remover conta</div>
@@ -167,7 +175,8 @@
                 :rules="[ val => val && val.length > 0 || 'Introduza a sua senha']"
               >
                 <template v-slot:append>
-                  <q-icon :color="darkModeConf.iconVar"
+                  <q-icon
+                    :color="darkModeConf.iconVar"
                     :name="isPwd ? 'visibility_off' : 'visibility'"
                     class="cursor-pointer"
                     @click="isPwd = !isPwd"
@@ -177,19 +186,31 @@
             </q-card-section>
             <q-card-section v-else :class="getFont.text">Tem a certeza de que quer Remover a conta?</q-card-section>
             <q-card-actions align="right">
-              <q-btn rounded label="Remover conta" color="red" @click="deleteUser({id: user.email, password: password})" />
+              <q-btn
+                rounded
+                label="Remover conta"
+                color="red"
+                @click="deleteUser({id: user.email, password: password})"
+              />
               <q-btn rounded outline label="Cancelar" :color="darkModeConf.iconVar" v-close-popup />
             </q-card-actions>
           </q-card>
         </q-dialog>
         <q-dialog v-model="logOutDialog">
-          <q-card  style="width: 90vw">
+          <q-card style="width: 90vw">
             <q-card-section>
               <div :class="getFont.title">Sair da conta</div>
             </q-card-section>
             <q-card-section :class="getFont.text">Tem a certeza de que quer sair da conta?</q-card-section>
             <q-card-actions align="right">
-              <q-btn rounded label="Sair" icon="logout" :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" @click="signOut()" />
+              <q-btn
+                rounded
+                label="Sair"
+                icon="logout"
+                :color="darkModeConf.iconVar"
+                :class="darkModeConf.textBtn"
+                @click="signOut()"
+              />
               <q-btn rounded outline label="Cancelar" :color="darkModeConf.iconVar" v-close-popup />
             </q-card-actions>
           </q-card>
@@ -200,12 +221,27 @@
             <q-card-section class="row">
               <div :class="getFont.title">Tipo de perfil</div>
               <q-space />
-              <div :class="getFont.title"><q-btn flat round icon="close" v-close-popup /></div>
-
+              <div :class="getFont.title">
+                <q-btn flat round icon="close" v-close-popup />
+              </div>
             </q-card-section>
             <q-card-section class="q-gutter-y-md">
-              <q-btn @click="setStoreProfileType('person')" rounded label="Pessoa" :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" class="full-width" />
-              <q-btn @click="setStoreProfileType('organization')" rounded label="Entidade" :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" class="full-width" />
+              <q-btn
+                @click="setStoreProfileType('person')"
+                rounded
+                label="Pessoa"
+                :color="darkModeConf.iconVar"
+                :class="darkModeConf.textBtn"
+                class="full-width"
+              />
+              <q-btn
+                @click="setStoreProfileType('organization')"
+                rounded
+                label="Entidade"
+                :color="darkModeConf.iconVar"
+                :class="darkModeConf.textBtn"
+                class="full-width"
+              />
             </q-card-section>
           </q-card>
         </q-dialog>
@@ -216,7 +252,7 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
-import { LocalStorage, Loading } from 'quasar';
+import { LocalStorage, Loading } from "quasar";
 import { firebase } from "boot/firebase";
 export default {
   name: "PageSettings",
@@ -269,9 +305,9 @@ export default {
 
       if (val.direction === "left") {
         if (!this.isUserAuth) {
-          this.$router.push("/account")
+          this.$router.push("/account");
         } else {
-          this.$router.push("/profile")
+          this.$router.push("/profile");
         }
         // this.$router.push("/profile");
       }
@@ -299,10 +335,10 @@ export default {
         this.setFont(3);
       }
     },
-    setStoreProfileType (type) {
-      LocalStorage.set("profileType", type)
-      this.$router.push("/account/edit")
-    },
+    setStoreProfileType(type) {
+      LocalStorage.set("profileType", type);
+      this.$router.push("/account/edit");
+    }
   },
   created() {
     if (this.fontConfig == 1) {
@@ -326,7 +362,8 @@ export default {
     }
   },
   mounted() {
-    if(firebase.auth().currentUser) this.providerId = firebase.auth().currentUser.providerData[0].providerId;
+    if (firebase.auth().currentUser)
+      this.providerId = firebase.auth().currentUser.providerData[0].providerId;
 
     this.$root.$emit("isHomePage", "Preferências");
 
@@ -334,7 +371,7 @@ export default {
 
     // Vibração
     if (this.vibrateState) {
-      if(window.hasOwnProperty("cordova")){
+      if (window.hasOwnProperty("cordova")) {
         navigator.vibrate(200);
       } else {
         window.navigator.vibrate(200);

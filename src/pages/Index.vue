@@ -39,7 +39,7 @@
             <div :class="getFont.title" class="q-mt-sm q-mb-xs">Inclusão</div>
             <div
               :class="getFont.text"
-            >A plataforma é inclusiva e tem recurso de acessiblidade indispensavel. Pessoas com e sem dificiencia podem usar a plataforma de igual forma, assim todos interagem e as diferenças são iliminadas.</div>
+            >A plataforma é inclusiva e tem recurso de acessibilidade indispensável. Pessoas com e sem deficiência podem usar a plataforma de igual forma, assim todos interagem e as diferenças são eliminadas.</div>
           </q-card-section>
           <q-card-section class="col-5 flex flex-center">
             <q-img class="rounded-borders" src="statics/img/home/inclusive.png" />
