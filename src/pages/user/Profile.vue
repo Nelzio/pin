@@ -358,28 +358,33 @@ export default {
       }
     },
 
-    getVideo(id) { // test
-    // Loading.show()
-    const vm = this;
-    if (!offline.data().isOnline) {
-      return showErrorMessage("Está sem internet.")
-    }
-    const ref = firestoreDb.collection('videos').doc(id);
-    ref.get().then((doc) => {
-      if (doc.exists) {
-        vm.videoDownload = {
-          key: doc.id,
-          videoUrl: doc.data().videoUrl,
-          user: doc.data().user,
-        }
-        vm.video.sources[0].src = doc.data().videoUrl
-        // Loading.hide()
-      } else {
-        console.log("No such document!")
-        // Loading.hide()
+    getVideo(id) {
+      // test
+      // Loading.show()
+      const vm = this;
+      if (!offline.data().isOnline) {
+        return showErrorMessage("Está sem internet.");
       }
-    });
-  },
+      const ref = firestoreDb.collection("videos").doc(id);
+      ref.onSnapshot(doc => {
+        if (doc.exists) {
+          vm.videoDownload = {
+            key: doc.id,
+            videoUrl: doc.data().videoUrl,
+            user: doc.data().user,
+            from: doc.data().from
+          };
+          console.log(doc.data().from);
+
+          console.log(vm.videoDownload);
+          // vm.video.sources[0].src = doc.data().videoUrl
+          // Loading.hide()
+        } else {
+          console.log("No such document!");
+          // Loading.hide()
+        }
+      });
+    },
 
   convertToPlain(text) {
     if ((text===null) || (text===''))

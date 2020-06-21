@@ -224,7 +224,7 @@
           </q-toolbar>
           <div class="row">
             <div
-              class="q-pa-sm col-12 col-md-4"
+              class="q-pa-sm col-12 col-md-6"
               v-for="candidate in vacanciesAply"
               :key="candidate.id"
             >

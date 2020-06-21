@@ -3,9 +3,9 @@
     <!-- content -->
 
     <div class="row justify-center">
-      <div class="col-12 col-md-8">
-        <div v-if="vacanciesAply">
-          <div class="q-pa-sm" v-for="candidate in vacanciesAply" :key="candidate.id">
+      <div class="col-12 col-md-11">
+        <div v-if="vacanciesAply" class="row">
+          <div class="q-pa-sm col-12 col-md-4" v-for="candidate in vacanciesAply" :key="candidate.id">
             <q-card
               class="my-card"
               @click="$router.push('/vacancies/details/' + candidate.id)"
