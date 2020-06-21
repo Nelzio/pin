@@ -75,6 +75,13 @@ const getters = {
     },
     getStart(state) {
         return state.homeSpeak
+    },
+    getVibrate(state) {
+        if (state.vibrateState == 1) {
+            return true
+        } else {
+            return false
+        }
     }
 
 }

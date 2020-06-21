@@ -402,6 +402,7 @@ export default {
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
+    ...mapGetters("settings", ["getVibrate"]),
     ...mapGetters("auth", ["isUserAuth", "user"])
   },
   methods: {
@@ -422,7 +423,7 @@ export default {
     },
 
     speak(userInput) {
-      if (this.vibrateState === 1) {
+      if (this.vibrateState === 1 && this.getVibrate) {
         if (this.synth.speaking) {
           // console.error('speechSynthesis.speaking');
           // console.log("Teste")
@@ -469,7 +470,7 @@ export default {
     },
 
     speakCordova (userInput) {
-      if (this.vibrateState === 1) {
+      if (this.vibrateState === 1 && this.getVibrate) {
         TTS.speak({
           text: userInput,
           locale: 'pt-BR',
@@ -603,7 +604,7 @@ export default {
       }
       this.backIconFunc(to);
 
-      if (this.vibrateState) {
+      if (this.vibrateState && this.getVibrate) {
         if(window.hasOwnProperty("cordova")){
           navigator.vibrate(200);
         } else {
