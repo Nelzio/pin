@@ -82,6 +82,19 @@ const routes = [
       { path: 'settings', component: () => import('pages/help/Settings.vue') },
     ]
   },
+  {
+    path: '/admin',
+    component: () => import('layouts/home/Base.vue'),
+    children: [
+      { path: '', component: () => import('pages/admin/Home.vue') },
+      { path: 'companies', component: () => import('pages/admin/Companies.vue') },
+      { path: 'users', component: () => import('pages/admin/Users.vue') },
+      { path: 'associations', component: () => import('pages/admin/Associations.vue') },
+      { path: 'vacancies', component: () => import('pages/admin/Vacancies.vue') },
+      { path: 'statistics', component: () => import('pages/admin/Statistics.vue') },
+      { path: 'vacancies/vacancy', component: () => import('pages/admin/vacancy/Details.vue') },
+    ]
+  },
 ]
 
 // Always leave this as last one

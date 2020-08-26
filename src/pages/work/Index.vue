@@ -40,11 +40,11 @@
         >
           <vacancy-component :lorem="lorem" :vacancy="vacancy" />
         </div>
-      </div> -->
+      </div>-->
       <q-infinite-scroll v-if="!val_search && !filterVal" @load="onLoad" :offset="250">
         <div class="row q-gutter-y-md">
           <div
-            rref="item"
+            ref="item"
             class="col-12 col-md-4"
             :class="padding"
             v-for="vacancy in tempVacancy"
@@ -60,7 +60,7 @@
             </q-item-section>
           </q-item>
         </q-card>
-        
+
         <template v-else v-slot:loading>
           <div class="row justify-center q-my-md">
             <q-spinner-dots color="primary" size="40px" />
@@ -91,7 +91,8 @@
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user && isUserAuth">
       <q-btn
-        fab round
+        fab
+        round
         :color="darkModeConf.iconVar"
         :class="darkModeConf.textBtn"
         to="/profile/vacancy/add"
@@ -170,10 +171,10 @@ export default {
     },
 
     firstLoad() {
-      console.log("Hey")
+      console.log("Hey");
       this.vacancies.slice(this.start, this.end).forEach(element => {
         this.tempVacancy.push(element);
-        console.log("Hey2")
+        console.log("Hey2");
       });
       this.start = this.end;
       this.end = this.end + 1;
@@ -186,7 +187,7 @@ export default {
       }
       if (userInput !== "") {
         let sInstance = new SpeechSynthesisUtterance(userInput);
-        sInstance.lang = 'pt-BR';
+        sInstance.lang = "pt-BR";
         sInstance.onend = function(event) {
           // console.log('SpeechSynthesisUtterance.onend');
         };
@@ -261,9 +262,11 @@ export default {
           var interval2 = item.getBoundingClientRect().top + 55;
           if (position <= interval2 && position >= interval1) {
             // setTimeout(function() {
-            navigator.vibrate(350);
-            window.navigator.vibrate(350);
-            // console.log("Workkkk")
+            if (window.hasOwnProperty("cordova")) {
+              navigator.vibrate(350);
+            } else {
+              window.navigator.vibrate(350);
+            }
             // }, 200)
           }
         });

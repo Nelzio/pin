@@ -82,7 +82,7 @@
                     </q-item-section>
                     <q-item-section>
                       <q-item-label :class="getFont.title">Endereço</q-item-label>
-                      <q-item-label :class="getFont.text">{{ userData.adress }}</q-item-label>
+                      <q-item-label :class="getFont.text">{{ userData.address }}</q-item-label>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -111,7 +111,7 @@
 
                     <q-item-section>
                       <q-item-label :class="getFont.title">Profissão</q-item-label>
-                      <q-item-label :class="getFont.text">{{ userData.profission }}</q-item-label>
+                      <q-item-label :class="getFont.text">{{ userData.profession }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
@@ -816,7 +816,7 @@ export default {
           "; data de nascimento: " +
           this.userData.date +
           ";\n profissão: " +
-          this.userData.profission +
+          this.userData.profession +
           "."
       );
       // console.log(this.vacancy)

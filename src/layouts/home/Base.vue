@@ -51,12 +51,20 @@
           size="lg"
         />
 
-        <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font">
+        <q-toolbar-title
+          v-if="$q.screen.gt.sm"
+          shrink
+          class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font"
+        >
           <q-btn flat round to="/">
             <q-img src="statics/img/home/appLogo.png" style="height: 50px" alt />
           </q-btn>Superativo
         </q-toolbar-title>
-        <q-toolbar-title shrink class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font" v-else>
+        <q-toolbar-title
+          shrink
+          class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font"
+          v-else
+        >
           <q-btn flat round to="/">
             <q-img src="statics/img/home/appLogo.png" style="height: 50px" alt />
           </q-btn>Superativo
@@ -76,9 +84,23 @@
         >
           <template v-slot:append>
             <q-icon :color="darkModeConf.iconVar" v-if="valueSearch === ''" name="search" />
-            <q-icon :color="darkModeConf.iconVar" v-else name="clear" class="cursor-pointer" @click="valueSearch = ''" />
+            <q-icon
+              :color="darkModeConf.iconVar"
+              v-else
+              name="clear"
+              class="cursor-pointer"
+              @click="valueSearch = ''"
+            />
           </template>
         </q-input>
+
+        <!-- temporary -->
+        <q-space />
+        <div v-for="(item, index) in adminPages" :key="index">
+          <q-btn :to="item.to" :label="item.name" />
+        </div>
+        
+        <!-- temporary -->
 
         <q-space />
 
@@ -129,7 +151,13 @@
         >
           <template v-slot:append>
             <q-icon :color="darkModeConf.iconVar" v-if="valueSearch === ''" name="search" />
-            <q-icon :color="darkModeConf.iconVar" v-else name="clear" class="cursor-pointer" @click="valueSearch = ''" />
+            <q-icon
+              :color="darkModeConf.iconVar"
+              v-else
+              name="clear"
+              class="cursor-pointer"
+              @click="valueSearch = ''"
+            />
           </template>
         </q-input>
       </q-toolbar>
@@ -268,7 +296,7 @@
       <router-view v-else />
 
       <q-page-sticky v-if="$q.screen.gt.sm" expand position="left">
-        <div class="fit q-pt-xl q-px-sm column">
+        <div class="fit q-pt-lg q-px-xs column">
           <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/">
             <q-icon :color="darkModeConf.iconVar" size="lg" name="home" />
             <div class="GPL__side-btn__label">Home</div>
@@ -286,7 +314,11 @@
               1
             </q-badge>-->
           </q-btn>
-          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/profile">
+          <q-btn v-if="isUserAuth" round flat stack no-caps size="35px" class="GPL__side-btn" to="/profile">
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="person" />
+            <div class="GPL__side-btn__label">Perfil</div>
+          </q-btn>
+          <q-btn v-else round flat stack no-caps size="35px" class="GPL__side-btn" to="/account">
             <q-icon :color="darkModeConf.iconVar" size="lg" name="person" />
             <div class="GPL__side-btn__label">Perfil</div>
           </q-btn>
@@ -304,7 +336,7 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 import { LocalStorage } from "quasar";
 import { firestoreDb } from "boot/firebase";
-import ChatCount from "components/layout/ChatCount"
+import ChatCount from "components/layout/ChatCount";
 export default {
   // name: 'LayoutName',
 
@@ -328,7 +360,7 @@ export default {
       links1: [
         { icon: "work", text: "Vagas", to: "/company/vacancies" },
         { icon: "group", text: "Candidatos", to: "/company/employees" },
-        { icon: "mic", text: "Entrevistas", to: "/company/interviews" }
+        { icon: "mic", text: "Entrevistas", to: "/company/interviews" },
       ],
       places: [
         "Cabo Delgado",
@@ -341,7 +373,7 @@ export default {
         "Niassa",
         "Sofala",
         "Tete",
-        "Zambézia"
+        "Zambézia",
       ],
       categories: [
         "Administração e Secretariado",
@@ -371,7 +403,7 @@ export default {
         "Supervisão e Coordenação",
         "Técnico",
         "Transportes e Logística",
-        "Vendas"
+        "Vendas",
       ],
       categoriesStore: [
         "Produto",
@@ -389,21 +421,29 @@ export default {
         "Domésticos, Reparações e Mudanças",
         "Saúde e Beleza",
         "Eventos",
-        "Técnicos"
+        "Técnicos",
       ],
       pitch: 0.9,
       rate: 0.8,
       synth: window.speechSynthesis,
-      itemsLayzeRef: []
+      itemsLayzeRef: [],
+      adminPages: [
+        {name: "admin", to: "/admin"},
+        {name: "companies", to: "/admin/companies"},
+        {name: "users", to: "/admin/users"},
+        {name: "associations", to: "/admin/associations"},
+        {name: "vacancies", to: "/admin/vacancies"},
+        {name: "statistics", to: "/admin/statistics"},
+      ],
     };
   },
   components: {
-    ChatCount
+    ChatCount,
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
     ...mapGetters("settings", ["getVibrate"]),
-    ...mapGetters("auth", ["isUserAuth", "user"])
+    ...mapGetters("auth", ["isUserAuth", "user"]),
   },
   methods: {
     ...mapActions("auth", ["signOut"]),
@@ -427,15 +467,15 @@ export default {
         if (this.synth.speaking) {
           // console.error('speechSynthesis.speaking');
           // console.log("Teste")
-          this.synth.cancel()
+          this.synth.cancel();
           // return;
         }
         if (userInput !== "") {
           let sInstance = new SpeechSynthesisUtterance(userInput);
-          sInstance.onend = function(event) {
+          sInstance.onend = function (event) {
             // console.log('SpeechSynthesisUtterance.onend');
           };
-          sInstance.onerror = function(event) {
+          sInstance.onerror = function (event) {
             // console.error('SpeechSynthesisUtterance.onerror');
           };
           // vibrate antes de falar
@@ -444,16 +484,16 @@ export default {
           // speak
           sInstance.pitch = this.pitch;
           sInstance.rate = this.rate;
-          sInstance.lang = 'pt-BR';
+          sInstance.lang = "pt-BR";
           this.synth.speak(sInstance);
         } else {
           let sInstance = new SpeechSynthesisUtterance(
             "Nenhum texto nesta área."
           );
-          sInstance.onend = function(event) {
+          sInstance.onend = function (event) {
             // console.log('SpeechSynthesisUtterance.onend');
           };
-          sInstance.onerror = function(event) {
+          sInstance.onerror = function (event) {
             // console.error('SpeechSynthesisUtterance.onerror');
           };
 
@@ -463,23 +503,27 @@ export default {
           // speak
           sInstance.pitch = this.pitch;
           sInstance.rate = this.rate;
-          sInstance.lang = 'pt-BR';
+          sInstance.lang = "pt-BR";
           this.synth.speak(sInstance);
         }
       }
     },
 
-    speakCordova (userInput) {
+    speakCordova(userInput) {
       if (this.vibrateState === 1 && this.getVibrate) {
-        TTS.speak({
-          text: userInput,
-          locale: 'pt-BR',
-          rate: 0.8
-        }, function () {
-          // console.log('Text succesfully spoken');
-        }, function (reason) {
-          console.log(reason);
-        });
+        TTS.speak(
+          {
+            text: userInput,
+            locale: "pt-BR",
+            rate: 0.8,
+          },
+          function () {
+            // console.log('Text succesfully spoken');
+          },
+          function (reason) {
+            console.log(reason);
+          }
+        );
       }
     },
 
@@ -509,35 +553,45 @@ export default {
     // },
 
     getChat(vm) {
-      const ref = firestoreDb.collection("chat").doc(vm.user.email.split('@')[0]);
+      const ref = firestoreDb
+        .collection("chat")
+        .doc(vm.user.email.split("@")[0]);
       var chatDataObj = {};
 
-      ref.onSnapshot(function(doc) {
-        if(doc.exists) {
+      ref.onSnapshot(function (doc) {
+        if (doc.exists) {
           vm.numMessage = 0;
-            doc.data().peopleChat.forEach(element => {
-              var refToCount = firestoreDb.collection("chat").doc(vm.user.email.split('@')[0]).collection(element);
-              refToCount.where("readed", "==", false).onSnapshot(function(querySnap) {
-                querySnap.forEach(function(doc) {
-                  if(!doc.data().readed && doc.data().sender !== vm.user.email) {
+          doc.data().peopleChat.forEach((element) => {
+            var refToCount = firestoreDb
+              .collection("chat")
+              .doc(vm.user.email.split("@")[0])
+              .collection(element);
+            refToCount
+              .where("readed", "==", false)
+              .onSnapshot(function (querySnap) {
+                querySnap.forEach(function (doc) {
+                  if (
+                    !doc.data().readed &&
+                    doc.data().sender !== vm.user.email
+                  ) {
                     vm.numMessage += 1;
                   }
                 });
               });
-            });
+          });
         }
       });
     },
 
     accessibilityMode() {
-      this.$root.$on("textToSpeechRouter", val => {
-        if(window.hasOwnProperty("cordova")){
+      this.$root.$on("textToSpeechRouter", (val) => {
+        if (window.hasOwnProperty("cordova")) {
           this.speakCordova(val);
         } else {
           this.speak(val);
         }
       });
-    }
+    },
   },
 
   beforeCreate() {
@@ -552,21 +606,19 @@ export default {
     // }
   },
 
-
   mounted() {
     const vm = this;
     if (LocalStorage.getItem("lightMode") !== null) {
-      if(LocalStorage.getItem("lightMode") === 1) {
-        this.setAppMode(1)
+      if (LocalStorage.getItem("lightMode") === 1) {
+        this.setAppMode(1);
       } else {
-        this.setAppMode(0)
+        this.setAppMode(0);
       }
     } else {
-      this.setAppMode(1)
+      this.setAppMode(1);
     }
 
-
-    if(this.user && this.isUserAuth) {
+    if (this.user && this.isUserAuth) {
       this.getChat(vm);
     }
 
@@ -574,7 +626,6 @@ export default {
     // // // // //   // this.getChat(vm);
     // // // // //   this.readed = true;
     // // // // // });
-
 
     // if (this.appMode == 1) {
     //   this.$q.dark.set(false);
@@ -592,7 +643,6 @@ export default {
       this.toSearch = true;
   },
 
-
   watch: {
     $route(to, from) {
       // react to route changes...
@@ -605,7 +655,7 @@ export default {
       this.backIconFunc(to);
 
       if (this.vibrateState && this.getVibrate) {
-        if(window.hasOwnProperty("cordova")){
+        if (window.hasOwnProperty("cordova")) {
           navigator.vibrate(200);
         } else {
           window.navigator.vibrate(200);
@@ -618,7 +668,7 @@ export default {
       } else {
         this.$q.dark.set(true);
       }
-    }
+    },
 
     // vibrateState (val) {
     //   console.log(val)
@@ -629,7 +679,7 @@ export default {
     //   }
     //   // this.accessibilityMode()
     // }
-  }
+  },
 };
 </script>
 
@@ -674,5 +724,5 @@ export default {
 
   @media (min-width: 1024px)
     &__page-container
-      padding-left: 94px
+      padding-left: 124px
 </style>

@@ -36,7 +36,7 @@
       <q-infinite-scroll v-if="!val_search && !filterVal" @load="onLoad" :offset="250">
         <div class="row q-gutter-y-md">
           <div
-            rref="item"
+            ref="item"
             class="col-12 col-md-4"
             :class="padding"
             v-for="store in tempTestStories"
@@ -82,7 +82,8 @@
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user && isUserAuth">
       <q-btn
-        fab round
+        fab
+        round
         :color="darkModeConf.iconVar"
         :class="darkModeConf.textBtn"
         to="/profile/store/add"
@@ -250,8 +251,11 @@ export default {
           var interval2 = item.getBoundingClientRect().top + 55;
           if (position <= interval2 && position >= interval1) {
             // setTimeout(function() {
-            navigator.vibrate(350);
-            window.navigator.vibrate(350);
+            if (window.hasOwnProperty("cordova")) {
+              navigator.vibrate(350);
+            } else {
+              window.navigator.vibrate(350);
+            }
             // console.log("Workkkk")
             // }, 200)
           }
@@ -396,7 +400,6 @@ export default {
         this.first = false;
       }
     }
-    
   }
 };
 </script>

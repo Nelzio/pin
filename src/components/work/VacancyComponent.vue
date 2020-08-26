@@ -70,8 +70,8 @@ export default {
         email: "",
         photoURL: "",
         phoneNumber: "",
-        adress: "",
-        profission: "",
+        address: "",
+        profession: "",
         education: "",
         profileType: "",
         description: "",
@@ -83,6 +83,7 @@ export default {
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
+    ...mapGetters("settings", ["getVibrate"]),
     ...mapGetters("settings", ["getFont"])
   },
   methods: {
@@ -100,8 +101,8 @@ export default {
             email: doc.data().email,
             photoURL: doc.data().photoURL,
             phoneNumber: doc.data().phoneNumber,
-            adress: doc.data().adress,
-            profission: doc.data().profission,
+            address: doc.data().address,
+            profession: doc.data().profession,
             education: doc.data().education,
             profileType: doc.data().profileType,
             description: doc.data().description,
@@ -115,8 +116,8 @@ export default {
             email: "",
             photoURL: "",
             phoneNumber: "",
-            adress: "",
-            profission: "",
+            address: "",
+            profession: "",
             education: "",
             profileType: "",
             description: "",
@@ -129,7 +130,7 @@ export default {
     handleHold({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
-      if (this.vibrateState) {
+      if (this.vibrateState && this.getVibrate) {
         this.$root.$emit("textToSpeech", {
           vacancy: this.vacancy,
           user: this.user.displayName

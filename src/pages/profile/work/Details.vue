@@ -50,7 +50,7 @@
                   </q-item-section>
                   <q-item-section>
                     <div class="text-bold" :class="getFont.text">{{ candidate.displayName}}</div>
-                    <div>{{ candidate.profission }}</div>
+                    <div>{{ candidate.profession }}</div>
                   </q-item-section>
                   <q-item-section side>
                     <div class="text-black">{{ yearsOld(candidate.date) }}</div>
@@ -128,8 +128,8 @@ export default {
             displayName: doc.data().displayName,
             phoneNumber: doc.data().phoneNumber,
             email: doc.data().email,
-            adress: doc.data().adress,
-            profission: doc.data().profission,
+            address: doc.data().address,
+            profession: doc.data().profession,
             education: doc.data().education,
             date: doc.data().date
           });

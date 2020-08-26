@@ -22,6 +22,7 @@
     "quasar": "1.12.6",
     "v-offline": "^1.1.0",
     "vue-dplayer": "^0.0.10",
+    "vue-google-charts": "^0.3.3",
     "vue-pdf": "^4.0.7",
     "vue-pdf-cdn": "^1.0.3",
     "vue-pdf-cs": "^1.0.2",

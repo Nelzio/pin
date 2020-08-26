@@ -7,6 +7,7 @@ import auth from './store-modules/auth-module'
 import vacancy from './store-modules/vacancy-module'
 import user from './store-modules/user-module'
 import store from './store-modules/store-module'
+import admin from './admin-module'
 
 Vue.use(Vuex)
 
@@ -22,7 +23,8 @@ export default function (/* { ssrContext } */) {
       auth,
       vacancy,
       user,
-      store
+      store,
+      admin
     },
 
     // enable strict mode (adds overhead!)

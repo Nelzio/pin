@@ -148,8 +148,8 @@ export default {
         email: "",
         password: "",
         img: "",
-        adress: "",
-        profission: "",
+        address: "",
+        profession: "",
         education: "",
         date: ""
       },

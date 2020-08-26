@@ -63,7 +63,7 @@
             rounded
             outlined
             :color="darkModeConf.iconVar"
-            v-model="userEdit.adress"
+            v-model="userEdit.address"
             label="Endereço"
             icon="place"
             placeholeder="Cidade de xai-xai, bairro exemplo"
@@ -95,7 +95,7 @@
             rounded
             outlined
             :color="darkModeConf.iconVar"
-            v-model="userEdit.profission"
+            v-model="userEdit.profession"
             label="Profissão"
             placeholeder="Canalizador"
             lazy-rules
@@ -163,7 +163,7 @@
             rounded
             outlined
             :color="darkModeConf.iconVar"
-            v-model="userEdit.adress"
+            v-model="userEdit.address"
             label="Endereço"
             icon="place"
             placeholeder="Cidade de xai-xai, bairro exemplo"
@@ -205,8 +205,8 @@ export default {
       userEdit: {
         displayName: "",
         phoneNumber: "",
-        adress: "",
-        profission: "",
+        address: "",
+        profession: "",
         education: "",
         description: "",
         date: "01/01/2000"
@@ -216,8 +216,8 @@ export default {
         phoneNumber: "",
         email: "",
         img: "",
-        adress: "",
-        profission: "",
+        address: "",
+        profession: "",
         education: "",
         date: ""
       },
@@ -240,8 +240,8 @@ export default {
       this.detailUser(this.user.email).then(() => {
         this.userEdit.displayName = this.userData.displayName;
         this.userEdit.phoneNumber = this.userData.phoneNumber;
-        this.userEdit.adress = this.userData.adress;
-        this.userEdit.profission = this.userData.profission;
+        this.userEdit.address = this.userData.address;
+        this.userEdit.profession = this.userData.profession;
         this.userEdit.education = this.userData.education;
         this.userEdit.profileType = this.userData.profileType;
         this.userEdit.description = this.userData.description;
@@ -256,8 +256,8 @@ export default {
 
     onReset() {
       this.userEdit.phoneNumber = null;
-      this.userEdit.adress = null;
-      this.userEdit.profission = null;
+      this.userEdit.address = null;
+      this.userEdit.profession = null;
       this.userEdit.education = null;
 
       this.$refs.loginForm.resetValidation();

@@ -2,9 +2,14 @@
   <q-page padding>
     <div class="q-gutter-y-lg">
       <q-card class="my-card" flat>
+        <!-- <q-video
+          v-if="!$q.screen.gt.sm"
+          src="https://www.youtube.com/embed/h9ll1gwwahQ"
+          :ratio="16/9"
+        /> -->
         <q-video
           v-if="!$q.screen.gt.sm"
-          src="https://www.youtube.com/embed/_tyjqozrEPY"
+          src="https://www.youtube.com/embed/6mKt3z4ysuA"
           :ratio="16/9"
         />
         <q-card-section horizontal>
@@ -19,7 +24,12 @@
           </q-card-section>
 
           <q-card-section v-if="$q.screen.gt.sm" class="col-7">
-            <q-video src="https://www.youtube.com/embed/_tyjqozrEPY" :ratio="16/9" />
+            <!-- <q-video src="https://www.youtube.com/embed/h9ll1gwwahQ" :ratio="16/9" /> -->
+            <q-video
+              v-if="!$q.screen.gt.sm"
+              src="https://www.youtube.com/embed/6mKt3z4ysuA"
+              :ratio="16/9"
+            />
           </q-card-section>
         </q-card-section>
       </q-card>
