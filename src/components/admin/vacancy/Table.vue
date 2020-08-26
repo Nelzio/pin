@@ -92,7 +92,7 @@ export default {
     ...mapActions("admin", ["getVacancy"]),
     goToVacancy(val) {
       console.log(val);
-      this.getVacancy(val)
+      this.getVacancy(val);
     },
     userName(id) {
       // Get user name of a user in users array
@@ -103,12 +103,12 @@ export default {
         }
       }
     },
-    countVacancyCandidature(idCompany) {
-      let countNumCandidatures = 0;
+    countVacancyCandidature(vacancyId) {
+      var countNumCandidatures = 0;
       for (let index = 0; index < this.candidates.length; index++) {
         const element = this.candidates[index];
-        if (element.owner == idCompany) {
-          countNumCandidatures++;
+        if (element.vacancyId == vacancyId) {
+          countNumCandidatures += 1;
         }
       }
       return countNumCandidatures;
@@ -119,47 +119,50 @@ export default {
       let candidates = [];
       let refUser = firestoreDb.collection("users");
       let ref = firestoreDb.collection("vacancies");
+      var numVacancies = 0;
 
       //first get all users
-      refUser.get().then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
+      refUser.get().then(function (querySnapshotUser) {
+        querySnapshotUser.forEach(function (doc) {
           vm.users.push(doc.data());
         });
 
         // get all vacancies candidatures
-        ref.get().then(function (querySnapshot) {
-          querySnapshot.forEach(function (docVacancy) {
+        ref.get().then(function (querySnapshotVacancy) {
+          querySnapshotVacancy.forEach(function (docVacancy) {
             ref
               .doc(docVacancy.id)
               .collection("candidates")
               .get()
-              .then(function (querySnapshot) {
-                querySnapshot.forEach(function (docCandidate) {
+              .then(function (querySnapshotCandidates) {
+                querySnapshotCandidates.forEach(function (docCandidate) {
                   candidates.push({
                     id: docCandidate.id,
-                    owner: docVacancy.data().user,
+                    vacancyId: docVacancy.id,
                   });
                 });
-                vm.candidates = candidates;
-                console.log(vm.candidates)
-                // Then get vacancies
-                ref
-                  .where("public", "==", true)
-                  .onSnapshot(function (querySnapshot) {
-                    querySnapshot.forEach(function (doc) {
-                      tempObject = doc.data();
-                      tempObject["id"] = doc.id;
-                      vm.data.push({
-                        name: doc.data().title,
-                        company: vm.userName(doc.data().user),
-                        candidatures: vm.countVacancyCandidature(
-                          doc.data().user
-                        ),
-                        limitDate: doc.data().validate,
-                        vacancy: tempObject
+                numVacancies += 1;
+                if (querySnapshotVacancy.docs.length == numVacancies) {
+                  vm.candidates = candidates;
+                  // Then get vacancies
+                  ref
+                    .where("public", "==", true)
+                    .onSnapshot(function (querySnapshot) {
+                      querySnapshot.forEach(function (docData) {
+                        tempObject = docData.data();
+                        tempObject["id"] = docData.id;
+                        vm.data.push({
+                          name: docData.data().title,
+                          company: vm.userName(docData.data().user),
+                          candidatures: vm.countVacancyCandidature(
+                            docData.id
+                          ),
+                          limitDate: docData.data().validate,
+                          vacancy: tempObject,
+                        });
                       });
                     });
-                  });
+                }
               });
           });
         });
