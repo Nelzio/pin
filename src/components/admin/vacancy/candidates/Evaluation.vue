@@ -223,7 +223,8 @@ export default {
       this.evaluators.forEach((element) => {
         punctuation += element.punctuation;
       });
-      this.punctuation = punctuation / this.evaluators.length;
+      var result = (punctuation / this.evaluators.length)
+      this.punctuation = Number.isInteger(result) ? result : result.toFixed(2);
     },
     updateCandidate(val) {
       Loading.show()
