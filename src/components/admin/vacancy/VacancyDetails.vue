@@ -7,25 +7,29 @@
       >
         <q-card-section>
           <q-card-section horizontal>
-            <q-card-section v-if="vacancy.user" class="col-3 flex flex-center">
+            <q-card-section v-if="vacancyDetails.user" class="col-3 flex flex-center">
               <q-card class="my-card text-center">
                 <!-- <q-icon name="person" color="black" size="100px" /> -->
 
-                <q-img :src="vacancy.user.img" spinner-color="white" style="max-width: 120px" />
+                <q-img
+                  :src="vacancyDetails.user.img"
+                  spinner-color="white"
+                  style="max-width: 120px"
+                />
                 <q-card-section class="text-h5">
-                  {{ vacancy.user.name }}
-                  <div class="text-body1">{{ vacancy.user.email }}</div>
+                  {{ vacancyDetails.user.name }}
+                  <div class="text-body1">{{ vacancyDetails.user.email }}</div>
                 </q-card-section>
               </q-card>
             </q-card-section>
             <q-card-section>
               <div>
                 <div class="text-body1 text-bold">Título</div>
-                <div class="text-subtitle1">{{ vacancy.title }}</div>
+                <div class="text-subtitle1">{{ vacancyDetails.title }}</div>
               </div>
               <div>
                 <div class="text-body1 text-bold">Validade</div>
-                <div class="text-subtitle1">{{ vacancy.validate }}</div>
+                <div class="text-subtitle1">{{ vacancyDetails.validate }}</div>
               </div>
               <div>
                 <div class="text-body1 text-bold">Numero de vagas</div>
@@ -33,7 +37,7 @@
               </div>
               <div>
                 <div class="text-body1 text-bold">Descrição</div>
-                <div class="text-subtitle1" v-html="vacancy.description"></div>
+                <div class="text-subtitle1" v-html="vacancyDetails.description"></div>
               </div>
             </q-card-section>
           </q-card-section>
@@ -49,22 +53,22 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      vacancy: {},
+      vacancyDetails: {},
     };
   },
   computed: {
-    ...mapGetters("admin", ["vacancyId"]),
+    ...mapGetters("admin", ["vacancy"]),
   },
   methods: {
     getVacancy() {
       const vm = this;
-      // console.log(this.vacancyId);
-      if (this.vacancyId) {
-        const ref = firestoreDb.collection("vacancies").doc(this.vacancyId);
+      // console.log(this.vacancy.id);
+      if (this.vacancy.id) {
+        const ref = firestoreDb.collection("vacancies").doc(this.vacancy.id);
 
         ref.get().then((doc) => {
           if (doc.exists) {
-            vm.vacancy = {
+            vm.vacancyDetails = {
               key: doc.id,
               title: doc.data().title,
               user: doc.data().user,
@@ -91,7 +95,7 @@ export default {
 
       ref.get().then((doc) => {
         if (doc.exists) {
-          vm.vacancy["user"] = {
+          vm.vacancyDetails["user"] = {
             name: doc.data().displayName,
             email: doc.data().email,
             img: doc.data().photoURL,
@@ -100,44 +104,32 @@ export default {
       });
     },
 
-    // updateAllUsers() {
-    //   let ref = firestoreDb.collection("vacancies");
-
-    //   ref.get().then((docs) => {
-    //     docs.forEach((doc) => {
-    //       var updateRef = firestoreDb
-    //         .collection("vacancies")
-    //         .doc(doc.id)
-    //         .collection("candidates");
-    //       updateRef.get().then((docs2) => {
-    //         docs2.forEach((doc2) => {
-    //           var data = {
-    //             id: doc2.data().id,
-    //             address: doc2.data().adress,
-    //             date: doc2.data().date,
-    //             description: doc2.data().description,
-    //             displayName: doc2.data().displayName,
-    //             education: doc2.data().education,
-    //             email: doc2.data().email,
-    //             phoneNumber: doc2.data().phoneNumber,
-    //             photoURL: doc2.data().photoURL,
-    //             profileType: doc2.data().profileType,
-    //             profession: doc2.data().profission,
-    //             association: "",
-    //             status: "",
-    //             evaluators: [],
-    //           };
-    //           console.log(doc2.data().id);
-    //           console.log(doc2.data());
-    //           var update2Ref = updateRef.doc(doc2.id);
-    //           update2Ref.set(data).then(() => {
-    //             console.log("done");
-    //           });
-    //         });
-    //       });
-    //     });
-    //   });
-    // },
+    // // updateAllUsers() {
+    // //   let ref = firestoreDb.collection("vacancies");
+    // //   var numVacancy = 0
+    // //   ref.get().then((docs) => {
+    // //     docs.forEach((doc) => {
+    // //       // console.log(doc.data())
+    // //       numVacancy += 1;
+    // //       var data = {
+    // //         place: doc.data().place,
+    // //         category: doc.data().category,
+    // //         user: doc.data().user,
+    // //         timeSend: doc.data().timeSend,
+    // //         validate: doc.data().validate,
+    // //         public: doc.data().public,
+    // //         description: doc.data().description,
+    // //         title: doc.data().title, 
+    // //         img: doc.data().img,
+    // //         numVacancies: numVacancy
+    // //       };
+    // //       console.log(doc.id)
+    // //       firestoreDb.collection("vacancies").doc(doc.id).set(data).then(() => {
+    // //         console.log("done");
+    // //       });
+    // //     });
+    // //   });
+    // // },
   },
   mounted() {
     this.getVacancy();

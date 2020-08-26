@@ -1,21 +1,44 @@
 <template>
   <div>
     <div class="row justify-center q-pt-lg">
-      <div class="col-8">
+      <div class="col-12">
         <q-toolbar class="text-primary shadow-1">
           <q-toolbar-title>Candidatos a vaga</q-toolbar-title>
+          <q-space />
+          <q-input
+            outlined
+            rounded
+            bottom-slots
+            v-model="valSearch"
+            label="Pesquise candidato"
+            @input="search"
+          >
+            <template v-slot:append>
+              <q-icon v-if="valSearch !== ''" name="close" @click="valSearch = ''" class="cursor-pointer" />
+              <q-icon name="search" />
+            </template>
+          </q-input>
         </q-toolbar>
       </div>
     </div>
     <div class="row justify-center">
-      <div class="col-8">
-        <div class="row">
-          <div class="col-4 q-pa-sm" v-for="candidate in candidates" :key="candidate.id">
+      <div class="col-12">
+        <div v-if="valSearch" class="row">
+          <div class="col-3 q-pa-sm" v-for="candidate in data_search" :key="candidate.id">
             <q-card @click="emitUser(candidate.id)" class="my-card text-center">
               <q-img :src="candidate.photoURL" spinner-color="white" style="max-height:220px" />
-
               <q-avatar
-                v-if="candidate.status == 'approved'"
+                v-if="!candidate.evaluators.length"
+                rounded
+                color="grey"
+                class="absolute"
+                size="md"
+                style="top: 0; right: 12px; transform: translateY(10%);"
+                text-color="white"
+                icon="check"
+              />
+              <q-avatar
+                v-else-if="isApproved(candidate)"
                 rounded
                 color="primary"
                 class="absolute"
@@ -25,7 +48,7 @@
                 icon="done_all"
               />
               <q-avatar
-                v-else-if="candidate.status == 'rejected'"
+                v-else
                 rounded
                 color="red"
                 class="absolute"
@@ -34,8 +57,20 @@
                 text-color="white"
                 icon="close"
               />
+
+              <q-card-section class="text-subtitle1">
+                {{ candidate.displayName }}
+                <div class="text-body1">{{ candidate.email }}</div>
+              </q-card-section>
+            </q-card>
+          </div>
+        </div>
+        <div v-else class="row">
+          <div class="col-3 q-pa-sm" v-for="candidate in candidates" :key="candidate.id">
+            <q-card @click="emitUser(candidate.id)" class="my-card text-center">
+              <q-img :src="candidate.photoURL" spinner-color="white" style="max-height:220px" />
               <q-avatar
-                v-else
+                v-if="!candidate.evaluators.length"
                 rounded
                 color="grey"
                 class="absolute"
@@ -43,6 +78,26 @@
                 style="top: 0; right: 12px; transform: translateY(10%);"
                 text-color="white"
                 icon="check"
+              />
+              <q-avatar
+                v-else-if="isApproved(candidate)"
+                rounded
+                color="primary"
+                class="absolute"
+                size="md"
+                style="top: 0; right: 12px; transform: translateY(10%);"
+                text-color="white"
+                icon="done_all"
+              />
+              <q-avatar
+                v-else
+                rounded
+                color="red"
+                class="absolute"
+                size="md"
+                style="top: 0; right: 12px; transform: translateY(10%);"
+                text-color="white"
+                icon="close"
               />
 
               <q-card-section class="text-subtitle1">
@@ -54,6 +109,13 @@
         </div>
       </div>
     </div>
+    <q-ajax-bar
+      ref="bar"
+      position="bottom"
+      color="primary"
+      size="10px"
+      skip-hijack
+    />
   </div>
 </template>
 
@@ -63,29 +125,90 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
+      valSearch: "",
+      data_search: [],
       candidates: [],
+      numCandidatesApproved: [],
     };
   },
   computed: {
-    ...mapGetters("admin", ["vacancyId"]),
+    ...mapGetters("admin", ["vacancy"]),
   },
   methods: {
+    isApproved(candidate) {
+      for (let index = 0; index < this.numCandidatesApproved.length; index++) {
+        const element = this.numCandidatesApproved[index];
+        if (element.id == candidate.id) {
+          return true;
+        }
+      }
+      return false;
+    },
+    candidateEvaluateStatus(candidates, numVacancies) {
+      const vm = this;
+      let lastNumEvaluate = 0;
+      this.numCandidatesApproved = [];
+      candidates.forEach((element) => {
+        if (!vm.isApproved(element)) {
+          var numEvaluate = 0;
+          element.evaluators.forEach((val) => {
+            numEvaluate += val.punctuation;
+          });
+          if (
+            numEvaluate >= lastNumEvaluate &&
+            numVacancies > vm.numCandidatesApproved.length
+          ) {
+            vm.numCandidatesApproved.push(element);
+            lastNumEvaluate = numEvaluate;
+          }
+        }
+      });
+    },
     getCandidates() {
       const vm = this;
-      this.candidates = [];
-      if (this.vacancyId) {
+      this.$refs.bar.start()
+      console.log(this.vacancy)
+      console.log("this.vacancy")
+      console.log(this.vacancy.id)
+      if (this.vacancy.id) {
         const ref = firestoreDb
           .collection("vacancies")
-          .doc(this.vacancyId)
+          .doc(this.vacancy.id)
           .collection("candidates");
-        ref.get().then((docs) => {
+        ref.onSnapshot((docs) => {
+          let candidates = [];
           docs.forEach((doc) => {
-            var data = doc.data()
-            data["id"] = doc.id
-            vm.candidates.push(data);
+            var data = doc.data();
+            data["id"] = doc.id;
+            candidates.push(data);
           });
-          // console.log(vm.candidates);
+          vm.candidateEvaluateStatus(candidates, vm.vacancy.numVacancies); // some thing test
+          vm.candidates = candidates;
+          vm.$refs.bar.stop()
         });
+      }
+    },
+    search(valSearch) {
+      if (valSearch != "") {
+        var temp = new RegExp(".*" + valSearch + ".*");
+        var items = [];
+        var candidates = this.candidates;
+        for (var i in candidates) {
+          var name = candidates[i]["displayName"].match(temp);
+          var email = candidates[i]["email"].match(temp);
+          if (name != null) {
+            if (candidates[i]["displayName"] == name[0]) {
+              items.push(candidates[i]);
+            }
+          } else if (email != null) {
+            if (candidates[i]["email"] == email[0]) {
+              items.push(candidates[i]);
+            }
+          }
+        }
+        this.data_search = items.slice(0, 2);
+      } else {
+        this.data_search = [];
       }
     },
     emitUser(user) {
@@ -94,6 +217,12 @@ export default {
   },
   mounted() {
     this.getCandidates();
+  },
+  watch: {
+    // candidates(val) {
+    //   console.log(val)
+    //   console.log(this.numCandidatesApproved)
+    // }
   },
 };
 </script>

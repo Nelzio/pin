@@ -1,6 +1,6 @@
 export function getVacancy({ commit }, val) {
     if (val) {
-        commit("SET_VACANCY_ID", val)
+        commit("SET_VACANCY", val)
         this.$router.push("/admin/vacancies/vacancy")
     }
 }

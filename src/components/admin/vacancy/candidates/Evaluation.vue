@@ -1,4 +1,5 @@
 <template>
+<div class="q-pa-xs">
   <q-drawer
     side="right"
     v-model="drawer"
@@ -139,7 +140,7 @@
               <q-card-section class="text-h5">Júri {{ index + 1 }}</q-card-section>
               <q-card-section>
                 <q-rating
-                  v-model="evaluator.key"
+                  v-model="evaluator.punctuation"
                   size="2em"
                   :max="10"
                   icon="done"
@@ -157,12 +158,13 @@
             </q-card-section>
           </q-card>
         </div>
-        <div class="row q-mb-lg" v-if="evaluators.length">
+        <div v-if="evaluators.length" class="row q-mb-lg">
           <q-btn rounded color="primary" class="full-width" label="Adicionar resultado" @click="updateCandidate(user)" icon="add" />
         </div>
       </div>
     </q-scroll-area>
   </q-drawer>
+</div>
 </template>
 
 <script>
@@ -183,13 +185,13 @@ export default {
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapGetters("settings", ["getFont"]),
-    ...mapGetters("admin", ["vacancyId"]),
+    ...mapGetters("admin", ["vacancy"]),
   },
   methods: {
     getCandidate(candidateId) {
       const vm = this;
       Loading.show();
-      const ref = firestoreDb.collection("vacancies").doc(this.vacancyId).collection("candidates").doc(candidateId);
+      const ref = firestoreDb.collection("vacancies").doc(this.vacancy.id).collection("candidates").doc(candidateId);
       ref.get().then(doc => {
         if(doc.exists) {
           vm.user = doc.data()
@@ -211,7 +213,7 @@ export default {
     },
     addRemoveEvaluators(val) {
       if (val == "add") {
-        this.evaluators.push({ key: 0 });
+        this.evaluators.push({ punctuation: 0 });
       } else if (this.evaluators.length > 0) {
         this.evaluators.pop();
       }
@@ -219,18 +221,16 @@ export default {
     givePunctuation() {
       let punctuation = 0;
       this.evaluators.forEach((element) => {
-        punctuation += element.key;
+        punctuation += element.punctuation;
       });
       this.punctuation = punctuation / this.evaluators.length;
-    },
-    dynamicName(val) {
-      return window["evaluation" + val];
     },
     updateCandidate(val) {
       Loading.show()
       let candidate = val
-      candidate["evaluators"] = this.evaluators;
-      const ref = firestoreDb.collection("vacancies").doc(this.vacancyId).collection("candidates").doc(candidate.id);
+      candidate.evaluators = this.evaluators;
+      console.log(candidate)
+      const ref = firestoreDb.collection("vacancies").doc(this.vacancy.id).collection("candidates").doc(candidate.id);
       ref.set(candidate).then(() => {
         Loading.hide()
         console.log("done")

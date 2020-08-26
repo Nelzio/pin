@@ -1,3 +1,3 @@
-export function vacancyId ( state ) {
-    return state.vacancyId
+export function vacancy ( state ) {
+    return state.vacancy
 }

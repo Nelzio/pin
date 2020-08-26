@@ -27,7 +27,7 @@
           <q-card
             clickable
             v-ripple
-            @click="goToVacancy(props.row.vacancyId)"
+            @click="goToVacancy(props.row.vacancy)"
             :class="props.selected ? 'bg-grey-2' : ''"
           >
             <q-card-section
@@ -84,7 +84,6 @@ export default {
         { name: "limitDate", label: "Data limite da vaga", field: "limitDate" },
       ],
       data: [],
-      vacancies: [],
       users: [],
       candidates: [],
     };
@@ -150,7 +149,6 @@ export default {
                     querySnapshot.forEach(function (doc) {
                       tempObject = doc.data();
                       tempObject["id"] = doc.id;
-                      vm.vacancies.push(tempObject);
                       vm.data.push({
                         name: doc.data().title,
                         company: vm.userName(doc.data().user),
@@ -158,7 +156,7 @@ export default {
                           doc.data().user
                         ),
                         limitDate: doc.data().validate,
-                        vacancyId: doc.id
+                        vacancy: tempObject
                       });
                     });
                   });
