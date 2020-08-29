@@ -11,7 +11,7 @@
               <div class="text-h3 text-bold" style="padding-top: 25%;">{{ users }}</div>
             </div>
           </q-img>
-          <q-card-section class="text-h5">Usuários da aplicação</q-card-section>
+          <q-card-section class="text-h5">Usuários</q-card-section>
           <q-card-actions align="right">
             <q-btn outline rounded color="primary" label="Ver usuários" />
             <q-btn outline rounded color="primary" label="Estatísticas" />
@@ -52,7 +52,7 @@
           </q-card-actions>
         </q-card>
       </div>
-      <div class="col-3 q-pa-md">
+      <!-- <div class="col-3 q-pa-md">
         <q-card class="my-card">
           <q-img
             src="statics/admin/baseline_store_black_36dp.png"
@@ -63,6 +63,23 @@
             </div>
           </q-img>
           <q-card-section class="text-h5">Produtos e serviços</q-card-section>
+          <q-card-actions align="right">
+            <q-btn outline rounded color="primary" label="Ver usuários" />
+            <q-btn outline rounded color="primary" label="Estatísticas" />
+          </q-card-actions>
+        </q-card>
+      </div> -->
+      <div class="col-3 q-pa-md">
+        <q-card class="my-card">
+          <q-img
+            src="statics/admin/baseline_store_black_36dp.png"
+            alt
+          >
+            <div class="absolute-bottom absolute-top text-subtitle2 text-center">
+              <div class="text-h3 text-bold" style="padding-top: 25%;">{{ productAndServices }}</div>
+            </div>
+          </q-img>
+          <q-card-section class="text-h5">Associações</q-card-section>
           <q-card-actions align="right">
             <q-btn outline rounded color="primary" label="Ver usuários" />
             <q-btn outline rounded color="primary" label="Estatísticas" />

@@ -91,7 +91,6 @@ export default {
   methods: {
     ...mapActions("admin", ["getVacancy"]),
     goToVacancy(val) {
-      console.log(val);
       this.getVacancy(val);
     },
     userName(id) {

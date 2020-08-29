@@ -146,13 +146,10 @@ export default {
             ? element.association
             : "Não associado",
         });
-        console.log(element);
       });
       vm.tableData = userList;
-      console.log(vm.tableData);
     },
     filterByGender(gender) {
-      console.log("Foi")
       let userList = []
       this.users.forEach((element) => {
         if (element.gender == gender && typeof(gender) !== "string") {
@@ -197,12 +194,9 @@ export default {
         }
       });
       this.tableData = userList;
-      console.log(this.tableData)
     }
   },
   mounted() {
-    console.log("users");
-    console.log(this.users);
     this.addUsersList();
   },
   watch: {
@@ -212,7 +206,6 @@ export default {
       }
     },
     filterGender(val) {
-      console.log(val)
       this.filterByGender(val)
     }
   },

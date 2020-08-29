@@ -11,6 +11,54 @@
       />
     </q-form>
 
+    <!-- <div>
+      <q-dialog v-model="dialogCVHere" :maximized="maximizedToggle">
+        <div class="row">
+          <q-card class="bg-white">
+            <q-toolbar
+              :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+              class="GPL__toolbar"
+              style="height: 64px"
+            >
+              <q-btn
+                v-close-popup
+                :color="darkModeConf.iconVar"
+                flat
+                dense
+                round
+                icon="arrow_back"
+                aria-label="Menu"
+                size="lg"
+              />
+
+              <q-space />
+
+              <q-toolbar-title
+                shrink
+                class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font"
+              >Curriculum</q-toolbar-title>
+
+              <q-space />
+
+              <q-btn
+                v-close-popup
+                :color="darkModeConf.iconVar"
+                flat
+                dense
+                round
+                icon="edit"
+                aria-label="Trocar CV"
+                size="lg"
+                @click="proccessFile('doc')"
+              />
+            </q-toolbar>
+            <q-card-section>
+              <pdf :src="curriculumDownload.docUrl"></pdf>
+            </q-card-section>
+          </q-card>
+        </div>
+      </q-dialog>
+    </div> -->
     <div>
       <q-dialog v-model="dialogCVHere" :maximized="maximizedToggle">
         <div class="row">
@@ -53,10 +101,13 @@
               />
             </q-toolbar>
             <q-card-section>
-              <!-- <pdf :src="curriculumDownload.docUrl"></pdf> -->
-              <pdf :src="curriculumDownload.docUrl"></pdf>
-              <!-- <pdf :src="curriculumDownload.docUrl" /> -->
-              <!-- <pdf-renderer :file="curriculumDownload.docUrl" /> -->
+              <q-pdfviewer
+                v-model="show"
+                :src="'statics/nelziocv.pdf'"
+                type="html5"
+                content-class="fit container"
+                inner-content-class="fit container"
+              />
             </q-card-section>
           </q-card>
         </div>
@@ -83,6 +134,7 @@ export default {
   props: ["dialogCV"],
   data() {
     return {
+      show: true,
       curriculumDownload: {
         key: "",
         docUrl: "",
@@ -221,32 +273,33 @@ export default {
     },
 
     getCV() {
-      Loading.show();
+      // // // Loading.show();
 
-      const vm = this;
-      if (!offline.data().isOnline) {
-        return showErrorMessage("Está sem internet.");
-      }
-      var storage = firebase.storage();
-      const ref = firestoreDb.collection("curriculum").doc(this.userData.email);
-      ref.get().then(doc => {
-        if (doc.exists) {
-          vm.curriculumDownload = {
-            key: doc.id,
-            docUrl: doc.data().docUrl,
-            user: doc.data().user
-          };
+      // // // const vm = this;
+      // // // if (!offline.data().isOnline) {
+      // // //   return showErrorMessage("Está sem internet.");
+      // // // }
+      // // // var storage = firebase.storage();
+      // // // const ref = firestoreDb.collection("curriculum").doc(this.userData.email);
+      // // // ref.get().then(doc => {
+      // // //   if (doc.exists) {
+      // // //     vm.curriculumDownload = {
+      // // //       key: doc.id,
+      // // //       docUrl: doc.data().docUrl,
+      // // //       user: doc.data().user
+      // // //     };
 
-          console.log(vm.curriculumDownload.docUrl);
-          // vm.curriculumDownload.docUrl = "https://cdn.mozilla.net/pdfjs/tracemonkey.pdf";
+      // // //     console.log(vm.curriculumDownload.docUrl);
+      // // //     // vm.curriculumDownload.docUrl = "https://cdn.mozilla.net/pdfjs/tracemonkey.pdf";
 
-          vm.dialogCVHere = true;
-          Loading.hide();
-        } else {
-          console.log("No such document!");
-          // Loading.hide()
-        }
-      });
+      // // //     vm.dialogCVHere = true;
+      // // //     Loading.hide();
+      // // //   } else {
+      // // //     console.log("No such document!");
+      // // //     // Loading.hide()
+      // // //   }
+      // // // });
+      this.dialogCVHere = true;
     }
   },
   mounted() {

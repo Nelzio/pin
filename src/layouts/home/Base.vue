@@ -96,10 +96,7 @@
 
         <!-- temporary -->
         <q-space />
-        <div v-for="(item, index) in adminPages" :key="index">
-          <q-btn :to="item.to" :label="item.name" />
-        </div>
-        
+
         <!-- temporary -->
 
         <q-space />
@@ -132,6 +129,17 @@
               <q-icon name="account_circle" size="lg" color="primary" />
             </q-avatar>
           </q-btn>
+          <q-btn
+            @click="drowerAdmin = !drowerAdmin"
+            v-if="this.$route.path.split('/')[1] == 'admin'"
+            :color="darkModeConf.iconVar"
+            flat
+            dense
+            round
+            icon="menu"
+            aria-label="DowrerFilter"
+            size="lg"
+          />
         </div>
       </q-toolbar>
       <!-- rounded-borders -->
@@ -289,7 +297,47 @@
         </q-list>
       </q-scroll-area>
     </q-drawer>
+    <q-drawer
+      v-if="this.$route.path.split('/')[1] == 'admin'"
+      v-model="drowerAdmin"
+      bordered
+      behavior="mobile"
+      @click="drowerAdmin = false"
+    >
+      <q-scroll-area class="fit">
+        <q-toolbar class="GPL__toolbar">
+          <q-toolbar-title class="row items-center text-black">
+            <span class="q-ml-sm">Administração</span>
+          </q-toolbar-title>
+          <!-- <q-space /> -->
+          <q-btn
+            :color="darkModeConf.iconVar"
+            flat
+            round
+            icon="arrow_back"
+            @click="drowerAdmin = false"
+          />
+        </q-toolbar>
 
+        <q-list padding>
+          <q-item
+            clickable
+            v-ripple
+            v-for="(item, idx) in adminPages"
+            :key="idx"
+            :to="item.to"
+            @click="drowerAdmin = false"
+          >
+            <q-item-section avatar v-if="item.icon">
+              <q-icon :color="darkModeConf.iconVar" :name="item.icon" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label :class="darkModeConf.textColor">{{ item.name.toUpperCase() }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
+    </q-drawer>
     <q-page-container class="GPL__page-container">
       <!-- This is where pages get injected -->
       <router-view v-if="toSearch" :val_search="valueSearch" :filterVal="filterVal" />
@@ -314,7 +362,16 @@
               1
             </q-badge>-->
           </q-btn>
-          <q-btn v-if="isUserAuth" round flat stack no-caps size="35px" class="GPL__side-btn" to="/profile">
+          <q-btn
+            v-if="isUserAuth"
+            round
+            flat
+            stack
+            no-caps
+            size="35px"
+            class="GPL__side-btn"
+            to="/profile"
+          >
             <q-icon :color="darkModeConf.iconVar" size="lg" name="person" />
             <div class="GPL__side-btn__label">Perfil</div>
           </q-btn>
@@ -325,6 +382,10 @@
           <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/settings">
             <q-icon :color="darkModeConf.iconVar" size="lg" name="settings" />
             <div class="GPL__side-btn__label">Definições</div>
+          </q-btn>
+          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/admin">
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="admin_panel_settings" />
+            <div class="GPL__side-btn__label">Admin</div>
           </q-btn>
         </div>
       </q-page-sticky>
@@ -352,6 +413,7 @@ export default {
       drowerFilter: false,
       leftDrawerOpen: false,
       drowerFilterStore: false,
+      drowerAdmin: false,
       toSearch: false,
       backIcon: false,
       tab: "home",
@@ -428,12 +490,12 @@ export default {
       synth: window.speechSynthesis,
       itemsLayzeRef: [],
       adminPages: [
-        {name: "admin", to: "/admin"},
-        {name: "companies", to: "/admin/companies"},
-        {name: "users", to: "/admin/users"},
-        {name: "associations", to: "/admin/associations"},
-        {name: "vacancies", to: "/admin/vacancies"},
-        {name: "statistics", to: "/admin/statistics"},
+        { name: "Home Admin", icon: "admin_panel_settings", to: "/admin" },
+        { name: "Empresas", icon: "business", to: "/admin/companies" },
+        { name: "Usuários", icon: "group", to: "/admin/users" },
+        { name: "Associações", icon: "groups", to: "/admin/associations" },
+        { name: "Vagas", icon: "work", to: "/admin/vacancies" },
+        { name: "Estatística", icon: "show_chart", to: "/admin/statistics" },
       ],
     };
   },

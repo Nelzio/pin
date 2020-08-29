@@ -115,7 +115,7 @@
                     </q-item-section>
                   </q-item>
 
-                  <!-- <q-separator spaced inset="item" />
+                  <q-separator spaced inset="item" />
 
                   <q-item class="text-left">
                     <q-item-section avatar top>
@@ -152,7 +152,7 @@
                         </q-btn>
                       </div>
                     </q-item-section>
-                  </q-item> -->
+                  </q-item>
                 </q-list>
               </q-tab-panel>
               <q-tab-panel
@@ -929,6 +929,7 @@ export default {
     this.listStoreMyHere(this.user.email);
   },
   mounted() {
+    Loading.hide()
     this.getVideo(this.user.email);
     // this.listVacancyMy(this.user.email)
     this.videoUpload.user = this.user.email;

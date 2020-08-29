@@ -14,12 +14,7 @@
 <script>
 import Graphs from "components/admin/users/Graphs";
 import TableList from "components/admin/users/TableList";
-import {
-  firebaseAuth,
-  firestoreDb,
-  fireStorage,
-  firebase,
-} from "boot/firebase";
+import { firestoreDb } from "boot/firebase";
 export default {
   data() {
     return {
@@ -40,7 +35,6 @@ export default {
             vm.users.push(doc.data());
           }
         });
-        console.log(vm.users);
       });
     },
   },

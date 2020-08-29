@@ -104,32 +104,19 @@ export default {
       });
     },
 
-    // // updateAllUsers() {
-    // //   let ref = firestoreDb.collection("vacancies");
-    // //   var numVacancy = 0
-    // //   ref.get().then((docs) => {
-    // //     docs.forEach((doc) => {
-    // //       // console.log(doc.data())
-    // //       numVacancy += 1;
-    // //       var data = {
-    // //         place: doc.data().place,
-    // //         category: doc.data().category,
-    // //         user: doc.data().user,
-    // //         timeSend: doc.data().timeSend,
-    // //         validate: doc.data().validate,
-    // //         public: doc.data().public,
-    // //         description: doc.data().description,
-    // //         title: doc.data().title, 
-    // //         img: doc.data().img,
-    // //         numVacancies: numVacancy
-    // //       };
-    // //       console.log(doc.id)
-    // //       firestoreDb.collection("vacancies").doc(doc.id).set(data).then(() => {
-    // //         console.log("done");
-    // //       });
-    // //     });
-    // //   });
-    // // },
+    // updateAllUsers() {
+    //   let ref = firestoreDb.collection("users");
+    //   ref.where("profileType", "==", "organization").get().then((docs) => {
+    //     docs.forEach((doc) => {
+    //       // console.log(doc.data())
+    //       var data = doc.data();
+    //       data["status"] = "";
+    //       firestoreDb.collection("users").doc(doc.id).set(data).then(() => {
+    //         console.log("done");
+    //       });
+    //     });
+    //   });
+    // },
   },
   mounted() {
     this.getVacancy();

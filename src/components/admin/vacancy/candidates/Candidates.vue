@@ -167,9 +167,6 @@ export default {
     getCandidates() {
       const vm = this;
       this.$refs.bar.start()
-      console.log(this.vacancy)
-      console.log("this.vacancy")
-      console.log(this.vacancy.id)
       if (this.vacancy.id) {
         const ref = firestoreDb
           .collection("vacancies")

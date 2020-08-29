@@ -2,7 +2,7 @@
   <div>
     <q-table
       title="Empresas aprovadas"
-      :data="data"
+      :data="dataTable"
       :columns="columns"
       row-key="name"
       :filter="filter"
@@ -14,18 +14,27 @@
           </template>
         </q-input>
       </template>
+      <template v-slot:body="props">
+        <q-tr :props="props" @click="getCompanyDetails(props.row.compony)">
+          <q-td key="compony" :props="props">{{ props.row.name }}</q-td>
+          <q-td key="email" :props="props">{{ props.row.email }}</q-td>
+          <q-td key="telephone" :props="props">{{ props.row.telephone }}</q-td>
+          <q-td key="numVacancies" :props="props">{{ props.row.numVacancies }}</q-td>
+        </q-tr>
+      </template>
     </q-table>
   </div>
 </template>
 
 <script>
 export default {
+  props: ["data"],
   data() {
     return {
       filter: "",
       columns: [
         {
-          name: "vacancy",
+          name: "compony",
           required: true,
           label: "Nome da empresa",
           align: "left",
@@ -52,69 +61,46 @@ export default {
           field: "numVacancies",
         },
       ],
-      data: [
+      dataTable: [
         {
-          name: "Frozen Yogurt",
-          email: "nelziositoe@gmail.com",
-          telephone: "+258841224724",
-          numVacancies: 24,
-        },
-        {
-          name: "Ice cream sandwich",
-          email: "nelziositoe@gmail.com",
-          telephone: "+258841224724",
-          numVacancies: 37,
-        },
-        {
-          name: "Eclair",
-          email: "nelziositoe@gmail.com",
-          telephone: "+258841224724",
-          numVacancies: 23,
-        },
-        {
-          name: "Cupcake",
-          email: "nelziositoe@gmail.com",
-          telephone: "+258841224724",
-          numVacancies: 67,
-        },
-        {
-          name: "Gingerbread",
-          email: "nelziositoe@gmail.com",
-          telephone: "+258841224724",
-          numVacancies: 49,
-        },
-        {
-          name: "Jelly bean",
-          email: "nelziositoe@gmail.com",
-          telephone: "+258841224724",
-          numVacancies: 94,
-        },
-        {
-          name: "Lollipop",
-          email: "nelziositoe@gmail.com",
-          telephone: "+258841224724",
-          numVacancies: 98,
-        },
-        {
-          name: "Honeycomb",
-          email: "nelziositoe@gmail.com",
-          telephone: "+258841224724",
-          numVacancies: 87,
-        },
-        {
-          name: "Donut",
-          email: "nelziositoe@gmail.com",
-          telephone: "+258841224724",
-          numVacancies: 51,
-        },
-        {
-          name: "KitKat",
-          email: "nelziositoe@gmail.com",
-          telephone: "+258841224724",
-          numVacancies: 65,
+          name: "",
+          email: "",
+          telephone: "",
+          numVacancies: null,
+          compony: {}
         },
       ],
     };
+  },
+  methods: {
+    getCompanyDetails(compony) {
+      console.log(compony)
+      this.$root.$emit("companyToEvaluation", compony)
+    },
+    displayDatas(list) {
+      const vm = this;
+      let data = [];
+      list.forEach((element) => {
+        console.log(element);
+        data.push({
+          name: element.displayName,
+          email: element.email,
+          telephone: element.phoneNumber,
+          numVacancies: 65,
+          compony: element
+        });
+      });
+      console.log(data);
+      this.dataTable = data;
+    },
+  },
+  mounted() {
+    this.displayDatas(this.data);
+  },
+  watch: {
+    data(val) {
+      this.displayDatas(val);
+    },
   },
 };
 </script>

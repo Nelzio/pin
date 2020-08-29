@@ -13,13 +13,13 @@
 
           <q-tab-panels v-model="panel" animated class="shadow-2 rounded-borders">
             <q-tab-panel name="approved" class="q-pa-none">
-              <Approved />
+              <Approved :data="companiesApproved" />
             </q-tab-panel>
             <q-tab-panel name="requestes" class="q-pa-none">
-              <Rejected />
+              <Requests :data="companiesReq" />
             </q-tab-panel>
             <q-tab-panel name="rejected" class="q-pa-none">
-              <Requests />
+              <Rejected :data="companiesRejected" />
             </q-tab-panel>
           </q-tab-panels>
         </div>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { firestoreDb } from "boot/firebase";
 import Approved from "components/admin/company/Approved";
 import Rejected from "components/admin/company/Rejected";
 import Requests from "components/admin/company/Requests";
@@ -38,9 +39,42 @@ export default {
   data() {
     return {
       panel: "approved",
+      companiesApproved: [],
+      companiesRejected: [],
+      companiesReq: [],
+      companies: [],
     };
   },
   components: { Approved, Rejected, Requests, Evaluation },
+  methods: {
+    getCompanies() {
+      const vm = this;
+      let ref = firestoreDb.collection("users");
+      ref
+        .where("profileType", "==", "organization")
+        .onSnapshot(function (docs) {
+          vm.companiesApproved = [];
+          vm.companiesRejected = [];
+          vm.companiesReq = [];
+          vm.companies = [];
+          docs.forEach(function (doc) {
+            var data = doc.data();
+            data["id"] = doc.id;
+            if (doc.data().status == "approved") {
+              vm.companiesApproved.push(data);
+            } else if (doc.data().status == "rejected") {
+              vm.companiesRejected.push(data);
+            } else {
+              vm.companiesReq.push(data);
+            }
+            vm.companies.push(data);
+          });
+        });
+    },
+  },
+  mounted() {
+    this.getCompanies();
+  },
 };
 </script>
 
