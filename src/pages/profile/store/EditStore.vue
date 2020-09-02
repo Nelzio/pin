@@ -2,11 +2,14 @@
   <q-page padding>
     <!-- content -->
     <!-- <input id="fileInput" type="file">
-    <q-btn color="white" text-color="black" label="Standard" @click="proccessFile()" />-->
+    <q-btn color="white" text-color="black" label="Standard" @click="processFile()" />-->
     <div class="row justify-center">
       <div class="q-gutter-y-md col-12 col-md-8">
         <q-card class="my-card">
-          <q-img :src="imageUrl" alt />
+          <q-img
+            :src="imageUrl"
+            alt
+          />
           <q-card-actions>
             <q-btn
               rounded
@@ -14,12 +17,15 @@
               :class="darkModeConf.textBtn"
               class="full-width"
               label="Trocar imagem"
-              @click="proccessFile()"
+              @click="processFile()"
             />
           </q-card-actions>
         </q-card>
 
-        <q-form class="q-gutter-md" ref="storeForm">
+        <q-form
+          class="q-gutter-md"
+          ref="storeForm"
+        >
           <input
             id="fileInput"
             type="file"
@@ -74,7 +80,10 @@
             label="Preço"
           >
             <template v-slot:append>
-              <q-checkbox :color="darkModeConf.iconVar" v-model="storeData.priceVariable" />
+              <q-checkbox
+                :color="darkModeConf.iconVar"
+                v-model="storeData.priceVariable"
+              />
               <div class="text-body1">Negociável</div>
             </template>
           </q-input>
@@ -104,7 +113,12 @@
           <q-card-section class="text-h5 text-green">Atualizada com sucesso</q-card-section>
 
           <q-card-actions align="right">
-            <q-btn flat label="OK" color="primary" @click="confirmIsertFunc()" />
+            <q-btn
+              flat
+              label="OK"
+              color="primary"
+              @click="confirmIsertFunc()"
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -114,7 +128,12 @@
           <q-card-section class="text-h5 text-red">Por favor, insira uma imagem válida.</q-card-section>
 
           <q-card-actions align="right">
-            <q-btn flat label="OK" color="red" v-close-popup />
+            <q-btn
+              flat
+              label="OK"
+              color="red"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -127,7 +146,7 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import { firestoreDb } from "boot/firebase";
 export default {
   // name: 'PageName',
-  data() {
+  data () {
     return {
       confirmInsert: false,
       errorFileDialog: false,
@@ -194,13 +213,13 @@ export default {
     ...mapGetters("store", ["getSore"])
   },
   methods: {
-    confirmIsertFunc() {
+    confirmIsertFunc () {
       this.confirmInsert = false;
       this.$router.go(-1);
     },
     ...mapActions("store", ["detailStore", "updateStore"]),
 
-    detailStoreLocal(id) {
+    detailStoreLocal (id) {
       // test
       // Loading.show()
       const ref = firestoreDb.collection("stories").doc(id);
@@ -231,7 +250,7 @@ export default {
       });
     },
 
-    updateStoreThis() {
+    updateStoreThis () {
       this.updateStore({
         id: this.$route.params.idEditStore,
         data: this.storeData,
@@ -239,13 +258,13 @@ export default {
       });
     },
 
-    proccessFile() {
+    processFile () {
       // document.getElementById("fileInput").click()
       this.$refs.fileImg.click();
       console.log(document.getElementById("fileInput"));
     },
 
-    onChangeImg(event) {
+    onChangeImg (event) {
       const files = event.target.files;
       let filename = files[0].name;
       let file = files[0];
@@ -261,7 +280,7 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     this.detailStoreLocal(this.$route.params.idEditStore);
 
     this.$root.$emit(
@@ -270,7 +289,7 @@ export default {
     );
   },
   watch: {
-    storeUploaded() {
+    storeUploaded () {
       if (this.storeUploaded) {
         this.confirmInsert = true;
       }

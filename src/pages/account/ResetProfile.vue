@@ -7,18 +7,42 @@
       </div>-->
       <div class="q-pa-md col-md-8 col-12">
         <div class="col-12 text-center q-mb-xl">
-          <q-btn v-if="!imageUrl" round size="40px" @click="proccessFile()">
-            <q-icon :color="darkModeConf.iconVar" name="person_add" />
-            <q-badge floating :color="darkModeConf.iconVar">
-              <q-icon color="white" name="insert_photo" />
+          <q-btn
+            v-if="!imageUrl"
+            round
+            size="40px"
+            @click="processFile()"
+          >
+            <q-icon
+              :color="darkModeConf.iconVar"
+              name="person_add"
+            />
+            <q-badge
+              floating
+              :color="darkModeConf.iconVar"
+            >
+              <q-icon
+                color="white"
+                name="insert_photo"
+              />
             </q-badge>
           </q-btn>
-          <q-btn v-else round @click="proccessFile()">
+          <q-btn
+            v-else
+            round
+            @click="processFile()"
+          >
             <q-avatar size="120px">
               <q-img :src="imageUrl" />
             </q-avatar>
-            <q-badge floating :color="darkModeConf.iconVar">
-              <q-icon :class="darkModeConf.textBtn"  name="edit" />
+            <q-badge
+              floating
+              :color="darkModeConf.iconVar"
+            >
+              <q-icon
+                :class="darkModeConf.textBtn"
+                name="edit"
+              />
             </q-badge>
           </q-btn>
         </div>
@@ -79,8 +103,16 @@
             :rules="[ val => val && val.length > 0 || 'Introduza a sua data de nascimento']"
           >
             <template v-slot:append>
-              <q-icon :color="darkModeConf.iconVar" name="event" class="cursor-pointer">
-                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+              <q-icon
+                :color="darkModeConf.iconVar"
+                name="event"
+                class="cursor-pointer"
+              >
+                <q-popup-proxy
+                  ref="qDateProxy"
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
                   <q-date
                     :color="darkModeConf.iconVar"
                     v-model="userEdit.date"
@@ -199,7 +231,7 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import { LocalStorage, Loading } from 'quasar'
 export default {
   name: "RegisterFormComponent",
-  data() {
+  data () {
     return {
       tab: "contact",
       userEdit: {
@@ -235,7 +267,7 @@ export default {
   methods: {
     ...mapActions("auth", ["editUser", "detailUser"]),
 
-    getUser() {
+    getUser () {
       // first get user
       this.detailUser(this.user.email).then(() => {
         this.userEdit.displayName = this.userData.displayName;
@@ -249,12 +281,12 @@ export default {
       });
     },
 
-    isEmailValid(email) {
+    isEmailValid (email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(String(email).toLowerCase());
     },
 
-    onReset() {
+    onReset () {
       this.userEdit.phoneNumber = null;
       this.userEdit.address = null;
       this.userEdit.profession = null;
@@ -262,13 +294,13 @@ export default {
 
       this.$refs.loginForm.resetValidation();
     },
-    onSubmit() {
+    onSubmit () {
       this.$refs.loginForm.validate();
       if (this.$refs.loginForm.hasError) {
         this.formHasError = true;
       } else {
         // this.userEdit.displayName = this.userEdit.displayName;
-        if(!this.userEdit.description) {
+        if (!this.userEdit.description) {
           this.userEdit.description = "";
         }
         this.userEdit.email = this.user.email;
@@ -279,11 +311,11 @@ export default {
           this.userEdit.profileType = this.profileType;
           LocalStorage.set("profileType", "")
         }
-        
+
         this.editUser({ id: this.user.email, data: this.userEdit, img: this.imageProfile });
       }
     },
-    accountSwipe(val) {
+    accountSwipe (val) {
       if (val.direction === "right") {
         this.$router.push("/account");
       }
@@ -296,10 +328,10 @@ export default {
         this.$router.push("/");
       }
     },
-    proccessFile() {
+    processFile () {
       this.$refs.fileImg.click();
     },
-    onChangeImg(event) {
+    onChangeImg (event) {
       const files = event.target.files;
       let filename = files[0].name;
       let file = files[0];
@@ -315,7 +347,7 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     this.getUser();
     this.$root.$emit("textToSpeechRouter", "Editar perfil");
     if (LocalStorage.getItem("profileType")) this.profileType = LocalStorage.getItem("profileType");
@@ -323,7 +355,7 @@ export default {
   },
 
   filters: {
-    captalizeFirstLetter(val) {
+    captalizeFirstLetter (val) {
       return val.charAt(0).toUpperCase() + "" + val.slice(1);
     }
   }

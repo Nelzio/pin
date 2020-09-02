@@ -3,39 +3,90 @@
     <!-- content -->
     <div class="q-mt-lg row justify-center">
       <div class="col-md-8 col-12">
-        <div v-if="$q.screen.gt.sm" class="shadow-2">
-          <q-tabs v-model="tab" align="justify">
-            <q-tab name="details" label="Detalhes" />
-            <q-tab name="aplayed" label="Candidatos" />
+        <div
+          v-if="$q.screen.gt.sm"
+          class="shadow-2"
+        >
+          <q-tabs
+            v-model="tab"
+            align="justify"
+          >
+            <q-tab
+              name="details"
+              label="Detalhes"
+            />
+            <q-tab
+              name="aplayed"
+              label="Candidatos"
+            />
           </q-tabs>
         </div>
-        <q-tab-panels v-model="tab" animated swipeable>
-          <q-tab-panel name="details" style="padding: 0;">
-            <q-card bordered class="my-card col-sm-12">
-              <q-img v-if="getVacancy.img" :src="getVacancy.img" style="min-height: 200px;" />
+        <q-tab-panels
+          v-model="tab"
+          animated
+          swipeable
+        >
+          <q-tab-panel
+            name="details"
+            style="padding: 0;"
+          >
+            <q-card
+              bordered
+              class="my-card col-sm-12"
+            >
+              <q-img
+                v-if="getVacancy.img"
+                :src="getVacancy.img"
+                style="min-height: 200px;"
+              />
               <q-card-section>
                 <div :class="getFont.title">{{ getVacancy.title }}</div>
               </q-card-section>
               <q-card-section class="row q-pt-none">
                 <div class="col text-center">
-                  <q-icon :color="darkModeConf.iconVar" name="place" size="lg" />
+                  <q-icon
+                    :color="darkModeConf.iconVar"
+                    name="place"
+                    size="lg"
+                  />
                 </div>
-                <div class="col-10" :class="getFont.text">{{ getVacancy.place }}</div>
+                <div
+                  class="col-10"
+                  :class="getFont.text"
+                >{{ getVacancy.place }}</div>
               </q-card-section>
               <q-card-section class="row q-pt-none">
                 <div class="col text-center">
-                  <q-icon :color="darkModeConf.iconVar" name="filter_list" size="lg" />
+                  <q-icon
+                    :color="darkModeConf.iconVar"
+                    name="filter_list"
+                    size="lg"
+                  />
                 </div>
-                <div class="col-10" :class="getFont.text">{{ getVacancy.category }}</div>
+                <div
+                  class="col-10"
+                  :class="getFont.text"
+                >{{ getVacancy.category }}</div>
               </q-card-section>
               <q-card-section class="row q-pt-none">
-                <div class="col-12" :class="getFont.text" v-html="getVacancy.description"></div>
+                <div
+                  class="col-12"
+                  :class="getFont.text"
+                  v-html="getVacancy.description"
+                ></div>
               </q-card-section>
             </q-card>
           </q-tab-panel>
 
-          <q-tab-panel name="aplayed" style="padding: 0;">
-            <div class="q-pa-sm" v-for="candidate in candidates" :key="candidate.id">
+          <q-tab-panel
+            name="aplayed"
+            style="padding: 0;"
+          >
+            <div
+              class="q-pa-sm"
+              v-for="candidate in candidates"
+              :key="candidate.id"
+            >
               <q-card class="my-card">
                 <q-item
                   :class="darkModeConf.textColor"
@@ -49,7 +100,10 @@
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
-                    <div class="text-bold" :class="getFont.text">{{ candidate.displayName}}</div>
+                    <div
+                      class="text-bold"
+                      :class="getFont.text"
+                    >{{ candidate.displayName}}</div>
                     <div>{{ candidate.profession }}</div>
                   </q-item-section>
                   <q-item-section side>
@@ -64,11 +118,28 @@
       </div>
     </div>
 
-    <q-page-sticky expand position="top" :class="darkModeConf.bgColor">
-      <div v-if="!$q.screen.gt.sm" class="shadow-2" style="width: 100vw;">
-        <q-tabs v-model="tab" align="justify">
-          <q-tab name="details" label="Detalhes" />
-          <q-tab name="aplayed" label="Candidatos" />
+    <q-page-sticky
+      expand
+      position="top"
+      :class="darkModeConf.bgColor"
+    >
+      <div
+        v-if="!$q.screen.gt.sm"
+        class="shadow-2"
+        style="width: 100vw;"
+      >
+        <q-tabs
+          v-model="tab"
+          align="justify"
+        >
+          <q-tab
+            name="details"
+            label="Detalhes"
+          />
+          <q-tab
+            name="aplayed"
+            label="Candidatos"
+          />
         </q-tabs>
       </div>
       <!-- <div v-else class="row justify-center" style="width: 80vw;">
@@ -89,7 +160,7 @@ import { firestoreDb } from "boot/firebase";
 import offline from "v-offline";
 export default {
   // name: 'PageName',
-  data() {
+  data () {
     return {
       tab: "details",
       candidates: []
@@ -110,7 +181,7 @@ export default {
       "deleteVacancy"
     ]),
     ...mapActions("user", ["detailUser"]),
-    getCandidates() {
+    getCandidates () {
       if (!offline.data().isOnline) {
         return alert("Sem internet");
       }
@@ -120,8 +191,8 @@ export default {
         .doc(this.$route.params.id)
         .collection("candidates");
       var candidates = [];
-      ref.get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
+      ref.get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
           candidates.push({
             id: doc.id,
             photoURL: doc.data().photoURL,
@@ -137,7 +208,7 @@ export default {
         vm.candidates = candidates;
       });
     },
-    yearsOld(date) {
+    yearsOld (date) {
       var today = new Date();
       return (
         today.getFullYear() -
@@ -145,7 +216,7 @@ export default {
       );
     }
   },
-  created() {
+  created () {
     // this.listVacancy()
     this.getCandidates();
     this.detailVacancy(this.$route.params.id);

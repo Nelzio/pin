@@ -14,7 +14,20 @@ import offline from 'v-offline'
 const state = {
     isUserAuth: LocalStorage.getItem('isUserAuth') ? LocalStorage.getItem('isUserAuth') : false,
     authUser: LocalStorage.getItem('authUser') ? LocalStorage.getItem('authUser') : null,
-    userData: LocalStorage.getItem('userData') ? LocalStorage.getItem('userData') : null,
+    userData: LocalStorage.getItem('userData') ? LocalStorage.getItem('userData') : {
+        displayName: "",
+        email: "",
+        photoURL: "",
+        access: "",
+        association: "",
+        phoneNumber: "",
+        address: "",
+        profession: "",
+        education: "",
+        profileType: "",
+        description: "",
+        date: ""
+    },
 }
 
 const mutations = {
@@ -232,6 +245,8 @@ const actions = {
                                 const dataUser = {
                                     displayName: payload.displayName,
                                     email: payload.email,
+                                    access: "",
+                                    association: payload.association,
                                     photoURL: "",
                                     phoneNumber: payload.phoneNumber,
                                     address: "",
@@ -315,6 +330,8 @@ const actions = {
                         if (doc.exists) {
                             const data = {
                                 id: doc.id,
+                                access: doc.data().access,
+                                association: doc.data().association,
                                 displayName: doc.data().displayName,
                                 email: doc.data().email,
                                 photoURL: doc.data().photoURL,
@@ -346,6 +363,8 @@ const actions = {
                                 displayName: result.user.displayName,
                                 email: result.user.email,
                                 photoURL: result.user.photoURL,
+                                access: "",
+                                association: "",
                                 phoneNumber: "",
                                 address: "",
                                 profession: "",
@@ -426,6 +445,8 @@ const actions = {
                 if (doc.exists) {
                     const data = {
                         id: doc.id,
+                        access: doc.data().access,
+                        association: doc.data().association,
                         displayName: doc.data().displayName,
                         email: doc.data().email,
                         photoURL: doc.data().photoURL,
@@ -455,6 +476,8 @@ const actions = {
                         displayName: result.user.displayName,
                         email: result.user.email,
                         photoURL: result.user.photoURL,
+                        access: "",
+                        association: "",
                         phoneNumber: "",
                         address: "",
                         profession: "",
@@ -529,6 +552,8 @@ const actions = {
                         if (doc.exists) {
                             data = {
                                 id: doc.id,
+                                access: doc.data().access,
+                                association: doc.data().association,
                                 displayName: doc.data().displayName,
                                 email: result.user.uid + "@superactive.com",
                                 photoURL: doc.data().photoURL,
@@ -556,6 +581,8 @@ const actions = {
                                 displayName: result.user.displayName,
                                 email: result.user.uid + "@superactive.com",
                                 photoURL: result.user.photoURL,
+                                access: "",
+                                association: "",
                                 phoneNumber: "",
                                 address: "",
                                 profession: "",
@@ -636,6 +663,8 @@ const actions = {
                 if (doc.exists) {
                     data = {
                         id: doc.id,
+                        access: doc.data().access,
+                        association: doc.data().association,
                         displayName: doc.data().displayName,
                         email: result.user.uid + "@superactive.com",
                         photoURL: doc.data().photoURL,
@@ -663,6 +692,8 @@ const actions = {
                         displayName: result.user.displayName,
                         email: result.user.uid + "@superactive.com",
                         photoURL: result.user.photoURL,
+                        access: "",
+                        association: "",
                         phoneNumber: "",
                         address: "",
                         profession: "",
@@ -750,6 +781,8 @@ const actions = {
         ref.set(payload.data).then((docRef) => {
             const data = {
                 id: payload.data.id,
+                access: payload.access,
+                association: payload.association,
                 displayName: payload.data.displayName,
                 email: payload.data.email,
                 photoURL: payload.data.photoURL,
@@ -833,6 +866,8 @@ const actions = {
             if (doc.exists) {
                 data = {
                     id: doc.id,
+                    access: doc.data().access,
+                    association: doc.data().association,
                     displayName: doc.data().displayName,
                     email: doc.data().email,
                     photoURL: doc.data().photoURL,
@@ -849,6 +884,8 @@ const actions = {
                 // If user desen't exist
                 data = {
                     id: null,
+                    access: "",
+                    association: "",
                     displayName: "",
                     email: "",
                     photoURL: "",
@@ -876,6 +913,8 @@ const actions = {
                     if (doc.exists) {
                         var data = {
                             id: doc.id,
+                            access: doc.data().access,
+                            association: doc.data().association,
                             displayName: doc.data().displayName,
                             email: doc.data().email,
                             photoURL: doc.data().photoURL,

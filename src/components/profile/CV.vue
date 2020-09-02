@@ -1,6 +1,9 @@
 <template>
   <div>
-    <q-form class="q-gutter-md" ref="storeForm">
+    <q-form
+      class="q-gutter-md"
+      ref="storeForm"
+    >
       <input
         id="fileInput"
         type="file"
@@ -49,7 +52,7 @@
                 icon="edit"
                 aria-label="Trocar CV"
                 size="lg"
-                @click="proccessFile('doc')"
+                @click="processFile('doc')"
               />
             </q-toolbar>
             <q-card-section>
@@ -60,57 +63,58 @@
       </q-dialog>
     </div> -->
     <div>
-      <q-dialog v-model="dialogCVHere" :maximized="maximizedToggle">
-        <div class="row">
-          <q-card class="bg-white">
-            <q-toolbar
-              :class="[darkModeConf.bgColor, darkModeConf.textColor]"
-              class="GPL__toolbar"
-              style="height: 64px"
-            >
-              <q-btn
-                v-close-popup
-                :color="darkModeConf.iconVar"
-                flat
-                dense
-                round
-                icon="arrow_back"
-                aria-label="Menu"
-                size="lg"
-              />
+      <q-dialog
+        v-model="dialogCVHere"
+        :maximized="maximizedToggle"
+      >
+        <q-card class="bg-white">
+          <q-toolbar
+            :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+            class="GPL__toolbar"
+            style="height: 64px"
+          >
+            <q-btn
+              v-close-popup
+              :color="darkModeConf.iconVar"
+              flat
+              dense
+              round
+              icon="arrow_back"
+              aria-label="Menu"
+              size="lg"
+            />
 
-              <q-space />
+            <q-space />
 
-              <q-toolbar-title
-                shrink
-                class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font"
-              >Curriculum</q-toolbar-title>
+            <q-toolbar-title
+              shrink
+              class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font"
+            >Curriculum</q-toolbar-title>
 
-              <q-space />
+            <q-space />
 
-              <q-btn
-                v-close-popup
-                :color="darkModeConf.iconVar"
-                flat
-                dense
-                round
-                icon="edit"
-                aria-label="Trocar CV"
-                size="lg"
-                @click="proccessFile('doc')"
-              />
-            </q-toolbar>
-            <q-card-section>
-              <q-pdfviewer
-                v-model="show"
-                :src="'statics/nelziocv.pdf'"
-                type="html5"
-                content-class="fit container"
-                inner-content-class="fit container"
-              />
-            </q-card-section>
-          </q-card>
-        </div>
+            <q-btn
+              v-close-popup
+              :color="darkModeConf.iconVar"
+              flat
+              dense
+              round
+              icon="edit"
+              aria-label="Trocar CV"
+              size="lg"
+              @click="processFile('doc')"
+            />
+          </q-toolbar>
+          <q-card-section class="container">
+            <q-pdfviewer
+              v-model="show"
+              :src="curriculumDownload.docUrl"
+              type="html5"
+              content-class="fit container"
+              inner-content-class="fit container"
+            />
+          </q-card-section>
+        </q-card>
       </q-dialog>
     </div>
   </div>
@@ -132,7 +136,7 @@ import {
 } from "boot/firebase";
 export default {
   props: ["dialogCV"],
-  data() {
+  data () {
     return {
       show: true,
       curriculumDownload: {
@@ -155,7 +159,7 @@ export default {
     ...mapGetters("settings", ["getFont"])
   },
   methods: {
-    curriculumDB(payload) {
+    curriculumDB (payload) {
       Loading.show();
       const vm = this;
       if (!offline.data().isOnline) {
@@ -179,7 +183,7 @@ export default {
         });
     },
 
-    onChangeDoc(event) {
+    onChangeDoc (event) {
       if (!event.target.files) {
         console.log("Nao Foi");
         return;
@@ -194,7 +198,7 @@ export default {
         !(
           file &&
           file["type"].split(".")[file["type"].split(".").length - 1] ===
-            "application/pdf"
+          "application/pdf"
         )
       ) {
         return this.$emit("dialog");
@@ -206,7 +210,7 @@ export default {
       this.uploadFile(this.docUpload, "doc");
     },
 
-    uploadFile(payload, type) {
+    uploadFile (payload, type) {
       console.log("Hiiiiiiii");
       console.log(payload);
       Loading.show();
@@ -220,7 +224,7 @@ export default {
       // Listen for state changes, errors, and completion of the upload.
       uploadTask.on(
         firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-        function(snapshot) {
+        function (snapshot) {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           var progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -234,7 +238,7 @@ export default {
               break;
           }
         },
-        function(error) {
+        function (error) {
           // A full list of error codes is available at
           // https://firebase.google.com/docs/storage/web/handle-errors
           switch (error.code) {
@@ -254,13 +258,13 @@ export default {
               break;
           }
         },
-        function() {
+        function () {
           // Upload completed successfully, now we can get the download URL
-          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
             console.log("File available at", downloadURL);
             uploadTask.snapshot.ref
               .getDownloadURL()
-              .then(function(downloadURL) {
+              .then(function (downloadURL) {
                 console.log("File available at", downloadURL);
                 vm.curriculumDB({
                   docUrl: downloadURL,
@@ -272,7 +276,7 @@ export default {
       );
     },
 
-    getCV() {
+    getCV () {
       // // // Loading.show();
 
       // // // const vm = this;
@@ -302,10 +306,10 @@ export default {
       this.dialogCVHere = true;
     }
   },
-  mounted() {
+  mounted () {
     const vm = this;
     this.docUpload.user = this.userData.email;
-    this.$root.$on("cvDialog", function(val) {
+    this.$root.$on("cvDialog", function (val) {
       // vm.dialogCV = val;
       // vm.dialogCVHere = val;
       vm.getCV();
@@ -324,4 +328,12 @@ export default {
 </script>
 
 <style>
+.container {
+  /* max-width: 50%;
+  max-height: 70%;
+  min-width: 400px; */
+  min-height: 85vh;
+  width: 100%;
+  height: 100%;
+}
 </style>

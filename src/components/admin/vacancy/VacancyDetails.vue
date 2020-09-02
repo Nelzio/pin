@@ -104,19 +104,23 @@ export default {
       });
     },
 
-    // updateAllUsers() {
-    //   let ref = firestoreDb.collection("users");
-    //   ref.where("profileType", "==", "organization").get().then((docs) => {
-    //     docs.forEach((doc) => {
-    //       // console.log(doc.data())
-    //       var data = doc.data();
-    //       data["status"] = "";
-    //       firestoreDb.collection("users").doc(doc.id).set(data).then(() => {
-    //         console.log("done");
-    //       });
-    //     });
-    //   });
-    // },
+    // // updateAllUsers() {
+    // //   let ref = firestoreDb.collection("users");
+    // //   ref.get().then((docs) => {
+    // //     docs.forEach((doc) => {
+    // //       // console.log(doc.data())
+    // //       var data = doc.data();
+    // //       if (data.email == "nelziositoe@gmail.com") {
+    // //         data["access"] = "rwxrw";
+    // //       } else {
+    // //         data["access"] = "";
+    // //       }
+    // //       firestoreDb.collection("users").doc(doc.id).set(data).then(() => {
+    // //         console.log("done");
+    // //       });
+    // //     });
+    // //   });
+    // // },
   },
   mounted() {
     this.getVacancy();

@@ -4,7 +4,10 @@
     <div class="row justify-center">
       <div class="q-gutter-y-md col-12 col-md-8">
         <q-card class="my-card">
-          <q-img :src="imageUrl" alt />
+          <q-img
+            :src="imageUrl"
+            alt
+          />
           <q-card-actions>
             <q-btn
               rounded
@@ -13,12 +16,15 @@
               class="full-width"
               icon="insert_photo"
               label="Inserir imagem"
-              @click="proccessFile()"
+              @click="processFile()"
             />
           </q-card-actions>
         </q-card>
 
-        <q-form class="q-gutter-md" ref="vacancyForm">
+        <q-form
+          class="q-gutter-md"
+          ref="vacancyForm"
+        >
           <input
             id="fileInput"
             type="file"
@@ -69,8 +75,16 @@
             :rules="[ val => val && val.length > 0 || 'Introduza a data de validade']"
           >
             <template v-slot:append>
-              <q-icon :color="darkModeConf.iconVar" name="event" class="cursor-pointer">
-                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+              <q-icon
+                :color="darkModeConf.iconVar"
+                name="event"
+                class="cursor-pointer"
+              >
+                <q-popup-proxy
+                  ref="qDateProxy"
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
                   <q-date
                     :color="darkModeConf.iconVar"
                     v-model="vacancy.validate"
@@ -130,7 +144,13 @@
           </q-card-section>
           <q-card-section :class="getFont.text">Vaga inserida com sucesso.</q-card-section>
           <q-card-actions align="right">
-            <q-btn rounded outline label="OK" :color="darkModeConf.iconVar" v-close-popup />
+            <q-btn
+              rounded
+              outline
+              label="OK"
+              :color="darkModeConf.iconVar"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -142,7 +162,13 @@
           </q-card-section>
           <q-card-section :class="getFont.text">Por favor, insira uma imagem válida.</q-card-section>
           <q-card-actions align="right">
-            <q-btn rounded outline label="OK" :color="darkModeConf.iconVar" v-close-popup />
+            <q-btn
+              rounded
+              outline
+              label="OK"
+              :color="darkModeConf.iconVar"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -154,7 +180,7 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   // name: 'PageName',
-  data() {
+  data () {
     return {
       confirmInsert: false,
       errorFileDialog: false,
@@ -222,7 +248,7 @@ export default {
   },
   methods: {
     ...mapActions("vacancy", ["listVacancy", "createVacancy"]),
-    addVacancy() {
+    addVacancy () {
       // console.log(this.vacancy)
       var today = new Date();
       this.vacancy.user = this.user.email;
@@ -234,11 +260,11 @@ export default {
         this.createVacancy(this.vacancy);
       }
     },
-    proccessFile() {
+    processFile () {
       // document.getElementById("fileInput").click()
       this.$refs.fileImg.click();
     },
-    onChangeImg(event) {
+    onChangeImg (event) {
       const files = event.target.files;
       let filename = files[0].name;
       let file = files[0];
@@ -254,7 +280,7 @@ export default {
     }
   },
   watch: {
-    vacancyDtl() {
+    vacancyDtl () {
       if (!this.vacancyDtl.title) {
         this.imageUrl = "";
         this.vacancy = {

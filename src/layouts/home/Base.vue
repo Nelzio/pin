@@ -1,7 +1,10 @@
 <template>
   <q-layout view="hHh Lpr fFf">
     <!-- Be sure to play with the Layout demo on docs -->
-    <q-header elevated height-hint="64">
+    <q-header
+      elevated
+      height-hint="64"
+    >
       <q-toolbar
         :class="[darkModeConf.bgColor, darkModeConf.textColor]"
         class="GPL__toolbar"
@@ -56,8 +59,16 @@
           shrink
           class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font"
         >
-          <q-btn flat round to="/">
-            <q-img src="statics/img/home/appLogo.png" style="height: 50px" alt />
+          <q-btn
+            flat
+            round
+            to="/"
+          >
+            <q-img
+              src="statics/img/home/appLogo.png"
+              style="height: 50px"
+              alt
+            />
           </q-btn>Superativo
         </q-toolbar-title>
         <q-toolbar-title
@@ -65,8 +76,16 @@
           class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font"
           v-else
         >
-          <q-btn flat round to="/">
-            <q-img src="statics/img/home/appLogo.png" style="height: 50px" alt />
+          <q-btn
+            flat
+            round
+            to="/"
+          >
+            <q-img
+              src="statics/img/home/appLogo.png"
+              style="height: 50px"
+              alt
+            />
           </q-btn>Superativo
         </q-toolbar-title>
 
@@ -83,7 +102,11 @@
           style="width: 50%;"
         >
           <template v-slot:append>
-            <q-icon :color="darkModeConf.iconVar" v-if="valueSearch === ''" name="search" />
+            <q-icon
+              :color="darkModeConf.iconVar"
+              v-if="valueSearch === ''"
+              name="search"
+            />
             <q-icon
               :color="darkModeConf.iconVar"
               v-else
@@ -105,28 +128,53 @@
           <!-- <q-btn round dense flat icon="notifications">
             <q-badge color="primary" text-color="white" floating>2</q-badge>
           </q-btn>-->
-          <ChatCount :readed="readed" />
-          <q-btn v-if="isUserAuth" round flat>
+          <ChatCount
+            v-if="this.$route.path.split('/')[1] != 'admin'"
+            :readed="readed"
+          />
+          <q-btn
+            v-if="isUserAuth"
+            round
+            flat
+          >
             <q-avatar>
               <q-img :src="user.photoURL" />
             </q-avatar>
-            <q-menu transition-show="jump-down" transition-hide="jump-up">
+            <q-menu
+              transition-show="jump-down"
+              transition-hide="jump-up"
+            >
               <q-list style="min-width: 100px">
                 <template>
-                  <q-item to="/profile" clickable>
+                  <q-item
+                    to="/profile"
+                    clickable
+                  >
                     <q-item-section>Perfil</q-item-section>
                   </q-item>
                   <q-separator />
-                  <q-item @click="signOut" clickable>
+                  <q-item
+                    @click="signOut"
+                    clickable
+                  >
                     <q-item-section>Sair</q-item-section>
                   </q-item>
                 </template>
               </q-list>
             </q-menu>
           </q-btn>
-          <q-btn v-else round flat to="/account">
+          <q-btn
+            v-else
+            round
+            flat
+            to="/account"
+          >
             <q-avatar>
-              <q-icon name="account_circle" size="lg" color="primary" />
+              <q-icon
+                name="account_circle"
+                size="lg"
+                color="primary"
+              />
             </q-avatar>
           </q-btn>
           <q-btn
@@ -158,7 +206,11 @@
           placeholder="Pesquisar"
         >
           <template v-slot:append>
-            <q-icon :color="darkModeConf.iconVar" v-if="valueSearch === ''" name="search" />
+            <q-icon
+              :color="darkModeConf.iconVar"
+              v-if="valueSearch === ''"
+              name="search"
+            />
             <q-icon
               :color="darkModeConf.iconVar"
               v-else
@@ -182,10 +234,26 @@
         indicator-color="transparent"
         class="text-grey"
       >
-        <q-route-tab name="home" icon="home" to="/" />
-        <q-route-tab name="trabalho" icon="work" to="/vacancies" />
-        <q-route-tab name="store" icon="store" to="/store" />
-        <q-route-tab name="settings" icon="settings" to="/settings" />
+        <q-route-tab
+          name="home"
+          icon="home"
+          to="/"
+        />
+        <q-route-tab
+          name="trabalho"
+          icon="work"
+          to="/vacancies"
+        />
+        <q-route-tab
+          name="store"
+          icon="store"
+          to="/store"
+        />
+        <q-route-tab
+          name="settings"
+          icon="settings"
+          to="/settings"
+        />
         <!--<q-route-tab name="profile" icon="person" to="/profile" />-->
       </q-tabs>
     </q-footer>
@@ -205,16 +273,27 @@
         </q-toolbar>
 
         <q-list padding>
-          <q-item clickable v-ripple @click="filterVal = '', drowerFilter = false">
+          <q-item
+            clickable
+            v-ripple
+            @click="filterVal = '', drowerFilter = false"
+          >
             <q-item-section avatar>
-              <q-icon :color="darkModeConf.iconVar" name="list" />
+              <q-icon
+                :color="darkModeConf.iconVar"
+                name="list"
+              />
             </q-item-section>
 
             <q-item-section>
               <q-item-label :class="darkModeConf.textColor">Todas vagas</q-item-label>
             </q-item-section>
           </q-item>
-          <q-expansion-item expand-separator icon="group_work" label="Categorias">
+          <q-expansion-item
+            expand-separator
+            icon="group_work"
+            label="Categorias"
+          >
             <q-item
               clickable
               v-ripple
@@ -227,7 +306,12 @@
               </q-item-section>
             </q-item>
           </q-expansion-item>
-          <q-expansion-item default-opened expand-separator icon="place" label="Provincias">
+          <q-expansion-item
+            default-opened
+            expand-separator
+            icon="place"
+            label="Provincias"
+          >
             <q-item
               clickable
               v-ripple
@@ -259,16 +343,27 @@
         </q-toolbar>
 
         <q-list padding>
-          <q-item clickable v-ripple @click="filterVal = '', drowerFilterStore = false">
+          <q-item
+            clickable
+            v-ripple
+            @click="filterVal = '', drowerFilterStore = false"
+          >
             <q-item-section avatar>
-              <q-icon :color="darkModeConf.iconVar" name="list" />
+              <q-icon
+                :color="darkModeConf.iconVar"
+                name="list"
+              />
             </q-item-section>
 
             <q-item-section>
               <q-item-label :class="darkModeConf.textColor">Todas Produtos e serviços</q-item-label>
             </q-item-section>
           </q-item>
-          <q-expansion-item expand-separator icon="group_work" label="Categorias">
+          <q-expansion-item
+            expand-separator
+            icon="group_work"
+            label="Categorias"
+          >
             <q-item
               clickable
               v-ripple
@@ -281,7 +376,12 @@
               </q-item-section>
             </q-item>
           </q-expansion-item>
-          <q-expansion-item default-opened expand-separator icon="place" label="Provincias">
+          <q-expansion-item
+            default-opened
+            expand-separator
+            icon="place"
+            label="Provincias"
+          >
             <q-item
               clickable
               v-ripple
@@ -298,7 +398,7 @@
       </q-scroll-area>
     </q-drawer>
     <q-drawer
-      v-if="this.$route.path.split('/')[1] == 'admin'"
+      v-if="this.$route.path.split('/')[1] == 'admin' && userData.access"
       v-model="drowerAdmin"
       bordered
       behavior="mobile"
@@ -328,8 +428,14 @@
             :to="item.to"
             @click="drowerAdmin = false"
           >
-            <q-item-section avatar v-if="item.icon">
-              <q-icon :color="darkModeConf.iconVar" :name="item.icon" />
+            <q-item-section
+              avatar
+              v-if="item.icon"
+            >
+              <q-icon
+                :color="darkModeConf.iconVar"
+                :name="item.icon"
+              />
             </q-item-section>
             <q-item-section>
               <q-item-label :class="darkModeConf.textColor">{{ item.name.toUpperCase() }}</q-item-label>
@@ -340,23 +446,67 @@
     </q-drawer>
     <q-page-container class="GPL__page-container">
       <!-- This is where pages get injected -->
-      <router-view v-if="toSearch" :val_search="valueSearch" :filterVal="filterVal" />
+      <router-view
+        v-if="toSearch"
+        :val_search="valueSearch"
+        :filterVal="filterVal"
+      />
       <router-view v-else />
 
-      <q-page-sticky v-if="$q.screen.gt.sm" expand position="left">
+      <q-page-sticky
+        v-if="$q.screen.gt.sm"
+        expand
+        position="left"
+      >
         <div class="fit q-pt-lg q-px-xs column">
-          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/">
-            <q-icon :color="darkModeConf.iconVar" size="lg" name="home" />
+          <q-btn
+            round
+            flat
+            stack
+            no-caps
+            size="35px"
+            class="GPL__side-btn"
+            to="/"
+          >
+            <q-icon
+              :color="darkModeConf.iconVar"
+              size="lg"
+              name="home"
+            />
             <div class="GPL__side-btn__label">Home</div>
           </q-btn>
 
-          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/vacancies">
-            <q-icon :color="darkModeConf.iconVar" size="lg" name="work" />
+          <q-btn
+            round
+            flat
+            stack
+            no-caps
+            size="35px"
+            class="GPL__side-btn"
+            to="/vacancies"
+          >
+            <q-icon
+              :color="darkModeConf.iconVar"
+              size="lg"
+              name="work"
+            />
             <div class="GPL__side-btn__label">Vagas</div>
           </q-btn>
 
-          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/store">
-            <q-icon :color="darkModeConf.iconVar" size="lg" name="store" />
+          <q-btn
+            round
+            flat
+            stack
+            no-caps
+            size="35px"
+            class="GPL__side-btn"
+            to="/store"
+          >
+            <q-icon
+              :color="darkModeConf.iconVar"
+              size="lg"
+              name="store"
+            />
             <div class="GPL__side-btn__label">Negócio</div>
             <!-- <q-badge floating :color="darkModeConf.iconVar" text-color="white" style="top: 8px right: 16px">
               1
@@ -372,19 +522,61 @@
             class="GPL__side-btn"
             to="/profile"
           >
-            <q-icon :color="darkModeConf.iconVar" size="lg" name="person" />
+            <q-icon
+              :color="darkModeConf.iconVar"
+              size="lg"
+              name="person"
+            />
             <div class="GPL__side-btn__label">Perfil</div>
           </q-btn>
-          <q-btn v-else round flat stack no-caps size="35px" class="GPL__side-btn" to="/account">
-            <q-icon :color="darkModeConf.iconVar" size="lg" name="person" />
+          <q-btn
+            v-else
+            round
+            flat
+            stack
+            no-caps
+            size="35px"
+            class="GPL__side-btn"
+            to="/account"
+          >
+            <q-icon
+              :color="darkModeConf.iconVar"
+              size="lg"
+              name="person"
+            />
             <div class="GPL__side-btn__label">Perfil</div>
           </q-btn>
-          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/settings">
-            <q-icon :color="darkModeConf.iconVar" size="lg" name="settings" />
+          <q-btn
+            round
+            flat
+            stack
+            no-caps
+            size="35px"
+            class="GPL__side-btn"
+            to="/settings"
+          >
+            <q-icon
+              :color="darkModeConf.iconVar"
+              size="lg"
+              name="settings"
+            />
             <div class="GPL__side-btn__label">Definições</div>
           </q-btn>
-          <q-btn round flat stack no-caps size="35px" class="GPL__side-btn" to="/admin">
-            <q-icon :color="darkModeConf.iconVar" size="lg" name="admin_panel_settings" />
+          <q-btn
+            v-if="userData.access"
+            round
+            flat
+            stack
+            no-caps
+            size="35px"
+            class="GPL__side-btn"
+            to="/admin"
+          >
+            <q-icon
+              :color="darkModeConf.iconVar"
+              size="lg"
+              name="admin_panel_settings"
+            />
             <div class="GPL__side-btn__label">Admin</div>
           </q-btn>
         </div>
@@ -401,7 +593,7 @@ import ChatCount from "components/layout/ChatCount";
 export default {
   // name: 'LayoutName',
 
-  data() {
+  data () {
     return {
       readed: false,
       textColor: "text-black",
@@ -505,13 +697,13 @@ export default {
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
     ...mapGetters("settings", ["getVibrate"]),
-    ...mapGetters("auth", ["isUserAuth", "user"]),
+    ...mapGetters("auth", ["isUserAuth", "user", "userData"]),
   },
   methods: {
     ...mapActions("auth", ["signOut"]),
     ...mapActions("settings", ["setAppMode"]),
 
-    backIconFunc(to) {
+    backIconFunc (to) {
       // active/ deactivate icon
       this.backIcon = false;
       if (
@@ -524,7 +716,7 @@ export default {
         this.backIcon = true;
     },
 
-    speak(userInput) {
+    speak (userInput) {
       if (this.vibrateState === 1 && this.getVibrate) {
         if (this.synth.speaking) {
           // console.error('speechSynthesis.speaking');
@@ -571,7 +763,7 @@ export default {
       }
     },
 
-    speakCordova(userInput) {
+    speakCordova (userInput) {
       if (this.vibrateState === 1 && this.getVibrate) {
         TTS.speak(
           {
@@ -614,7 +806,7 @@ export default {
     //   }
     // },
 
-    getChat(vm) {
+    getChat (vm) {
       const ref = firestoreDb
         .collection("chat")
         .doc(vm.user.email.split("@")[0]);
@@ -645,7 +837,7 @@ export default {
       });
     },
 
-    accessibilityMode() {
+    accessibilityMode () {
       this.$root.$on("textToSpeechRouter", (val) => {
         if (window.hasOwnProperty("cordova")) {
           this.speakCordova(val);
@@ -656,19 +848,19 @@ export default {
     },
   },
 
-  beforeCreate() {
+  beforeCreate () {
     if (!LocalStorage.getItem("notFirst")) {
       this.$router.push("/welcome");
     }
   },
 
-  created() {
+  created () {
     // if (!LocalStorage.getItem("notFirst")) {
     //   this.$router.push("/welcome");
     // }
   },
 
-  mounted() {
+  mounted () {
     const vm = this;
     if (LocalStorage.getItem("lightMode") !== null) {
       if (LocalStorage.getItem("lightMode") === 1) {
@@ -706,7 +898,7 @@ export default {
   },
 
   watch: {
-    $route(to, from) {
+    $route (to, from) {
       // react to route changes...
       this.toSearch = false;
       if (this.$route.path == "/store" || this.$route.path == "/vacancies") {
@@ -724,7 +916,7 @@ export default {
         }
       }
     },
-    appMode(val) {
+    appMode (val) {
       if (val) {
         this.$q.dark.set(false);
       } else {

@@ -4,7 +4,10 @@
     <div class="row justify-center">
       <div class="q-gutter-y-md col-12 col-md-8">
         <q-card class="my-card">
-          <q-img :src="imageUrl" alt />
+          <q-img
+            :src="imageUrl"
+            alt
+          />
           <q-card-actions>
             <q-btn
               rounded
@@ -13,12 +16,15 @@
               class="full-width"
               icon="image"
               label="Inserir imagem"
-              @click="proccessFile()"
+              @click="processFile()"
             />
           </q-card-actions>
         </q-card>
 
-        <q-form class="q-gutter-md" ref="storeForm">
+        <q-form
+          class="q-gutter-md"
+          ref="storeForm"
+        >
           <input
             id="fileInput"
             type="file"
@@ -68,9 +74,19 @@
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Selecione a provincia']"
           />
-          <q-input rounded outlined v-model="store.price" :color="darkModeConf.iconVar" label="Preço">
+          <q-input
+            rounded
+            outlined
+            v-model="store.price"
+            :color="darkModeConf.iconVar"
+            label="Preço"
+          >
             <template v-slot:append>
-              <q-checkbox :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" v-model="store.priceVariable" />
+              <q-checkbox
+                :color="darkModeConf.iconVar"
+                :class="darkModeConf.textBtn"
+                v-model="store.priceVariable"
+              />
               <div class="text-body1">Negociável</div>
             </template>
           </q-input>
@@ -103,7 +119,13 @@
           </q-card-section>
           <q-card-section :class="getFont.text">Inserido com sucesso.</q-card-section>
           <q-card-actions align="right">
-            <q-btn :color="darkModeConf.iconVar" rounded outline label="OK" v-close-popup />
+            <q-btn
+              :color="darkModeConf.iconVar"
+              rounded
+              outline
+              label="OK"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -115,7 +137,13 @@
           </q-card-section>
           <q-card-section :class="getFont.text">Por favor, insira uma imagem válida.</q-card-section>
           <q-card-actions align="right">
-            <q-btn :color="darkModeConf.iconVar" rounded outline label="OK" v-close-popup />
+            <q-btn
+              :color="darkModeConf.iconVar"
+              rounded
+              outline
+              label="OK"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -127,7 +155,7 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   // name: 'PageName',
-  data() {
+  data () {
     return {
       confirmInsert: false,
       errorFileDialog: false,
@@ -184,7 +212,7 @@ export default {
   },
   methods: {
     ...mapActions("store", ["createStore"]),
-    addStore() {
+    addStore () {
       var today = new Date();
       this.store.timeSend = String(today);
       this.store.user = this.user.email;
@@ -195,11 +223,11 @@ export default {
         this.createStore(this.store);
       }
     },
-    proccessFile() {
+    processFile () {
       // document.getElementById("fileInput").click()
       this.$refs.fileImg.click();
     },
-    onChangeImg(event) {
+    onChangeImg (event) {
       const files = event.target.files;
       let filename = files[0].name;
       let file = files[0];
@@ -213,12 +241,12 @@ export default {
       fileReader.readAsDataURL(files[0]);
       this.store.img = files[0];
     },
-    mounted() {
+    mounted () {
       this.$root.$emit("textToSpeechRouter", "Adiciona produto ou serviço");
     }
   },
   watch: {
-    storeDtl() {
+    storeDtl () {
       if (!this.storeDtl.title) {
         this.imageUrl = "";
         this.store = {

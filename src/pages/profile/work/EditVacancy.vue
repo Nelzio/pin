@@ -2,11 +2,14 @@
   <q-page padding>
     <!-- content -->
     <!-- <input id="fileInput" type="file">
-    <q-btn color="white" text-color="black" label="Standard" @click="proccessFile()" />-->
+    <q-btn color="white" text-color="black" label="Standard" @click="processFile()" />-->
     <div class="row justify-center">
       <div class="q-gutter-y-md col-12 col-md-8">
         <q-card class="my-card">
-          <q-img :src="imageUrl" alt />
+          <q-img
+            :src="imageUrl"
+            alt
+          />
           <q-card-actions>
             <q-btn
               rounded
@@ -14,7 +17,7 @@
               :class="darkModeConf.textBtn"
               class="full-width"
               label="Trocar imagem"
-              @click="proccessFile()"
+              @click="processFile()"
             />
           </q-card-actions>
         </q-card>
@@ -63,8 +66,16 @@
             :rules="[ val => val && val.length > 0 || 'Introduza a data de validade']"
           >
             <template v-slot:append>
-              <q-icon :color="darkModeConf.iconVar" name="event" class="cursor-pointer">
-                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+              <q-icon
+                :color="darkModeConf.iconVar"
+                name="event"
+                class="cursor-pointer"
+              >
+                <q-popup-proxy
+                  ref="qDateProxy"
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
                   <q-date
                     :color="darkModeConf.iconVar"
                     v-model="vacancyData.validate"
@@ -99,7 +110,12 @@
           <q-card-section class="text-h5 text-green">Vaga atualizada com sucesso</q-card-section>
 
           <q-card-actions align="right">
-            <q-btn flat label="OK" color="primary" @click="confirmIsertFunc()" />
+            <q-btn
+              flat
+              label="OK"
+              color="primary"
+              @click="confirmIsertFunc()"
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -109,7 +125,12 @@
           <q-card-section class="text-h5 text-red">Por favor, insira uma imagem válida.</q-card-section>
 
           <q-card-actions align="right">
-            <q-btn flat label="OK" color="red" v-close-popup />
+            <q-btn
+              flat
+              label="OK"
+              color="red"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -122,7 +143,7 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import { firestoreDb } from "boot/firebase";
 export default {
   // name: 'PageName',
-  data() {
+  data () {
     return {
       confirmInsert: false,
       errorFileDialog: false,
@@ -199,7 +220,7 @@ export default {
     ...mapGetters("vacancy", ["getVacancy"])
   },
   methods: {
-    confirmIsertFunc() {
+    confirmIsertFunc () {
       this.confirmInsert = false;
       this.$router.go(-1);
     },
@@ -210,7 +231,7 @@ export default {
       "updateVacancy"
     ]),
 
-    detailVacancyLocal(id) {
+    detailVacancyLocal (id) {
       // test
       // Loading.show()
       const ref = firestoreDb.collection("vacancies").doc(id);
@@ -239,7 +260,7 @@ export default {
       });
     },
 
-    updateVacancyThis() {
+    updateVacancyThis () {
       this.updateVacancy({
         id: this.$route.params.idEdit,
         data: this.vacancyData,
@@ -247,13 +268,13 @@ export default {
       });
     },
 
-    proccessFile() {
+    processFile () {
       // document.getElementById("fileInput").click()
       this.$refs.fileImg.click();
       console.log(document.getElementById("fileInput"));
     },
 
-    onChangeImg(event) {
+    onChangeImg (event) {
       const files = event.target.files;
       let filename = files[0].name;
       let file = files[0];
@@ -269,11 +290,11 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     this.detailVacancyLocal(this.$route.params.idEdit);
   },
   watch: {
-    vacancyUploaded() {
+    vacancyUploaded () {
       if (this.vacancyUploaded) {
         this.confirmInsert = true;
       }

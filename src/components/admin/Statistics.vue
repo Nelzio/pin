@@ -12,8 +12,8 @@
             </div>
           </q-img>
           <q-card-section class="text-h5">Usuários</q-card-section>
-          <q-card-actions align="right">
-            <q-btn outline rounded color="primary" label="Ver usuários" />
+          <q-card-actions align="left">
+            <q-btn outline rounded color="primary" label="Usuários" to="/admin/users" />
             <q-btn outline rounded color="primary" label="Estatísticas" />
           </q-card-actions>
         </q-card>
@@ -29,8 +29,8 @@
             </div>
           </q-img>
           <q-card-section class="text-h5">Empresas</q-card-section>
-          <q-card-actions align="right">
-            <q-btn outline rounded color="primary" label="Ver usuários" />
+          <q-card-actions align="left">
+            <q-btn outline rounded color="primary" label="Empresas" to="/admin/companies" />
             <q-btn outline rounded color="primary" label="Estatísticas" />
           </q-card-actions>
         </q-card>
@@ -46,8 +46,8 @@
             </div>
           </q-img>
           <q-card-section class="text-h5">Vagas</q-card-section>
-          <q-card-actions align="right">
-            <q-btn outline rounded color="primary" label="Ver usuários" />
+          <q-card-actions align="left">
+            <q-btn outline rounded color="primary" label="Vagas" to="/admin/vacancies" />
             <q-btn outline rounded color="primary" label="Estatísticas" />
           </q-card-actions>
         </q-card>
@@ -72,16 +72,16 @@
       <div class="col-3 q-pa-md">
         <q-card class="my-card">
           <q-img
-            src="statics/admin/baseline_store_black_36dp.png"
+            src="statics/admin/baseline_groups_black_18dp.png"
             alt
           >
             <div class="absolute-bottom absolute-top text-subtitle2 text-center">
-              <div class="text-h3 text-bold" style="padding-top: 25%;">{{ productAndServices }}</div>
+              <div class="text-h3 text-bold" style="padding-top: 25%;">{{ associations }}</div>
             </div>
           </q-img>
           <q-card-section class="text-h5">Associações</q-card-section>
-          <q-card-actions align="right">
-            <q-btn outline rounded color="primary" label="Ver usuários" />
+          <q-card-actions align="left">
+            <q-btn outline rounded color="primary" label="Associações" to="/admin/associations" />
             <q-btn outline rounded color="primary" label="Estatísticas" />
           </q-card-actions>
         </q-card>
@@ -104,6 +104,7 @@ export default {
       companies: 0,
       vacancies: 0,
       productAndServices: 0,
+      associations: 0
     };
   },
   methods: {
@@ -130,6 +131,15 @@ export default {
         });
       });
     },
+    getAssociations() {
+      const vm = this;
+      let ref = firestoreDb.collection("associations");
+      ref.onSnapshot(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          vm.associations += 1;
+        });
+      });
+    },
     getPS() {
       const vm = this;
       let ref = firestoreDb.collection("stories");
@@ -144,6 +154,7 @@ export default {
     this.getUsers();
     this.getVacancies();
     this.getPS();
+    this.getAssociations()
   },
 };
 </script>

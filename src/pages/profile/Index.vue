@@ -11,7 +11,10 @@
         <!-- sec1 -->
         <div class="text-center">
           <q-avatar size="100px">
-            <q-img :src="user.photoURL" spinner-color="white" />
+            <q-img
+              :src="user.photoURL"
+              spinner-color="white"
+            />
           </q-avatar>
 
           <div :class="getFont.title">{{ user.displayName }}</div>
@@ -30,18 +33,39 @@
               align="justify"
               narrow-indicator
             >
-              <q-tab name="bio" label="Contacto" icon="contacts" />
-              <q-tab name="ocupacao" label="Sobre" icon="description" v-if="userData.profileType" />
+              <q-tab
+                name="bio"
+                label="Contacto"
+                icon="contacts"
+              />
+              <q-tab
+                name="ocupacao"
+                label="Sobre"
+                icon="description"
+                v-if="userData.profileType"
+              />
             </q-tabs>
 
             <q-separator />
 
-            <q-tab-panels v-model="tab" animated>
+            <q-tab-panels
+              v-model="tab"
+              animated
+            >
               <q-tab-panel name="bio">
                 <q-list>
-                  <q-item v-if="userData.phoneNumber" class="text-left">
-                    <q-item-section top avatar>
-                      <q-icon :color="darkModeConf.iconVar" name="phone" />
+                  <q-item
+                    v-if="userData.phoneNumber"
+                    class="text-left"
+                  >
+                    <q-item-section
+                      top
+                      avatar
+                    >
+                      <q-icon
+                        :color="darkModeConf.iconVar"
+                        name="phone"
+                      />
                     </q-item-section>
 
                     <q-item-section>
@@ -60,8 +84,14 @@
                     v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'"
                     class="text-left"
                   >
-                    <q-item-section top avatar>
-                      <q-icon :color="darkModeConf.iconVar" name="email" />
+                    <q-item-section
+                      top
+                      avatar
+                    >
+                      <q-icon
+                        :color="darkModeConf.iconVar"
+                        name="email"
+                      />
                     </q-item-section>
 
                     <q-item-section>
@@ -77,8 +107,14 @@
                   />
 
                   <q-item class="text-left">
-                    <q-item-section avatar top>
-                      <q-icon :color="darkModeConf.iconVar" name="place" />
+                    <q-item-section
+                      avatar
+                      top
+                    >
+                      <q-icon
+                        :color="darkModeConf.iconVar"
+                        name="place"
+                      />
                     </q-item-section>
                     <q-item-section>
                       <q-item-label :class="getFont.title">Endereço</q-item-label>
@@ -94,8 +130,14 @@
               >
                 <q-list>
                   <q-item class="text-left">
-                    <q-item-section top avatar>
-                      <q-icon :color="darkModeConf.iconVar" name="calendar_today" />
+                    <q-item-section
+                      top
+                      avatar
+                    >
+                      <q-icon
+                        :color="darkModeConf.iconVar"
+                        name="calendar_today"
+                      />
                     </q-item-section>
 
                     <q-item-section>
@@ -105,8 +147,14 @@
                   </q-item>
 
                   <q-item class="text-left">
-                    <q-item-section top avatar>
-                      <q-icon :color="darkModeConf.iconVar" name="work" />
+                    <q-item-section
+                      top
+                      avatar
+                    >
+                      <q-icon
+                        :color="darkModeConf.iconVar"
+                        name="work"
+                      />
                     </q-item-section>
 
                     <q-item-section>
@@ -115,35 +163,79 @@
                     </q-item-section>
                   </q-item>
 
-                  <q-separator spaced inset="item" />
+                  <q-separator
+                    spaced
+                    inset="item"
+                  />
 
                   <q-item class="text-left">
-                    <q-item-section avatar top>
-                      <q-icon :color="darkModeConf.iconVar" name="school" />
+                    <q-item-section
+                      avatar
+                      top
+                    >
+                      <q-icon
+                        :color="darkModeConf.iconVar"
+                        name="school"
+                      />
                     </q-item-section>
                     <q-item-section>
                       <q-item-label :class="getFont.title">Curiculum</q-item-label>
                     </q-item-section>
-                    <q-item-section top side>
+                    <q-item-section
+                      top
+                      side
+                    >
                       <div class="text-grey-8 q-gutter-xs">
-                        <q-btn flat dense round icon="more_vert">
-                          <q-menu persistent auto-close>
+                        <q-btn
+                          flat
+                          dense
+                          round
+                          icon="more_vert"
+                        >
+                          <q-menu
+                            persistent
+                            auto-close
+                          >
                             <q-list style="min-width: 100px">
-                              <q-item clickable @click="$root.$emit('cvDialog', true)">
-                                <q-item-section top avatar>
-                                  <q-icon :color="darkModeConf.iconVar" name="visibility" />
+                              <q-item
+                                clickable
+                                @click="$root.$emit('cvDialog', true)"
+                              >
+                                <q-item-section
+                                  top
+                                  avatar
+                                >
+                                  <q-icon
+                                    :color="darkModeConf.iconVar"
+                                    name="visibility"
+                                  />
                                 </q-item-section>
                                 <q-item-section>Ver</q-item-section>
                               </q-item>
-                              <q-item clickable @click="$root.$emit('uploadCV')">
-                                <q-item-section top avatar>
-                                  <q-icon :color="darkModeConf.iconVar" name="upload_file" />
+                              <q-item
+                                clickable
+                                @click="$root.$emit('uploadCV')"
+                              >
+                                <q-item-section
+                                  top
+                                  avatar
+                                >
+                                  <q-icon
+                                    :color="darkModeConf.iconVar"
+                                    name="upload_file"
+                                  />
                                 </q-item-section>
                                 <q-item-section>Carregar</q-item-section>
                               </q-item>
                               <q-item clickable>
-                                <q-item-section top avatar>
-                                  <q-icon :color="darkModeConf.iconVar" name="delete" />
+                                <q-item-section
+                                  top
+                                  avatar
+                                >
+                                  <q-icon
+                                    :color="darkModeConf.iconVar"
+                                    name="delete"
+                                  />
                                 </q-item-section>
                                 <q-item-section>Apagar</q-item-section>
                               </q-item>
@@ -172,9 +264,15 @@
               :ratio="16/9"
               :src="videoDownload.videoUrl"
             />
-            <VideoProfile v-else-if="videoDownload.videoUrl" :videoUrl="videoDownload.videoUrl" />
+            <VideoProfile
+              v-else-if="videoDownload.videoUrl"
+              :videoUrl="videoDownload.videoUrl"
+            />
 
-            <div class="row q-pa-md" :class="getFont.text">Carregar vídeo ou adicionar link</div>
+            <div
+              class="row q-pa-md"
+              :class="getFont.text"
+            >Carregar vídeo ou adicionar link</div>
 
             <q-card-actions align="left">
               <q-btn
@@ -183,7 +281,7 @@
                 icon="upload_file"
                 :color="darkModeConf.iconVar"
                 :class="darkModeConf.textBtn"
-                @click="proccessFile('video')"
+                @click="processFile('video')"
               />
               <q-btn
                 rounded
@@ -204,7 +302,10 @@
               />
             </q-card-actions>
           </q-card>
-          <q-form class="q-gutter-md" ref="storeForm">
+          <q-form
+            class="q-gutter-md"
+            ref="storeForm"
+          >
             <input
               id="fileInput"
               type="file"
@@ -219,7 +320,10 @@
         <q-separator />
 
         <div v-if="vacanciesAply.length">
-          <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
+          <q-toolbar
+            :class="darkModeConf.bgColor"
+            class="shadow-1"
+          >
             <q-toolbar-title :class="getFont.title">Minhas candidaturas</q-toolbar-title>
           </q-toolbar>
           <div class="row">
@@ -241,7 +345,10 @@
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
-                    <div class="text-bold" :class="getFont.title">{{ candidate.title}}</div>
+                    <div
+                      class="text-bold"
+                      :class="getFont.title"
+                    >{{ candidate.title}}</div>
                     <div
                       v-if="candidate.user.split('@')[candidate.user.split('@').length - 1] !== 'superactive.com'"
                       :class="getFont.text"
@@ -252,7 +359,13 @@
             </div>
           </div>
           <div class="q-pa-sm">
-            <q-btn outline rounded class="full-width" label="Ver todas" to="/profile/candidatures" />
+            <q-btn
+              outline
+              rounded
+              class="full-width"
+              label="Ver todas"
+              to="/profile/candidatures"
+            />
           </div>
         </div>
         <!-- sec 6 -->
@@ -260,34 +373,65 @@
         <!-- asdasdasd -->
 
         <div v-if="!(vacancyNum == 0 && storeNum == 0)">
-          <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
+          <q-toolbar
+            :class="darkModeConf.bgColor"
+            class="shadow-1"
+          >
             <q-toolbar-title :class="getFont.title">Actividades</q-toolbar-title>
           </q-toolbar>
           <div class="row">
-            <div v-if="vacancyNum > 0" class="q-pa-sm col-12 col-md-6">
+            <div
+              v-if="vacancyNum > 0"
+              class="q-pa-sm col-12 col-md-6"
+            >
               <q-card class="my-card">
-                <q-item :class="darkModeConf.textColor" clickable to="/profile/vacancies" v-ripple>
+                <q-item
+                  :class="darkModeConf.textColor"
+                  clickable
+                  to="/profile/vacancies"
+                  v-ripple
+                >
                   <q-item-section avatar>
                     <q-avatar size="65px">
-                      <q-icon :color="darkModeConf.iconVar" name="work" />
+                      <q-icon
+                        :color="darkModeConf.iconVar"
+                        name="work"
+                      />
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
-                    <div class="text-bold" :class="getFont.text">{{ vacancyNum }} vagas de emprego.</div>
+                    <div
+                      class="text-bold"
+                      :class="getFont.text"
+                    >{{ vacancyNum }} vagas de emprego.</div>
                   </q-item-section>
                 </q-item>
               </q-card>
             </div>
-            <div v-if="storeNum > 0" class="q-pa-sm col-12 col-md-6">
+            <div
+              v-if="storeNum > 0"
+              class="q-pa-sm col-12 col-md-6"
+            >
               <q-card class="my-card">
-                <q-item :class="darkModeConf.textColor" clickable to="/profile/store" v-ripple>
+                <q-item
+                  :class="darkModeConf.textColor"
+                  clickable
+                  to="/profile/store"
+                  v-ripple
+                >
                   <q-item-section avatar>
                     <q-avatar size="65px">
-                      <q-icon :color="darkModeConf.iconVar" name="store" />
+                      <q-icon
+                        :color="darkModeConf.iconVar"
+                        name="store"
+                      />
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
-                    <div class="text-bold" :class="getFont.text">{{ storeNum }} produtos e Serviços</div>
+                    <div
+                      class="text-bold"
+                      :class="getFont.text"
+                    >{{ storeNum }} produtos e Serviços</div>
                   </q-item-section>
                 </q-item>
               </q-card>
@@ -307,7 +451,12 @@
             <div :class="getFont.title">Tipo de perfil</div>
             <q-space />
             <div :class="getFont.title">
-              <q-btn flat round icon="close" v-close-popup />
+              <q-btn
+                flat
+                round
+                icon="close"
+                v-close-popup
+              />
             </div>
           </q-card-section>
           <q-card-section class="q-gutter-y-md">
@@ -337,7 +486,10 @@
             <div :class="getFont.title">Adicionar Link</div>
           </q-card-section>
           <q-card-section :class="getFont.text">
-            <q-form ref="linkForm" class="q-gutter-md">
+            <q-form
+              ref="linkForm"
+              class="q-gutter-md"
+            >
               <q-input
                 :color="darkModeConf.iconVar"
                 rounded
@@ -358,7 +510,13 @@
               :color="darkModeConf.iconVar"
               @click="addLink()"
             />
-            <q-btn rounded outline label="Cancelar" :color="darkModeConf.iconVar" v-close-popup />
+            <q-btn
+              rounded
+              outline
+              label="Cancelar"
+              :color="darkModeConf.iconVar"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -370,7 +528,13 @@
           </q-card-section>
           <q-card-section :class="getFont.text">{{ errorFileDialogMessage }}</q-card-section>
           <q-card-actions align="right">
-            <q-btn rounded outline label="OK" :color="darkModeConf.iconVar" v-close-popup />
+            <q-btn
+              rounded
+              outline
+              label="OK"
+              :color="darkModeConf.iconVar"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -381,14 +545,30 @@
           </q-card-section>
           <q-card-section :class="getFont.text">Apagar video?</q-card-section>
           <q-card-actions align="right">
-            <q-btn rounded label="Apagar" icon="delete" color="red" @click="deleteVideo" />
-            <q-btn rounded outline label="Cancelar" :color="darkModeConf.iconVar" v-close-popup />
+            <q-btn
+              rounded
+              label="Apagar"
+              icon="delete"
+              color="red"
+              @click="deleteVideo"
+            />
+            <q-btn
+              rounded
+              outline
+              label="Cancelar"
+              :color="darkModeConf.iconVar"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
     </div>
     <div>
-      <q-page-sticky v-if="userData.profileType" position="bottom-right" :offset="[18, 18]">
+      <q-page-sticky
+        v-if="userData.profileType"
+        position="bottom-right"
+        :offset="[18, 18]"
+      >
         <q-btn
           v-if="scrollNum < 150"
           rounded
@@ -406,10 +586,17 @@
           :class="darkModeConf.textBtn"
           to="/account/edit"
         >
-          <q-icon name="edit" size="lg" />
+          <q-icon
+            name="edit"
+            size="lg"
+          />
         </q-btn>
       </q-page-sticky>
-      <q-page-sticky v-else position="bottom-right" :offset="[18, 18]">
+      <q-page-sticky
+        v-else
+        position="bottom-right"
+        :offset="[18, 18]"
+      >
         <q-btn
           v-if="scrollNum < 150"
           rounded
@@ -427,18 +614,30 @@
           :class="darkModeConf.textBtn"
           @click="dialogAddProfile = true"
         >
-          <q-icon name="edit" size="lg" />
+          <q-icon
+            name="edit"
+            size="lg"
+          />
         </q-btn>
       </q-page-sticky>
     </div>
     <div>
       <q-dialog v-model="dialogUploadCV">
         <div class="row">
-          <q-card style="max-width: 80vw;" class="bg-white">
+          <q-card
+            style="max-width: 80vw;"
+            class="bg-white"
+          >
             <q-card-section class="row items-center">
               <div class="text-h6">Add Curiculo</div>
               <q-space />
-              <q-btn icon="close" flat round dense v-close-popup />
+              <q-btn
+                icon="close"
+                flat
+                round
+                dense
+                v-close-popup
+              />
             </q-card-section>
             <q-card-section>
               <q-uploader url="http://localhost:4444/upload" />
@@ -466,7 +665,7 @@ import CV from "components/profile/CV.vue";
 export default {
   // name: 'PageName',
 
-  data() {
+  data () {
     return {
       tab: "bio",
       deleteVideoDialog: false,
@@ -542,25 +741,25 @@ export default {
     ]),
     ...mapActions("auth", ["detailUser", "checkAuthUser"]),
 
-    errorDocumentUpload() {
+    errorDocumentUpload () {
       this.errorFileDialogMessage = "O documento deve estar no formato PDF.";
       this.errorFileDialog = true;
     },
 
-    setStoreProfileType(type) {
+    setStoreProfileType (type) {
       LocalStorage.set("profileType", type);
       this.$router.push("/account/edit");
     },
 
-    playVIdeo() {
+    playVIdeo () {
       this.$refs.player.play();
     },
 
-    proccessFile(type) {
+    processFile (type) {
       // document.getElementById("fileInput").click()
       this.$refs.fileVideo.click();
     },
-    onChange(event) {
+    onChange (event) {
       if (!event.target.files) {
         return;
       }
@@ -580,7 +779,7 @@ export default {
       this.videoUpload.video = files[0];
       this.uploadFile(this.videoUpload);
     },
-    uploadFile(payload, type) {
+    uploadFile (payload, type) {
       Loading.show();
       const vm = this;
       // Upload file and metadata to the object
@@ -592,7 +791,7 @@ export default {
       // Listen for state changes, errors, and completion of the upload.
       uploadTask.on(
         firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-        function(snapshot) {
+        function (snapshot) {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           var progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -606,7 +805,7 @@ export default {
               break;
           }
         },
-        function(error) {
+        function (error) {
           // A full list of error codes is available at
           // https://firebase.google.com/docs/storage/web/handle-errors
           switch (error.code) {
@@ -626,13 +825,13 @@ export default {
               break;
           }
         },
-        function() {
+        function () {
           // Upload completed successfully, now we can get the download URL
-          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
             console.log("File available at", downloadURL);
             uploadTask.snapshot.ref
               .getDownloadURL()
-              .then(function(downloadURL) {
+              .then(function (downloadURL) {
                 console.log("File available at", downloadURL);
                 Loading.hide();
                 vm.videoDB({
@@ -646,7 +845,7 @@ export default {
       );
     },
 
-    deleteVideo() {
+    deleteVideo () {
       const vm = this;
       console.log(vm.userData.email);
       if (!offline.data().isOnline) {
@@ -667,12 +866,12 @@ export default {
 
               desertRef
                 .delete()
-                .then(function() {
+                .then(function () {
                   // File deleted successfully
                   console.log("video file deleted");
                   ref
                     .delete()
-                    .then(function() {
+                    .then(function () {
                       // File deleted successfully
                       vm.videoDownload = {};
                       console.log("video deleted firestore");
@@ -685,7 +884,7 @@ export default {
                     });
                   console.log("Video deletado");
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                   // Uh-oh, an error occurred!
                   console.log("Erro ao Remover video");
                   Loading.hide();
@@ -693,7 +892,7 @@ export default {
             } else {
               ref
                 .delete()
-                .then(function() {
+                .then(function () {
                   // File deleted successfully
                   vm.videoDownload = {};
                   console.log("video deleted firestore2");
@@ -716,7 +915,7 @@ export default {
         });
     },
 
-    videoDB(payload) {
+    videoDB (payload) {
       Loading.show();
       const vm = this;
       if (!offline.data().isOnline) {
@@ -743,7 +942,7 @@ export default {
         });
     },
 
-    addLink() {
+    addLink () {
       this.$refs.linkForm.validate();
       if (this.$refs.linkForm.hasError) {
         this.errorFileDialogMessage = "";
@@ -764,7 +963,7 @@ export default {
       }
     },
 
-    getVideo(id) {
+    getVideo (id) {
       // test
       // Loading.show()
       const vm = this;
@@ -792,7 +991,7 @@ export default {
       });
     },
 
-    handleSwipe(val) {
+    handleSwipe (val) {
       // if (val.direction === "left") {
       //   this.$router.push("/store");
       // }
@@ -803,26 +1002,26 @@ export default {
       }
     },
 
-    handleHold({ evt, ...info }) {
+    handleHold ({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
       this.$root.$emit(
         "textToSpeechRouter",
         this.userData.displayName +
-          ".\n Telefone: " +
-          this.converNumbPhone(this.userData.phoneNumber) +
-          ";\n email: " +
-          this.userData.email +
-          "; data de nascimento: " +
-          this.userData.date +
-          ";\n profissão: " +
-          this.userData.profession +
-          "."
+        ".\n Telefone: " +
+        this.converNumbPhone(this.userData.phoneNumber) +
+        ";\n email: " +
+        this.userData.email +
+        "; data de nascimento: " +
+        this.userData.date +
+        ";\n profissão: " +
+        this.userData.profession +
+        "."
       );
       // console.log(this.vacancy)
     },
 
-    makePublic(id, data, val) {
+    makePublic (id, data, val) {
       let dataAux = {
         title: data.title,
         user: data.user,
@@ -839,7 +1038,7 @@ export default {
       });
     },
 
-    listCandidatures(user) {
+    listCandidatures (user) {
       // done
       if (!offline.data().isOnline) {
         return showErrorMessage("Está sem internet.");
@@ -850,8 +1049,8 @@ export default {
       ref
         .where("public", "==", true)
         .get()
-        .then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
+        .then(function (querySnapshot) {
+          querySnapshot.forEach(function (doc) {
             firestoreDb
               .collection("vacancies")
               .doc(doc.id)
@@ -873,7 +1072,7 @@ export default {
         });
     },
 
-    listVacancyMyHere(user) {
+    listVacancyMyHere (user) {
       // done
       var storageRef = fireStorage.ref();
       if (!offline.data().isOnline) {
@@ -883,24 +1082,24 @@ export default {
       // vm.myVacancies = []
       var myVacanciesAux = [];
       const ref = firestoreDb.collection("vacancies");
-      ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
+      ref.where("user", "==", user).onSnapshot(function (querySnapshot) {
         vm.vacancyNum = querySnapshot.docs.length;
       });
     },
 
-    listStoreMyHere(user) {
+    listStoreMyHere (user) {
       var storageRef = fireStorage.ref();
       if (!offline.data().isOnline) {
         showErrorMessage("Está sem internet.");
       }
       const vm = this;
       const ref = firestoreDb.collection("stories");
-      ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
+      ref.where("user", "==", user).onSnapshot(function (querySnapshot) {
         vm.storeNum = querySnapshot.docs.length;
       });
     },
 
-    converNumbPhone(valueNum) {
+    converNumbPhone (valueNum) {
       var converted = "";
       var count = 0;
       const value = String(valueNum)
@@ -916,19 +1115,19 @@ export default {
       });
       return converted;
     },
-    windowScroll() {
+    windowScroll () {
       this.scrollNum = window.scrollY;
     }
 
     // Video Player functions
   },
-  created() {
+  created () {
     this.checkAuthUser("back");
     this.detailUser(this.user.email);
     this.listVacancyMyHere(this.user.email);
     this.listStoreMyHere(this.user.email);
   },
-  mounted() {
+  mounted () {
     Loading.hide()
     this.getVideo(this.user.email);
     // this.listVacancyMy(this.user.email)

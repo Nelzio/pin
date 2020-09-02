@@ -1,5 +1,8 @@
 <template>
-  <q-page padding v-touch-swipe.mouse.right.left="accountSwipe">
+  <q-page
+    padding
+    v-touch-swipe.mouse.right.left="accountSwipe"
+  >
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <!-- <div class="col-12">
@@ -7,23 +10,52 @@
       </div>-->
       <div class="q-pa-sm col-md-4 col-12">
         <div class="col-12 text-center q-mb-xl">
-          <q-btn v-if="!imageUrl" round size="40px" @click="proccessFile()">
-            <q-icon :color="darkModeConf.iconVar" name="person_add" />
-            <q-badge floating :color="darkModeConf.iconVar">
-              <q-icon color="white" name="insert_photo" />
+          <q-btn
+            v-if="!imageUrl"
+            round
+            size="40px"
+            @click="processFile()"
+          >
+            <q-icon
+              :color="darkModeConf.iconVar"
+              name="person_add"
+            />
+            <q-badge
+              floating
+              :color="darkModeConf.iconVar"
+            >
+              <q-icon
+                color="white"
+                name="insert_photo"
+              />
             </q-badge>
           </q-btn>
-          <q-btn v-else round @click="proccessFile()">
+          <q-btn
+            v-else
+            round
+            @click="processFile()"
+          >
             <q-avatar size="120px">
               <q-img :src="imageUrl" />
             </q-avatar>
-            <q-badge floating :color="darkModeConf.iconVar">
-              <q-icon color="white" name="insert_photo" />
+            <q-badge
+              floating
+              :color="darkModeConf.iconVar"
+            >
+              <q-icon
+                color="white"
+                name="insert_photo"
+              />
             </q-badge>
           </q-btn>
         </div>
 
-        <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-y-md">
+        <q-form
+          ref="loginForm"
+          @submit="onSubmit"
+          @reset="onReset"
+          class="q-gutter-y-md"
+        >
           <input
             id="fileInput"
             type="file"
@@ -59,6 +91,7 @@
             outlined
             :color="darkModeConf.iconVar"
             ref="email"
+            type="email"
             v-model="authObject.email"
             label="Email"
             lazy-rules
@@ -102,7 +135,8 @@
             :rules="[ val => val && val.length > 0 || 'Por favor, insira uma senha válida']"
           >
             <template v-slot:append>
-              <q-icon :color="darkModeConf.iconVar"
+              <q-icon
+                :color="darkModeConf.iconVar"
                 :name="isPwd ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
                 @click="isPwd = !isPwd"
@@ -140,7 +174,7 @@
 import { mapState, mapActions } from "vuex";
 export default {
   name: "RegisterFormComponent",
-  data() {
+  data () {
     return {
       authObject: {
         displayName: "",
@@ -163,15 +197,15 @@ export default {
   methods: {
     ...mapActions("auth", ["loginUser", "registerUser"]),
 
-    isEmailValid(email) {
+    isEmailValid (email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(String(email).toLowerCase());
     },
 
-    onReset() {
+    onReset () {
       alert("must reset form.");
     },
-    onSubmit() {
+    onSubmit () {
       this.$refs.email.validate();
       this.$refs.password.validate();
       if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
@@ -180,7 +214,7 @@ export default {
       }
       // this.$emit("registerUser", {email: this.authObject.email, password: this.authObject.password})
     },
-    accountSwipe(val) {
+    accountSwipe (val) {
       if (val.direction === "right") {
         this.$router.go(-1);
       }
@@ -190,10 +224,10 @@ export default {
       // }
     },
 
-    proccessFile() {
+    processFile () {
       this.$refs.fileImg.click();
     },
-    onChangeImg(event) {
+    onChangeImg (event) {
       const files = event.target.files;
       let filename = files[0].name;
       let file = files[0];
@@ -209,12 +243,12 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     this.$root.$emit("textToSpeechRouter", "Criar conta");
   },
 
   filters: {
-    captalizeFirstLetter(val) {
+    captalizeFirstLetter (val) {
       return val.charAt(0).toUpperCase() + "" + val.slice(1);
     }
   }

@@ -3,16 +3,26 @@
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
-        <q-icon :color="darkModeConf.iconVar" size="100px" name="account_circle" />
+        <q-icon
+          :color="darkModeConf.iconVar"
+          size="100px"
+          name="account_circle"
+        />
       </div>
       <div class="q-pa-lg col-md-4 col-12">
-        <q-form ref="loginForm" @submit.prevent="onSubmit" @reset="onReset" class="q-gutter-md">
+        <q-form
+          ref="loginForm"
+          @submit.prevent="onSubmit"
+          @reset="onReset"
+          class="q-gutter-md"
+        >
           <q-input
             rounded
             outlined
             :color="darkModeConf.iconVar"
             ref="email"
             v-model="authObject.email"
+            type="email"
             label="Email do usuario"
             placeholder="Email do usuario"
             lazy-rules
@@ -32,7 +42,8 @@
             :rules="[ val => val && val.length > 0 || 'Introduza a sua senha']"
           >
             <template v-slot:append>
-              <q-icon :color="darkModeConf.iconVar"
+              <q-icon
+                :color="darkModeConf.iconVar"
                 :name="isPwd ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
                 @click="isPwd = !isPwd"
@@ -52,7 +63,12 @@
           </div>
 
           <div>
-            <q-btn rounded outline label="Recuperar senha" to="/account/resetpwd" />
+            <q-btn
+              rounded
+              outline
+              label="Recuperar senha"
+              to="/account/resetpwd"
+            />
           </div>
           <div>
             <q-btn
@@ -88,7 +104,7 @@
 import { mapState, mapActions } from "vuex";
 export default {
   name: "LoginFormsComponent",
-  data() {
+  data () {
     return {
       authObject: {
         name: "",
@@ -104,16 +120,16 @@ export default {
   methods: {
     ...mapActions("auth", ["loginUser"]),
 
-    isPasswordValid(email) {
+    isPasswordValid (email) {
       var re = /^(([^<>()\[\]\\.,:\s@"]+(\.[^<>()\[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(String(email).toLowerCase());
     },
 
-    onReset() {
+    onReset () {
       alert("must reset form.");
     },
 
-    onSubmit() {
+    onSubmit () {
       this.$refs.email.validate();
       this.$refs.password.validate();
 
@@ -122,7 +138,7 @@ export default {
       }
     },
 
-    accountSwipe(val) {
+    accountSwipe (val) {
       if (val.direction === "right") {
         this.$router.go(-1)
       }
@@ -136,12 +152,12 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     this.$root.$emit("textToSpeechRouter", "Entrar com email");
   },
 
   filters: {
-    captalizeFirstLetter(val) {
+    captalizeFirstLetter (val) {
       return val.charAt(0).toUpperCase() + "" + val.slice(1);
     }
   }
