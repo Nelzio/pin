@@ -1,44 +1,107 @@
 <template>
   <div style="height: 80vh; width: 100vw;">
-    <div class="flex flex-center" style="height: 50%;">
-      <div
+    <div
+      class="flex flex-center"
+      style="height: 50%;"
+    >
+      <router-link
+        to="/vacancies"
         class="text-center q-pr-lg"
         style="height: 100%; width: 50vw; border-right: 2px solid rgba(0,0,0,.1); padding-top: 15%; border-bottom: 2px solid rgba(0,0,0,.1)"
-        @click="$router.push('/vacancies')"
+        role=link
       >
         <div>
-          <q-icon :color="darkModeConf.iconVar" size="100px" name="work" />
+          <q-icon
+            :color="darkModeConf.iconVar"
+            size="100px"
+            name="work"
+          />
         </div>
-        <div class="text-h6">Vagas</div>
-      </div>
-      <div
+        <div
+          class="text-h6"
+          :class="darkModeConf.textColor"
+        >Vagas</div>
+      </router-link>
+      <router-link
+        to="/store"
         class="text-center q-pl-lg"
         style="height: 100%; width: 50vw; border-bottom: 2px solid rgba(0,0,0,.1); padding-top: 15%"
-        @click="$router.push('/store')"
+        role=link
       >
         <div>
-          <q-icon :color="darkModeConf.iconVar" size="100px" name="store" />
+          <q-icon
+            :color="darkModeConf.iconVar"
+            size="100px"
+            name="store"
+          />
         </div>
-        <div class="text-h6">Negócio</div>
-      </div>
+        <div
+          class="text-h6"
+          :class="darkModeConf.textColor"
+        >Negócio</div>
+      </router-link>
     </div>
-    <div class="flex flex-center" style="height: 50%;">
-      <div
+    <div
+      class="flex flex-center"
+      style="height: 50%;"
+    >
+      <router-link
+        v-if="!this.isUserAuth"
+        to="/account"
         class="text-center"
         style="height: 100%; width: 50vw; border-right: 2px solid rgba(0,0,0,.1); padding-top: 15%;"
-        @click="routeToProfile()"
+        role=link
       >
         <div>
-          <q-icon :color="darkModeConf.iconVar" size="100px" name="account_circle" />
+          <q-icon
+            :color="darkModeConf.iconVar"
+            size="100px"
+            name="account_circle"
+          />
         </div>
-        <div class="text-h6">Perfil</div>
-      </div>
-      <div class="text-center" style="height: 100%; width: 50vw; padding-top: 15%;">
+        <div
+          class="text-h6"
+          :class="darkModeConf.textColor"
+        >Perfil</div>
+      </router-link>
+      <router-link
+        v-else
+        to="/profile"
+        class="text-center"
+        style="height: 100%; width: 50vw; border-right: 2px solid rgba(0,0,0,.1); padding-top: 15%;"
+        role=link
+      >
         <div>
-          <q-icon :color="darkModeConf.iconVar" size="100px" name="settings" @click="$router.push('/settings')" />
+          <q-icon
+            :color="darkModeConf.iconVar"
+            size="100px"
+            name="account_circle"
+          />
         </div>
-        <div class="text-h6">Definições</div>
-      </div>
+        <div
+          class="text-h6"
+          :class="darkModeConf.textColor"
+        >Perfil</div>
+      </router-link>
+      <router-link
+        to="/settings"
+        class="text-center"
+        style="height: 100%; width: 50vw; padding-top: 15%;"
+        role=link
+      >
+        <div>
+          <q-icon
+            :color="darkModeConf.iconVar"
+            size="100px"
+            name="settings"
+            @click="$router.push('/settings')"
+          />
+        </div>
+        <div
+          class="text-h6"
+          :class="darkModeConf.textColor"
+        >Definições</div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -67,4 +130,7 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 </style>

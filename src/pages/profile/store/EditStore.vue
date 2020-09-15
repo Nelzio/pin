@@ -143,7 +143,7 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 export default {
   // name: 'PageName',
   data () {
@@ -222,7 +222,7 @@ export default {
     detailStoreLocal (id) {
       // test
       // Loading.show()
-      const ref = firestoreDb.collection("stories").doc(id);
+      const ref = firestoreDB.collection("stories").doc(id);
       let data = {};
       ref.get().then(doc => {
         if (doc.exists) {

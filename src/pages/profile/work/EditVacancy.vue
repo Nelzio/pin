@@ -140,7 +140,7 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 export default {
   // name: 'PageName',
   data () {
@@ -234,7 +234,7 @@ export default {
     detailVacancyLocal (id) {
       // test
       // Loading.show()
-      const ref = firestoreDb.collection("vacancies").doc(id);
+      const ref = firestoreDB.collection("vacancies").doc(id);
       let data = {};
       ref.get().then(doc => {
         if (doc.exists) {

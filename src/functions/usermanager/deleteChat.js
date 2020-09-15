@@ -1,24 +1,24 @@
-import { firestoreDb, fireStorage } from "boot/firebase";
+import { firestoreDB, fireStorage } from "boot/firebase";
 
-function deleteAudio(name) {
-        var storageRef = fireStorage.ref()
-    
-        var desertRef = storageRef.child('chat/' + name);
-        desertRef.delete().catch((error) => {
-            console.log("candidature delete Error")
-            console.log(error)
-        });
+function deleteAudio (name) {
+    var storageRef = fireStorage.ref()
+
+    var desertRef = storageRef.child('chat/' + name);
+    desertRef.delete().catch((error) => {
+        console.log("candidature delete Error")
+        console.log(error)
+    });
 }
 
-export function deleteChat(user) {
-    const refDoc = firestoreDb.collection("chat").doc(user.split('@')[0]);
+export function deleteChat (user) {
+    const refDoc = firestoreDB.collection("chat").doc(user.split('@')[0]);
     refDoc.get().then((doc) => {
         if (doc.exists) {
-            if(doc.data().peopleChat) {
+            if (doc.data().peopleChat) {
                 doc.data().peopleChat.forEach(element => {
-                    var refSender = firestoreDb.collection("chat").doc(user.split('@')[0]).collection(element);
-                    refSender.get().then(function(querySnapshot) {
-                        querySnapshot.forEach(function(doc) {
+                    var refSender = firestoreDB.collection("chat").doc(user.split('@')[0]).collection(element);
+                    refSender.get().then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
                             // chatData.push({
                             // key: doc.id,
                             // receptorUser: doc.data().email,
@@ -31,18 +31,18 @@ export function deleteChat(user) {
                             // message: doc.data().message,
                             // readed: doc.data().readed
                             // });
-                            if(doc.data().audio) {
+                            if (doc.data().audio) {
                                 deleteAudio(doc.data().audio.name)
                             }
                             refSender.doc(doc.id).delete().then(() => {
                                 console.log("chat delete")
-                              }).catch((error) => {
+                            }).catch((error) => {
                                 console.log("chat delete Error")
                                 console.log(error)
                             });
                             refDoc.delete().then(() => {
                                 console.log("chat delete")
-                              }).catch((error) => {
+                            }).catch((error) => {
                                 console.log("chat delete Error")
                                 console.log(error)
                             });
@@ -52,4 +52,4 @@ export function deleteChat(user) {
             }
         }
     });
-  }
+}

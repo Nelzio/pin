@@ -10,11 +10,15 @@
               icon="settings_applications"
               label="Definições do app"
               :class="getFont.text"
+              role="group"
             >
               <q-card>
                 <q-item>
                   <q-item-section avatar>
-                    <q-icon :color="darkModeConf.iconVar" name="highlight" />
+                    <q-icon
+                      :color="darkModeConf.iconVar"
+                      name="highlight"
+                    />
                   </q-item-section>
 
                   <q-item-section>
@@ -22,15 +26,25 @@
                   </q-item-section>
 
                   <q-item-section side>
-                    <q-toggle :color="darkModeConf.icon" v-model="mode" />
+                    <q-toggle
+                      :color="darkModeConf.icon"
+                      v-model="mode"
+                      aria-label="Alterar de modo escuro para claro ou o inverso"
+                    />
                   </q-item-section>
                 </q-item>
 
-                <q-separator spaced inset="item" />
+                <q-separator
+                  spaced
+                  inset="item"
+                />
 
                 <q-item>
                   <q-item-section avatar>
-                    <q-icon :color="darkModeConf.iconVar" name="vibration" />
+                    <q-icon
+                      :color="darkModeConf.iconVar"
+                      name="vibration"
+                    />
                   </q-item-section>
 
                   <q-item-section>
@@ -38,13 +52,20 @@
                   </q-item-section>
 
                   <q-item-section side>
-                    <q-toggle :color="darkModeConf.icon" v-model="vibrateMode" />
+                    <q-toggle
+                      :color="darkModeConf.icon"
+                      v-model="vibrateMode"
+                      aria-label="Ativar ou desativar modo acessibilidade do aplicativo"
+                    />
                   </q-item-section>
                 </q-item>
 
                 <q-item>
                   <q-item-section avatar>
-                    <q-icon :color="darkModeConf.iconVar" name="format_size" />
+                    <q-icon
+                      :color="darkModeConf.iconVar"
+                      name="format_size"
+                    />
                   </q-item-section>
 
                   <q-item-section>
@@ -69,11 +90,20 @@
               label="Definições de conta"
               :class="getFont.text"
               :caption="user.displayName"
+              role="group"
             >
               <q-card>
-                <q-item clickable v-ripple to="/profile">
+                <q-item
+                  clickable
+                  v-ripple
+                  to="/profile"
+                  role="link"
+                >
                   <q-item-section avatar>
-                    <q-icon :color="darkModeConf.iconVar" name="account_circle" />
+                    <q-icon
+                      :color="darkModeConf.iconVar"
+                      name="account_circle"
+                    />
                   </q-item-section>
 
                   <q-item-section>
@@ -81,18 +111,36 @@
                   </q-item-section>
                 </q-item>
 
-                <q-item v-if="userData.profileType" clickable v-ripple to="/account/edit">
+                <q-item
+                  v-if="userData.profileType"
+                  clickable
+                  v-ripple
+                  to="/account/edit"
+                  role="link"
+                >
                   <q-item-section avatar>
-                    <q-icon :color="darkModeConf.iconVar" name="edit" />
+                    <q-icon
+                      :color="darkModeConf.iconVar"
+                      name="edit"
+                    />
                   </q-item-section>
 
                   <q-item-section>
                     <q-item-label :class="getFont.text">Editar conta</q-item-label>
                   </q-item-section>
                 </q-item>
-                <q-item v-else clickable v-ripple @click="dialogAddProfile = true">
+                <q-item
+                  v-else
+                  clickable
+                  v-ripple
+                  @click="dialogAddProfile = true"
+                  role="button"
+                >
                   <q-item-section avatar>
-                    <q-icon :color="darkModeConf.iconVar" name="edit" />
+                    <q-icon
+                      :color="darkModeConf.iconVar"
+                      name="edit"
+                    />
                   </q-item-section>
 
                   <q-item-section>
@@ -100,9 +148,17 @@
                   </q-item-section>
                 </q-item>
 
-                <q-item clickable v-ripple @click="logOutDialog = true">
+                <q-item
+                  clickable
+                  v-ripple
+                  @click="logOutDialog = true"
+                  role="button"
+                >
                   <q-item-section avatar>
-                    <q-icon :color="darkModeConf.iconVar" name="logout" />
+                    <q-icon
+                      :color="darkModeConf.iconVar"
+                      name="logout"
+                    />
                   </q-item-section>
 
                   <q-item-section>
@@ -110,9 +166,17 @@
                   </q-item-section>
                 </q-item>
 
-                <q-item clickable v-ripple @click="deletDialog = true">
+                <q-item
+                  clickable
+                  v-ripple
+                  @click="deletDialog = true"
+                  role="button"
+                >
                   <q-item-section avatar>
-                    <q-icon :color="darkModeConf.iconVar" name="delete_forever" />
+                    <q-icon
+                      :color="darkModeConf.iconVar"
+                      name="delete_forever"
+                    />
                   </q-item-section>
 
                   <q-item-section>
@@ -128,11 +192,20 @@
               icon="perm_identity"
               label="Definições de conta"
               :class="getFont.text"
+              role="group"
             >
               <q-card>
-                <q-item clickable v-ripple to="/account">
+                <q-item
+                  clickable
+                  v-ripple
+                  to="/account"
+                  role="link"
+                >
                   <q-item-section avatar>
-                    <q-icon :color="darkModeConf.iconVar" name="account_circle" />
+                    <q-icon
+                      :color="darkModeConf.iconVar"
+                      name="account_circle"
+                    />
                   </q-item-section>
 
                   <q-item-section>
@@ -141,9 +214,17 @@
                 </q-item>
               </q-card>
             </q-expansion-item>
-            <q-item clickable v-ripple to="/help">
+            <q-item
+              clickable
+              v-ripple
+              to="/help"
+              role="link"
+            >
               <q-item-section avatar>
-                <q-icon :color="darkModeConf.iconVar" name="help" />
+                <q-icon
+                  :color="darkModeConf.iconVar"
+                  name="help"
+                />
               </q-item-section>
 
               <q-item-section>
@@ -155,13 +236,29 @@
       </div>
 
       <div>
-        <q-dialog v-model="deletDialog">
-          <q-card class="text-red" style="width: 90vw">
+        <q-dialog
+          v-model="deletDialog"
+          role="dialog"
+          aria-label="Alerta para remover conta"
+        >
+          <q-card
+            class="text-red"
+            style="width: 90vw"
+          >
             <q-card-section>
-              <div v-if="providerId == 'password'" :class="getFont.title">Introduza sua senha</div>
-              <div v-else :class="getFont.title">Remover conta</div>
+              <div
+                v-if="providerId == 'password'"
+                :class="getFont.title"
+              >Introduza sua senha</div>
+              <div
+                v-else
+                :class="getFont.title"
+              >Remover conta</div>
             </q-card-section>
-            <q-card-section v-if="providerId == 'password'" :class="getFont.text">
+            <q-card-section
+              v-if="providerId == 'password'"
+              :class="getFont.text"
+            >
               <q-input
                 rounded
                 outlined
@@ -184,19 +281,34 @@
                 </template>
               </q-input>
             </q-card-section>
-            <q-card-section v-else :class="getFont.text">Tem a certeza de que quer Remover a conta?</q-card-section>
+            <q-card-section
+              v-else
+              :class="getFont.text"
+            >Tem a certeza de que quer Remover a conta?</q-card-section>
             <q-card-actions align="right">
               <q-btn
                 rounded
                 label="Remover conta"
                 color="red"
                 @click="deleteUser({id: user.email, password: password})"
+                role="button"
               />
-              <q-btn rounded outline label="Cancelar" :color="darkModeConf.iconVar" v-close-popup />
+              <q-btn
+                rounded
+                outline
+                label="Cancelar"
+                :color="darkModeConf.iconVar"
+                role="button"
+                v-close-popup
+              />
             </q-card-actions>
           </q-card>
         </q-dialog>
-        <q-dialog v-model="logOutDialog">
+        <q-dialog
+          v-model="logOutDialog"
+          role="dialog"
+          aria-label="Confirmar sair da conta"
+        >
           <q-card style="width: 90vw">
             <q-card-section>
               <div :class="getFont.title">Sair da conta</div>
@@ -210,19 +322,37 @@
                 :color="darkModeConf.iconVar"
                 :class="darkModeConf.textBtn"
                 @click="signOut()"
+                role="button"
               />
-              <q-btn rounded outline label="Cancelar" :color="darkModeConf.iconVar" v-close-popup />
+              <q-btn
+                rounded
+                outline
+                label="Cancelar"
+                role="button"
+                :color="darkModeConf.iconVar"
+                v-close-popup
+              />
             </q-card-actions>
           </q-card>
         </q-dialog>
 
-        <q-dialog v-model="dialogAddProfile">
+        <q-dialog
+          v-model="dialogAddProfile"
+          role="dialog"
+          aria-label="Escolher o tipo de perfil"
+        >
           <q-card style="width: 90vw;">
             <q-card-section class="row">
               <div :class="getFont.title">Tipo de perfil</div>
               <q-space />
               <div :class="getFont.title">
-                <q-btn flat round icon="close" v-close-popup />
+                <q-btn
+                  flat
+                  role="button"
+                  round
+                  icon="close"
+                  v-close-popup
+                />
               </div>
             </q-card-section>
             <q-card-section class="q-gutter-y-md">
@@ -233,6 +363,7 @@
                 :color="darkModeConf.iconVar"
                 :class="darkModeConf.textBtn"
                 class="full-width"
+                role="button"
               />
               <q-btn
                 @click="setStoreProfileType('organization')"
@@ -241,6 +372,7 @@
                 :color="darkModeConf.iconVar"
                 :class="darkModeConf.textBtn"
                 class="full-width"
+                role="button"
               />
             </q-card-section>
           </q-card>
@@ -256,7 +388,7 @@ import { LocalStorage, Loading } from "quasar";
 import { firebase } from "boot/firebase";
 export default {
   name: "PageSettings",
-  data() {
+  data () {
     return {
       mode: true,
       dialogAddProfile: false,
@@ -298,7 +430,7 @@ export default {
     ]),
     ...mapActions("auth", ["detailUser", "deleteUser", "signOut"]),
 
-    handleSwipe(val) {
+    handleSwipe (val) {
       if (val.direction === "right") {
         this.$router.push("/store");
       }
@@ -312,21 +444,21 @@ export default {
         // this.$router.push("/profile");
       }
     },
-    darkMode() {
+    darkMode () {
       if (this.mode) {
         this.setAppMode(1);
       } else {
         this.setAppMode(0);
       }
     },
-    vibrateApp() {
+    vibrateApp () {
       if (this.vibrateMode) {
         this.setVibrate(1);
       } else {
         this.setVibrate(0);
       }
     },
-    funcFont() {
+    funcFont () {
       if (this.fontSize == "Pequeno") {
         this.setFont(1);
       } else if (this.fontSize == "Médio") {
@@ -335,12 +467,12 @@ export default {
         this.setFont(3);
       }
     },
-    setStoreProfileType(type) {
+    setStoreProfileType (type) {
       LocalStorage.set("profileType", type);
       this.$router.push("/account/edit");
     }
   },
-  created() {
+  created () {
     if (this.fontConfig == 1) {
       this.fontSize = "Pequeno";
     } else if (this.fontConfig == 2) {
@@ -361,7 +493,7 @@ export default {
       this.vibrateMode = false;
     }
   },
-  mounted() {
+  mounted () {
     if (firebase.auth().currentUser)
       this.providerId = firebase.auth().currentUser.providerData[0].providerId;
 
@@ -381,19 +513,19 @@ export default {
     this.$root.$emit("textToSpeechRouter", "Página de configurações.");
   },
   watch: {
-    snap(val) {
+    snap (val) {
       console.log("Fonte: ", val);
     },
 
-    mode() {
+    mode () {
       this.darkMode();
     },
 
-    vibrateMode() {
+    vibrateMode () {
       this.vibrateApp();
     },
 
-    fontConfig() {
+    fontConfig () {
       if (this.fontConfig == 1) {
         this.fontSize = "Pequeno";
       } else if (this.fontConfig == 2) {
@@ -403,7 +535,7 @@ export default {
       }
     },
 
-    fontSize() {
+    fontSize () {
       this.funcFont();
     }
   }

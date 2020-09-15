@@ -7,7 +7,12 @@
         <!-- sec 6 -->
         <div v-if="myStories.length">
           <div class="row">
-            <div ref="item" class="col-12 col-md-4 q-pa-sm" v-for="store in myStories" :key="store.key">
+            <div
+              ref="item"
+              class="col-12 col-md-4 q-pa-sm"
+              v-for="store in myStories"
+              :key="store.key"
+            >
               <Store :store="store" />
             </div>
           </div>
@@ -15,7 +20,11 @@
       </div>
     </div>
 
-    <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user">
+    <q-page-sticky
+      position="bottom-right"
+      :offset="[18, 18]"
+      v-if="user"
+    >
       <q-btn
         fab
         icon="add"
@@ -30,7 +39,7 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { Loading } from "quasar";
-import { firebaseAuth, firestoreDb, fireStorage } from "boot/firebase";
+import { firebaseAuth, firestoreDB, fireStorage } from "boot/firebase";
 import offline from "v-offline";
 import Store from "components/profile/Store.vue";
 
@@ -39,7 +48,7 @@ export default {
   components: {
     Store
   },
-  data() {
+  data () {
     return {
       tab: "bio",
       confirDeleteSuccess: false,
@@ -74,7 +83,7 @@ export default {
     // handleHold({ ...info }) {
     // },
 
-    listStoreMyHere(user) {
+    listStoreMyHere (user) {
       // done
       var storageRef = fireStorage.ref();
       if (!offline.data().isOnline) {
@@ -84,12 +93,12 @@ export default {
       var myStories = [];
       var update = false;
       var myStoriesAux = [];
-      const ref = firestoreDb.collection("stories");
-      ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
+      const ref = firestoreDB.collection("stories");
+      ref.where("user", "==", user).onSnapshot(function (querySnapshot) {
         if (vm.myStories.length !== querySnapshot.docs.length) {
           update = true;
           myStories = [];
-          querySnapshot.forEach(function(doc) {
+          querySnapshot.forEach(function (doc) {
             myStories.push({
               key: doc.id,
               title: doc.data().title,
@@ -109,14 +118,14 @@ export default {
       });
     },
 
-    lazeItems() {
+    lazeItems () {
       if (!(this.itemsLayzeRef == this.$refs.item)) {
         this.itemsLayzeRef = this.$refs.item;
       }
       let active = false;
       if (active === false && this.itemsLayzeRef) {
         active = true;
-        this.itemsLayzeRef.forEach(function(item) {
+        this.itemsLayzeRef.forEach(function (item) {
           var position =
             window.innerHeight - item.getBoundingClientRect().bottom;
           var interval1 = item.getBoundingClientRect().top - 55;
@@ -134,12 +143,12 @@ export default {
     },
   },
 
-  created() {
+  created () {
     this.checkAuthUser();
     this.detailUser(this.user.email);
     this.listStoreMyHere(this.user.email);
   },
-  mounted() {
+  mounted () {
     // this.listStoreMy(this.user.email)
 
     this.$root.$emit("textToSpeechRouter", "Seus produtos e serviços");

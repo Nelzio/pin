@@ -2,11 +2,14 @@
   <q-page padding>
     <!-- content -->
     <div style="width: 100%; max-width: 400px">
-      <div v-for="message in chatData" :key="message.key">
+      <div
+        v-for="message in chatData"
+        :key="message.key"
+      >
         <chat :message="message" />
       </div>
     </div>
-    
+
     <!-- <div>
       <q-card class="q-pt-none q-pb-none">
         <q-card-section class="q-pb-none q-pt-none">
@@ -22,16 +25,59 @@
     <q-footer>
       <q-toolbar class="bg-grey-3 text-black row">
         <!-- <q-btn round flat icon="insert_emoticon" class="q-mr-sm" /> -->
-        <q-input v-if="recording" v-model="fullTimer" rounded outlined dense class="WAL__field col-grow q-mr-sm" bg-color="white" disable />
-        <q-input v-else rounded outlined dense class="WAL__field col-grow q-mr-sm" bg-color="white" v-model="message.message" placeholder="Type a message" />
-        <q-btn v-if="message.message" round flat icon="send" @click="sendMessage()" />
-        <q-btn v-else-if="!recording" round flat icon="mic" @click="recordAudio()" />
-        <q-btn v-else round flat icon="stop" color="red" @click="stopRecord()" />
+        <q-input
+          v-if="recording"
+          v-model="fullTimer"
+          rounded
+          outlined
+          dense
+          class="WAL__field col-grow q-mr-sm"
+          bg-color="white"
+          disable
+        />
+        <q-input
+          v-else
+          rounded
+          outlined
+          dense
+          class="WAL__field col-grow q-mr-sm"
+          bg-color="white"
+          v-model="message.message"
+          placeholder="Type a message"
+        />
+        <q-btn
+          v-if="message.message"
+          round
+          flat
+          icon="send"
+          @click="sendMessage()"
+        />
+        <q-btn
+          v-else-if="!recording"
+          round
+          flat
+          icon="mic"
+          @click="recordAudio()"
+        />
+        <q-btn
+          v-else
+          round
+          flat
+          icon="stop"
+          color="red"
+          @click="stopRecord()"
+        />
       </q-toolbar>
     </q-footer>
 
-    <q-page-sticky expand position="top">
-      <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" class="shadow-3">
+    <q-page-sticky
+      expand
+      position="top"
+    >
+      <q-toolbar
+        :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+        class="shadow-3"
+      >
         <q-avatar>
           <q-img :src="getUser.photoURL">
         </q-avatar>
@@ -40,12 +86,12 @@
         </q-toolbar-title>
       </q-toolbar>
     </q-page-sticky>
-    
+
   </q-page>
 </template>
 
 <script>
-import { firestoreDb, fireStorage, firebase } from "boot/firebase"
+import { firestoreDB, fireStorage, firebase } from "boot/firebase"
 import { mapState, mapActions, mapGetters } from "vuex";
 import Chat from "components/chat/Chat.vue"
 export default {
@@ -67,8 +113,8 @@ export default {
       refreshInterval: null,
       message: "",
       timeslice: null,
-      
-      
+
+
       chatData: [],
       message: {
         audio: null,
@@ -89,19 +135,19 @@ export default {
     recordAudio () {
       const vm = this
       navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-      .then(stream => {
-        // Record Audio
-        this.mediaRecorder = new MediaRecorder(stream);
-        this.mediaRecorder.start();
-        this.counter()
-        this.recording = true
+        .then(stream => {
+          // Record Audio
+          this.mediaRecorder = new MediaRecorder(stream);
+          this.mediaRecorder.start();
+          this.counter()
+          this.recording = true
 
-        // Save recorded data Chunks in a list
-        this.audioChunks = [];
-        this.mediaRecorder.addEventListener("dataavailable", event => {
-          this.audioChunks.push(event.data);
+          // Save recorded data Chunks in a list
+          this.audioChunks = [];
+          this.mediaRecorder.addEventListener("dataavailable", event => {
+            this.audioChunks.push(event.data);
+          });
         });
-      });
     },
 
     stopRecord () {
@@ -116,25 +162,25 @@ export default {
         this.uploadFile(audioBlob)
       });
       this.mediaRecorder.stop();
-      this.mediaRecorder.stream.getAudioTracks().forEach(function(track){track.stop();});
+      this.mediaRecorder.stream.getAudioTracks().forEach(function (track) { track.stop(); });
       clearInterval(this.refreshInterval);
     },
 
-    
+
 
     counter () {
       const vm = this
       var totalSeconds = 0;
       this.refreshInterval = setInterval(setTime, 1000);
 
-      function setTime() {
+      function setTime () {
         ++totalSeconds;
         vm.timer.ss = totalSeconds % 60
         vm.timer.mm = totalSeconds / 60
         vm.fullTimer = pad(parseInt(totalSeconds / 60)) + "min : " + pad(totalSeconds % 60) + "sec"
       }
 
-      function pad(val) {
+      function pad (val) {
         var valString = val + "";
         if (valString.length < 2) {
           return "0" + valString;
@@ -144,15 +190,15 @@ export default {
       }
     },
 
-    
+
 
     getChat () {
       // var storageRef = fireStorage.ref()
       // if (!offline.data().isOnline) {
       //   return alert("Sem internet")
       // }
-      const vm =this
-      const ref = firestoreDb.collection('chat')
+      const vm = this
+      const ref = firestoreDB.collection('chat')
       var chatData = []
       // const 
       ref.onSnapshot(function (querySnapshot) {
@@ -171,7 +217,7 @@ export default {
             })
           }
         });
-        chatData.sort(function(a, b) {
+        chatData.sort(function (a, b) {
           return a.timeSend - b.timeSend
         });
         vm.chatData = chatData
@@ -179,7 +225,7 @@ export default {
     },
 
     sendMessage () {
-      const vm =this
+      const vm = this
 
 
       var today = new Date();
@@ -194,8 +240,8 @@ export default {
       this.message.displayName = this.user.displayName
       this.message.timeSend = String(today)
       this.message.imgUserUrl = this.user.photoURL
-      
-      const ref = firestoreDb.collection('chat')
+
+      const ref = firestoreDB.collection('chat')
       ref.add(this.message).then((docRef) => {
         this.message = {
           audioUrl: "",
@@ -205,7 +251,7 @@ export default {
     },
 
     sendMessageVoice (voice) {
-      const vm =this
+      const vm = this
 
 
       var today = new Date();
@@ -215,8 +261,8 @@ export default {
       this.message.timeSend = String(today)
       this.message.imgUserUrl = this.user.photoURL
       this.message.audio = voice
-      
-      const ref = firestoreDb.collection('chat')
+
+      const ref = firestoreDB.collection('chat')
       ref.add(this.message).then((docRef) => {
         this.message = {
           audio: null,
@@ -233,7 +279,7 @@ export default {
 
       // Listen for state changes, errors, and completion of the upload.
       uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-        function(snapshot) {
+        function (snapshot) {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           // // var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           // // console.log('Upload is ' + progress + '% done');
@@ -245,30 +291,30 @@ export default {
               console.log('Upload is running');
               break;
           }
-        }, function(error) {
+        }, function (error) {
 
-        // A full list of error codes is available at
-        // https://firebase.google.com/docs/storage/web/handle-errors
-        switch (error.code) {
-          case 'storage/unauthorized':
-            // User doesn't have permission to access the object
-            break;
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          switch (error.code) {
+            case 'storage/unauthorized':
+              // User doesn't have permission to access the object
+              break;
 
-          case 'storage/canceled':
-            // User canceled the upload
-            break;
+            case 'storage/canceled':
+              // User canceled the upload
+              break;
 
-          case 'storage/unknown':
-            // Unknown error occurred, inspect error.serverResponse
-            break;
-        }
-      }, function() {
-        // Upload completed successfully, now we can get the download URL
-        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-          console.log('File available at', downloadURL);
-          vm.sendMessageVoice({audioUrl: downloadURL, time: vm.timer.ss})
+            case 'storage/unknown':
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+          }
+        }, function () {
+          // Upload completed successfully, now we can get the download URL
+          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+            console.log('File available at', downloadURL);
+            vm.sendMessageVoice({ audioUrl: downloadURL, time: vm.timer.ss })
+          });
         });
-      });
     }
   },
   created () {

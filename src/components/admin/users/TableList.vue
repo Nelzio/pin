@@ -39,7 +39,13 @@
           class="q-mr-lg"
         />
 
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          v-model="filter"
+          placeholder="Search"
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -47,7 +53,10 @@
       </template>
       <template v-slot:no-data>
         <div class="full-width row flex-center text-accent q-gutter-sm">
-          <q-icon size="2em" name="sentiment_dissatisfied" />
+          <q-icon
+            size="2em"
+            name="sentiment_dissatisfied"
+          />
           <span>Nenhum valor encontrado</span>
         </div>
       </template>
@@ -58,7 +67,7 @@
 <script>
 export default {
   props: ["users"],
-  data() {
+  data () {
     return {
       optionsGender: [
         {
@@ -130,7 +139,7 @@ export default {
     };
   },
   methods: {
-    addUsersList() {
+    addUsersList () {
       let userList = [];
       const vm = this;
       this.users.forEach((element) => {
@@ -138,7 +147,7 @@ export default {
           name: element.displayName,
           telephone: element.phoneNumber,
           email: element.email,
-          gender: element.gender !== "" ? (element.gender ? "M" : "F") : "",
+          gender: element.gender !== "" ? (element.gender ? "M" : "F") : "Não definido",
           date: element.date,
           deficiency: element.deficiency,
           profession: element.profession ? element.profession : "",
@@ -149,10 +158,10 @@ export default {
       });
       vm.tableData = userList;
     },
-    filterByGender(gender) {
+    filterByGender (gender) {
       let userList = []
       this.users.forEach((element) => {
-        if (element.gender == gender && typeof(gender) !== "string") {
+        if (element.gender == gender && typeof (gender) !== "string") {
           userList.push({
             name: element.displayName,
             telephone: element.phoneNumber,
@@ -196,16 +205,16 @@ export default {
       this.tableData = userList;
     }
   },
-  mounted() {
+  mounted () {
     this.addUsersList();
   },
   watch: {
-    users(val) {
+    users (val) {
       if (val) {
         this.addUsersList();
       }
     },
-    filterGender(val) {
+    filterGender (val) {
       this.filterByGender(val)
     }
   },

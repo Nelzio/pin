@@ -14,24 +14,51 @@
 <script>
 import { GChart } from 'vue-google-charts'
 export default {
+  props: ["data"],
   data () {
     return {
       // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [
         ['Year', 'Cadastros'],
-        ['2013', 1000],
-        ['2014', 1170],
-        ['2015', 660],
-        ['2016', 1030]
       ],
       chartOptions: {
-        hAxis: { title: 'Year', titleTextStyle: { color: '#008080' } },
+        hAxis: { title: 'Datas', titleTextStyle: { color: '#008080' } },
         vAxis: { minValue: 0 }
       }
     }
   },
   components: {
     GChart
+  },
+  methods: {
+    getDates () {
+      const vm = this;
+      this.chartData = [
+        ['Year', 'Cadastros'],
+      ]
+      var registrationDateByUser = null
+      var auxRegistrationDateByUser = null
+      this.data.forEach(user => {
+        if (vm.chartData.length < 11) {
+          var registrationUserDate = new Date(user.registrationDate)
+          registrationDateByUser = registrationUserDate.getDate() + "/" + registrationUserDate.getMonth() + "/" + registrationUserDate.getFullYear()
+          if (auxRegistrationDateByUser == registrationDateByUser) {
+            vm.chartData[vm.chartData.length - 1] = [registrationDateByUser, vm.chartData[vm.chartData.length - 1][1] + 1]
+          } else {
+            vm.chartData.push([registrationDateByUser, 1])
+            auxRegistrationDateByUser = registrationDateByUser
+          }
+        }
+      });
+    }
+  },
+  mounted () {
+    this.getDates()
+  },
+  watch: {
+    data () {
+      this.getDates()
+    }
   }
 }
 </script>

@@ -1,5 +1,5 @@
 import { LocalStorage, Loading, Notify } from 'quasar'
-import { firebaseAuth, firestoreDb, firebase } from "../../boot/firebase"
+import { firebaseAuth, firestoreDB, firebase } from "../../boot/firebase"
 import { showErrorMessage } from "../../functions/handle-error-messages"
 import offline from 'v-offline'
 
@@ -8,27 +8,27 @@ const state = {
 }
 
 const mutations = {
-    SET_USER_DETAILS(state, val) {
+    SET_USER_DETAILS (state, val) {
         state.userDetails = val
     },
 }
 
 const getters = {
-    getUser(state) {
+    getUser (state) {
         return state.userDetails
     },
 }
 
 const actions = {
-    detailUser({ commit }, payload) {
+    detailUser ({ commit }, payload) {
         // Details of a user
         commit('SET_USER_DETAILS', payload)
         this.$router.push("/user/" + payload.email)
     },
 
-    detailUserStore({ commit }, user) {
+    detailUserStore ({ commit }, user) {
         // Details of a user
-        const ref = firestoreDb.collection('users').doc(user)
+        const ref = firestoreDB.collection('users').doc(user)
         let data = {}
         if (offline.data().isOnline) {
             ref.get().then((doc) => {
@@ -50,7 +50,7 @@ const actions = {
                     // If user desen't exist
                     data = {
                         id: null,
-                        displayName:"",
+                        displayName: "",
                         email: "",
                         photoURL: "",
                         phoneNumber: "",

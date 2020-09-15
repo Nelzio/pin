@@ -11,10 +11,16 @@
       :selected.sync="selected"
       hide-header
     >
-      <template v-slot:top-left class="q-gutter-x-lg">
+      <template
+        v-slot:top-left
+        class="q-gutter-x-lg"
+      >
         <div :class="getFont.title">Associações</div>
       </template>
-      <template v-slot:top-right class="q-gutter-x-lg">
+      <template
+        v-slot:top-right
+        class="q-gutter-x-lg"
+      >
         <div class="q-mr-xl">
           <q-btn
             rounded
@@ -25,7 +31,13 @@
           />
         </div>
 
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          v-model="filter"
+          placeholder="Search"
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -43,9 +55,15 @@
             v-ripple
           >
             <q-list dense>
-              <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+              <q-item
+                v-for="col in props.cols.filter(col => col.name !== 'desc')"
+                :key="col.name"
+              >
                 <q-item-section>
-                  <q-item-label :class="getFont.text" class="text-bold">{{ col.label }}</q-item-label>
+                  <q-item-label
+                    :class="getFont.text"
+                    class="text-bold"
+                  >{{ col.label }}</q-item-label>
                   <q-item-label :class="getFont.text">{{ col.value }}</q-item-label>
                 </q-item-section>
               </q-item>
@@ -59,9 +77,9 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 export default {
-  data() {
+  data () {
     return {
       filter: "",
       selected: [],
@@ -106,10 +124,10 @@ export default {
     ...mapGetters("settings", ["getFont"]),
   },
   methods: {
-    openAddDialog() {
+    openAddDialog () {
       this.$root.$emit("addAssociation");
     },
-    addRemoveSelection(object) {
+    addRemoveSelection (object) {
       if (object == this.selected[0]) {
         this.selected = [];
         this.$root.$emit("associationDetailsClose");
@@ -120,9 +138,9 @@ export default {
       }
     },
 
-    getData() {
+    getData () {
       const vm = this;
-      const ref = firestoreDb.collection("associations");
+      const ref = firestoreDB.collection("associations");
       ref.onSnapshot(function (docs) {
         var data = [];
         docs.forEach(function (doc) {
@@ -145,10 +163,10 @@ export default {
         vm.data = data;
       });
     },
-    giveNewData() {
+    giveNewData () {
       const vm = this;
       this.$root.$on("pleaseNewData", function (id) {
-        const ref = firestoreDb.collection("associations").doc(id);
+        const ref = firestoreDB.collection("associations").doc(id);
         ref
           .get()
           .then((doc) => {
@@ -161,7 +179,7 @@ export default {
                 phoneNumber: doc.data().phoneNumber,
                 email: doc.data().email,
               };
-  
+
               this.$root.$emit("newData", object);
             } else {
               this.$root.$emit("newData", {});
@@ -173,7 +191,7 @@ export default {
       });
     },
   },
-  mounted() {
+  mounted () {
     this.getData();
     this.giveNewData();
   },

@@ -8,7 +8,10 @@
     <!-- content -->
     <div class="row justify-center q-pt-md">
       <div class="col-12 col-md-7">
-        <div v-for="message in chatData" :key="message.key">
+        <div
+          v-for="message in chatData"
+          :key="message.key"
+        >
           <chat :message="message" />
         </div>
       </div>
@@ -28,10 +31,20 @@
     </div>-->
 
     <q-footer v-if="!$q.screen.gt.sm">
-      <q-toolbar class="row" :class="[darkModeConf.bgColor, darkModeConf.textColor]">
+      <q-toolbar
+        class="row"
+        :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+      >
         <!-- <q-btn round flat icon="insert_emoticon" class="q-mr-sm" /> -->
-        <q-form @submit="sendMessage" class="col-12" :class="[darkModeConf.bgColor, darkModeConf.textColor]">
-          <div class="row" :class="[darkModeConf.bgColor, darkModeConf.textColor, getFont.text]">
+        <q-form
+          @submit="sendMessage"
+          class="col-12"
+          :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+        >
+          <div
+            class="row"
+            :class="[darkModeConf.bgColor, darkModeConf.textColor, getFont.text]"
+          >
             <q-input
               v-if="recording"
               v-model="fullTimer"
@@ -50,18 +63,51 @@
               v-model="message.message"
               placeholder="Escreva a sua mensagem"
             />
-            <q-btn v-if="message.message" round flat icon="send" type="submit" />
-            <q-btn v-else-if="!recording" round flat icon="mic" @click="recordAudio()" />
-            <q-btn v-else round flat :class="darkModeConf.textBtn" icon="stop" color="red" @click="stopRecord()" />
+            <q-btn
+              v-if="message.message"
+              round
+              flat
+              icon="send"
+              type="submit"
+            />
+            <q-btn
+              v-else-if="!recording"
+              round
+              flat
+              icon="mic"
+              @click="recordAudio()"
+            />
+            <q-btn
+              v-else
+              round
+              flat
+              :class="darkModeConf.textBtn"
+              icon="stop"
+              color="red"
+              @click="stopRecord()"
+            />
           </div>
         </q-form>
       </q-toolbar>
     </q-footer>
 
-    <q-page-sticky position="bottom" v-if="$q.screen.gt.sm">
-      <q-toolbar class="bg-grey-3 row" :class="[darkModeConf.bgColor, darkModeConf.textColor]" style="width: 50vw;">
-        <q-form @submit="sendMessage" class="col-12">
-          <div class="row" :class="[darkModeConf.bgColor, darkModeConf.textColor]">
+    <q-page-sticky
+      position="bottom"
+      v-if="$q.screen.gt.sm"
+    >
+      <q-toolbar
+        class="bg-grey-3 row"
+        :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+        style="width: 50vw;"
+      >
+        <q-form
+          @submit="sendMessage"
+          class="col-12"
+        >
+          <div
+            class="row"
+            :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+          >
             <q-input
               v-if="recording"
               v-model="fullTimer"
@@ -84,16 +130,44 @@
               v-model="message.message"
               placeholder="Escreva a sua mensagem"
             />
-            <q-btn :color="darkModeConf.iconVar" v-if="message.message" round flat icon="send" type="submit" />
-            <q-btn :color="darkModeConf.iconVar" v-else-if="!recording" round flat icon="mic" @click="recordAudio()" />
-            <q-btn v-else round flat icon="stop" color="red" @click="stopRecord()" />
+            <q-btn
+              :color="darkModeConf.iconVar"
+              v-if="message.message"
+              round
+              flat
+              icon="send"
+              type="submit"
+            />
+            <q-btn
+              :color="darkModeConf.iconVar"
+              v-else-if="!recording"
+              round
+              flat
+              icon="mic"
+              @click="recordAudio()"
+            />
+            <q-btn
+              v-else
+              round
+              flat
+              icon="stop"
+              color="red"
+              @click="stopRecord()"
+            />
           </div>
         </q-form>
       </q-toolbar>
     </q-page-sticky>
 
-    <q-page-sticky expand position="top" v-if="!$q.screen.gt.sm">
-      <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]" class="shadow-3">
+    <q-page-sticky
+      expand
+      position="top"
+      v-if="!$q.screen.gt.sm"
+    >
+      <q-toolbar
+        :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+        class="shadow-3"
+      >
         <q-avatar>
           <q-img :src="getUser.photoURL" />
         </q-avatar>
@@ -104,7 +178,7 @@
 </template>
 
 <script>
-import { firestoreDb, fireStorage, firebase } from "boot/firebase";
+import { firestoreDB, fireStorage, firebase } from "boot/firebase";
 import { mapState, mapActions, mapGetters } from "vuex";
 import Chat from "components/chat/Chat.vue";
 export default {
@@ -112,7 +186,7 @@ export default {
   components: {
     Chat
   },
-  data() {
+  data () {
     return {
       mediaRecorder: null,
       audioChunks: [],
@@ -146,11 +220,11 @@ export default {
     ...mapActions("user", ["detailUserStore"]),
     ...mapActions("auth", ["checkAuthUser"]),
 
-    handleHold({ evt, ...info }) {
+    handleHold ({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
       // gravar audio
-      if(window.hasOwnProperty("cordova")){
+      if (window.hasOwnProperty("cordova")) {
         navigator.vibrate(200);
       } else {
         window.navigator.vibrate(200);
@@ -163,13 +237,13 @@ export default {
       // console.log(this.vacancy)
     },
 
-    handleSwipe(val) {
+    handleSwipe (val) {
       if (val.direction === "right") {
         this.$router.go(-1);
       }
     },
 
-    recordAudio() {
+    recordAudio () {
       const vm = this;
       navigator.mediaDevices
         .getUserMedia({ audio: true, video: false })
@@ -188,7 +262,7 @@ export default {
         });
     },
 
-    stopRecord() {
+    stopRecord () {
       const vm = this;
       this.recording = false;
       this.mediaRecorder.addEventListener("stop", () => {
@@ -199,19 +273,19 @@ export default {
         // this.sendMessageVoice(this.audioUrl)
         this.uploadFile(audioBlob);
       });
-      this.mediaRecorder.stream.getAudioTracks().forEach(function(track) {
+      this.mediaRecorder.stream.getAudioTracks().forEach(function (track) {
         track.stop();
       });
       this.mediaRecorder.stop();
       clearInterval(this.refreshInterval);
     },
 
-    counter() {
+    counter () {
       const vm = this;
       var totalSeconds = 0;
       this.refreshInterval = setInterval(setTime, 1000);
 
-      function setTime() {
+      function setTime () {
         ++totalSeconds;
         vm.timer.ss = totalSeconds % 60;
         vm.timer.mm = totalSeconds / 60;
@@ -222,7 +296,7 @@ export default {
           "sec";
       }
 
-      function pad(val) {
+      function pad (val) {
         var valString = val + "";
         if (valString.length < 2) {
           return "0" + valString;
@@ -232,20 +306,20 @@ export default {
       }
     },
 
-    getChat() {
+    getChat () {
       // var storageRef = fireStorage.ref()
       // if (!offline.data().isOnline) {
       //   return alert("Sem internet")
       // }
       const vm = this;
-      const ref = firestoreDb.collection("chat").doc(this.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
+      const ref = firestoreDB.collection("chat").doc(this.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
       var chatData = [];
       var chatDataObj = {};
       // const
-      ref.onSnapshot(function(querySnapshot) {
+      ref.onSnapshot(function (querySnapshot) {
         chatData = [];
         chatDataObj = {};
-        querySnapshot.forEach(function(doc) {
+        querySnapshot.forEach(function (doc) {
           chatData.push({
             key: doc.id,
             receptorUser: doc.data().email,
@@ -259,22 +333,22 @@ export default {
             readed: doc.data().readed
           });
         });
-        chatData.sort(function(a, b) {
+        chatData.sort(function (a, b) {
           return a.timeSend - b.timeSend;
         });
         vm.chatData = chatData;
         window.scroll(0, window.innerHeight + 200);
       });
     },
-    getChatToRead() {
+    getChatToRead () {
       // console.log("Read Mounted")
       const vm = this;
-      const ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.idReceptor.split('@')[0]);
+      const ref = firestoreDB.collection("chat").doc(this.user.email.split('@')[0]).collection(this.idReceptor.split('@')[0]);
       var chatDataObj = {};
-      
-      ref.get().then(function(querySnapshot) {
+
+      ref.get().then(function (querySnapshot) {
         chatDataObj = {};
-        querySnapshot.forEach(function(doc) {
+        querySnapshot.forEach(function (doc) {
           // console.log(doc.data().sender)
           // console.log(vm.user.email)
           // console.log(doc.data().readed)
@@ -301,18 +375,18 @@ export default {
       });
     },
 
-    updateMessage(payload) {
+    updateMessage (payload) {
       // console.log("Update Mounted")
-        var ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.idReceptor.split('@')[0]).doc(payload.key);
-        ref.set(payload).then(docRef => {
-          // console.log("Update method")
-          this.$root.$emit("countMessages", "Count Messages")
-        }).catch((error) => {
-          alert("Error update document: ", error);
-        });
+      var ref = firestoreDB.collection("chat").doc(this.user.email.split('@')[0]).collection(this.idReceptor.split('@')[0]).doc(payload.key);
+      ref.set(payload).then(docRef => {
+        // console.log("Update method")
+        this.$root.$emit("countMessages", "Count Messages")
+      }).catch((error) => {
+        alert("Error update document: ", error);
+      });
     },
 
-    sendMessage() {
+    sendMessage () {
       const vm = this;
 
       var today = new Date();
@@ -329,8 +403,8 @@ export default {
       this.message.imgUserUrl = this.user.photoURL;
       this.message.readed = false;
 
-      const ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.idReceptor.split('@')[0]);
-      const refReceptor = firestoreDb.collection("chat").doc(this.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
+      const ref = firestoreDB.collection("chat").doc(this.user.email.split('@')[0]).collection(this.idReceptor.split('@')[0]);
+      const refReceptor = firestoreDB.collection("chat").doc(this.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
       ref.add(this.message).then(docRef => {
         this.message.receptorUser = this.user.email;
         this.message.email = this.idReceptor;
@@ -338,37 +412,37 @@ export default {
           this.message = {
             message: ""
           };
-          if(!this.setChatId) {
+          if (!this.setChatId) {
             this.setChatId = true;
-            const refDoc = firestoreDb.collection("chat").doc(vm.user.email.split('@')[0]);
+            const refDoc = firestoreDB.collection("chat").doc(vm.user.email.split('@')[0]);
             refDoc.get().then((doc) => {
               if (doc.exists) {
-                if(!doc.data().peopleChat) {
-                  var chatId = {peopleChat: ["nobody"]}
+                if (!doc.data().peopleChat) {
+                  var chatId = { peopleChat: ["nobody"] }
                 } else {
-                  var chatId = {peopleChat: doc.data().peopleChat};
+                  var chatId = { peopleChat: doc.data().peopleChat };
                 }
               } else {
-                var chatId = {peopleChat: ["nobody"]}
+                var chatId = { peopleChat: ["nobody"] }
               }
-              if(!chatId.peopleChat.includes(vm.$route.params.idReceptor)) {
+              if (!chatId.peopleChat.includes(vm.$route.params.idReceptor)) {
                 chatId.peopleChat.push(vm.$route.params.idReceptor);
                 refDoc.set(chatId);
               }
 
 
-              const refDocRecep = firestoreDb.collection("chat").doc(vm.$route.params.idReceptor.split('@')[0]);
+              const refDocRecep = firestoreDB.collection("chat").doc(vm.$route.params.idReceptor.split('@')[0]);
               refDocRecep.get().then((docRecep) => {
                 if (docRecep.exists) {
-                  if(!docRecep.data().peopleChat) {
-                    var chatId = {peopleChat: ["nobody"]}
+                  if (!docRecep.data().peopleChat) {
+                    var chatId = { peopleChat: ["nobody"] }
                   } else {
-                    var chatId = {peopleChat: docRecep.data().peopleChat};
+                    var chatId = { peopleChat: docRecep.data().peopleChat };
                   }
                 } else {
-                  var chatId = {peopleChat: ["nobody"]}
+                  var chatId = { peopleChat: ["nobody"] }
                 }
-                if(!chatId.peopleChat.includes(vm.user.email.split('@')[0])) {
+                if (!chatId.peopleChat.includes(vm.user.email.split('@')[0])) {
                   chatId.peopleChat.push(vm.user.email.split('@')[0]);
                   refDocRecep.set(chatId);
                 }
@@ -379,7 +453,7 @@ export default {
       });
     },
 
-    sendMessageVoice(voice) {
+    sendMessageVoice (voice) {
       const vm = this;
 
       var today = new Date();
@@ -392,8 +466,8 @@ export default {
       this.message.readed = false;
       this.message.audio = voice;
 
-      const ref = firestoreDb.collection("chat").doc(this.user.email.split('@')[0]).collection(this.idReceptor.split('@')[0]);
-      const refReceptor = firestoreDb.collection("chat").doc(this.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
+      const ref = firestoreDB.collection("chat").doc(this.user.email.split('@')[0]).collection(this.idReceptor.split('@')[0]);
+      const refReceptor = firestoreDB.collection("chat").doc(this.idReceptor.split('@')[0]).collection(this.user.email.split('@')[0]);
       ref.add(this.message).then(docRef => {
         this.message.receptorUser = this.user.email;
         this.message.email = this.$route.params.idReceptor;
@@ -401,37 +475,37 @@ export default {
           this.message = {
             message: ""
           };
-          if(!this.setChatId) {
+          if (!this.setChatId) {
             this.setChatId = true;
-            const refDoc = firestoreDb.collection("chat").doc(vm.user.email.split('@')[0]);
+            const refDoc = firestoreDB.collection("chat").doc(vm.user.email.split('@')[0]);
             refDoc.get().then((doc) => {
               if (doc.exists) {
-                if(!doc.data().peopleChat) {
-                  var chatId = {peopleChat: ["nobody"]}
+                if (!doc.data().peopleChat) {
+                  var chatId = { peopleChat: ["nobody"] }
                 } else {
-                  var chatId = {peopleChat: doc.data().peopleChat};
+                  var chatId = { peopleChat: doc.data().peopleChat };
                 }
               } else {
-                var chatId = {peopleChat: ["nobody"]}
+                var chatId = { peopleChat: ["nobody"] }
               }
-              if(!chatId.peopleChat.includes(vm.$route.params.idReceptor)) {
+              if (!chatId.peopleChat.includes(vm.$route.params.idReceptor)) {
                 chatId.peopleChat.push(vm.$route.params.idReceptor);
                 refDoc.set(chatId);
               }
 
 
-              const refDocRecep = firestoreDb.collection("chat").doc(vm.$route.params.idReceptor);
+              const refDocRecep = firestoreDB.collection("chat").doc(vm.$route.params.idReceptor);
               refDocRecep.get().then((docRecep) => {
                 if (docRecep.exists) {
-                  if(!docRecep.data().peopleChat) {
-                    var chatId = {peopleChat: ["nobody"]}
+                  if (!docRecep.data().peopleChat) {
+                    var chatId = { peopleChat: ["nobody"] }
                   } else {
-                    var chatId = {peopleChat: docRecep.data().peopleChat};
+                    var chatId = { peopleChat: docRecep.data().peopleChat };
                   }
                 } else {
-                  var chatId = {peopleChat: ["nobody"]}
+                  var chatId = { peopleChat: ["nobody"] }
                 }
-                if(!chatId.peopleChat.includes(vm.user.email.split('@')[0])) {
+                if (!chatId.peopleChat.includes(vm.user.email.split('@')[0])) {
                   chatId.peopleChat.push(vm.user.email.split('@')[0]);
                   refDocRecep.set(chatId);
                 }
@@ -440,15 +514,15 @@ export default {
           }
         });
       });
-      
+
     },
 
-    uploadFile(file) {
+    uploadFile (file) {
       const vm = this;
       var storageRef = fireStorage.ref();
       // Upload file and metadata to the object 'images/mountains.jpg'
-      
-      
+
+
       var resultAudioName = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);;
       var audioName = vm.user.displayName.split(' ')[0] + resultAudioName + '.mp3'
       var uploadTask = storageRef.child('chat/' + audioName).put(file);
@@ -456,7 +530,7 @@ export default {
       // Listen for state changes, errors, and completion of the upload.
       uploadTask.on(
         firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-        function(snapshot) {
+        function (snapshot) {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           // // var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           // // console.log('Upload is ' + progress + '% done');
@@ -469,7 +543,7 @@ export default {
               break;
           }
         },
-        function(error) {
+        function (error) {
           // A full list of error codes is available at
           // https://firebase.google.com/docs/storage/web/handle-errors
           switch (error.code) {
@@ -486,36 +560,36 @@ export default {
               break;
           }
         },
-        function() {
+        function () {
           // Upload completed successfully, now we can get the download URL
-          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
             console.log('File available at', downloadURL);
-            vm.sendMessageVoice({ audioUrl: downloadURL, time: vm.timer.ss,  name: audioName});
+            vm.sendMessageVoice({ audioUrl: downloadURL, time: vm.timer.ss, name: audioName });
           });
         }
       );
     }
   },
-  created() {
+  created () {
     this.detailUserStore(this.$route.params.idReceptor);
     this.idReceptor = this.$route.params.idReceptor;
   },
-  mounted() {
+  mounted () {
     this.checkAuthUser();
     this.getChat();
     this.getChatToRead()
     // console.log("Mounted")
     window.scroll(0, window.innerHeight + 200);
-    
-  }, 
+
+  },
   watch: {
     getUser () {
-      if(this.getUser.displayName) {
+      if (this.getUser.displayName) {
         this.$root.$emit(
           "textToSpeechRouter",
           "Página de conversa com" +
-            this.getUser.displayName +
-            ".\n Pressione a tela até vibrar para poder falar.\n Para parar a gravação pressione a tela novamente."
+          this.getUser.displayName +
+          ".\n Pressione a tela até vibrar para poder falar.\n Para parar a gravação pressione a tela novamente."
         );
       }
     }

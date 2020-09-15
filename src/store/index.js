@@ -2,11 +2,11 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 // import example from './module-example'
-import settings from './store-modules/settings-module'
-import auth from './store-modules/auth-module'
-import vacancy from './store-modules/vacancy-module'
-import user from './store-modules/user-module'
-import store from './store-modules/store-module'
+import settings from './settings-module'
+import auth from './auth-module'
+import vacancy from './vacancy-module'
+import user from './user-module'
+import store from './store-module'
 import admin from './admin-module'
 
 Vue.use(Vuex)

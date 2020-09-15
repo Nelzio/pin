@@ -1,18 +1,24 @@
 <template>
   <div>
-    <q-table hide-bottom title="Vagas mais recentes" :data="dataTable" :columns="columns" row-key="id" />
+    <q-table
+      hide-bottom
+      title="Vagas mais recentes"
+      :data="dataTable"
+      :columns="columns"
+      row-key="id"
+    />
   </div>
 </template>
 
 <script>
 import {
   firebaseAuth,
-  firestoreDb,
+  firestoreDB,
   fireStorage,
   firebase,
 } from "boot/firebase";
 export default {
-  data() {
+  data () {
     return {
       users: [],
       columns: [
@@ -41,7 +47,7 @@ export default {
     };
   },
   methods: {
-    userName(id) {
+    userName (id) {
       // Get user name of a user in users array
       for (let index = 0; index < this.users.length; index++) {
         let element = this.users[index];
@@ -51,11 +57,11 @@ export default {
       }
     },
 
-    getVacancies() {
+    getVacancies () {
       const vm = this;
       let tempObject = {};
-      let refUser = firestoreDb.collection("users");
-      let ref = firestoreDb.collection("vacancies");
+      let refUser = firestoreDB.collection("users");
+      let ref = firestoreDB.collection("vacancies");
 
       //first get all users
       refUser.get().then(function (querySnapshot) {
@@ -81,7 +87,7 @@ export default {
       });
     },
   },
-  mounted() {
+  mounted () {
     this.getVacancies();
   },
 };

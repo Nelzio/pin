@@ -23,10 +23,9 @@
             ref="email"
             v-model="authObject.email"
             type="email"
-            label="Email do usuario"
-            placeholder="Email do usuario"
+            label="Email do usuário"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
+            :rules="[ val => val && val.length > 0 && isEmailValid() || 'Introduza o seu numero de telefone']"
           />
 
           <q-input
@@ -35,7 +34,6 @@
             :color="darkModeConf.iconVar"
             ref="password"
             label="Senha"
-            placeholder="Senha"
             v-model="authObject.password"
             :type="isPwd ? 'password' : 'text'"
             lazy-rules
@@ -68,6 +66,7 @@
               outline
               label="Recuperar senha"
               to="/account/resetpwd"
+              role="button"
             />
           </div>
           <div>
@@ -79,6 +78,7 @@
               label="Criar conta"
               icon-right="arrow_forward"
               to="/account/create"
+              role="button"
             />
           </div>
         </q-form>
@@ -120,7 +120,7 @@ export default {
   methods: {
     ...mapActions("auth", ["loginUser"]),
 
-    isPasswordValid (email) {
+    isEmailValid (email) {
       var re = /^(([^<>()\[\]\\.,:\s@"]+(\.[^<>()\[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(String(email).toLowerCase());
     },

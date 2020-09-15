@@ -4,37 +4,73 @@
     v-touch-swipe.mouse.left.right="handleSwipe"
     padding
     v-touch-hold:650.mouse="handleHold"
+    role="group"
+    aria-label="Página de detalhes da vaga"
   >
     <!-- content -->
-    <div class="row justify-center">
+    <div
+      class="row justify-center"
+      role="row"
+    >
       <div class="q-gutter-y-md col-12 col-md-8">
         <div>
-          <q-card class="my-card col-12" style="padding: 0;">
+          <q-card
+            class="my-card col-12"
+            style="padding: 0;"
+          >
             <!-- <q-video style="padding: 0;height: 300px" src="https://www.youtube.com/embed/Raa0vBXA8OQ" /> -->
-            <q-img :src="getVacancy.img" spinner-color="white" style="min-height: 200px;" />
-            <q-card-section>
+            <q-img
+              :src="getVacancy.img"
+              spinner-color="white"
+              style="min-height: 200px;"
+              alt="img"
+              aria-label="Imagem da vaga"
+            />
+            <q-card-section :aria-label="getVacancy.title">
               <div :class="getFont.title">{{ getVacancy.title }}</div>
             </q-card-section>
             <q-card-section class="row q-pt-none">
               <div class="col text-center">
-                <q-icon :color="darkModeConf.iconVar" name="place" size="lg" />
+                <q-icon
+                  :color="darkModeConf.iconVar"
+                  name="place"
+                  size="lg"
+                />
               </div>
-              <div class="col-10" :class="getFont.text">{{ getVacancy.place }}</div>
+              <div
+                class="col-10"
+                :class="getFont.text"
+              >{{ getVacancy.place }}</div>
             </q-card-section>
             <q-card-section class="row q-pt-none">
               <div class="col text-center">
-                <q-icon :color="darkModeConf.iconVar" name="filter_list" size="lg" />
+                <q-icon
+                  :color="darkModeConf.iconVar"
+                  name="filter_list"
+                  size="lg"
+                />
               </div>
-              <div class="col-10" :class="getFont.text">{{ getVacancy.category }}</div>
+              <div
+                class="col-10"
+                :class="getFont.text"
+              >{{ getVacancy.category }}</div>
             </q-card-section>
             <q-card-section class="row q-pt-none">
-              <div class="col-12" :class="getFont.text"><div v-html="getVacancy.description"></div></div>
+              <div
+                class="col-12"
+                :class="getFont.text"
+              >
+                <div v-html="getVacancy.description"></div>
+              </div>
               <!-- <div class="col-12" :class="getFont.text">{{getVacancy.description}}</div> -->
             </q-card-section>
           </q-card>
         </div>
 
-        <div class="row justify-end q-gutter-x-md" v-if="user && isUserAuth">
+        <div
+          class="row justify-end q-gutter-x-md"
+          v-if="user && isUserAuth"
+        >
           <q-btn
             v-if="!vacancyDone"
             rounded
@@ -43,25 +79,43 @@
             label="Candidatar-se"
             icon="done_all"
             @click="applyDialog = true"
+            role="button"
           />
-          <q-btn v-else :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" rounded label="Cancelar" icon="close" @click="applyDialog = true" />
+          <q-btn
+            v-else
+            :color="darkModeConf.iconVar"
+            :class="darkModeConf.textBtn"
+            rounded
+            label="Cancelar candidatura"
+            icon="close"
+            @click="applyDialog = true"
+            role="button"
+          />
         </div>
-        <div class="row justify-end q-gutter-x-md" v-else>
+        <div
+          class="row justify-end q-gutter-x-md"
+          v-else
+        >
           <q-btn
             v-if="!vacancyDone"
             rounded
             :color="darkModeConf.iconVar"
             :class="darkModeConf.textBtn"
-            label="Candastrar-se"
+            label="Cadastrar-se"
             icon="done_all"
             @click="routeToAccount()"
+            role="link"
           />
         </div>
       </div>
     </div>
 
     <div>
-      <q-dialog v-model="applyDialog">
+      <q-dialog
+        v-model="applyDialog"
+        role="dialog"
+        :aria-label="!vacancyDone ? 'Confirmar Candidatura' : 'Confirmar cancelamento de candidatura'"
+      >
         <q-card style="width: 700px; max-width: 80vw;">
           <q-card-section>
             <div :class="getFont.title">Confirmar</div>
@@ -72,7 +126,11 @@
             class="q-pt-none"
             :class="getFont.title"
           >Candidatar-se a vaga?</q-card-section>
-          <q-card-section v-else class="q-pt-none" :class="getFont.title">Retirar candidatura?</q-card-section>
+          <q-card-section
+            v-else
+            class="q-pt-none"
+            :class="getFont.title"
+          >Retirar candidatura?</q-card-section>
 
           <q-card-actions align="right">
             <q-btn
@@ -82,9 +140,23 @@
               color="green"
               label="Candidatar"
               @click="aply()"
+              role="button"
             />
-            <q-btn v-else rounded outline color="green" label="Retirar" @click="deleteCandidate()" />
-            <q-btn rounded outline label="Cancelar" v-close-popup />
+            <q-btn
+              v-else
+              rounded
+              outline
+              color="green"
+              label="Retirar candidatura"
+              @click="deleteCandidate()"
+              role="button"
+            />
+            <q-btn
+              rounded
+              outline
+              label="Cancelar"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -100,10 +172,20 @@
             class="q-pt-none"
             :class="getFont.title"
           >Candidatura feita com sucesso</q-card-section>
-          <q-card-section v-else class="q-pt-none" :class="getFont.title">Candidatura cancelada com sucesso</q-card-section>
+          <q-card-section
+            v-else
+            class="q-pt-none"
+            :class="getFont.title"
+          >Candidatura cancelada com sucesso</q-card-section>
 
           <q-card-actions align="right">
-            <q-btn rounded outline label="OK" :color="darkModeConf.iconVar" v-close-popup />
+            <q-btn
+              rounded
+              outline
+              label="OK"
+              :color="darkModeConf.iconVar"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -115,12 +197,12 @@
 <script>
 import { Loading, Notify } from "quasar";
 import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 import { LocalStorage } from "quasar";
 import offline from "v-offline";
 export default {
   // name: 'PageName',
-  data() {
+  data () {
     return {
       tab: "details",
       socialNet: false,
@@ -150,7 +232,7 @@ export default {
 
     },
 
-    speak(userInput) {
+    speak (userInput) {
       if (this.synth.speaking) {
         // console.error('speechSynthesis.speaking');
         return;
@@ -158,10 +240,10 @@ export default {
       if (userInput !== "") {
         let sInstance = new SpeechSynthesisUtterance(userInput);
         sInstance.lang = 'pt-BR';
-        sInstance.onend = function(event) {
+        sInstance.onend = function (event) {
           // console.log('SpeechSynthesisUtterance.onend');
         };
-        sInstance.onerror = function(event) {
+        sInstance.onerror = function (event) {
           // console.error('SpeechSynthesisUtterance.onerror');
         };
 
@@ -175,10 +257,10 @@ export default {
         let sInstance = new SpeechSynthesisUtterance(
           "Nenhum texto nesta área."
         );
-        sInstance.onend = function(event) {
+        sInstance.onend = function (event) {
           // console.log('SpeechSynthesisUtterance.onend');
         };
-        sInstance.onerror = function(event) {
+        sInstance.onerror = function (event) {
           // console.error('SpeechSynthesisUtterance.onerror');
         };
 
@@ -191,7 +273,7 @@ export default {
       }
     },
 
-    speakCordova(userInput) {
+    speakCordova (userInput) {
       navigator.vibrate(200);
       TTS.speak(
         {
@@ -200,16 +282,16 @@ export default {
           pitch: this.pitch,
           rate: this.rate
         },
-        function() {
+        function () {
           console.log("Text succesfully spoken");
         },
-        function(reason) {
+        function (reason) {
           console.log(reason);
         }
       );
     },
 
-    handleHold({ evt, ...info }) {
+    handleHold ({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
       if (this.vibrateState) {
@@ -231,20 +313,20 @@ export default {
       // console.log(this.vacancy)
     },
 
-    handleSwipe(val) {
+    handleSwipe (val) {
       if (val.direction === "right") {
         this.$router.go(-1);
       }
     },
 
-    handleRepeat() {
+    handleRepeat () {
       if (this.vibrateState) {
         var vm = this;
 
         this.touchNums += 1;
         console.log(vm.touchNums)
 
-        if (this.touchNums === 5 ) {
+        if (this.touchNums === 5) {
           Loading.show();
           this.touchNums = -80;
           navigator.vibrate(200);
@@ -268,6 +350,8 @@ export default {
               // this.aply();
               Loading.hide();
               this.submitGo = true;
+              this.userData["evaluators"] = []
+              this.userData["submittedDate"] = new Date()
               this.aplyVacancyMethod({ id: this.$route.params.id, data: this.userData });
             }
           }
@@ -280,8 +364,8 @@ export default {
       }
     },
 
-    getAply() {
-      const ref = firestoreDb
+    getAply () {
+      const ref = firestoreDB
         .collection("vacancies")
         .doc(this.$route.params.id)
         .collection("candidates")
@@ -296,27 +380,29 @@ export default {
       });
     },
 
-    aply() {
+    aply () {
+      this.userData["evaluators"] = []
+      this.userData["submittedDate"] = new Date()
       this.aplyVacancyMethod({ id: this.$route.params.id, data: this.userData });
     },
 
-    convertToPlain(text) {
-      if ((text===null) || (text===''))
-      return false;
+    convertToPlain (text) {
+      if ((text === null) || (text === ''))
+        return false;
       else
-      var str = text.toString();
-      return str.replace( /(<([^>]+)>)/ig, '').replace(/([A-Z])/g, '\n $1');
+        var str = text.toString();
+      return str.replace(/(<([^>]+)>)/ig, '').replace(/([A-Z])/g, '\n $1');
     },
 
-    
 
-    aplyVacancyMethod(payload) {
+
+    aplyVacancyMethod (payload) {
       const vm = this;
       if (!offline.data().isOnline) {
         return alert("Está sem internet");
       }
       Loading.show();
-      const ref = firestoreDb
+      const ref = firestoreDB
         .collection("vacancies")
         .doc(payload.id)
         .collection("candidates")
@@ -348,13 +434,13 @@ export default {
         });
     },
 
-    deleteCandidate() {
+    deleteCandidate () {
       const vm = this;
       if (!offline.data().isOnline) {
         return alert("Está sem internet");
       }
       Loading.show();
-      firestoreDb
+      firestoreDB
         .collection("vacancies")
         .doc(this.$route.params.id)
         .collection("candidates")
@@ -383,11 +469,11 @@ export default {
         });
     }
   },
-  created() {
+  created () {
     // this.listVacancy()
     this.detailVacancy(this.$route.params.id);
   },
-  mounted() {
+  mounted () {
     if (this.user && this.isUserAuth) {
       this.getAply();
     }
@@ -399,7 +485,7 @@ export default {
   },
 
   watch: {
-    vacancyDone() {
+    vacancyDone () {
       if (this.vibrateState && this.submitGo) {
         this.submitGo = false;
         if (this.vacancyDone) {

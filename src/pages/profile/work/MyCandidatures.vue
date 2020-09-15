@@ -4,8 +4,15 @@
 
     <div class="row justify-center">
       <div class="col-12 col-md-11">
-        <div v-if="vacanciesAply" class="row">
-          <div class="q-pa-sm col-12 col-md-4" v-for="candidate in vacanciesAply" :key="candidate.id">
+        <div
+          v-if="vacanciesAply"
+          class="row"
+        >
+          <div
+            class="q-pa-sm col-12 col-md-4"
+            v-for="candidate in vacanciesAply"
+            :key="candidate.id"
+          >
             <q-card
               class="my-card"
               @click="$router.push('/vacancies/details/' + candidate.id)"
@@ -25,10 +32,10 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 export default {
   // name: 'PageName',
-  data() {
+  data () {
     return {
       vacanciesAply: []
     };
@@ -39,20 +46,20 @@ export default {
     ...mapGetters("auth", ["user", "userData"])
   },
   methods: {
-    listCandidatures(user) {
+    listCandidatures (user) {
       // done
       this.vacanciesAply = [];
-      const ref = firestoreDb.collection("vacancies");
+      const ref = firestoreDB.collection("vacancies");
       var vacanciesAply = [];
       var count = 0;
       const vm = this;
       ref
         .where("public", "==", true)
         .get()
-        .then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
+        .then(function (querySnapshot) {
+          querySnapshot.forEach(function (doc) {
             count += 1;
-            firestoreDb
+            firestoreDB
               .collection("vacancies")
               .doc(doc.id)
               .collection("candidates")
@@ -73,8 +80,8 @@ export default {
         });
     }
   },
-  created() {},
-  mounted() {
+  created () { },
+  mounted () {
     this.listCandidatures(this.user.email);
   }
 };

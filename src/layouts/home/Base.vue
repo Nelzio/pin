@@ -18,8 +18,9 @@
           dense
           round
           icon="arrow_back"
-          aria-label="Menu"
           size="lg"
+          role="button"
+          aria-label="Voltar a pagina anterior"
         />
         <!-- <q-btn
           to="/"
@@ -39,8 +40,9 @@
           dense
           round
           icon="filter_list"
-          aria-label="DowrerFilter"
           size="lg"
+          role="button"
+          aria-label="Abrir menú"
         />
         <q-btn
           @click="drowerFilterStore = !drowerFilterStore"
@@ -50,8 +52,9 @@
           dense
           round
           icon="filter_list"
-          aria-label="DowrerFilter"
           size="lg"
+          role="button"
+          aria-label="Abrir menú"
         />
 
         <q-toolbar-title
@@ -63,13 +66,22 @@
             flat
             round
             to="/"
+            role="link"
+            aria-label="página inicial"
           >
             <q-img
               src="statics/img/home/appLogo.png"
               style="height: 50px"
-              alt
+              alt="Logótipo"
+              role="img"
             />
-          </q-btn>Superativo
+          </q-btn>
+          <router-link
+            class="text-primary"
+            to="/"
+            role="link"
+          >Superativo</router-link>
+
         </q-toolbar-title>
         <q-toolbar-title
           shrink
@@ -80,13 +92,21 @@
             flat
             round
             to="/"
+            role="button"
           >
             <q-img
               src="statics/img/home/appLogo.png"
               style="height: 50px"
-              alt
+              alt="Logótipo"
+              role="img"
             />
-          </q-btn>Superativo
+          </q-btn>
+          <router-link
+            class="text-primary"
+            to="/"
+            role="link"
+            style="text-decoration: none;"
+          >Superativo</router-link>
         </q-toolbar-title>
 
         <q-space />
@@ -136,38 +156,21 @@
             v-if="isUserAuth"
             round
             flat
+            to="/profile"
+            role="button"
+            aria-label="Perfil"
           >
             <q-avatar>
               <q-img :src="user.photoURL" />
             </q-avatar>
-            <q-menu
-              transition-show="jump-down"
-              transition-hide="jump-up"
-            >
-              <q-list style="min-width: 100px">
-                <template>
-                  <q-item
-                    to="/profile"
-                    clickable
-                  >
-                    <q-item-section>Perfil</q-item-section>
-                  </q-item>
-                  <q-separator />
-                  <q-item
-                    @click="signOut"
-                    clickable
-                  >
-                    <q-item-section>Sair</q-item-section>
-                  </q-item>
-                </template>
-              </q-list>
-            </q-menu>
           </q-btn>
           <q-btn
             v-else
             round
             flat
             to="/account"
+            role="button"
+            aria-label="Entrar na conta"
           >
             <q-avatar>
               <q-icon
@@ -233,26 +236,31 @@
         align="justify"
         indicator-color="transparent"
         class="text-grey"
+        role="navigation"
       >
         <q-route-tab
           name="home"
           icon="home"
           to="/"
+          aria-label="Home page"
         />
         <q-route-tab
           name="trabalho"
           icon="work"
           to="/vacancies"
+          aria-label="Botão para página de vagas"
         />
         <q-route-tab
           name="store"
           icon="store"
           to="/store"
+          aria-label="Botão para página de negócio"
         />
         <q-route-tab
           name="settings"
           icon="settings"
           to="/settings"
+          aria-label="Botão para página de configurações"
         />
         <!--<q-route-tab name="profile" icon="person" to="/profile" />-->
       </q-tabs>
@@ -467,6 +475,7 @@
             size="35px"
             class="GPL__side-btn"
             to="/"
+            :class="this.$route.path.split('/')[1] == '' ? 'bg-grey-4' : ''"
           >
             <q-icon
               :color="darkModeConf.iconVar"
@@ -483,6 +492,7 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
+            :class="this.$route.path.split('/')[1] == 'vacancies' ? 'bg-grey-4' : ''"
             to="/vacancies"
           >
             <q-icon
@@ -500,6 +510,7 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
+            :class="this.$route.path.split('/')[1] == 'store' ? 'bg-grey-4' : ''"
             to="/store"
           >
             <q-icon
@@ -520,6 +531,7 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
+            :class="this.$route.path.split('/')[1] == 'profile' ? 'bg-grey-4' : ''"
             to="/profile"
           >
             <q-icon
@@ -537,6 +549,7 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
+            :class="this.$route.path.split('/')[1] == 'account' ? 'bg-grey-4' : ''"
             to="/account"
           >
             <q-icon
@@ -553,6 +566,7 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
+            :class="this.$route.path.split('/')[1] == 'settings' ? 'bg-grey-4' : ''"
             to="/settings"
           >
             <q-icon
@@ -570,6 +584,7 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
+            :class="this.$route.path.split('/')[1] == 'admin' ? 'bg-grey-4' : ''"
             to="/admin"
           >
             <q-icon
@@ -588,7 +603,7 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { LocalStorage } from "quasar";
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 import ChatCount from "components/layout/ChatCount";
 export default {
   // name: 'LayoutName',
@@ -784,7 +799,7 @@ export default {
     // getChat() {
     //   const vm = this;
     //   if (this.isUserAuth) {
-    //     const ref = firestoreDb.collection("chat");
+    //     const ref = firestoreDB.collection("chat");
     //     var chatData = [];
     //     ref
     //       .where("receptorUser", "==", vm.user.email)
@@ -807,7 +822,7 @@ export default {
     // },
 
     getChat (vm) {
-      const ref = firestoreDb
+      const ref = firestoreDB
         .collection("chat")
         .doc(vm.user.email.split("@")[0]);
       var chatDataObj = {};
@@ -816,7 +831,7 @@ export default {
         if (doc.exists) {
           vm.numMessage = 0;
           doc.data().peopleChat.forEach((element) => {
-            var refToCount = firestoreDb
+            var refToCount = firestoreDB
               .collection("chat")
               .doc(vm.user.email.split("@")[0])
               .collection(element);

@@ -12,10 +12,26 @@
       >
         <q-scroll-area class="fit">
           <q-toolbar class="text-primary">
-            <q-btn flat round dense icon="arrow_forward" @click="drawer = false" />
+            <q-btn
+              flat
+              round
+              dense
+              icon="arrow_forward"
+              @click="drawer = false"
+            />
             <q-toolbar-title>Empresa</q-toolbar-title>
-            <q-icon color="green" v-if="company.status == 'approved'" name="verified" size="md" />
-            <q-icon color="red" v-else-if="company.status == 'rejected'" name="cancel" size="md" />
+            <q-icon
+              color="green"
+              v-if="company.status == 'approved'"
+              name="verified"
+              size="md"
+            />
+            <q-icon
+              color="red"
+              v-else-if="company.status == 'rejected'"
+              name="cancel"
+              size="md"
+            />
           </q-toolbar>
           <div class="q-gutter-y-md">
             <div class="row justify-center">
@@ -23,7 +39,10 @@
                 <!-- sec1 -->
                 <div class="text-center">
                   <q-avatar size="100px">
-                    <q-img :src="company.photoURL" spinner-color="white" />
+                    <q-img
+                      :src="company.photoURL"
+                      spinner-color="white"
+                    />
                   </q-avatar>
 
                   <div :class="getFont.title">{{ company.displayName }}</div>
@@ -42,18 +61,35 @@
                       align="justify"
                       narrow-indicator
                     >
-                      <q-tab name="bio" label="Contacto" icon="contacts" />
-                      <q-tab name="description" label="Sobre" icon="description" />
+                      <q-tab
+                        name="bio"
+                        label="Contacto"
+                        icon="contacts"
+                      />
+                      <q-tab
+                        name="description"
+                        label="Sobre"
+                        icon="description"
+                      />
                     </q-tabs>
 
                     <q-separator />
 
-                    <q-tab-panels v-model="tab" animated>
+                    <q-tab-panels
+                      v-model="tab"
+                      animated
+                    >
                       <q-tab-panel name="bio">
                         <q-list>
                           <q-item class="text-left">
-                            <q-item-section top avatar>
-                              <q-icon :color="darkModeConf.iconVar" name="phone" />
+                            <q-item-section
+                              top
+                              avatar
+                            >
+                              <q-icon
+                                :color="darkModeConf.iconVar"
+                                name="phone"
+                              />
                             </q-item-section>
 
                             <q-item-section>
@@ -62,11 +98,20 @@
                             </q-item-section>
                           </q-item>
 
-                          <q-separator spaced inset="item" />
+                          <q-separator
+                            spaced
+                            inset="item"
+                          />
 
                           <q-item class="text-left">
-                            <q-item-section top avatar>
-                              <q-icon :color="darkModeConf.iconVar" name="email" />
+                            <q-item-section
+                              top
+                              avatar
+                            >
+                              <q-icon
+                                :color="darkModeConf.iconVar"
+                                name="email"
+                              />
                             </q-item-section>
 
                             <q-item-section>
@@ -75,11 +120,20 @@
                             </q-item-section>
                           </q-item>
 
-                          <q-separator spaced inset="item" />
+                          <q-separator
+                            spaced
+                            inset="item"
+                          />
 
                           <q-item class="text-left">
-                            <q-item-section avatar top>
-                              <q-icon :color="darkModeConf.iconVar" name="place" />
+                            <q-item-section
+                              avatar
+                              top
+                            >
+                              <q-icon
+                                :color="darkModeConf.iconVar"
+                                name="place"
+                              />
                             </q-item-section>
                             <q-item-section>
                               <q-item-label :class="getFont.title">Endereço</q-item-label>
@@ -94,7 +148,10 @@
                           <q-item class="text-left">
                             <q-item-section>
                               <q-item-label :class="getFont.title">Descrição</q-item-label>
-                              <q-item-label :class="getFont.text" v-html="company.description"></q-item-label>
+                              <q-item-label
+                                :class="getFont.text"
+                                v-html="company.description"
+                              ></q-item-label>
                             </q-item-section>
                           </q-item>
                         </q-list>
@@ -105,7 +162,11 @@
               </div>
             </div>
             <div class="col-12">
-              <q-btn-group class="full-width" spread rounded>
+              <q-btn-group
+                class="full-width"
+                spread
+                rounded
+              >
                 <q-btn
                   push
                   color="primary"
@@ -134,8 +195,20 @@
           </q-card-section>
           <q-card-section :class="getFont.text">Aprovar empresa {{ company.displayName }}?</q-card-section>
           <q-card-actions align="right">
-            <q-btn :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" rounded label="Aprovar" @click="approveCompony()" />
-            <q-btn :color="darkModeConf.iconVar" outline rounded label="Cancelar" v-close-popup />
+            <q-btn
+              :color="darkModeConf.iconVar"
+              :class="darkModeConf.textBtn"
+              rounded
+              label="Aprovar"
+              @click="approveCompony()"
+            />
+            <q-btn
+              :color="darkModeConf.iconVar"
+              outline
+              rounded
+              label="Cancelar"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -143,12 +216,27 @@
       <q-dialog v-model="dialogRejected">
         <q-card style="width: 700px; max-width: 80vw;">
           <q-card-section>
-            <div class="text-h6" :class="getFont.title">Atenção</div>
+            <div
+              class="text-h6"
+              :class="getFont.title"
+            >Atenção</div>
           </q-card-section>
           <q-card-section :class="getFont.text">Rejeitar empresa {{ company.displayName }}?</q-card-section>
           <q-card-actions align="right">
-            <q-btn :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" rounded label="Rejeitar" @click="rejectCompony()" />
-            <q-btn :color="darkModeConf.iconVar" outline rounded label="Cancelar" v-close-popup />
+            <q-btn
+              :color="darkModeConf.iconVar"
+              :class="darkModeConf.textBtn"
+              rounded
+              label="Rejeitar"
+              @click="rejectCompony()"
+            />
+            <q-btn
+              :color="darkModeConf.iconVar"
+              outline
+              rounded
+              label="Cancelar"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -159,9 +247,9 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { Loading } from "quasar";
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 export default {
-  data() {
+  data () {
     return {
       dialogApprove: false,
       dialogRejected: false,
@@ -175,7 +263,7 @@ export default {
     ...mapGetters("settings", ["getFont"]),
   },
   methods: {
-    changeCompany() {
+    changeCompany () {
       const vm = this;
       this.$root.$on("companyToEvaluation", (val) => {
         console.log(val);
@@ -183,9 +271,9 @@ export default {
         vm.drawer = true;
       });
     },
-    approveCompony() {
+    approveCompony () {
       Loading.show();
-      const ref = firestoreDb.collection("users").doc(this.company.id);
+      const ref = firestoreDB.collection("users").doc(this.company.id);
       var company = this.company;
       const vm = this;
       delete company.id;
@@ -202,9 +290,9 @@ export default {
           console.log(error);
         });
     },
-    rejectCompony() {
+    rejectCompony () {
       Loading.show();
-      const ref = firestoreDb.collection("users").doc(this.company.id);
+      const ref = firestoreDB.collection("users").doc(this.company.id);
       var company = this.company;
       const vm = this;
       delete company.id;
@@ -222,7 +310,7 @@ export default {
         });
     },
   },
-  mounted() {
+  mounted () {
     this.changeCompany();
   },
 };

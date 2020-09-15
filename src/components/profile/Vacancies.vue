@@ -26,8 +26,20 @@
           icon="details"
           :to="'/profile/vacancy/details/'+vacancy.key"
         />
-        <q-btn outline rounded :color="darkModeConf.iconVar" icon="edit" :to="'/profile/vacancy/edit/'+vacancy.key" />
-        <q-btn outline rounded :color="darkModeConf.iconVar" icon="delete" @click="confirDelete = true" />
+        <q-btn
+          outline
+          rounded
+          :color="darkModeConf.iconVar"
+          icon="edit"
+          :to="'/profile/vacancy/edit/'+vacancy.key"
+        />
+        <q-btn
+          outline
+          rounded
+          :color="darkModeConf.iconVar"
+          icon="delete"
+          @click="confirDelete = true"
+        />
         <q-btn
           outline
           rounded
@@ -50,7 +62,10 @@
             :class="getFont.text"
           >Remover vaga de {{ vacancy.title }}?</q-card-section>
 
-          <q-card-actions align="right" class="bg-white text-teal">
+          <q-card-actions
+            align="right"
+            class="bg-white text-teal"
+          >
             <q-btn
               rounded
               outline
@@ -58,17 +73,31 @@
               label="Remover"
               @click="deleteVacancyThis(vacancy.key)"
             />
-            <q-btn rounded outline color="grey" label="Cancelar" v-close-popup />
+            <q-btn
+              rounded
+              outline
+              color="grey"
+              label="Cancelar"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
 
       <q-dialog v-model="confirDeleteSuccess">
         <q-card>
-          <q-card-section class="text-green" :class="getFont.title">Vaga deletada com sucesso</q-card-section>
+          <q-card-section
+            class="text-green"
+            :class="getFont.title"
+          >Vaga deletada com sucesso</q-card-section>
 
           <q-card-actions align="right">
-            <q-btn flat label="OK" color="primary" v-close-popup />
+            <q-btn
+              flat
+              label="OK"
+              color="primary"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -79,12 +108,12 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { Loading } from "quasar";
-import { firebaseAuth, firestoreDb, fireStorage } from "boot/firebase";
+import { firebaseAuth, firestoreDB, fireStorage } from "boot/firebase";
 import offline from "v-offline";
 export default {
   // name: 'PageName',
   props: ["vacancy"],
-  data() {
+  data () {
     return {
       tab: "bio",
       confirDeleteSuccess: false,
@@ -108,8 +137,8 @@ export default {
   methods: {
     ...mapActions("auth", ["detailUser", "checkAuthUser"]),
 
-    handleHold({ ...info }) {
-      if(window.hasOwnProperty("cordova")){
+    handleHold ({ ...info }) {
+      if (window.hasOwnProperty("cordova")) {
         navigator.vibrate(200);
       } else {
         window.navigator.vibrate(200);
@@ -120,7 +149,7 @@ export default {
       );
     },
 
-    deleteVacancyThis(id) {
+    deleteVacancyThis (id) {
       const vm = this;
 
       Loading.show();
@@ -128,7 +157,7 @@ export default {
 
       var desertRef = storageRef.child("vacancies/" + id);
 
-      firestoreDb
+      firestoreDB
         .collection("vacancies")
         .doc(id)
         .delete()
@@ -136,12 +165,12 @@ export default {
           // Delete the file
           desertRef
             .delete()
-            .then(function() {
+            .then(function () {
               // File deleted successfully
               vm.confirDeleteSuccess = true;
               Loading.hide();
             })
-            .catch(function(error) {
+            .catch(function (error) {
               // Uh-oh, an error occurred!
               vm.confirDeleteSuccess = true;
               console.log("Erro ao Remover imagem");
@@ -154,9 +183,9 @@ export default {
         });
     },
 
-    getVacancyStatus(id) {
+    getVacancyStatus (id) {
       const vm = this;
-      const ref = firestoreDb.collection("vacancies").doc(id);
+      const ref = firestoreDB.collection("vacancies").doc(id);
 
       ref.onSnapshot(doc => {
         if (doc.exists) {
@@ -168,9 +197,9 @@ export default {
       });
     },
 
-    updateVacancyHere(payload) {
+    updateVacancyHere (payload) {
       Loading.show();
-      const updateRef = firestoreDb.collection("vacancies").doc(payload.id);
+      const updateRef = firestoreDB.collection("vacancies").doc(payload.id);
       updateRef
         .set(payload.data)
         .then(() => {
@@ -182,7 +211,7 @@ export default {
         });
     },
 
-    makePublic(id, data, val) {
+    makePublic (id, data, val) {
       let dataAux = {
         title: data.title,
         user: data.user,
@@ -201,10 +230,10 @@ export default {
       });
     }
   },
-  created() {
+  created () {
     this.checkAuthUser();
   },
-  mounted() {
+  mounted () {
     this.getVacancyStatus(this.vacancy.key);
     // this.listVacancyMy(this.user.email)
     // this.listVacancyMyHere(this.user.email);

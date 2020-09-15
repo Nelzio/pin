@@ -26,8 +26,20 @@
           icon="details"
           :to="'/profile/store/details/'+store.key"
         />
-        <q-btn outline rounded :color="darkModeConf.iconVar" icon="edit" :to="'/profile/store/edit/'+store.key" />
-        <q-btn outline rounded :color="darkModeConf.iconVar" icon="delete" @click="confirDelete = true" />
+        <q-btn
+          outline
+          rounded
+          :color="darkModeConf.iconVar"
+          icon="edit"
+          :to="'/profile/store/edit/'+store.key"
+        />
+        <q-btn
+          outline
+          rounded
+          :color="darkModeConf.iconVar"
+          icon="delete"
+          @click="confirDelete = true"
+        />
         <q-btn
           outline
           rounded
@@ -45,21 +57,47 @@
             <div :class="getFont.title">Confirmar</div>
           </q-card-section>
 
-          <q-card-section class="q-pt-none" :class="getFont.text">Remover {{ store.title }}?</q-card-section>
+          <q-card-section
+            class="q-pt-none"
+            :class="getFont.text"
+          >Remover {{ store.title }}?</q-card-section>
 
-          <q-card-actions align="right" class="bg-white text-teal">
-            <q-btn rounded outline :color="darkModeConf.iconVar" label="Remover" @click="deleteStoreThis(store.key)" />
-            <q-btn rounded outline color="grey" label="Cancelar" v-close-popup />
+          <q-card-actions
+            align="right"
+            class="bg-white text-teal"
+          >
+            <q-btn
+              rounded
+              outline
+              :color="darkModeConf.iconVar"
+              label="Remover"
+              @click="deleteStoreThis(store.key)"
+            />
+            <q-btn
+              rounded
+              outline
+              color="grey"
+              label="Cancelar"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
 
       <q-dialog v-model="confirDeleteSuccess">
         <q-card>
-          <q-card-section class="text-green" :class="getFont.title">Removido com sucesso</q-card-section>
+          <q-card-section
+            class="text-green"
+            :class="getFont.title"
+          >Removido com sucesso</q-card-section>
 
           <q-card-actions align="right">
-            <q-btn flat label="OK" color="primary" v-close-popup />
+            <q-btn
+              flat
+              label="OK"
+              color="primary"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -70,13 +108,13 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { Loading } from "quasar";
-import { firebaseAuth, firestoreDb, fireStorage } from "boot/firebase";
+import { firebaseAuth, firestoreDB, fireStorage } from "boot/firebase";
 import offline from "v-offline";
 
 export default {
   // name: 'PageName',
   props: ["store"],
-  data() {
+  data () {
     return {
       tab: "bio",
       confirDeleteSuccess: false,
@@ -90,11 +128,11 @@ export default {
     ...mapGetters("settings", ["getFont"])
   },
   methods: {
-    handleHold({ ...info }) {
+    handleHold ({ ...info }) {
       // console.log(evt)
       // console.log(val)
       // console.log(this.store)
-      if(window.hasOwnProperty("cordova")){
+      if (window.hasOwnProperty("cordova")) {
         navigator.vibrate(200);
       } else {
         window.navigator.vibrate(200);
@@ -102,16 +140,16 @@ export default {
       this.$root.$emit(
         "textToSpeechRouter",
         "Você adicionou" +
-          this.store.category +
-          " " +
-          this.store.title +
-          ".\n Clique para detalhes."
+        this.store.category +
+        " " +
+        this.store.title +
+        ".\n Clique para detalhes."
       );
     },
 
-    getStatusStore(id) {
+    getStatusStore (id) {
       const vm = this;
-      const ref = firestoreDb.collection("stories").doc(id);
+      const ref = firestoreDB.collection("stories").doc(id);
       ref.onSnapshot(doc => {
         if (doc.exists) {
           vm.statusStore = doc.data().public;
@@ -121,7 +159,7 @@ export default {
       });
     },
 
-    deleteStoreThis(id) {
+    deleteStoreThis (id) {
       const vm = this;
 
       Loading.show();
@@ -129,7 +167,7 @@ export default {
 
       var desertRef = storageRef.child("stories/" + id);
 
-      firestoreDb
+      firestoreDB
         .collection("stories")
         .doc(id)
         .delete()
@@ -137,12 +175,12 @@ export default {
           // Delete the file
           desertRef
             .delete()
-            .then(function() {
+            .then(function () {
               // File deleted successfully
               vm.confirDeleteSuccess = true;
               Loading.hide();
             })
-            .catch(function(error) {
+            .catch(function (error) {
               // Uh-oh, an error occurred!
               vm.confirDeleteSuccess = true;
               console.log("Erro ao Remover imagem");
@@ -155,9 +193,9 @@ export default {
         });
     },
 
-    updateStoreHere(payload) {
+    updateStoreHere (payload) {
       Loading.show();
-      const updateRef = firestoreDb.collection("stories").doc(payload.id);
+      const updateRef = firestoreDB.collection("stories").doc(payload.id);
       updateRef
         .set(payload.data)
         .then(() => {
@@ -169,7 +207,7 @@ export default {
         });
     },
 
-    makePublic(id, data, val) {
+    makePublic (id, data, val) {
       let dataAux = {
         title: data.title,
         user: data.user,
@@ -189,8 +227,8 @@ export default {
       });
     }
   },
-  created() {},
-  mounted() {
+  created () { },
+  mounted () {
     this.getStatusStore(this.store.key);
   }
 };

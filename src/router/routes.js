@@ -92,7 +92,10 @@ const routes = [
       { path: 'associations', component: () => import('pages/admin/Associations.vue') },
       { path: 'vacancies', component: () => import('pages/admin/Vacancies.vue') },
       { path: 'statistics', component: () => import('pages/admin/Statistics.vue') },
+      { path: 'evalvacancies', component: () => import('pages/admin/vacancy/ListVacanciesEval.vue') },
       { path: 'vacancies/vacancy', component: () => import('pages/admin/vacancy/Details.vue') },
+      // { path: 'evalvacancies/:idVacancyToEval', component: () => import('pages/admin/vacancy/Details.vue') },
+
     ]
   },
 ]

@@ -7,7 +7,12 @@
         <!-- sec 6 -->
         <div v-if="myVacancies.length">
           <div class="row">
-            <div ref="item" class="col-12 col-md-4 q-pa-sm" v-for="vacancy in myVacancies" :key="vacancy.key">
+            <div
+              ref="item"
+              class="col-12 col-md-4 q-pa-sm"
+              v-for="vacancy in myVacancies"
+              :key="vacancy.key"
+            >
               <Vacancy :vacancy="vacancy" />
             </div>
           </div>
@@ -15,7 +20,11 @@
       </div>
     </div>
 
-    <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user">
+    <q-page-sticky
+      position="bottom-right"
+      :offset="[18, 18]"
+      v-if="user"
+    >
       <q-btn
         fab
         icon="add"
@@ -30,7 +39,7 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { Loading } from "quasar";
-import { firebaseAuth, firestoreDb, fireStorage } from "boot/firebase";
+import { firebaseAuth, firestoreDB, fireStorage } from "boot/firebase";
 import offline from "v-offline";
 import Vacancy from "components/profile/Vacancies.vue";
 export default {
@@ -38,7 +47,7 @@ export default {
   components: {
     Vacancy
   },
-  data() {
+  data () {
     return {
       tab: "bio",
       myVacancies: []
@@ -52,14 +61,14 @@ export default {
   methods: {
     ...mapActions("auth", ["detailUser", "checkAuthUser"]),
 
-    handleHold({ ...info }) {
+    handleHold ({ ...info }) {
       console.log(info);
       // console.log(evt)
       // console.log(val)
       // console.log(this.vacancy)
     },
 
-    listVacancyMyHere(user) {
+    listVacancyMyHere (user) {
       // done
       var storageRef = fireStorage.ref();
       if (!offline.data().isOnline) {
@@ -68,12 +77,12 @@ export default {
       const vm = this;
       var myVacancies = [];
       var update = false;
-      const ref = firestoreDb.collection("vacancies");
-      ref.where("user", "==", user).onSnapshot(function(querySnapshot) {
+      const ref = firestoreDB.collection("vacancies");
+      ref.where("user", "==", user).onSnapshot(function (querySnapshot) {
         if (vm.myVacancies.length !== querySnapshot.docs.length) {
           myVacancies = [];
           update = true;
-          querySnapshot.forEach(function(doc) {
+          querySnapshot.forEach(function (doc) {
             myVacancies.push({
               key: doc.id,
               title: doc.data().title,
@@ -92,14 +101,14 @@ export default {
       });
     },
 
-    lazeItems() {
+    lazeItems () {
       if (!(this.itemsLayzeRef == this.$refs.item)) {
         this.itemsLayzeRef = this.$refs.item;
       }
       let active = false;
       if (active === false && this.itemsLayzeRef) {
         active = true;
-        this.itemsLayzeRef.forEach(function(item) {
+        this.itemsLayzeRef.forEach(function (item) {
           var position =
             window.innerHeight - item.getBoundingClientRect().bottom;
           var interval1 = item.getBoundingClientRect().top - 55;
@@ -117,12 +126,12 @@ export default {
     },
 
   },
-  created() {
+  created () {
     this.checkAuthUser();
     this.detailUser(this.user.email);
     this.listVacancyMyHere(this.user.email);
   },
-  mounted() {
+  mounted () {
     // this.listVacancyMy(this.user.email)
     // this.listVacancyMyHere(this.user.email);
   }

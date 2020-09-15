@@ -7,7 +7,10 @@
       >
         <q-card-section>
           <q-card-section horizontal>
-            <q-card-section v-if="vacancyDetails.user" class="col-3 flex flex-center">
+            <q-card-section
+              v-if="vacancyDetails.user"
+              class="col-3 flex flex-center"
+            >
               <q-card class="my-card text-center">
                 <!-- <q-icon name="person" color="black" size="100px" /> -->
 
@@ -33,11 +36,14 @@
               </div>
               <div>
                 <div class="text-body1 text-bold">Numero de vagas</div>
-                <div class="text-subtitle1">10 vagas</div>
+                <div class="text-subtitle1">{{ vacancyDetails.numVacancies }} vagas</div>
               </div>
               <div>
                 <div class="text-body1 text-bold">Descrição</div>
-                <div class="text-subtitle1" v-html="vacancyDetails.description"></div>
+                <div
+                  class="text-subtitle1"
+                  v-html="vacancyDetails.description"
+                ></div>
               </div>
             </q-card-section>
           </q-card-section>
@@ -48,10 +54,10 @@
 </template>
 
 <script>
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 import { mapGetters } from "vuex";
 export default {
-  data() {
+  data () {
     return {
       vacancyDetails: {},
     };
@@ -60,11 +66,11 @@ export default {
     ...mapGetters("admin", ["vacancy"]),
   },
   methods: {
-    getVacancy() {
+    getVacancy () {
       const vm = this;
       // console.log(this.vacancy.id);
       if (this.vacancy.id) {
-        const ref = firestoreDb.collection("vacancies").doc(this.vacancy.id);
+        const ref = firestoreDB.collection("vacancies").doc(this.vacancy.id);
 
         ref.get().then((doc) => {
           if (doc.exists) {
@@ -78,6 +84,7 @@ export default {
               place: doc.data().place,
               validate: doc.data().validate,
               category: doc.data().category,
+              numVacancies: doc.data().numVacancies,
               timeSend: new Date(doc.data().timeSend),
             };
             vm.getUser(doc.data().user);
@@ -89,9 +96,9 @@ export default {
         });
       }
     },
-    getUser(userId) {
+    getUser (userId) {
       const vm = this;
-      let ref = firestoreDb.collection("users").doc(userId);
+      let ref = firestoreDB.collection("users").doc(userId);
 
       ref.get().then((doc) => {
         if (doc.exists) {
@@ -104,25 +111,34 @@ export default {
       });
     },
 
-    // // updateAllUsers() {
-    // //   let ref = firestoreDb.collection("users");
-    // //   ref.get().then((docs) => {
-    // //     docs.forEach((doc) => {
-    // //       // console.log(doc.data())
-    // //       var data = doc.data();
-    // //       if (data.email == "nelziositoe@gmail.com") {
-    // //         data["access"] = "rwxrw";
-    // //       } else {
-    // //         data["access"] = "";
-    // //       }
-    // //       firestoreDb.collection("users").doc(doc.id).set(data).then(() => {
-    // //         console.log("done");
-    // //       });
-    // //     });
-    // //   });
-    // // },
+    // updateAllUsers () {
+    //   let ref = firestoreDB.collection("vacancies");
+    //   let boolVal = false
+    //   // places[Math.floor(Math.random() * 3)];
+    //   const places = ["Gaza",
+    //     "Inhambane",
+    //     "Manica",
+    //     "Maputo",
+    //     "Matola",
+    //     "Nampula",
+    //     "Niassa",
+    //     "Sofala",
+    //     "Tete",
+    //     "Zambézia"]
+    //   ref.get().then((docs) => {
+    //     docs.forEach((doc) => {
+    //       // console.log(doc.data())
+    //       var data = doc.data();
+    //       data["approved"] = boolVal;
+    //       boolVal = !boolVal
+    //       firestoreDB.collection("vacancies").doc(doc.id).set(data).then(() => {
+    //         console.log("done");
+    //       });
+    //     });
+    //   });
+    // },
   },
-  mounted() {
+  mounted () {
     this.getVacancy();
   },
 };

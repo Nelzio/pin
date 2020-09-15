@@ -1,10 +1,17 @@
 <template>
-  <q-page v-touch-swipe.mouse.right="handleSwipe" v-touch-hold:650.mouse="handleHold">
+  <q-page
+    v-touch-swipe.mouse.right="handleSwipe"
+    v-touch-hold:650.mouse="handleHold"
+  >
     <!-- content -->
     <div class="row justify-center">
       <div class="col-12 col-md-6">
         <q-list separator>
-          <chat-list v-for="chat in chatList" :key="chat.key" :chat="chat" />
+          <chat-list
+            v-for="chat in chatList"
+            :key="chat.key"
+            :chat="chat"
+          />
         </q-list>
       </div>
     </div>
@@ -12,12 +19,12 @@
 </template>
 
 <script>
-import { firestoreDb, fireStorage, firebase } from "boot/firebase";
+import { firestoreDB, fireStorage, firebase } from "boot/firebase";
 import { mapState, mapActions, mapGetters } from "vuex";
 import ChatList from "components/chat/ChatList.vue";
 export default {
   // name: 'PageName',
-  data() {
+  data () {
     return {
       chatData: [],
       chatList: [],
@@ -36,24 +43,24 @@ export default {
 
   methods: {
     ...mapActions("auth", ["checkAuthUser"]),
-    handleSwipe(val) {
+    handleSwipe (val) {
       if (val.direction === "right") {
         this.$router.go(-1);
       }
     },
 
-    handleHold({ evt, ...info }) {
+    handleHold ({ evt, ...info }) {
       // console.log(info)
     },
 
-    getChat2() {
+    getChat2 () {
       const vm = this;
       var start = true;
       var chatList = [];
 
       var chatData = [];
       var chatIDs = [""];
-      const refDoc = firestoreDb
+      const refDoc = firestoreDB
         .collection("chat")
         .doc(this.user.email.split("@")[0]);
       refDoc.onSnapshot(doc => {
@@ -61,13 +68,13 @@ export default {
           if (doc.data().peopleChat) {
             doc.data().peopleChat.forEach(element => {
               if (element !== "nobody") {
-                var refSender = firestoreDb
+                var refSender = firestoreDB
                   .collection("chat")
                   .doc(this.user.email.split("@")[0])
                   .collection(element);
-                refSender.onSnapshot(function(querySnapshot) {
+                refSender.onSnapshot(function (querySnapshot) {
                   chatData = [];
-                  querySnapshot.forEach(function(doc) {
+                  querySnapshot.forEach(function (doc) {
                     if (!chatIDs.includes(chatIDs)) {
                       chatData.push({
                         key: doc.id,
@@ -84,14 +91,14 @@ export default {
                       chatIDs.push(doc.id);
                     }
                   });
-                  chatData.sort(function(a, b) {
+                  chatData.sort(function (a, b) {
                     return a.timeSend - b.timeSend;
                   });
 
                   if (start) {
                     if (chatData[chatData.length - 1]) {
                       chatList.push(chatData[chatData.length - 1]);
-                      chatList.sort(function(a, b) {
+                      chatList.sort(function (a, b) {
                         return b.timeSend - a.timeSend;
                       });
                     }
@@ -102,7 +109,7 @@ export default {
                   } else {
                     if (chatData[chatData.length - 1]) {
                       vm.chatList.push(chatData[chatData.length - 1]);
-                      vm.chatList.sort(function(a, b) {
+                      vm.chatList.sort(function (a, b) {
                         return b.timeSend - a.timeSend;
                       });
                     }
@@ -115,12 +122,12 @@ export default {
       });
     },
 
-    listRedun(list) {
+    listRedun (list) {
       // retorna lista sem valores repetidos
       var listTemp = [];
       var listReturn = [];
-      list.forEach(function(data) {
-        list.forEach(function(data2) {
+      list.forEach(function (data) {
+        list.forEach(function (data2) {
           if (data == data2) {
             if (!listTemp.includes(JSON.stringify(data))) {
               listTemp.push(JSON.stringify(data));
@@ -134,7 +141,7 @@ export default {
       return listReturn;
     },
 
-    objectPropInArray(list, prop1, val1, prop2, val2) {
+    objectPropInArray (list, prop1, val1, prop2, val2) {
       var i;
       if (list.length > 0) {
         for (i in list) {
@@ -146,8 +153,8 @@ export default {
       return false;
     }
   },
-  created() {},
-  mounted() {
+  created () { },
+  mounted () {
     // this.getChat();
     this.checkAuthUser();
     this.getChat2();

@@ -130,7 +130,7 @@ import offline from "v-offline";
 import { LocalStorage, Loading } from "quasar";
 import {
   firebaseAuth,
-  firestoreDb,
+  firestoreDB,
   fireStorage,
   firebase
 } from "boot/firebase";
@@ -166,7 +166,7 @@ export default {
         return alert("Está sem internet");
       }
       // Loading.show()
-      const ref = firestoreDb.collection("curriculum").doc(payload.user);
+      const ref = firestoreDB.collection("curriculum").doc(payload.user);
       // Create a root reference
       var storageRef = fireStorage.ref();
       // Create the file metadata
@@ -277,33 +277,35 @@ export default {
     },
 
     getCV () {
-      // // // Loading.show();
+      Loading.show();
 
-      // // // const vm = this;
-      // // // if (!offline.data().isOnline) {
-      // // //   return showErrorMessage("Está sem internet.");
-      // // // }
-      // // // var storage = firebase.storage();
-      // // // const ref = firestoreDb.collection("curriculum").doc(this.userData.email);
-      // // // ref.get().then(doc => {
-      // // //   if (doc.exists) {
-      // // //     vm.curriculumDownload = {
-      // // //       key: doc.id,
-      // // //       docUrl: doc.data().docUrl,
-      // // //       user: doc.data().user
-      // // //     };
+      const vm = this;
+      if (!offline.data().isOnline) {
+        return showErrorMessage("Está sem internet.");
+      }
+      var storage = firebase.storage();
+      const ref = firestoreDB.collection("curriculum").doc(this.userData.email);
+      ref.get().then(doc => {
+        if (doc.exists) {
+          vm.curriculumDownload = {
+            key: doc.id,
+            docUrl: doc.data().docUrl,
+            user: doc.data().user
+          };
 
-      // // //     console.log(vm.curriculumDownload.docUrl);
-      // // //     // vm.curriculumDownload.docUrl = "https://cdn.mozilla.net/pdfjs/tracemonkey.pdf";
+          console.log(vm.curriculumDownload.docUrl);
+          // vm.curriculumDownload.docUrl = "https://cdn.mozilla.net/pdfjs/tracemonkey.pdf";
 
-      // // //     vm.dialogCVHere = true;
-      // // //     Loading.hide();
-      // // //   } else {
-      // // //     console.log("No such document!");
-      // // //     // Loading.hide()
-      // // //   }
-      // // // });
-      this.dialogCVHere = true;
+          vm.dialogCVHere = true;
+          Loading.hide();
+        } else {
+          console.log("No such document!");
+          // Loading.hide()
+        }
+      }).catch(error => {
+        console.log(error)
+      });
+      // this.dialogCVHere = true;
     }
   },
   mounted () {
@@ -314,9 +316,10 @@ export default {
       // vm.dialogCVHere = val;
       vm.getCV();
     });
-    this.$root.$on("uploadCV", () => {
+    this.$root.$on("uploadCV", function () {
       // vm.dialogCV = val;
       // vm.dialogCVHere = val;
+      console.log(vm.$refs.fileDoc)
       vm.$refs.fileDoc.click();
     });
     // this.$root.$on("cvDialog", function(val) {

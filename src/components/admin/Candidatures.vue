@@ -1,18 +1,23 @@
 <template>
   <div>
-    <q-table title="Candidáturas recentes" :data="dataCandidates" :columns="columns" row-key="index" />
+    <q-table
+      title="Candidáturas recentes"
+      :data="dataCandidates"
+      :columns="columns"
+      row-key="index"
+    />
   </div>
 </template>
 
 <script>
 import {
   firebaseAuth,
-  firestoreDb,
+  firestoreDB,
   fireStorage,
   firebase,
 } from "boot/firebase";
 export default {
-  data() {
+  data () {
     return {
       users: [],
       candidates: [],
@@ -48,7 +53,7 @@ export default {
     };
   },
   methods: {
-    userName(id) {
+    userName (id) {
       for (let index = 0; index < this.users.length; index++) {
         let element = this.users[index];
         if (element.email == id) {
@@ -57,11 +62,11 @@ export default {
       }
     },
 
-    getCandidates() {
+    getCandidates () {
       const vm = this;
-      // const ref = firestoreDb.collection("vacancies").doc("*").collection("candidates");
-      const ref = firestoreDb.collection("vacancies");
-      const refUser = firestoreDb.collection("users");
+      // const ref = firestoreDB.collection("vacancies").doc("*").collection("candidates");
+      const ref = firestoreDB.collection("vacancies");
+      const refUser = firestoreDB.collection("users");
       var candidates = [];
       var index = 0
       refUser.get().then(function (querySnapshot) {
@@ -103,7 +108,7 @@ export default {
       });
     },
   },
-  mounted() {
+  mounted () {
     this.getCandidates();
   },
 };

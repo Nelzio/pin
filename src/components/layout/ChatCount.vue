@@ -10,19 +10,27 @@
       :color="darkModeConf.iconVar"
       size="lg"
       to="/chat"
+      role="button"
+      aria-label="Ir a página de lista de conversas"
     >
       <!-- <q-badge v-if="numMessage" color="primary" text-color="white" floating>{{ numMessage }}</q-badge> -->
-      <q-badge class="notification" v-if="notification" color="red" text-color="white" floating></q-badge>
+      <q-badge
+        class="notification"
+        v-if="notification"
+        color="red"
+        text-color="white"
+        floating
+      ></q-badge>
     </q-btn>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 export default {
   // props: ["readed"],
-  data() {
+  data () {
     return {
       numMessage: 0,
       haveMessage: false,
@@ -35,15 +43,15 @@ export default {
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"])
   },
   methods: {
-    getChat() {
+    getChat () {
       const vm = this;
-      const ref = firestoreDb
+      const ref = firestoreDB
         .collection("chat")
         .doc(vm.user.email.split("@")[0]);
       var chatDataObj = {};
       var arrayToCountMessage = [];
 
-      ref.onSnapshot(function(doc) {
+      ref.onSnapshot(function (doc) {
         if (doc.exists) {
           vm.haveMessage = true;
           doc.data().peopleChat.forEach(element => {
@@ -53,15 +61,15 @@ export default {
         }
       });
     },
-    getChatRead() {
+    getChatRead () {
       const vm = this;
-      const ref = firestoreDb
+      const ref = firestoreDB
         .collection("chat")
         .doc(vm.user.email.split("@")[0]);
       var chatDataObj = {};
       var arrayToCountMessage = [];
 
-      ref.get().then(function(doc) {
+      ref.get().then(function (doc) {
         if (doc.exists) {
           vm.haveMessage = true;
           doc.data().peopleChat.forEach(element => {
@@ -72,17 +80,17 @@ export default {
       });
     },
 
-    countValToRead(val) {
+    countValToRead (val) {
       const vm = this;
       let time = 1000;
-      var refToCount = firestoreDb
+      var refToCount = firestoreDB
         .collection("chat")
         .doc(vm.user.email.split("@")[0])
         .collection(val);
       refToCount
         .where("readed", "==", false)
         .get()
-        .then(function(querySnap) {
+        .then(function (querySnap) {
           vm.numMessage = querySnap.length;
           vm.notification = false;
           // console.log(querySnap.length)
@@ -102,42 +110,42 @@ export default {
         });
     },
 
-    countVal(val) {
+    countVal (val) {
       const vm = this;
       let time = 1000;
       let notification = false;
-      var refToCount = firestoreDb
+      var refToCount = firestoreDB
         .collection("chat")
         .doc(vm.user.email.split("@")[0])
         .collection(val);
-        refToCount.where("readed", "==", false).onSnapshot(function(querySnap) {
-          vm.numMessage = querySnap.length;
-          vm.notification = false;
-          notification = false;
-          // console.log(querySnap.length)
-          querySnap.forEach(doc => {
-            if (!doc.data().readed && doc.data().sender !== vm.user.email) {
-              vm.notification = true;
-              notification = true;
-              // console.log(doc.data());
-              // console.log(vm.notification);
-              // console.log("Antes");
-              return;
-              // console.log("Depois");
-            }
-            time += 100;
-          });
-          setTimeout(() => {
-            // console.log(vm.notification)
-            // console.log(notification)
-            if (notification) {
-              vm.notification = true;
-              notification = false;
-              return
-            }
-            // console.log(vm.notification)
-          }, 5000);
+      refToCount.where("readed", "==", false).onSnapshot(function (querySnap) {
+        vm.numMessage = querySnap.length;
+        vm.notification = false;
+        notification = false;
+        // console.log(querySnap.length)
+        querySnap.forEach(doc => {
+          if (!doc.data().readed && doc.data().sender !== vm.user.email) {
+            vm.notification = true;
+            notification = true;
+            // console.log(doc.data());
+            // console.log(vm.notification);
+            // console.log("Antes");
+            return;
+            // console.log("Depois");
+          }
+          time += 100;
         });
+        setTimeout(() => {
+          // console.log(vm.notification)
+          // console.log(notification)
+          if (notification) {
+            vm.notification = true;
+            notification = false;
+            return
+          }
+          // console.log(vm.notification)
+        }, 5000);
+      });
     }
 
     // countValOnRead(val) {
@@ -147,7 +155,7 @@ export default {
     //   vm.numMessage = 0;
     //   var countNumTemp = 0;
     //   var load = false;
-    //   var refToCount = firestoreDb
+    //   var refToCount = firestoreDB
     //     .collection("chat")
     //     .doc(vm.user.email.split("@")[0])
     //     .collection(val);
@@ -182,7 +190,7 @@ export default {
     //     });
     // }
   },
-  mounted() {
+  mounted () {
     let vm = this;
     if (this.isUserAuth) this.getChat();
     this.$root.$on("countMessages", val => {
@@ -191,7 +199,7 @@ export default {
     });
   },
   watch: {
-    readed(val) {
+    readed (val) {
       if (val) {
         // this.getChat()
         this.getChatRead();

@@ -12,6 +12,8 @@
             round
             size="40px"
             @click="processFile()"
+            role="button"
+            aria-label="Trocar foto de perfil"
           >
             <q-icon
               :color="darkModeConf.iconVar"
@@ -31,6 +33,8 @@
             v-else
             round
             @click="processFile()"
+            role="button"
+            aria-label="Trocar foto de perfil"
           >
             <q-avatar size="120px">
               <q-img :src="imageUrl" />
@@ -52,105 +56,148 @@
           @submit.prevent.stop="onSubmit"
           @reset.prevent.stop="onReset"
           class="q-gutter-md"
+          role="form"
+          aria-label="Atualizar dados"
         >
-          <input
-            id="fileInput"
-            type="file"
-            hidden
-            ref="fileImg"
-            accept="image/*"
-            @change="onChangeImg"
-          />
-          <q-input
-            rounded
-            outlined
-            :color="darkModeConf.iconVar"
-            v-model="userEdit.displayName"
-            ref="name"
-            label="Nome"
-            lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Por favor, introduza o nome da instituição ou pessoa']"
-          />
-          <q-input
-            rounded
-            outlined
-            :color="darkModeConf.iconVar"
-            v-model="userEdit.phoneNumber"
-            label="Telefone"
-            icon="phone"
-            placeholeder="800000000"
-            mask="#########"
-            lazy-rules
-            :rules="[ val => val && val.length > 0 && val.length == 9 || 'Introduza o seu numero de telefone']"
-          />
-          <q-input
-            rounded
-            outlined
-            :color="darkModeConf.iconVar"
-            v-model="userEdit.address"
-            label="Endereço"
-            icon="place"
-            placeholeder="Cidade de xai-xai, bairro exemplo"
-            lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza o seu bairro']"
-          />
-          <q-input
-            :color="darkModeConf.iconVar"
-            rounded
-            outlined
-            v-model="userEdit.date"
-            mask="##/##/####"
-            :rules="[ val => val && val.length > 0 || 'Introduza a sua data de nascimento']"
-          >
-            <template v-slot:append>
-              <q-icon
-                :color="darkModeConf.iconVar"
-                name="event"
-                class="cursor-pointer"
-              >
-                <q-popup-proxy
-                  ref="qDateProxy"
-                  transition-show="scale"
-                  transition-hide="scale"
+          <div>
+            <input
+              id="fileInput"
+              type="file"
+              hidden
+              ref="fileImg"
+              accept="image/*"
+              @change="onChangeImg"
+            />
+
+          </div>
+          <div>
+            <q-input
+              rounded
+              outlined
+              :color="darkModeConf.iconVar"
+              v-model="userEdit.displayName"
+              ref="name"
+              label="Nome"
+              type="text"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Por favor, introduza o nome da instituição ou pessoa']"
+            />
+
+          </div>
+          <div>
+            <q-select
+              rounded
+              outlined
+              v-model="gender"
+              :options="genderOptions"
+              label="Selecionar sexo"
+              role="combobox"
+            />
+
+          </div>
+          <div>
+            <q-select
+              rounded
+              outlined
+              v-model="userEdit.association"
+              :options="associations"
+              label="Selecionar associação"
+              role="combobox"
+            />
+          </div>
+          <div>
+            <q-input
+              rounded
+              outlined
+              v-model="userEdit.deficiency"
+              type="text"
+              label="Deficiência"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Introduza a sua deficiência']"
+            />
+          </div>
+          <div>
+            <q-input
+              rounded
+              outlined
+              :color="darkModeConf.iconVar"
+              v-model="userEdit.phoneNumber"
+              label="Numero de Telefone"
+              icon="phone"
+              type="tel"
+              role="number"
+              mask="#########"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 && val.length == 9 || 'Introduza o seu numero de telefone']"
+            />
+          </div>
+          <div>
+            <q-input
+              rounded
+              outlined
+              :color="darkModeConf.iconVar"
+              v-model="userEdit.address"
+              label="Endereço"
+              type="text"
+              icon="place"
+              placeholeder="Cidade de xai-xai, bairro exemplo"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Introduza o seu bairro']"
+            />
+          </div>
+          <div>
+            <q-input
+              :color="darkModeConf.iconVar"
+              rounded
+              outlined
+              v-model="userEdit.date"
+              label="Data de nascimento"
+              mask="##/##/####"
+              :rules="[ val => val && val.length > 0 || 'Introduza a sua data de nascimento']"
+            >
+              <template v-slot:append>
+                <q-icon
+                  :color="darkModeConf.iconVar"
+                  name="event"
+                  class="cursor-pointer"
                 >
-                  <q-date
-                    :color="darkModeConf.iconVar"
-                    v-model="userEdit.date"
-                    @input="() => $refs.qDateProxy.hide()"
-                    mask="DD/MM/YYYY"
-                  />
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-          <q-input
-            rounded
-            outlined
-            :color="darkModeConf.iconVar"
-            v-model="userEdit.profession"
-            label="Profissão"
-            placeholeder="Canalizador"
-            lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza a sua profissão']"
-          />
-          <!-- <q-input
-            rounded
-            outlined
-            :color="darkModeConf.iconVar"
-            v-model="userEdit.education"
-            label="Educação"
-            placeholeder="Licenciatura em Gestão, curso de informática"
-            lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza a sua formação']"
-          /> -->
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date
+                      :color="darkModeConf.iconVar"
+                      v-model="userEdit.date"
+                      @input="() => $refs.qDateProxy.hide()"
+                      mask="DD/MM/YYYY"
+                    />
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+          <div>
+            <q-input
+              rounded
+              outlined
+              :color="darkModeConf.iconVar"
+              v-model="userEdit.profession"
+              label="Profissão"
+              type="text"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Introduza a sua profissão']"
+            />
+          </div>
           <div class="q-gutter-y-md">
             <q-btn
               rounded
               label="Enviar"
-              type="login"
               :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               class="full-width"
+              role="button"
+              type="submit"
             />
           </div>
         </q-form>
@@ -160,6 +207,7 @@
           @submit.prevent.stop="onSubmit"
           @reset.prevent.stop="onReset"
           class="q-gutter-md"
+          role="form"
         >
           <input
             id="fileInput"
@@ -176,6 +224,7 @@
             v-model="userEdit.displayName"
             ref="name"
             label="Nome"
+            type="text"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Por favor, introduza o nome da instituição ou pessoa']"
           />
@@ -184,9 +233,9 @@
             outlined
             :color="darkModeConf.iconVar"
             v-model="userEdit.phoneNumber"
-            label="Telefone"
+            label="Numero de Telefone"
             icon="phone"
-            placeholeder="800000000"
+            type="tel"
             mask="#########"
             lazy-rules
             :rules="[ val => val && val.length > 0 && val.length == 9 || 'Introduza o seu numero de telefone']"
@@ -198,6 +247,7 @@
             v-model="userEdit.address"
             label="Endereço"
             icon="place"
+            type="text"
             placeholeder="Cidade de xai-xai, bairro exemplo"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza o seu bairro']"
@@ -207,6 +257,7 @@
             :color="darkModeConf.iconVar"
             v-model="userEdit.description"
             min-height="8rem"
+            role="textbox"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza uma descrição da instituição']"
           />
@@ -214,49 +265,73 @@
             <q-btn
               rounded
               label="Enviar"
-              type="login"
               :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               class="full-width"
+              type="submit"
+              role="button"
             />
           </div>
         </q-form>
       </div>
     </div>
+    <q-ajax-bar
+      ref="bar"
+      position="bottom"
+      color="primary"
+      size="10px"
+      skip-hijack
+    />
+
   </q-page>
 </template>
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { LocalStorage, Loading } from 'quasar'
+import { firestoreDB } from "boot/firebase"
 export default {
   name: "RegisterFormComponent",
   data () {
     return {
+      text: "asd",
       tab: "contact",
+      prof: "Pedreiro",
+      gender: "",
+      profession: "Pedreiro",
       userEdit: {
         displayName: "",
+        email: "",
+        access: "",
+        gender: "",
+        association: "",
+        registrationDate: "",
+        deficiency: "",
+        photoURL: "",
         phoneNumber: "",
         address: "",
+        place: "",
         profession: "",
         education: "",
+        profileType: "",
         description: "",
         date: "01/01/2000"
       },
-      authObject: {
-        displayName: "",
-        phoneNumber: "",
-        email: "",
-        img: "",
-        address: "",
-        profession: "",
-        education: "",
-        date: ""
-      },
+      genderOptions: [
+        {
+          label: 'Masculino',
+          value: true,
+        },
+        {
+          label: 'Feminino',
+          value: false,
+        },
+      ],
       imageUrl: "",
       imageProfile: null,
       profileType: "",
-      isPwd: true
+      isPwd: true,
+      associations: []
     };
   },
   computed: {
@@ -266,19 +341,49 @@ export default {
 
   methods: {
     ...mapActions("auth", ["editUser", "detailUser"]),
-
+    getAssociations () {
+      const vm = this
+      this.$refs.bar.start()
+      const ref = firestoreDB.collection("associations")
+      let associations = []
+      ref.get().then(docs => {
+        docs.forEach(doc => {
+          associations.push({ label: doc.data().name, value: doc.id })
+        });
+        vm.associations = associations
+        vm.$refs.bar.stop()
+      })
+    },
     getUser () {
       // first get user
-      this.detailUser(this.user.email).then(() => {
-        this.userEdit.displayName = this.userData.displayName;
-        this.userEdit.phoneNumber = this.userData.phoneNumber;
-        this.userEdit.address = this.userData.address;
-        this.userEdit.profession = this.userData.profession;
-        this.userEdit.education = this.userData.education;
-        this.userEdit.profileType = this.userData.profileType;
-        this.userEdit.description = this.userData.description;
-        this.userEdit.date = this.userData.date;
-      });
+      this.userEdit.profession = this.userData.profession
+      this.userEdit.displayName = this.userData.displayName
+      this.userEdit.email = this.userData.email
+      this.userEdit.access = this.userData.access
+      this.userEdit.gender = this.userData.gender
+      this.userEdit.association = this.userData.association
+      this.userEdit.registrationDate = this.userData.registrationDate
+      this.userEdit.deficiency = this.userData.deficiency
+      this.userEdit.photoURL = this.userData.photoURL
+      this.userEdit.phoneNumber = this.userData.phoneNumber
+      this.userEdit.address = this.userData.address
+      this.userEdit.place = this.userData.place
+      this.userEdit.education = this.userData.education
+      this.userEdit.profileType = this.userData.profileType
+      this.userEdit.description = this.userData.description
+      this.userEdit.date = this.userData.date
+
+      // this.prof = this.userData.profession
+      // alert(this.userEdit.profession)
+      this.gender = this.userEdit.gender ? {
+        label: 'Masculino',
+        value: true,
+      } :
+        {
+          label: 'Feminino',
+          value: false,
+        }
+
     },
 
     isEmailValid (email) {
@@ -287,10 +392,22 @@ export default {
     },
 
     onReset () {
+      this.userEdit.displayName = null;
+      this.userEdit.email = null;
+      this.userEdit.access = null;
+      this.userEdit.gender = null;
+      this.userEdit.association = null;
+      this.userEdit.registrationDate = null;
+      this.userEdit.deficiency = null;
+      this.userEdit.photoURL = null;
       this.userEdit.phoneNumber = null;
       this.userEdit.address = null;
+      this.userEdit.place = null;
       this.userEdit.profession = null;
       this.userEdit.education = null;
+      this.userEdit.profileType = null;
+      this.userEdit.description = null;
+      this.userEdit.date = null;
 
       this.$refs.loginForm.resetValidation();
     },
@@ -348,6 +465,7 @@ export default {
   },
 
   mounted () {
+    this.getAssociations()
     this.getUser();
     this.$root.$emit("textToSpeechRouter", "Editar perfil");
     if (LocalStorage.getItem("profileType")) this.profileType = LocalStorage.getItem("profileType");
@@ -357,6 +475,11 @@ export default {
   filters: {
     captalizeFirstLetter (val) {
       return val.charAt(0).toUpperCase() + "" + val.slice(1);
+    }
+  },
+  watch: {
+    gender (val) {
+      this.userEdit.gender = val.value
     }
   }
 };

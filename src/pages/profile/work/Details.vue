@@ -156,7 +156,7 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 import offline from "v-offline";
 export default {
   // name: 'PageName',
@@ -186,7 +186,7 @@ export default {
         return alert("Sem internet");
       }
       const vm = this;
-      const ref = firestoreDb
+      const ref = firestoreDB
         .collection("vacancies")
         .doc(this.$route.params.id)
         .collection("candidates");

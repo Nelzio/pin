@@ -50,13 +50,13 @@ const firebaseConfig = {
 // Initialize Firebase
 // firebase.initializeApp(firebaseConfig);
 
-const settings = {timestampsInSnapshots: true}; // firebase
+const settings = { timestampsInSnapshots: true }; // firebase
 
 // let firebaseApp = firebase.initializeApp(firebaseConfig)
 
 // let firebaseDb = firebaseApp.database()
 
-// firestoreDb.settings(settings)
+// firestoreDB.settings(settings)
 
 firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
@@ -64,10 +64,10 @@ firebase.initializeApp(firebaseConfig);
 // firebase.firestore().settings(settings);
 
 let firebaseAuth = firebase.auth()
-let firestoreDb = firebase.firestore()
+let firestoreDB = firebase.firestore()
 let fireStorage = firebase.storage();
 
 // export default firebase;
 
 
-export { firebaseAuth, firestoreDb, firebase, fireStorage }
+export { firebaseAuth, firestoreDB, firebase, fireStorage }

@@ -3,7 +3,17 @@
     <!-- Be sure to play with the Layout demo on docs -->
     <q-header elevated>
       <q-toolbar :class="[darkModeConf.bgColor]">
-        <q-btn icon="arrow_back" :color="darkModeConf.iconVar" flat round dense @click="$router.go(-1)" size="lg" />
+        <q-btn
+          icon="arrow_back"
+          :color="darkModeConf.iconVar"
+          flat
+          round
+          dense
+          @click="$router.go(-1)"
+          size="lg"
+          role="button"
+          aria-label="Voltar a página anterior"
+        />
         <q-toolbar-title class="text-center text-primary text-h6">Superativo | Conta</q-toolbar-title>
         <!-- <q-btn
           flat
@@ -27,7 +37,7 @@ import { mapState, mapActions } from "vuex";
 export default {
   // name: 'LayoutName',
 
-  data() {
+  data () {
     return {
       backPage: false,
       bgColor: "bg-white",
@@ -39,7 +49,7 @@ export default {
     ...mapState("settings", ["appMode", "darkModeConf"])
   },
   methods: {
-    darkMode() {
+    darkMode () {
       if (this.appMode) {
         this.$q.dark.set(false);
       } else {
@@ -47,12 +57,12 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     if (this.$route.path !== "/account") this.backPage = true;
     this.darkMode();
   },
   watch: {
-    $route(to, from) {
+    $route (to, from) {
       // react to route changes...
       this.backPage = false;
       if (to.path !== "/account") this.backPage = true;

@@ -8,13 +8,27 @@
             alt
           >
             <div class="absolute-bottom absolute-top text-subtitle2 text-center">
-              <div class="text-h3 text-bold" style="padding-top: 25%;">{{ users }}</div>
+              <div
+                class="text-h3 text-bold"
+                style="padding-top: 25%;"
+              >{{ users }}</div>
             </div>
           </q-img>
           <q-card-section class="text-h5">Usuários</q-card-section>
           <q-card-actions align="left">
-            <q-btn outline rounded color="primary" label="Usuários" to="/admin/users" />
-            <q-btn outline rounded color="primary" label="Estatísticas" />
+            <q-btn
+              outline
+              rounded
+              color="primary"
+              label="Usuários"
+              to="/admin/users"
+            />
+            <q-btn
+              outline
+              rounded
+              color="primary"
+              label="Estatísticas"
+            />
           </q-card-actions>
         </q-card>
       </div>
@@ -25,13 +39,27 @@
             alt
           >
             <div class="absolute-bottom absolute-top text-subtitle2 text-center">
-              <div class="text-h3 text-bold" style="padding-top: 25%;">{{ companies }}</div>
+              <div
+                class="text-h3 text-bold"
+                style="padding-top: 25%;"
+              >{{ companies }}</div>
             </div>
           </q-img>
           <q-card-section class="text-h5">Empresas</q-card-section>
           <q-card-actions align="left">
-            <q-btn outline rounded color="primary" label="Empresas" to="/admin/companies" />
-            <q-btn outline rounded color="primary" label="Estatísticas" />
+            <q-btn
+              outline
+              rounded
+              color="primary"
+              label="Empresas"
+              to="/admin/companies"
+            />
+            <q-btn
+              outline
+              rounded
+              color="primary"
+              label="Estatísticas"
+            />
           </q-card-actions>
         </q-card>
       </div>
@@ -42,13 +70,27 @@
             alt
           >
             <div class="absolute-bottom absolute-top text-subtitle2 text-center">
-              <div class="text-h3 text-bold" style="padding-top: 25%;">{{ vacancies }}</div>
+              <div
+                class="text-h3 text-bold"
+                style="padding-top: 25%;"
+              >{{ vacancies }}</div>
             </div>
           </q-img>
           <q-card-section class="text-h5">Vagas</q-card-section>
           <q-card-actions align="left">
-            <q-btn outline rounded color="primary" label="Vagas" to="/admin/vacancies" />
-            <q-btn outline rounded color="primary" label="Estatísticas" />
+            <q-btn
+              outline
+              rounded
+              color="primary"
+              label="Vagas"
+              to="/admin/vacancies"
+            />
+            <q-btn
+              outline
+              rounded
+              color="primary"
+              label="Estatísticas"
+            />
           </q-card-actions>
         </q-card>
       </div>
@@ -76,13 +118,27 @@
             alt
           >
             <div class="absolute-bottom absolute-top text-subtitle2 text-center">
-              <div class="text-h3 text-bold" style="padding-top: 25%;">{{ associations }}</div>
+              <div
+                class="text-h3 text-bold"
+                style="padding-top: 25%;"
+              >{{ associations }}</div>
             </div>
           </q-img>
           <q-card-section class="text-h5">Associações</q-card-section>
           <q-card-actions align="left">
-            <q-btn outline rounded color="primary" label="Associações" to="/admin/associations" />
-            <q-btn outline rounded color="primary" label="Estatísticas" />
+            <q-btn
+              outline
+              rounded
+              color="primary"
+              label="Associações"
+              to="/admin/associations"
+            />
+            <q-btn
+              outline
+              rounded
+              color="primary"
+              label="Estatísticas"
+            />
           </q-card-actions>
         </q-card>
       </div>
@@ -93,12 +149,12 @@
 <script>
 import {
   firebaseAuth,
-  firestoreDb,
+  firestoreDB,
   fireStorage,
   firebase,
 } from "boot/firebase";
 export default {
-  data() {
+  data () {
     return {
       users: 0,
       companies: 0,
@@ -108,9 +164,9 @@ export default {
     };
   },
   methods: {
-    getUsers() {
+    getUsers () {
       const vm = this;
-      let ref = firestoreDb.collection("users");
+      let ref = firestoreDB.collection("users");
       ref.onSnapshot(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
           if (doc.data().profileType == "organization") {
@@ -121,28 +177,28 @@ export default {
         });
       });
     },
-    getCompanies() {},
-    getVacancies() {
+    getCompanies () { },
+    getVacancies () {
       const vm = this;
-      let ref = firestoreDb.collection("vacancies");
+      let ref = firestoreDB.collection("vacancies");
       ref.where("public", "==", true).onSnapshot(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
           vm.vacancies += 1;
         });
       });
     },
-    getAssociations() {
+    getAssociations () {
       const vm = this;
-      let ref = firestoreDb.collection("associations");
+      let ref = firestoreDB.collection("associations");
       ref.onSnapshot(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
           vm.associations += 1;
         });
       });
     },
-    getPS() {
+    getPS () {
       const vm = this;
-      let ref = firestoreDb.collection("stories");
+      let ref = firestoreDB.collection("stories");
       ref.where("public", "==", true).onSnapshot(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
           vm.productAndServices += 1;
@@ -150,7 +206,7 @@ export default {
       });
     },
   },
-  mounted() {
+  mounted () {
     this.getUsers();
     this.getVacancies();
     this.getPS();

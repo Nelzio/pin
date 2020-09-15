@@ -15,6 +15,8 @@
             round
             size="40px"
             @click="processFile()"
+            role="button"
+            aria-label="carregar foto de perfil"
           >
             <q-icon
               :color="darkModeConf.iconVar"
@@ -34,6 +36,8 @@
             v-else
             round
             @click="processFile()"
+            role="button"
+            aria-label="carregar outra foto de perfil"
           >
             <q-avatar size="120px">
               <q-img :src="imageUrl" />
@@ -55,6 +59,7 @@
           @submit="onSubmit"
           @reset="onReset"
           class="q-gutter-y-md"
+          role="form"
         >
           <input
             id="fileInput"
@@ -70,6 +75,7 @@
             :color="darkModeConf.iconVar"
             v-model="authObject.displayName"
             ref="name"
+            type="text"
             label="Nome"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Por favor, introduza o nome da instituição ou pessoa']"
@@ -79,6 +85,7 @@
             outlined
             :color="darkModeConf.iconVar"
             ref="number"
+            type="number"
             v-model="authObject.phoneNumber"
             label="Numero de telefone"
             mask="#########"
@@ -159,9 +166,10 @@
               :color="darkModeConf.iconVar"
               rounded
               outline
-              label="Entrar na conta"
+              label="Entrar na conta existente"
               icon="arrow_back"
               to="/account/login"
+              role="button"
             />
           </div>
         </q-form>

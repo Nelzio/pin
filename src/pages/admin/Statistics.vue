@@ -7,6 +7,9 @@
       <q-card class="my-card">
         <Vacancies />
       </q-card>
+      <q-card class="my-card">
+        <Store />
+      </q-card>
 
     </div>
   </q-page>
@@ -15,11 +18,12 @@
 <script>
 import Users from "components/admin/statistics/Users"
 import Vacancies from "components/admin/statistics/Vacancies"
+import Store from "components/admin/statistics/Store"
 export default {
   data () {
     return {}
   },
-  components: { Users, Vacancies },
+  components: { Users, Vacancies, Store },
   methods: {},
   mounted () { }
 

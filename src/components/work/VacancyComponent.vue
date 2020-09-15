@@ -5,28 +5,54 @@
       class="my-card"
       v-touch-hold:300.mouse="handleHold"
       v-touch-swipe.mouse.left.right="handleSwipe"
+      role="group"
+      :aria-label="'Vaga para ' +   vacancy.title"
     >
-      <q-item>
+      <q-item
+        role="group"
+        :aria-label="'Anunciante da vaga ' + user.displayName"
+      >
         <q-item-section avatar>
-          <q-btn round @click="detailUser(user)">
+          <q-btn
+            round
+            @click="detailUser(user)"
+            role="link"
+            aria-label="Ir ao perfil do anunciante"
+          >
             <q-avatar text-color="white">
-              <q-img :src="user.photoURL" spinner-color="white" ref="imgProfile" />
+              <q-img
+                :src="user.photoURL"
+                spinner-color="white"
+                ref="imgProfile"
+                role="img"
+                alt="Imagem do anunciante da vaga"
+              />
             </q-avatar>
           </q-btn>
         </q-item-section>
 
         <q-item-section>
           <q-item-label>{{ user.displayName }}</q-item-label>
-          <q-item-label v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'" caption>{{ user.email }}</q-item-label>
+          <q-item-label
+            v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'"
+            caption
+          >{{ user.email }}</q-item-label>
         </q-item-section>
       </q-item>
-      <q-skeleton v-if="!imgLoaded" height="230px" square />
+      <q-skeleton
+        v-if="!imgLoaded"
+        height="230px"
+        square
+      />
       <q-img
         v-ripple
         v-else-if="vacancy.img && imgLoaded"
         :src="vacancy.img"
         style="min-height: 200px;"
         @click="$router.push('/vacancies/details/'+vacancy.key)"
+        role="img"
+        alt="Imagem da vaga"
+        :aria-label="'Clicar para ir a página de detalhes da vaga de ' +   vacancy.title"
       />
       <q-img
         v-ripple
@@ -34,8 +60,10 @@
         src="statics/img/nophoto.png"
         style="min-height: 180px;"
         @click="$router.push('/vacancies/details/'+vacancy.key)"
+        role="img"
+        alt="Imagem da vaga"
+        :aria-label="'Clicar para ir a página de detalhes da vaga de ' +   vacancy.title"
       />
-      
 
       <q-card-section class="q-pb-none">
         <div :class="getFont.title">{{ vacancy.title }}</div>
@@ -43,7 +71,10 @@
 
       <!-- <q-card-section class="q-pt-none q-pb-none">{{ vacancy.description }}</q-card-section> -->
 
-      <q-card-actions align="right" :title="vacancy.key">
+      <q-card-actions
+        align="right"
+        :title="vacancy.key"
+      >
         <q-btn
           rounded
           outline
@@ -51,6 +82,8 @@
           icon="details"
           label="Detalhes"
           :to="'/vacancies/details/'+vacancy.key"
+          role="button"
+          :aria-label="'Clicar para ir a página de detalhes da vaga de ' +   vacancy.title"
         />
       </q-card-actions>
     </q-card>
@@ -59,14 +92,14 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDb } from "../../boot/firebase";
+import { firestoreDB } from "../../boot/firebase";
 export default {
   name: "VacancyComponent",
   props: ["lorem", "vacancy"],
-  data() {
+  data () {
     return {
       user: {
-        displayName:"",
+        displayName: "",
         email: "",
         photoURL: "",
         phoneNumber: "",
@@ -89,9 +122,9 @@ export default {
   methods: {
     ...mapActions("user", ["detailUser"]),
 
-    detailVacancyUser(id) {
+    detailVacancyUser (id) {
       // Details of a user
-      const ref = firestoreDb.collection("users").doc(id);
+      const ref = firestoreDB.collection("users").doc(id);
       let data = {};
       ref.get().then(doc => {
         if (doc.exists) {
@@ -112,7 +145,7 @@ export default {
           // If user desen't exist
           data = {
             id: null,
-            displayName:"",
+            displayName: "",
             email: "",
             photoURL: "",
             phoneNumber: "",
@@ -127,7 +160,7 @@ export default {
       });
     },
 
-    handleHold({ evt, ...info }) {
+    handleHold ({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
       if (this.vibrateState && this.getVibrate) {
@@ -139,7 +172,7 @@ export default {
       // console.log(this.vacancy)
     },
 
-    layzeImg() {
+    layzeImg () {
       if (!this.imgLoaded) {
         if (!(this.lazyImages == this.$refs.imgProduct)) {
           this.lazyImages = this.$refs.imgProduct;
@@ -159,7 +192,7 @@ export default {
       }
     },
 
-    handleSwipe(val) {
+    handleSwipe (val) {
       if (val.direction === "left") {
         this.$router.push("/store");
       }
@@ -170,7 +203,7 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     setTimeout(() => {
       this.layzeImg();
     }, 1000);
@@ -182,7 +215,7 @@ export default {
   },
 
   watch: {
-    vacancy() {
+    vacancy () {
       this.layzeImg();
       window.addEventListener("scroll", this.layzeImg);
       window.addEventListener("resize", this.layzeImg);

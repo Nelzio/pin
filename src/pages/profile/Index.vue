@@ -14,6 +14,8 @@
             <q-img
               :src="user.photoURL"
               spinner-color="white"
+              alt="Imagem de perfil"
+              role="img"
             />
           </q-avatar>
 
@@ -32,17 +34,22 @@
               class="text-grey"
               align="justify"
               narrow-indicator
+              role="tab"
             >
               <q-tab
                 name="bio"
                 label="Contacto"
                 icon="contacts"
+                role="tab"
+                aria-label="Guia de contacto"
               />
               <q-tab
                 name="ocupacao"
                 label="Sobre"
                 icon="description"
                 v-if="userData.profileType"
+                role="tab"
+                aria-label="Guia de mais   descrição do perfil"
               />
             </q-tabs>
 
@@ -257,16 +264,24 @@
           </q-card>
         </div>
 
-        <div class="row">
+        <div
+          class="row"
+          role="row"
+          aria-label="Vídeo de perfil"
+        >
           <q-card class="col-12">
             <q-video
               v-if="videoDownload.videoUrl && videoDownload.from == 'link'"
               :ratio="16/9"
               :src="videoDownload.videoUrl"
+              role="application"
+              aria-label="Vídeo de perfil."
             />
             <VideoProfile
               v-else-if="videoDownload.videoUrl"
               :videoUrl="videoDownload.videoUrl"
+              role="application"
+              aria-label="Vídeo de perfil."
             />
 
             <div
@@ -282,6 +297,8 @@
                 :color="darkModeConf.iconVar"
                 :class="darkModeConf.textBtn"
                 @click="processFile('video')"
+                role="button"
+                aria-label="Carregar novo vídeo"
               />
               <q-btn
                 rounded
@@ -290,6 +307,8 @@
                 :color="darkModeConf.iconVar"
                 :class="darkModeConf.textBtn"
                 @click="dialogAddVideoLink = true"
+                role="button"
+                aria-label="Adicionar link do vídeo"
               />
               <q-btn
                 v-if="videoDownload.videoUrl"
@@ -299,15 +318,17 @@
                 :color="darkModeConf.iconVar"
                 :class="darkModeConf.textBtn"
                 @click="deleteVideoDialog = true"
+                role="button"
+                aria-label="Remover vídeo"
               />
             </q-card-actions>
           </q-card>
           <q-form
             class="q-gutter-md"
             ref="storeForm"
+            role="form"
           >
             <input
-              id="fileInput"
               type="file"
               hidden
               ref="fileVideo"
@@ -319,7 +340,11 @@
 
         <q-separator />
 
-        <div v-if="vacanciesAply.length">
+        <div
+          v-if="vacanciesAply.length"
+          role="group"
+          aria-label="Candidaturas do usuário"
+        >
           <q-toolbar
             :class="darkModeConf.bgColor"
             class="shadow-1"
@@ -365,6 +390,7 @@
               class="full-width"
               label="Ver todas"
               to="/profile/candidatures"
+              role="link"
             />
           </div>
         </div>
@@ -372,10 +398,15 @@
 
         <!-- asdasdasd -->
 
-        <div v-if="!(vacancyNum == 0 && storeNum == 0)">
+        <div
+          v-if="!(vacancyNum == 0 && storeNum == 0)"
+          role="group"
+          aria-label="Atividades do usuário"
+        >
           <q-toolbar
             :class="darkModeConf.bgColor"
             class="shadow-1"
+            role="tab"
           >
             <q-toolbar-title :class="getFont.title">Actividades</q-toolbar-title>
           </q-toolbar>
@@ -445,7 +476,11 @@
       <CV @dialog="errorDocumentUpload" />
     </div>
     <div>
-      <q-dialog v-model="dialogAddProfile">
+      <q-dialog
+        v-model="dialogAddProfile"
+        role="dialog"
+        aria-label="Escolher tipo de perfil entre pessoal e empresarial."
+      >
         <q-card style="width: 90vw;">
           <q-card-section class="row">
             <div :class="getFont.title">Tipo de perfil</div>
@@ -480,7 +515,11 @@
         </q-card>
       </q-dialog>
 
-      <q-dialog v-model="dialogAddVideoLink">
+      <q-dialog
+        v-model="dialogAddVideoLink"
+        role="dialog"
+        aria-label="Adicionar link do video de perfil"
+      >
         <q-card style="width: 90vw;">
           <q-card-section>
             <div :class="getFont.title">Adicionar Link</div>
@@ -489,6 +528,7 @@
             <q-form
               ref="linkForm"
               class="q-gutter-md"
+              role="form"
             >
               <q-input
                 :color="darkModeConf.iconVar"
@@ -581,7 +621,8 @@
         />
         <q-btn
           v-else
-          fab
+          round
+          size="xl"
           :color="darkModeConf.iconVar"
           :class="darkModeConf.textBtn"
           to="/account/edit"
@@ -621,31 +662,6 @@
         </q-btn>
       </q-page-sticky>
     </div>
-    <div>
-      <q-dialog v-model="dialogUploadCV">
-        <div class="row">
-          <q-card
-            style="max-width: 80vw;"
-            class="bg-white"
-          >
-            <q-card-section class="row items-center">
-              <div class="text-h6">Add Curiculo</div>
-              <q-space />
-              <q-btn
-                icon="close"
-                flat
-                round
-                dense
-                v-close-popup
-              />
-            </q-card-section>
-            <q-card-section>
-              <q-uploader url="http://localhost:4444/upload" />
-            </q-card-section>
-          </q-card>
-        </div>
-      </q-dialog>
-    </div>
   </q-page>
 </template>
 
@@ -654,7 +670,7 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import { LocalStorage, Loading } from "quasar";
 import {
   firebaseAuth,
-  firestoreDb,
+  firestoreDB,
   fireStorage,
   firebase
 } from "boot/firebase";
@@ -739,7 +755,7 @@ export default {
       "updateVacancy",
       "deleteVacancy"
     ]),
-    ...mapActions("auth", ["detailUser", "checkAuthUser"]),
+    ...mapActions("auth", ["checkAuthUser"]),
 
     errorDocumentUpload () {
       this.errorFileDialogMessage = "O documento deve estar no formato PDF.";
@@ -847,18 +863,18 @@ export default {
 
     deleteVideo () {
       const vm = this;
-      console.log(vm.userData.email);
+      // console.log(vm.userData.email);
       if (!offline.data().isOnline) {
         return showErrorMessage("Está sem internet.");
       }
       Loading.show();
 
-      const ref = firestoreDb.collection("videos").doc(vm.userData.email);
+      const ref = firestoreDB.collection("videos").doc(vm.userData.email);
       ref
         .get()
         .then(doc => {
           if (doc.exists) {
-            console.log(doc.data().from);
+            // console.log(doc.data().from);
             if (doc.data().from == "storange") {
               var storageRef = fireStorage.ref();
 
@@ -922,14 +938,14 @@ export default {
         return alert("Está sem internet");
       }
       // Loading.show()
-      const ref = firestoreDb.collection("videos").doc(payload.user);
+      const ref = firestoreDB.collection("videos").doc(payload.user);
       // Create a root reference
       var storageRef = fireStorage.ref();
       // Create the file metadata
       ref
         .set(payload)
         .then(docRef => {
-          console.log(docRef);
+          // console.log(docRef);
           vm.getVideo(payload.user);
           Loading.hide();
           this.dialogAddVideoLink = false;
@@ -970,7 +986,7 @@ export default {
       if (!offline.data().isOnline) {
         return showErrorMessage("Está sem internet.");
       }
-      const ref = firestoreDb.collection("videos").doc(id);
+      const ref = firestoreDB.collection("videos").doc(id);
       ref.onSnapshot(doc => {
         if (doc.exists) {
           vm.videoDownload = {
@@ -979,9 +995,9 @@ export default {
             user: doc.data().user,
             from: doc.data().from
           };
-          console.log(doc.data().from);
+          // console.log(doc.data().from);
 
-          console.log(vm.videoDownload);
+          // console.log(vm.videoDownload);
           // vm.video.sources[0].src = doc.data().videoUrl
           // Loading.hide()
         } else {
@@ -1044,14 +1060,14 @@ export default {
         return showErrorMessage("Está sem internet.");
       }
       this.vacanciesAply = [];
-      const ref = firestoreDb.collection("vacancies");
+      const ref = firestoreDB.collection("vacancies");
       const vm = this;
       ref
         .where("public", "==", true)
         .get()
         .then(function (querySnapshot) {
           querySnapshot.forEach(function (doc) {
-            firestoreDb
+            firestoreDB
               .collection("vacancies")
               .doc(doc.id)
               .collection("candidates")
@@ -1081,7 +1097,7 @@ export default {
       const vm = this;
       // vm.myVacancies = []
       var myVacanciesAux = [];
-      const ref = firestoreDb.collection("vacancies");
+      const ref = firestoreDB.collection("vacancies");
       ref.where("user", "==", user).onSnapshot(function (querySnapshot) {
         vm.vacancyNum = querySnapshot.docs.length;
       });
@@ -1093,7 +1109,7 @@ export default {
         showErrorMessage("Está sem internet.");
       }
       const vm = this;
-      const ref = firestoreDb.collection("stories");
+      const ref = firestoreDB.collection("stories");
       ref.where("user", "==", user).onSnapshot(function (querySnapshot) {
         vm.storeNum = querySnapshot.docs.length;
       });
@@ -1123,7 +1139,6 @@ export default {
   },
   created () {
     this.checkAuthUser("back");
-    this.detailUser(this.user.email);
     this.listVacancyMyHere(this.user.email);
     this.listStoreMyHere(this.user.email);
   },

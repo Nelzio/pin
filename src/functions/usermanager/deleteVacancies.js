@@ -1,11 +1,11 @@
-import { firestoreDb, fireStorage } from "boot/firebase"
+import { firestoreDB, fireStorage } from "boot/firebase"
 
-function deleteVacancy(id) {
+function deleteVacancy (id) {
     var storageRef = fireStorage.ref()
 
     var desertRef = storageRef.child('vacancies/' + id);
 
-    firestoreDb.collection('vacancies').doc(id).delete().then(() => {
+    firestoreDB.collection('vacancies').doc(id).delete().then(() => {
         // Delete the file
         desertRef.delete().catch((error) => {
             console.log("vacancy file delete Error")
@@ -16,8 +16,8 @@ function deleteVacancy(id) {
     });
 };
 
-export function deleteVacancies(user) {
-    const ref = firestoreDb.collection('vacancies')
+export function deleteVacancies (user) {
+    const ref = firestoreDB.collection('vacancies')
     ref.where("user", "==", user).get().then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
             deleteVacancy(doc.id)

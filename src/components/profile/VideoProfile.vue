@@ -1,6 +1,11 @@
 <template>
   <div>
-    <VideoPlayer v-if="playerOptions.sources.length" class="vjs-custom-skin" :options="playerOptions" :playsinline="true" />
+    <VideoPlayer
+      v-if="playerOptions.sources.length"
+      class="vjs-custom-skin"
+      :options="playerOptions"
+      :playsinline="true"
+    />
   </div>
 </template>
 <script>
@@ -17,7 +22,7 @@ export default {
   name: "App",
   components: { VideoPlayer },
   props: ["videoUrl"],
-  data() {
+  data () {
     return {
       playerOptions: {
         autoplay: false, // 自动播放，false
@@ -37,11 +42,11 @@ export default {
       }
     };
   },
-  computed() {
+  computed () {
   },
-  mounted() {
-    console.log(this.videoUrl);
-    console.log(this.playerOptions.sources);
+  mounted () {
+    // console.log(this.videoUrl);
+    // console.log(this.playerOptions.sources);
     this.playerOptions.sources = [
       {
         withCredentials: false,

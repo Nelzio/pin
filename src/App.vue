@@ -14,7 +14,7 @@ export default {
   components: {
     offline
   },
-  data() {
+  data () {
     return {
     };
   },
@@ -25,41 +25,41 @@ export default {
     ...mapActions("settings", ["setSettings", "setIsConected", "setVibrate"]),
     ...mapActions("auth", ["checkAuthUser"]),
   },
-  created() {
+  created () {
     // Verificando se o utilizador tem configurações no LocalStorage
     // // let settings = this.$q.localStorage.getItem("stgs");
     // // let appMode = this.$q.localStorage.getItem("appMode");
 
-    
+
 
     if (this.darkModeConf.bgColor == "bg-white") {
-      
-      if(window.hasOwnProperty("cordova")){
+
+      if (window.hasOwnProperty("cordova")) {
         StatusBar.backgroundColorByHexString("#075e54");
         StatusBar.styleBlackOpaque();
       } else {
         this.$q.addressbarColor.set("#075e54");
       }
     } else {
-      
-      if(window.hasOwnProperty("cordova")){
+
+      if (window.hasOwnProperty("cordova")) {
         StatusBar.backgroundColorByHexString("#000");
         StatusBar.styleBlackOpaque();
       } else {
         this.$q.addressbarColor.set("#000");
       }
     }
-    
+
 
     // this.checkAuthUser ()
   },
-  mounted() {
+  mounted () {
     if (this.$route.path == "/welcome") {
       this.$q.addressbarColor.set("#075e54");
     }
 
     if (LocalStorage.getItem("vibrate") !== null) {
-      if(LocalStorage.getItem("vibrate") === 1) {
+      if (LocalStorage.getItem("vibrate") === 1) {
         this.setVibrate(1)
       } else {
         this.setVibrate(0)
@@ -68,36 +68,42 @@ export default {
       this.setVibrate(1)
     }
 
-    
+
   },
   watch: {
-    darkModeConf(val) {
+    darkModeConf (val) {
       if (this.$route.path == "/welcome") {
         this.$q.addressbarColor.set("#075e54");
       } else {
         if (val.bgColor == "bg-white") {
-          if(window.hasOwnProperty("cordova")){
+          if (window.hasOwnProperty("cordova")) {
             StatusBar.backgroundColorByHexString("#075e54");
             StatusBar.styleBlackOpaque();
           } else {
             this.$q.addressbarColor.set("#075e54");
           }
         } else {
-          if(window.hasOwnProperty("cordova")){
+          if (window.hasOwnProperty("cordova")) {
             StatusBar.backgroundColorByHexString("#000000");
             StatusBar.styleBlackOpaque();
           } else {
             this.$q.addressbarColor.set("#000000");
           }
         }
-    }
+      }
     }
   },
 
-  $route(to, from) {
+  $route (to, from) {
     if (this.$route.path == "/welcome") {
       this.$q.addressbarColor.set("#075e54");
     }
   },
 };
 </script>
+
+<style scoped>
+a {
+  text-decoration: none;
+}
+</style>

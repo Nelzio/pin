@@ -14,18 +14,18 @@
 <script>
 import Graphs from "components/admin/users/Graphs";
 import TableList from "components/admin/users/TableList";
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 export default {
-  data() {
+  data () {
     return {
       users: [],
     };
   },
   components: { Graphs, TableList },
   methods: {
-    getUsers() {
+    getUsers () {
       const vm = this;
-      let ref = firestoreDb.collection("users");
+      let ref = firestoreDB.collection("users");
       ref.onSnapshot(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
           if (
@@ -38,7 +38,7 @@ export default {
       });
     },
   },
-  mounted() {
+  mounted () {
     this.getUsers();
   },
 };

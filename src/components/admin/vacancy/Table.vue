@@ -12,11 +12,35 @@
       hide-header
     >
       <template v-slot:top-right>
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
+        <div class="row q-gutter-x-lg">
+          <div>
+            <q-btn
+              rounded
+              outline
+              color="primary"
+              label="Aprovar vagas "
+              to="/admin/evalvacancies"
+            >
+              <q-badge
+                color="teal"
+                :label="newVacancies.length"
+                floating
+              />
+            </q-btn>
+          </div>
+          <q-input
+            borderless
+            dense
+            debounce="300"
+            v-model="filter"
+            placeholder="Search"
+          >
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+
+        </div>
       </template>
 
       <template v-slot:item="props">
@@ -49,12 +73,12 @@
 import { mapActions } from "vuex";
 import {
   firebaseAuth,
-  firestoreDb,
+  firestoreDB,
   fireStorage,
   firebase,
 } from "boot/firebase";
 export default {
-  data() {
+  data () {
     return {
       filter: "",
       selected: [],
@@ -86,14 +110,15 @@ export default {
       data: [],
       users: [],
       candidates: [],
+      newVacancies: [],
     };
   },
   methods: {
     ...mapActions("admin", ["getVacancy"]),
-    goToVacancy(val) {
+    goToVacancy (val) {
       this.getVacancy(val);
     },
-    userName(id) {
+    userName (id) {
       // Get user name of a user in users array
       for (let index = 0; index < this.users.length; index++) {
         let element = this.users[index];
@@ -102,7 +127,7 @@ export default {
         }
       }
     },
-    countVacancyCandidature(vacancyId) {
+    countVacancyCandidature (vacancyId) {
       var countNumCandidatures = 0;
       for (let index = 0; index < this.candidates.length; index++) {
         const element = this.candidates[index];
@@ -112,12 +137,22 @@ export default {
       }
       return countNumCandidatures;
     },
-    getVacancies() {
+    getNewVacancies () {
+      const vm = this
+      this.newVacancies = []
+      let ref = firestoreDB.collection("vacancies");
+      ref.where("approved", "==", false).get().then(docsVacancies => {
+        docsVacancies.forEach(docVacancy => {
+          vm.newVacancies.push(docVacancy)
+        });
+      })
+    },
+    getVacancies () {
       const vm = this;
       let tempObject = {};
       let candidates = [];
-      let refUser = firestoreDb.collection("users");
-      let ref = firestoreDb.collection("vacancies");
+      let refUser = firestoreDB.collection("users");
+      let ref = firestoreDB.collection("vacancies");
       var numVacancies = 0;
 
       //first get all users
@@ -127,7 +162,7 @@ export default {
         });
 
         // get all vacancies candidatures
-        ref.get().then(function (querySnapshotVacancy) {
+        ref.where("approved", "==", true).get().then(function (querySnapshotVacancy) {
           querySnapshotVacancy.forEach(function (docVacancy) {
             ref
               .doc(docVacancy.id)
@@ -145,7 +180,7 @@ export default {
                   vm.candidates = candidates;
                   // Then get vacancies
                   ref
-                    .where("public", "==", true)
+                    .where("public", "==", true).where("approved", "==", true)
                     .onSnapshot(function (querySnapshot) {
                       querySnapshot.forEach(function (docData) {
                         tempObject = docData.data();
@@ -167,36 +202,10 @@ export default {
         });
       });
     },
-    getCandidates() {
-      const vm = this;
-      // const ref = firestoreDb.collection("vacancies").doc("*").collection("candidates");
-      const ref = firestoreDb.collection("vacancies");
-      var candidates = [];
-
-      ref.get().then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          ref
-            .doc(doc.id)
-            .collection("candidates")
-            .get()
-            .then(function (querySnapshot) {
-              querySnapshot.forEach(function (docCandidate) {
-                candidates.push({
-                  id: docCandidate.id,
-                  owner: doc.data().user,
-                });
-              });
-              vm.candidates = candidates;
-
-              //here
-            });
-        });
-      });
-    },
   },
-  mounted() {
+  mounted () {
     this.getVacancies();
-    this.getCandidates();
+    this.getNewVacancies();
   },
 };
 </script>

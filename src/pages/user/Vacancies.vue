@@ -1,9 +1,19 @@
 <template>
-  <q-page v-touch-swipe.mouse.left.right="handleSwipe" class="q-pb-xl">
+  <q-page
+    v-touch-swipe.mouse.left.right="handleSwipe"
+    class="q-pb-xl"
+  >
     <!-- content -->
 
-    <div v-if="!vacancies || loading" class="row justify-center q-gutter-y-md">
-      <div class="col-12 col-md-4" v-for="i in 20" :key="i">
+    <div
+      v-if="!vacancies || loading"
+      class="row justify-center q-gutter-y-md"
+    >
+      <div
+        class="col-12 col-md-4"
+        v-for="i in 20"
+        :key="i"
+      >
         <q-card>
           <q-item>
             <q-item-section avatar>
@@ -20,17 +30,29 @@
             </q-item-section>
           </q-item>
 
-          <q-skeleton height="200px" square />
+          <q-skeleton
+            height="200px"
+            square
+          />
 
-          <q-card-actions align="right" class="q-gutter-md">
+          <q-card-actions
+            align="right"
+            class="q-gutter-md"
+          >
             <q-skeleton type="QBtn" />
           </q-card-actions>
         </q-card>
       </div>
     </div>
 
-    <div class="q-pb-xl" :class="cardClass">
-      <div v-if="!val_search && !filterVal" class="row q-gutter-y-md">
+    <div
+      class="q-pb-xl"
+      :class="cardClass"
+    >
+      <div
+        v-if="!val_search && !filterVal"
+        class="row q-gutter-y-md"
+      >
         <div
           ref="item"
           class="col-12 col-md-4"
@@ -38,10 +60,16 @@
           v-for="vacancy in vacancies"
           :key="vacancy.key"
         >
-          <vacancy-component :lorem="lorem" :vacancy="vacancy" />
+          <vacancy-component
+            :lorem="lorem"
+            :vacancy="vacancy"
+          />
         </div>
       </div>
-      <div v-else class="row q-gutter-y-md">
+      <div
+        v-else
+        class="row q-gutter-y-md"
+      >
         <div
           ref="item"
           class="col-12 col-md-4"
@@ -49,7 +77,10 @@
           v-for="vacancy in data_var"
           :key="vacancy.key"
         >
-          <vacancy-component :lorem="lorem" :vacancy="vacancy" />
+          <vacancy-component
+            :lorem="lorem"
+            :vacancy="vacancy"
+          />
         </div>
       </div>
     </div>
@@ -69,13 +100,13 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import VacancyComponent from "components/work/VacancyComponent";
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 import offline from "v-offline";
 export default {
   components: { VacancyComponent },
   name: "Vacancies",
   props: ["val_search", "filterVal"],
-  data() {
+  data () {
     return {
       lorem:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -113,12 +144,12 @@ export default {
     // ...mapActions("vacancy", ["listVacancy", "createVacancy"]),
     ...mapActions("user", ["detailUser"]),
 
-    listVacancyHere(user) {
+    listVacancyHere (user) {
       // done
       if (!offline.data().isOnline) {
         return alert("Sem internet");
       }
-      const ref = firestoreDb.collection("vacancies");
+      const ref = firestoreDB.collection("vacancies");
       var vacancies = [];
       const vm = this;
       var itemsReady = [""];
@@ -131,9 +162,9 @@ export default {
       ref
         .where("user", "==", user).where("public", "==", true)
         .get()
-        .then(function(querySnapshot) {
+        .then(function (querySnapshot) {
           // vacancies = []
-          querySnapshot.forEach(function(doc) {
+          querySnapshot.forEach(function (doc) {
             var date = doc.data().validate.split("/")
             if ((date[1] + "/" + date[0] + "/" + date[2] >= today) && !itemsReady.includes(doc.id)) {
               itemsReady.push(doc.id);
@@ -154,17 +185,17 @@ export default {
         });
     },
 
-    speak(userInput) {
+    speak (userInput) {
       if (this.synth.speaking) {
         // console.error('speechSynthesis.speaking');
         return;
       }
       if (userInput !== "") {
         let sInstance = new SpeechSynthesisUtterance(userInput);
-        sInstance.onend = function(event) {
+        sInstance.onend = function (event) {
           // console.log('SpeechSynthesisUtterance.onend');
         };
-        sInstance.onerror = function(event) {
+        sInstance.onerror = function (event) {
           // console.error('SpeechSynthesisUtterance.onerror');
         };
         // vibrate antes de falar
@@ -177,10 +208,10 @@ export default {
         let sInstance = new SpeechSynthesisUtterance(
           "Nenhum texto nesta área."
         );
-        sInstance.onend = function(event) {
+        sInstance.onend = function (event) {
           // console.log('SpeechSynthesisUtterance.onend');
         };
-        sInstance.onerror = function(event) {
+        sInstance.onerror = function (event) {
           // console.error('SpeechSynthesisUtterance.onerror');
         };
 
@@ -193,7 +224,7 @@ export default {
       }
     },
 
-    handleSwipe(val) {
+    handleSwipe (val) {
       if (val.direction === "left") {
         this.$router.push("/store");
       }
@@ -203,14 +234,14 @@ export default {
       }
     },
 
-    lazeItems() {
+    lazeItems () {
       if (!(this.itemsLayzeRef == this.$refs.item)) {
         this.itemsLayzeRef = this.$refs.item;
       }
       let active = false;
       if (active === false && this.itemsLayzeRef) {
         active = true;
-        this.itemsLayzeRef.forEach(function(item) {
+        this.itemsLayzeRef.forEach(function (item) {
           var position =
             window.innerHeight - item.getBoundingClientRect().bottom;
           var interval1 = item.getBoundingClientRect().top - 55;
@@ -227,7 +258,7 @@ export default {
       }
     },
 
-    search(val) {
+    search (val) {
       if (val != "") {
         var temp = new RegExp(".*" + val + ".*");
         var items = [];
@@ -268,10 +299,10 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.listVacancyHere(this.$route.params.idUser);
   },
-  mounted() {
+  mounted () {
     // this.lazeItems();
 
     if (this.vibrateState) {
@@ -296,10 +327,10 @@ export default {
     this.$root.$emit("textToSpeechRouter", "Vagas do usuário.");
   },
   watch: {
-    val_search(val) {
+    val_search (val) {
       this.search(val);
     },
-    filterVal(val) {
+    filterVal (val) {
       this.search(val);
     }
     // vacancies() {

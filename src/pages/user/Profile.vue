@@ -177,16 +177,28 @@
                     </q-item-section>
                   </q-item>
 
-                  <!-- <q-separator v-if="curriculumDownload.docUrl" />
+                  <q-separator v-if="curriculumDownload.docUrl" />
 
-                  <q-item v-if="curriculumDownload.docUrl" class="text-left" clickable v-ripple @click="dialogCV = true;">
-                    <q-item-section avatar top>
-                      <q-icon :color="darkModeConf.iconVar" name="school" />
+                  <q-item
+                    v-if="curriculumDownload.docUrl"
+                    class="text-left"
+                    clickable
+                    v-ripple
+                    @click="dialogCV = true;"
+                  >
+                    <q-item-section
+                      avatar
+                      top
+                    >
+                      <q-icon
+                        :color="darkModeConf.iconVar"
+                        name="school"
+                      />
                     </q-item-section>
                     <q-item-section :class="getFont.title">
                       Curiculum
                     </q-item-section>
-                  </q-item> -->
+                  </q-item>
                 </q-list>
               </q-tab-panel>
               <q-tab-panel
@@ -308,7 +320,10 @@
         :maximized="maximizedToggle"
       >
         <div class="row">
-          <q-card class="bg-white">
+          <q-card
+            class="bg-white"
+            style="width: 100%"
+          >
             <q-toolbar
               :class="[darkModeConf.bgColor, darkModeConf.textColor]"
               class="GPL__toolbar"
@@ -357,7 +372,7 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { firebaseAuth, firestoreDb, fireStorage, firebase } from "boot/firebase";
+import { firebaseAuth, firestoreDB, fireStorage, firebase } from "boot/firebase";
 import VideoProfile from "components/profile/VideoProfile.vue";
 import offline from "v-offline";
 import pdf from 'vue-pdf';
@@ -447,7 +462,7 @@ export default {
         return showErrorMessage("Está sem internet.")
       }
       var storage = firebase.storage();
-      const ref = firestoreDb.collection('curriculum').doc(this.getUser.email);
+      const ref = firestoreDB.collection('curriculum').doc(this.getUser.email);
       ref.get().then((doc) => {
         if (doc.exists) {
           vm.curriculumDownload = {
@@ -478,7 +493,7 @@ export default {
       if (!offline.data().isOnline) {
         return showErrorMessage("Está sem internet.");
       }
-      const ref = firestoreDb.collection("videos").doc(id);
+      const ref = firestoreDB.collection("videos").doc(id);
       ref.onSnapshot(doc => {
         if (doc.exists) {
           vm.videoDownload = {
@@ -579,7 +594,7 @@ export default {
       today = mm + '/' + dd + '/' + yyyy;
       // vm.myVacancies = []
       var myVacanciesAux = [];
-      const ref = firestoreDb.collection("vacancies");
+      const ref = firestoreDB.collection("vacancies");
       ref.where("user", "==", user).where("public", "==", true).onSnapshot(function (querySnapshot) {
         num = 0
         querySnapshot.forEach(function (doc) {
@@ -600,7 +615,7 @@ export default {
         return alert("Sem internet");
       }
       const vm = this;
-      const ref = firestoreDb.collection("stories");
+      const ref = firestoreDB.collection("stories");
       ref.where("user", "==", user).where("public", "==", true).onSnapshot(function (querySnapshot) {
         vm.storeNum = querySnapshot.docs.length;
       });
@@ -664,9 +679,9 @@ export default {
 </script>
 
 <style>
-.container {
+.container-cv {
   min-height: 85vh;
-  width: 100%;
+  width: 100vw;
   height: 100%;
 }
 </style>

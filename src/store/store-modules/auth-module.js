@@ -1,5 +1,5 @@
 import { LocalStorage, Loading, Notify } from 'quasar'
-import { firebaseAuth, firestoreDb, fireStorage, firebase } from "../../boot/firebase"
+import { firebaseAuth, firestoreDB, fireStorage, firebase } from "../../boot/firebase"
 import { showErrorMessage, loginErrorMessage } from "../../functions/handle-error-messages"
 
 import { deleteCandidature } from "../../functions/usermanager/deleteCandidature"
@@ -32,28 +32,28 @@ const state = {
 
 const mutations = {
 
-    SET_AUTH_USER(state, val) {
+    SET_AUTH_USER (state, val) {
         LocalStorage.set('isUserAuth', val)
         state.isUserAuth = LocalStorage.getItem('isUserAuth')
     },
-    AUTH_USER(state, val) {
+    AUTH_USER (state, val) {
         LocalStorage.set('authUser', val)
         state.authUser = LocalStorage.getItem('authUser')
     },
-    SET_USER_DATA(state, val) {
+    SET_USER_DATA (state, val) {
         LocalStorage.set('userData', val)
         state.userData = LocalStorage.getItem('userData')
     }
 }
 
 const getters = {
-    user(state) {
+    user (state) {
         return state.authUser
     },
-    userData(state) {
+    userData (state) {
         return state.userData
     },
-    isUserAuth(state) {
+    isUserAuth (state) {
         return state.isUserAuth
     }
 }
@@ -101,7 +101,7 @@ const actions = {
                 // Upload completed successfully, now we can get the download URL
                 uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
                     console.log('File available at', downloadURL);
-                    const ref = firestoreDb.collection('users').doc(payload.email) // email is the key
+                    const ref = firestoreDB.collection('users').doc(payload.email) // email is the key
                     // adicionar outros dados do usuario em sua conta
                     var user = firebase.auth().currentUser;
                     const loginUser = {
@@ -204,13 +204,13 @@ const actions = {
     },
 
 
-    registerUser({ commit, dispatch }, payload) {
+    registerUser ({ commit, dispatch }, payload) {
         Loading.show()
         const vm = this
         payload.vm = this
         firebaseAuth.createUserWithEmailAndPassword(payload.email, payload.password)
             .then(user => {
-                const ref = firestoreDb.collection('users').doc(payload.email) // email is the key
+                const ref = firestoreDB.collection('users').doc(payload.email) // email is the key
 
                 // fazer upload da imagem caso exista
                 if (payload.img) {
@@ -293,7 +293,7 @@ const actions = {
     },
 
 
-    googleSignInCordova({ commit }) {
+    googleSignInCordova ({ commit }) {
         Loading.show();
         const vm = this;
         var provider = new firebase.auth.GoogleAuthProvider();
@@ -307,7 +307,7 @@ const actions = {
                     // The signed-in user info.
                     var user = result.user;
 
-                    const ref = firestoreDb.collection('users').doc(result.user.email) // email is the key
+                    const ref = firestoreDB.collection('users').doc(result.user.email) // email is the key
                     //   this.user = result.user
                     const userData = {
                         displayName: result.user.displayName,
@@ -414,7 +414,7 @@ const actions = {
     },
 
 
-    googleSignIn({ commit }) {
+    googleSignIn ({ commit }) {
         Loading.show()
         const provider = new firebase.auth.GoogleAuthProvider()
         // if(window.hasOwnProperty("cordova")){
@@ -423,7 +423,7 @@ const actions = {
         //     var signInMethod = firebase.auth().signInWithPopup
         // }
         firebase.auth().signInWithPopup(provider).then((result) => {
-            const ref = firestoreDb.collection('users').doc(result.user.email) // email is the key
+            const ref = firestoreDB.collection('users').doc(result.user.email) // email is the key
             //   this.user = result.user
             const userData = {
                 displayName: result.user.displayName,
@@ -513,7 +513,7 @@ const actions = {
     },
 
 
-    facebookSignInCordova({ commit }) {
+    facebookSignInCordova ({ commit }) {
         Loading.show();
         const vm = this;
         var provider = new firebase.auth.FacebookAuthProvider();
@@ -529,7 +529,7 @@ const actions = {
                     var data = {};
 
 
-                    const ref = firestoreDb.collection('users').doc(result.user.uid + "@superactive.com") // email is the key
+                    const ref = firestoreDB.collection('users').doc(result.user.uid + "@superactive.com") // email is the key
                     //   this.user = result.user
                     const userData = {
                         displayName: result.user.displayName,
@@ -627,7 +627,7 @@ const actions = {
     },
 
 
-    facebookSignIn({ commit }) {
+    facebookSignIn ({ commit }) {
         Loading.show()
         var provider = new firebase.auth.FacebookAuthProvider();
         const vm = this;
@@ -640,7 +640,7 @@ const actions = {
             var data = {};
 
 
-            const ref = firestoreDb.collection('users').doc(result.user.uid + "@superactive.com") // email is the key
+            const ref = firestoreDB.collection('users').doc(result.user.uid + "@superactive.com") // email is the key
             //   this.user = result.user
             const userData = {
                 displayName: result.user.displayName,
@@ -774,10 +774,10 @@ const actions = {
 
     // },
 
-    editUser({ commit, dispatch }, payload) {
+    editUser ({ commit, dispatch }, payload) {
         // Edit or add a user
         Loading.show()
-        const ref = firestoreDb.collection('users').doc(payload.id) // email is the key
+        const ref = firestoreDB.collection('users').doc(payload.id) // email is the key
         ref.set(payload.data).then((docRef) => {
             const data = {
                 id: payload.data.id,
@@ -817,7 +817,7 @@ const actions = {
             })
     },
 
-    updateUser({ commit, dispatch }, payload) {
+    updateUser ({ commit, dispatch }, payload) {
         const vm = this;
         if (payload.img) {
             const data = {
@@ -858,9 +858,9 @@ const actions = {
         }
     },
 
-    detailUser({ commit }, id) {
+    detailUser ({ commit }, id) {
         // Details of a user
-        const ref = firestoreDb.collection('users').doc(id)
+        const ref = firestoreDB.collection('users').doc(id)
         let data = {}
         ref.get().then((doc) => {
             if (doc.exists) {
@@ -902,14 +902,14 @@ const actions = {
         })
     },
 
-    loginUser({ commit }, payload) {
+    loginUser ({ commit }, payload) {
         let vm = this;
         Loading.show()
         firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
             .then((user) => {
                 commit('AUTH_USER', user.user);
                 commit('SET_AUTH_USER', true);
-                firestoreDb.collection('users').doc(user.user.email).get().then((doc) => {
+                firestoreDB.collection('users').doc(user.user.email).get().then((doc) => {
                     if (doc.exists) {
                         var data = {
                             id: doc.id,
@@ -956,7 +956,7 @@ const actions = {
             })
     },
 
-    loginUserr({ commit }, payload) {
+    loginUserr ({ commit }, payload) {
         Loading.show()
         firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
             .then((user) => {
@@ -964,7 +964,7 @@ const actions = {
                 commit('AUTH_USER', user.user);
                 commit('SET_AUTH_USER', true);
 
-                const ref = firestoreDb.collection('users').doc(user.user.email)
+                const ref = firestoreDB.collection('users').doc(user.user.email)
                 ref.get().then((doc) => {
                     if (doc.exists) {
                         var data = {
@@ -1005,7 +1005,7 @@ const actions = {
             })
     },
 
-    checkAuthUser({ commit }, route) {
+    checkAuthUser ({ commit }, route) {
         if (!offline.data().isOnline) {
             // this.$router.go(-1)
             return showErrorMessage("Está sem internet")
@@ -1026,7 +1026,7 @@ const actions = {
         })
     },
 
-    signOut({ commit }) {
+    signOut ({ commit }) {
         Loading.show()
         const vm = this;
         firebaseAuth.signOut()
@@ -1051,9 +1051,9 @@ const actions = {
 
 
 
-    deleteUserr({ commit }, payload) {
+    deleteUserr ({ commit }, payload) {
         Loading.show()
-        var docRef = firestoreDb.collection("users").doc("nelziositoe@gmail.com");
+        var docRef = firestoreDB.collection("users").doc("nelziositoe@gmail.com");
 
         docRef.get().then(function (doc) {
             if (doc.exists) {
@@ -1069,7 +1069,7 @@ const actions = {
         });
     },
 
-    deleteUser({ commit }, payload) {
+    deleteUser ({ commit }, payload) {
         Loading.show()
         const vm = this;
         var user = firebase.auth().currentUser;
@@ -1089,7 +1089,7 @@ const actions = {
             user.reauthenticateWithCredential(credential).then(function () {
                 // User re-authenticated.
                 user = firebase.auth().currentUser;
-                const ref = firestoreDb.collection('users').doc(payload.id)
+                const ref = firestoreDB.collection('users').doc(payload.id)
                 ref.get().then((doc) => {
                     if (doc.exists) {
                         deleteCandidature(payload.id)
@@ -1165,7 +1165,7 @@ const actions = {
                     firebase.auth().getRedirectResult().then(function (result) {
                         if (result.credential) {
                             user = firebase.auth().currentUser;
-                            const ref = firestoreDb.collection('users').doc(payload.id)
+                            const ref = firestoreDB.collection('users').doc(payload.id)
                             ref.get().then((doc) => {
                                 if (doc.exists) {
                                     deleteCandidature(payload.id)
@@ -1237,7 +1237,7 @@ const actions = {
                 firebase.auth().signInWithPopup(provider).then((result) => {
                     //   this.user = result.user
                     user = firebase.auth().currentUser;
-                    const ref = firestoreDb.collection('users').doc(user.email);
+                    const ref = firestoreDB.collection('users').doc(user.email);
                     setTimeout(function () {
                         console.log("Hello");
                         ref.get().then((doc) => {
@@ -1304,7 +1304,7 @@ const actions = {
         }
     },
 
-    deleteVideoUser(id) {
+    deleteVideoUser (id) {
         deleteVideo(id, true)
     }
 

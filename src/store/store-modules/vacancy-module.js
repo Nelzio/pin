@@ -1,5 +1,5 @@
 import { LocalStorage, Loading, Notify } from 'quasar'
-import { firebaseAuth, firestoreDb, fireStorage, firebase } from "boot/firebase"
+import { firebaseAuth, firestoreDB, fireStorage, firebase } from "boot/firebase"
 import { showErrorMessage } from "../../functions/handle-error-messages"
 import offline from 'v-offline'
 
@@ -24,29 +24,29 @@ const state = {
 
 const mutations = {
 
-  SET_VACANCIES(state, val) {
+  SET_VACANCIES (state, val) {
     state.vacancies = val
     LocalStorage.set('vacancies', state.vacancies)
   },
-  SET_VACANCY(state, val) {
+  SET_VACANCY (state, val) {
     state.vacancyDtl = val
   },
-  SET_VACANCY_CHANGE(state, val) {
+  SET_VACANCY_CHANGE (state, val) {
     state.vacancyUploaded = val
   },
-  SET_VACANCY_DTL_CHANGE(state, val) {
+  SET_VACANCY_DTL_CHANGE (state, val) {
     state.vacancyDetail = val
   },
-  SET_VACANCY_DELETED(state, val) {
+  SET_VACANCY_DELETED (state, val) {
     state.vacancyDeleted = val
   },
 }
 
 const getters = {
-  getVacancies(state) {
+  getVacancies (state) {
     return state.vacancies
   },
-  getVacancy(state) {
+  getVacancy (state) {
     return state.vacancyDtl
   }
 }
@@ -95,7 +95,7 @@ const actions = {
           console.log('File available at', downloadURL);
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
             console.log('File available at', downloadURL);
-            const updateRef = firestoreDb.collection('vacancies').doc(payload.id);
+            const updateRef = firestoreDB.collection('vacancies').doc(payload.id);
             payload.data.img = downloadURL
             updateRef.set(payload.data).then(() => {
               commit("SET_VACANCY_CHANGE", true)
@@ -111,12 +111,12 @@ const actions = {
   },
 
 
-  createVacancy({ commit }, payload) { // done
+  createVacancy ({ commit }, payload) { // done
     if (!offline.data().isOnline) {
       return alert("Está sem internet")
     }
     Loading.show()
-    const ref = firestoreDb.collection('vacancies')
+    const ref = firestoreDB.collection('vacancies')
     // Create a root reference
     var storageRef = fireStorage.ref();
     // Create the file metadata
@@ -127,7 +127,7 @@ const actions = {
     var img = payload.img
     payload.img = ""
     ref.add(payload).then((docRef) => {
-      
+
       vacancyData = docRef
 
       if (!img) {
@@ -188,7 +188,7 @@ const actions = {
             uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
               console.log('File available at', downloadURL);
               console.log(vacancyData.id)
-              const updateRef = firestoreDb.collection('vacancies').doc(vacancyData.id);
+              const updateRef = firestoreDB.collection('vacancies').doc(vacancyData.id);
               payload.img = downloadURL
               updateRef.set(payload).then(() => {
                 let data = {
@@ -219,13 +219,13 @@ const actions = {
   },
 
 
-  updateVacancy({ commit, dispatch }, payload) {
+  updateVacancy ({ commit, dispatch }, payload) {
     Loading.show()
     commit("SET_VACANCY_CHANGE", false)
     var storageRef = fireStorage.ref();
 
     if (!payload.img) {
-      const updateRef = firestoreDb.collection('vacancies').doc(payload.id);
+      const updateRef = firestoreDB.collection('vacancies').doc(payload.id);
       updateRef.set(payload.data).then(() => {
         commit("SET_VACANCY_CHANGE", true)
         Loading.hide()
@@ -254,12 +254,12 @@ const actions = {
   },
 
 
-  listVacancy({ commit }) { // done
+  listVacancy ({ commit }) { // done
     var storageRef = fireStorage.ref()
     if (!offline.data().isOnline) {
       showErrorMessage("Está sem internet.")
     }
-    const ref = firestoreDb.collection('vacancies')
+    const ref = firestoreDB.collection('vacancies')
     var vacanciesData = [];
     var itemsReady = [""];
     var today = new Date();
@@ -289,8 +289,8 @@ const actions = {
               })
             }
           });
-          
-          vacanciesData.sort(function(a, b) {
+
+          vacanciesData.sort(function (a, b) {
             return b.timeSend - a.timeSend;
           });
           commit('SET_VACANCIES', vacanciesData)
@@ -299,12 +299,12 @@ const actions = {
   },
 
 
-  listVacancyMy({ commit }, user) { // done
+  listVacancyMy ({ commit }, user) { // done
     var storageRef = fireStorage.ref()
     if (!offline.data().isOnline) {
       return showErrorMessage("Está sem internet.")
     }
-    const ref = firestoreDb.collection('vacancies')
+    const ref = firestoreDB.collection('vacancies')
     var vacancies = []
     ref.where("user", "==", user)
       .get().then(function (querySnapshot) {
@@ -323,7 +323,7 @@ const actions = {
             timeSend: new Date(doc.data().timeSend)
           })
         });
-        vacancies.sort(function(a, b) {
+        vacancies.sort(function (a, b) {
           return b.timeSend - a.timeSend;
         });
         commit('SET_VACANCIES', vacancies)
@@ -331,12 +331,12 @@ const actions = {
   },
 
 
-  detailVacancy({ commit }, id) { // test
+  detailVacancy ({ commit }, id) { // test
     // Loading.show()
     if (!offline.data().isOnline) {
       return showErrorMessage("Está sem internet.")
     }
-    const ref = firestoreDb.collection('vacancies').doc(id);
+    const ref = firestoreDB.collection('vacancies').doc(id);
     let data = {
       key: "",
       title: "",
@@ -376,7 +376,7 @@ const actions = {
   },
 
 
-  deleteVacancy({ commit }, id) {
+  deleteVacancy ({ commit }, id) {
     if (!offline.data().isOnline) {
       return showErrorMessage("Está sem internet.")
     }
@@ -386,7 +386,7 @@ const actions = {
 
     var desertRef = storageRef.child('vacancies/' + id);
 
-    firestoreDb.collection('vacancies').doc(id).delete().then(() => {
+    firestoreDB.collection('vacancies').doc(id).delete().then(() => {
 
       // Delete the file
       desertRef.delete().then(function () {

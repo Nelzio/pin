@@ -1,5 +1,5 @@
 import { LocalStorage, Loading, Notify } from 'quasar'
-import { firebaseAuth, firestoreDb, fireStorage, firebase } from "boot/firebase"
+import { firebaseAuth, firestoreDB, fireStorage, firebase } from "boot/firebase"
 import { showErrorMessage } from "../../functions/handle-error-messages"
 import offline from 'v-offline'
 
@@ -27,29 +27,29 @@ const state = {
 
 const mutations = {
 
-  SET_STORIES(state, val) {
+  SET_STORIES (state, val) {
     state.stories = val
     LocalStorage.set('stories', state.stories)
   },
-  SET_STORE(state, val) {
+  SET_STORE (state, val) {
     state.storeDtl = val
   },
-  SET_STORE_CHANGE(state, val) {
+  SET_STORE_CHANGE (state, val) {
     state.storeUploaded = val
   },
-  SET_STORE_DTL_CHANGE(state, val) {
+  SET_STORE_DTL_CHANGE (state, val) {
     state.storeDetail = val
   },
-  SET_STORE_DELETED(state, val) {
+  SET_STORE_DELETED (state, val) {
     state.storeDeleted = val
   },
 }
 
 const getters = {
-  getStories(state) {
+  getStories (state) {
     return state.stories
   },
-  getStore(state) {
+  getStore (state) {
     return state.storeDtl
   }
 }
@@ -98,7 +98,7 @@ const actions = {
           console.log('File available at', downloadURL);
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
             console.log('File available at', downloadURL);
-            const updateRef = firestoreDb.collection('stories').doc(payload.id);
+            const updateRef = firestoreDB.collection('stories').doc(payload.id);
             payload.data.img = downloadURL
             updateRef.set(payload.data).then(() => {
               commit("SET_STORE_CHANGE", true)
@@ -114,12 +114,12 @@ const actions = {
   },
 
 
-  createStore({ commit }, payload) { // done
+  createStore ({ commit }, payload) { // done
     if (!offline.data().isOnline) {
       return showErrorMessage("Está sem internet.")
     }
     Loading.show()
-    const ref = firestoreDb.collection('stories')
+    const ref = firestoreDB.collection('stories')
     // Create a root reference
     var storageRef = fireStorage.ref();
     // Create the file metadata
@@ -130,7 +130,7 @@ const actions = {
     var img = payload.img
     payload.img = ""
     ref.add(payload).then((docRef) => {
-      
+
       storeData = docRef
 
       if (!img) {
@@ -197,7 +197,7 @@ const actions = {
             uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
               console.log('File available at', downloadURL);
               console.log(storeData.id)
-              const updateRef = firestoreDb.collection('stories').doc(storeData.id);
+              const updateRef = firestoreDB.collection('stories').doc(storeData.id);
               payload.img = downloadURL
               updateRef.set(payload).then(() => {
                 let data = {
@@ -234,7 +234,7 @@ const actions = {
   },
 
 
-  updateStore({ commit, dispatch }, payload) {
+  updateStore ({ commit, dispatch }, payload) {
     if (!offline.data().isOnline) {
       return showErrorMessage("Está sem internet.")
     }
@@ -243,7 +243,7 @@ const actions = {
     var storageRef = fireStorage.ref();
 
     if (!payload.img) {
-      const updateRef = firestoreDb.collection('stories').doc(payload.id);
+      const updateRef = firestoreDB.collection('stories').doc(payload.id);
       updateRef.set(payload.data).then(() => {
         commit("SET_STORE_CHANGE", true)
         Loading.hide()
@@ -272,12 +272,12 @@ const actions = {
   },
 
 
-  listStore({ commit }) { // done
+  listStore ({ commit }) { // done
     var storageRef = fireStorage.ref()
     if (!offline.data().isOnline) {
       showErrorMessage("Está sem internet.")
     }
-    const ref = firestoreDb.collection('stories')
+    const ref = firestoreDB.collection('stories')
     var storiesData = []
     var itemsReady = [""];
     ref.where("public", "==", true)
@@ -302,7 +302,7 @@ const actions = {
               })
             }
           });
-          storiesData.sort(function(a, b) {
+          storiesData.sort(function (a, b) {
             return b.timeSend - a.timeSend;
           });
           commit('SET_STORIES', storiesData)
@@ -311,12 +311,12 @@ const actions = {
   },
 
 
-  listStoreMy({ commit }, user) { // done
+  listStoreMy ({ commit }, user) { // done
     var storageRef = fireStorage.ref()
     if (!offline.data().isOnline) {
       showErrorMessage("Está sem internet.")
     }
-    const ref = firestoreDb.collection('stories')
+    const ref = firestoreDB.collection('stories')
     var stories = []
     var itemsReady = [""];
     ref.where("user", "==", user).where("public", "==", true)
@@ -341,7 +341,7 @@ const actions = {
             })
           }
         });
-        stories.sort(function(a, b) {
+        stories.sort(function (a, b) {
           return b.timeSend - a.timeSend;
         });
         commit('SET_STORIES', stories)
@@ -349,9 +349,9 @@ const actions = {
   },
 
 
-  detailStore({ commit }, id) { // test
+  detailStore ({ commit }, id) { // test
     // Loading.show()
-    const ref = firestoreDb.collection('stories').doc(id);
+    const ref = firestoreDB.collection('stories').doc(id);
     let data = {
       key: "",
       title: "",
@@ -392,14 +392,14 @@ const actions = {
   },
 
 
-  deleteStore({ commit }, id) {
+  deleteStore ({ commit }, id) {
     Loading.show()
     commit("SET_STORE_DELETED", false)
     var storageRef = fireStorage.ref()
 
     var desertRef = storageRef.child('stories/' + id);
 
-    firestoreDb.collection('stories').doc(id).delete().then(() => {
+    firestoreDB.collection('stories').doc(id).delete().then(() => {
 
       // Delete the file
       desertRef.delete().then(function () {

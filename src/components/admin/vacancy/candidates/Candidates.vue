@@ -14,7 +14,12 @@
             @input="search"
           >
             <template v-slot:append>
-              <q-icon v-if="valSearch !== ''" name="close" @click="valSearch = ''" class="cursor-pointer" />
+              <q-icon
+                v-if="valSearch !== ''"
+                name="close"
+                @click="valSearch = ''"
+                class="cursor-pointer"
+              />
               <q-icon name="search" />
             </template>
           </q-input>
@@ -23,10 +28,24 @@
     </div>
     <div class="row justify-center">
       <div class="col-12">
-        <div v-if="valSearch" class="row">
-          <div class="col-3 q-pa-sm" v-for="candidate in data_search" :key="candidate.id">
-            <q-card @click="emitUser(candidate.id)" class="my-card text-center">
-              <q-img :src="candidate.photoURL" spinner-color="white" style="max-height:220px" />
+        <div
+          v-if="valSearch"
+          class="row"
+        >
+          <div
+            class="col-3 q-pa-sm"
+            v-for="candidate in data_search"
+            :key="candidate.id"
+          >
+            <q-card
+              @click="emitUser(candidate.id)"
+              class="my-card text-center"
+            >
+              <q-img
+                :src="candidate.photoURL"
+                spinner-color="white"
+                style="max-height:220px"
+              />
               <q-avatar
                 v-if="!candidate.evaluators.length"
                 rounded
@@ -65,10 +84,24 @@
             </q-card>
           </div>
         </div>
-        <div v-else class="row">
-          <div class="col-3 q-pa-sm" v-for="candidate in candidates" :key="candidate.id">
-            <q-card @click="emitUser(candidate.id)" class="my-card text-center">
-              <q-img :src="candidate.photoURL" spinner-color="white" style="max-height:220px" />
+        <div
+          v-else
+          class="row"
+        >
+          <div
+            class="col-3 q-pa-sm"
+            v-for="candidate in candidates"
+            :key="candidate.id"
+          >
+            <q-card
+              @click="emitUser(candidate.id)"
+              class="my-card text-center"
+            >
+              <q-img
+                :src="candidate.photoURL"
+                spinner-color="white"
+                style="max-height:220px"
+              />
               <q-avatar
                 v-if="!candidate.evaluators.length"
                 rounded
@@ -120,10 +153,10 @@
 </template>
 
 <script>
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 import { mapGetters } from "vuex";
 export default {
-  data() {
+  data () {
     return {
       valSearch: "",
       data_search: [],
@@ -135,7 +168,7 @@ export default {
     ...mapGetters("admin", ["vacancy"]),
   },
   methods: {
-    isApproved(candidate) {
+    isApproved (candidate) {
       for (let index = 0; index < this.numCandidatesApproved.length; index++) {
         const element = this.numCandidatesApproved[index];
         if (element.id == candidate.id) {
@@ -144,31 +177,52 @@ export default {
       }
       return false;
     },
-    candidateEvaluateStatus(candidates, numVacancies) {
+    candidateEvaluateStatus (candidates, numVacancies) {
       const vm = this;
       let lastNumEvaluate = 0;
+      let listPunctuation = []
       this.numCandidatesApproved = [];
-      candidates.forEach((element) => {
-        if (!vm.isApproved(element)) {
+      // make foreach in candidates list
+      candidates.forEach((candidate) => {
+        // verify if candidate it is in approved list
+        if (!vm.isApproved(candidate)) {
+          // calculate punctuation
           var numEvaluate = 0;
-          element.evaluators.forEach((val) => {
+          candidate.evaluators.forEach((val) => {
             numEvaluate += val.punctuation;
           });
-          if (
-            numEvaluate >= lastNumEvaluate &&
-            numVacancies > vm.numCandidatesApproved.length
-          ) {
-            vm.numCandidatesApproved.push(element);
-            lastNumEvaluate = numEvaluate;
+          // make push elements if have vacancies
+          if (numVacancies > vm.numCandidatesApproved.length) {
+            vm.numCandidatesApproved.push(candidate);
+            listPunctuation.push(numEvaluate)
+          } else {
+            // change users approved by punctuation
+            var auxIndex = 0;
+            var iterate = true; // to allow get in IF bloc of iterator of list punctuation.
+            var makeChange = false; // not allow change
+            for (let index = 0; index < listPunctuation.length; index++) {
+              const punctuation = listPunctuation[index];
+              if (numEvaluate > punctuation && iterate) {
+                auxIndex = index; // store index of listPunctuation and numCandidatesApproved
+                iterate = false; // to block get in IF bloc of iterator of list punctuation.
+                makeChange = true; // allow change
+              }
+            }
+            // change users and punctuation
+            if (makeChange) {
+              listPunctuation[auxIndex] = numEvaluate
+              vm.numCandidatesApproved[auxIndex] = candidate
+            }
           }
         }
       });
     },
-    getCandidates() {
+    getCandidates () {
       const vm = this;
+      var load = true
       this.$refs.bar.start()
       if (this.vacancy.id) {
-        const ref = firestoreDb
+        const ref = firestoreDB
           .collection("vacancies")
           .doc(this.vacancy.id)
           .collection("candidates");
@@ -179,13 +233,14 @@ export default {
             data["id"] = doc.id;
             candidates.push(data);
           });
-          vm.candidateEvaluateStatus(candidates, vm.vacancy.numVacancies); // some thing test
+          vm.candidateEvaluateStatus(candidates, vm.vacancy.numVacancies);
           vm.candidates = candidates;
-          vm.$refs.bar.stop()
+          if (load) vm.$refs.bar.stop();
+          load = false
         });
       }
     },
-    search(valSearch) {
+    search (valSearch) {
       if (valSearch != "") {
         var temp = new RegExp(".*" + valSearch + ".*");
         var items = [];
@@ -208,11 +263,11 @@ export default {
         this.data_search = [];
       }
     },
-    emitUser(user) {
+    emitUser (user) {
       this.$root.$emit("userCandidature", user);
     },
   },
-  mounted() {
+  mounted () {
     this.getCandidates();
   },
   watch: {

@@ -1,14 +1,31 @@
 <template>
   <div>
-    <q-dialog v-model="dialog" persistent>
-      <q-card class="q-pb-lg" style="width: 700px; max-width: 80vw;">
+    <q-dialog
+      v-model="dialog"
+      persistent
+    >
+      <q-card
+        class="q-pb-lg"
+        style="width: 700px; max-width: 80vw;"
+      >
         <q-card-section class="row items-center">
           <div class="text-h6">Adicionar Associação</div>
           <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
+          <q-btn
+            icon="close"
+            flat
+            round
+            dense
+            v-close-popup
+          />
         </q-card-section>
         <q-card-section>
-          <q-form ref="form" @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+          <q-form
+            ref="form"
+            @submit="onSubmit"
+            @reset="onReset"
+            class="q-gutter-md"
+          >
             <q-input
               outlined
               rounded
@@ -62,8 +79,21 @@
           </q-form>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn rounded icon="add" label="Enviar" color="primary" @click="onSubmit()" />
-          <q-btn rounded label="Reset" color="primary" flat class="q-ml-sm" @click="onReset()" />
+          <q-btn
+            rounded
+            icon="add"
+            label="Enviar"
+            color="primary"
+            @click="onSubmit()"
+          />
+          <q-btn
+            rounded
+            label="Reset"
+            color="primary"
+            flat
+            class="q-ml-sm"
+            @click="onReset()"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -72,12 +102,24 @@
         <q-card-section>
           <div :class="[getFont.title, 'text-'+darkModeConf.iconVar]">Adição de associação</div>
         </q-card-section>
-        <q-card-section :class="getFont.text" class="text-center">
-          <q-icon name="check_circle" color="green" size="80px" />
-          
+        <q-card-section
+          :class="getFont.text"
+          class="text-center"
+        >
+          <q-icon
+            name="check_circle"
+            color="green"
+            size="80px"
+          />
+
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn flat label="OK" :color="darkModeConf.iconVar" v-close-popup />
+          <q-btn
+            flat
+            label="OK"
+            :color="darkModeConf.iconVar"
+            v-close-popup
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -86,12 +128,24 @@
         <q-card-section>
           <div :class="[getFont.title, 'text-'+darkModeConf.iconVar]">Erro ao adicionar</div>
         </q-card-section>
-        <q-card-section :class="getFont.text" class="text-center">
-          <q-icon name="mood_bad" color="red" size="80px" />
-          
+        <q-card-section
+          :class="getFont.text"
+          class="text-center"
+        >
+          <q-icon
+            name="mood_bad"
+            color="red"
+            size="80px"
+          />
+
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn flat label="OK" :color="darkModeConf.iconVar" v-close-popup />
+          <q-btn
+            flat
+            label="OK"
+            :color="darkModeConf.iconVar"
+            v-close-popup
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -101,10 +155,10 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import { Loading } from "quasar";
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 const options = ["Visual", "Auditiva", "Física", "Psico Social"];
 export default {
-  data() {
+  data () {
     return {
       confirmDialog: false,
       errorDialog: false,
@@ -125,16 +179,16 @@ export default {
     ...mapGetters("settings", ["getFont"]),
   },
   methods: {
-    openDialog() {
+    openDialog () {
       const vm = this;
       this.$root.$on("addAssociation", function () {
         vm.dialog = true;
       });
     },
-    onSubmit() {
+    onSubmit () {
       Loading.show();
       const vm = this;
-      const ref = firestoreDb.collection("associations");
+      const ref = firestoreDB.collection("associations");
       ref
         .add(this.data)
         .then((res) => {
@@ -150,7 +204,7 @@ export default {
           vm.errorDialog = true
         });
     },
-    onReset() {
+    onReset () {
       this.$refs.form.resetValidation();
       this.data = {
         name: "",
@@ -160,7 +214,7 @@ export default {
         types: [],
       };
     },
-    filterFn(val, update) {
+    filterFn (val, update) {
       if (val === "") {
         update(() => {
           this.optionsType = options;
@@ -180,12 +234,12 @@ export default {
       });
     },
   },
-  mounted() {
+  mounted () {
     // Loading.hide()
     this.openDialog();
   },
   watch: {
-    tempSelect(val) {
+    tempSelect (val) {
       console.log(val);
     },
   },

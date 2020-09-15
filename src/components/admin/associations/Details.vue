@@ -12,11 +12,29 @@
       >
         <q-scroll-area class="fit">
           <q-toolbar class="text-primary">
-            <q-btn flat round dense icon="arrow_forward" @click="drawer = false" />
+            <q-btn
+              flat
+              round
+              dense
+              icon="arrow_forward"
+              @click="drawer = false"
+            />
             <q-toolbar-title>Empresa</q-toolbar-title>
             <div class="q-gutter-sm">
-              <q-btn rounded color="primary" label="Editar" icon="edit" @click="openEditDialog()" />
-              <q-btn rounded color="red" label="Apagar" icon="delete" @click="dialogDelete = true" />
+              <q-btn
+                rounded
+                color="primary"
+                label="Editar"
+                icon="edit"
+                @click="openEditDialog()"
+              />
+              <q-btn
+                rounded
+                color="red"
+                label="Apagar"
+                icon="delete"
+                @click="dialogDelete = true"
+              />
             </div>
           </q-toolbar>
           <div class="q-gutter-y-md">
@@ -26,7 +44,10 @@
                 <div class="text-center">
                   <q-avatar size="100px">
                     <!-- <q-img :src="association.photoURL" spinner-color="white" /> -->
-                    <q-icon name="groups" size="xl" />
+                    <q-icon
+                      name="groups"
+                      size="xl"
+                    />
                   </q-avatar>
 
                   <div :class="getFont.title">{{ association.name }}</div>
@@ -45,18 +66,35 @@
                       align="justify"
                       narrow-indicator
                     >
-                      <q-tab name="bio" label="Contacto" icon="contacts" />
-                      <q-tab name="description" label="Sobre" icon="description" />
+                      <q-tab
+                        name="bio"
+                        label="Contacto"
+                        icon="contacts"
+                      />
+                      <q-tab
+                        name="description"
+                        label="Sobre"
+                        icon="description"
+                      />
                     </q-tabs>
 
                     <q-separator />
 
-                    <q-tab-panels v-model="tab" animated>
+                    <q-tab-panels
+                      v-model="tab"
+                      animated
+                    >
                       <q-tab-panel name="bio">
                         <q-list>
                           <q-item class="text-left">
-                            <q-item-section top avatar>
-                              <q-icon :color="darkModeConf.iconVar" name="phone" />
+                            <q-item-section
+                              top
+                              avatar
+                            >
+                              <q-icon
+                                :color="darkModeConf.iconVar"
+                                name="phone"
+                              />
                             </q-item-section>
 
                             <q-item-section>
@@ -65,11 +103,20 @@
                             </q-item-section>
                           </q-item>
 
-                          <q-separator spaced inset="item" />
+                          <q-separator
+                            spaced
+                            inset="item"
+                          />
 
                           <q-item class="text-left">
-                            <q-item-section top avatar>
-                              <q-icon :color="darkModeConf.iconVar" name="email" />
+                            <q-item-section
+                              top
+                              avatar
+                            >
+                              <q-icon
+                                :color="darkModeConf.iconVar"
+                                name="email"
+                              />
                             </q-item-section>
 
                             <q-item-section>
@@ -78,11 +125,20 @@
                             </q-item-section>
                           </q-item>
 
-                          <q-separator spaced inset="item" />
+                          <q-separator
+                            spaced
+                            inset="item"
+                          />
 
                           <q-item class="text-left">
-                            <q-item-section avatar top>
-                              <q-icon :color="darkModeConf.iconVar" name="place" />
+                            <q-item-section
+                              avatar
+                              top
+                            >
+                              <q-icon
+                                :color="darkModeConf.iconVar"
+                                name="place"
+                              />
                             </q-item-section>
                             <q-item-section>
                               <q-item-label :class="getFont.title">Endereço</q-item-label>
@@ -95,8 +151,14 @@
                       <q-tab-panel name="description">
                         <q-list>
                           <q-item class="text-left">
-                            <q-item-section top avatar>
-                              <q-icon :color="darkModeConf.iconVar" name="accessibility_new" />
+                            <q-item-section
+                              top
+                              avatar
+                            >
+                              <q-icon
+                                :color="darkModeConf.iconVar"
+                                name="accessibility_new"
+                              />
                             </q-item-section>
 
                             <q-item-section>
@@ -136,7 +198,13 @@
               label="Remover"
               @click="deleteAssociation()"
             />
-            <q-btn :color="darkModeConf.iconVar" outline rounded label="Cancelar" v-close-popup />
+            <q-btn
+              :color="darkModeConf.iconVar"
+              outline
+              rounded
+              label="Cancelar"
+              v-close-popup
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -147,11 +215,23 @@
             <q-card-section>
               <div :class="[getFont.title, 'text-'+darkModeConf.iconVar]">Remoção de associação</div>
             </q-card-section>
-            <q-card-section :class="getFont.text" class="text-center">
-              <q-icon name="check_circle" color="green" size="80px" />
+            <q-card-section
+              :class="getFont.text"
+              class="text-center"
+            >
+              <q-icon
+                name="check_circle"
+                color="green"
+                size="80px"
+              />
             </q-card-section>
             <q-card-actions align="right">
-              <q-btn flat label="OK" :color="darkModeConf.iconVar" v-close-popup />
+              <q-btn
+                flat
+                label="OK"
+                :color="darkModeConf.iconVar"
+                v-close-popup
+              />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -160,11 +240,23 @@
             <q-card-section>
               <div :class="[getFont.title, 'text-'+darkModeConf.iconVar]">Erro ao remover</div>
             </q-card-section>
-            <q-card-section :class="getFont.text" class="text-center">
-              <q-icon name="mood_bad" color="red" size="80px" />
+            <q-card-section
+              :class="getFont.text"
+              class="text-center"
+            >
+              <q-icon
+                name="mood_bad"
+                color="red"
+                size="80px"
+              />
             </q-card-section>
             <q-card-actions align="right">
-              <q-btn flat label="OK" :color="darkModeConf.iconVar" v-close-popup />
+              <q-btn
+                flat
+                label="OK"
+                :color="darkModeConf.iconVar"
+                v-close-popup
+              />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -176,9 +268,9 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { Loading } from "quasar";
-import { firestoreDb } from "boot/firebase";
+import { firestoreDB } from "boot/firebase";
 export default {
-  data() {
+  data () {
     return {
       confirmDialog: false,
       errorDialog: false,
@@ -193,10 +285,10 @@ export default {
     ...mapGetters("settings", ["getFont"]),
   },
   methods: {
-    openEditDialog() {
+    openEditDialog () {
       this.$root.$emit("editAssociation", this.association);
     },
-    changeAssociation() {
+    changeAssociation () {
       const vm = this;
       this.$root.$on("associationDetails", (val) => {
         vm.association = val;
@@ -209,17 +301,17 @@ export default {
         vm.drawer = false;
       });
     },
-    getNewData() {
+    getNewData () {
       const vm = this;
       this.$root.$on("newData", function (data) {
         if (Object.keys(data).length === 0 && data.constructor === Object) vm.drawer = false;
         vm.association = data;
       });
     },
-    deleteAssociation() {
+    deleteAssociation () {
       Loading.show();
       const vm = this;
-      const ref = firestoreDb
+      const ref = firestoreDB
         .collection("associations")
         .doc(this.association.id);
       ref
@@ -238,7 +330,7 @@ export default {
         });
     },
   },
-  mounted() {
+  mounted () {
     this.changeAssociation();
     this.getNewData();
   },

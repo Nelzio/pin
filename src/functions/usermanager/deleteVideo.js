@@ -1,7 +1,7 @@
-import { firestoreDb, fireStorage } from "boot/firebase";
+import { firestoreDB, fireStorage } from "boot/firebase";
 import { LocalStorage, Loading, Notify } from 'quasar'
 
-function deleteVideoFile(id) {
+function deleteVideoFile (id) {
     var storageRef = fireStorage.ref()
 
     var desertRef = storageRef.child('videos/' + id)
@@ -14,8 +14,8 @@ function deleteVideoFile(id) {
     });
 }
 
-export function deleteVideo(id) {
-    const ref = firestoreDb.collection('videos').doc(id);
+export function deleteVideo (id) {
+    const ref = firestoreDB.collection('videos').doc(id);
     ref.onSnapshot((doc) => {
         if (doc.exists) {
             if (doc.data().from == "storange") {
@@ -38,5 +38,5 @@ export function deleteVideo(id) {
 
 
 
-    
+
 }
