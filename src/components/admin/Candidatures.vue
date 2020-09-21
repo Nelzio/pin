@@ -5,6 +5,7 @@
       :data="dataCandidates"
       :columns="columns"
       row-key="index"
+      role="table"
     />
   </div>
 </template>

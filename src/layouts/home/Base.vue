@@ -20,6 +20,7 @@
           icon="arrow_back"
           size="lg"
           role="button"
+          lang="pt-PT"
           aria-label="Voltar a pagina anterior"
         />
         <!-- <q-btn
@@ -29,7 +30,7 @@
           dense
           round
           icon="home"
-          aria-label="Home"
+          lang="pt-PT" aria-label="Home"
           size="lg"
         />-->
         <q-btn
@@ -42,6 +43,7 @@
           icon="filter_list"
           size="lg"
           role="button"
+          lang="pt-PT"
           aria-label="Abrir menú"
         />
         <q-btn
@@ -54,6 +56,7 @@
           icon="filter_list"
           size="lg"
           role="button"
+          lang="pt-PT"
           aria-label="Abrir menú"
         />
 
@@ -67,32 +70,8 @@
             round
             to="/"
             role="link"
+            lang="pt-PT"
             aria-label="página inicial"
-          >
-            <q-img
-              src="statics/img/home/appLogo.png"
-              style="height: 50px"
-              alt="Logótipo"
-              role="img"
-            />
-          </q-btn>
-          <router-link
-            class="text-primary"
-            to="/"
-            role="link"
-          >Superativo</router-link>
-
-        </q-toolbar-title>
-        <q-toolbar-title
-          shrink
-          class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font"
-          v-else
-        >
-          <q-btn
-            flat
-            round
-            to="/"
-            role="button"
           >
             <q-img
               src="statics/img/home/appLogo.png"
@@ -107,6 +86,36 @@
             role="link"
             style="text-decoration: none;"
           >Superativo</router-link>
+
+        </q-toolbar-title>
+        <q-toolbar-title
+          shrink
+          class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font"
+          v-else
+        >
+          <q-btn
+            flat
+            round
+            to="/"
+            role="button"
+            lang="pt-PT"
+            aria-label="Link para a página inicial"
+          >
+            <q-img
+              src="statics/img/home/appLogo.png"
+              style="height: 50px"
+              alt="Logótipo"
+              role="img"
+            />
+          </q-btn>
+          <router-link
+            class="text-primary"
+            to="/"
+            role="link"
+            lang="pt-PT"
+            aria-label="Link para a página inicial"
+            style="text-decoration: none;"
+          >Superativo</router-link>
         </q-toolbar-title>
 
         <q-space />
@@ -118,8 +127,9 @@
           rounded
           v-model="valueSearch"
           input-class="text-right"
-          placeholder="Pesquisar"
           style="width: 50%;"
+          type="search"
+          role="searchbox"
         >
           <template v-slot:append>
             <q-icon
@@ -149,7 +159,7 @@
             <q-badge color="primary" text-color="white" floating>2</q-badge>
           </q-btn>-->
           <ChatCount
-            v-if="this.$route.path.split('/')[1] != 'admin'"
+            v-if="$route.path.split('/')[1] != 'admin'"
             :readed="readed"
           />
           <q-btn
@@ -158,7 +168,8 @@
             flat
             to="/profile"
             role="button"
-            aria-label="Perfil"
+            lang="pt-PT"
+            aria-label="Ver Perfil"
           >
             <q-avatar>
               <q-img :src="user.photoURL" />
@@ -170,6 +181,7 @@
             flat
             to="/account"
             role="button"
+            lang="pt-PT"
             aria-label="Entrar na conta"
           >
             <q-avatar>
@@ -182,12 +194,13 @@
           </q-btn>
           <q-btn
             @click="drowerAdmin = !drowerAdmin"
-            v-if="this.$route.path.split('/')[1] == 'admin'"
+            v-if="$route.path.split('/')[1] == 'admin'"
             :color="darkModeConf.iconVar"
             flat
             dense
             round
             icon="menu"
+            lang="pt-PT"
             aria-label="DowrerFilter"
             size="lg"
           />
@@ -206,7 +219,8 @@
           v-model="valueSearch"
           input-class="text-right"
           class="full-width"
-          placeholder="Pesquisar"
+          type="search"
+          role="searchbox"
         >
           <template v-slot:append>
             <q-icon
@@ -229,7 +243,7 @@
     <q-footer
       elevated
       :class="[darkModeConf.bgColor, darkModeConf.textColor]"
-      v-if="!$q.screen.gt.sm && !backIcon"
+      v-if="!$q.screen.gt.sm && !backIcon && false"
     >
       <q-tabs
         :active-color="darkModeConf.iconVar"
@@ -242,28 +256,91 @@
           name="home"
           icon="home"
           to="/"
+          lang="pt-PT"
           aria-label="Home page"
         />
         <q-route-tab
           name="trabalho"
           icon="work"
           to="/vacancies"
+          lang="pt-PT"
           aria-label="Botão para página de vagas"
         />
         <q-route-tab
           name="store"
           icon="store"
           to="/store"
+          lang="pt-PT"
           aria-label="Botão para página de negócio"
         />
         <q-route-tab
           name="settings"
           icon="settings"
           to="/settings"
+          lang="pt-PT"
           aria-label="Botão para página de configurações"
         />
         <!--<q-route-tab name="profile" icon="person" to="/profile" />-->
       </q-tabs>
+    </q-footer>
+
+    <q-footer
+      elevated
+      :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+      v-if="!$q.screen.gt.sm && !backIcon"
+      class="q-pt-xs q-pb-xs"
+    >
+      <div class="row justify-around">
+        <router-link
+          to="/"
+          :class="$route.path == '/' ? 'text-' + darkModeConf.iconVar : 'text-grey-8'"
+          class="col-3 text-center"
+          lang="pt-PT"
+          aria-label="Home page"
+        >
+          <q-icon
+            name="home"
+            size="md"
+          />
+        </router-link>
+        <router-link
+          to="/vacancies"
+          class="col-3 text-center"
+          lang="pt-PT"
+          aria-label="Botão para página de vagas"
+          :class="$route.path == '/vacancies' ? 'text-' + darkModeConf.iconVar : 'text-grey-8'"
+        >
+          <q-icon
+            name="work"
+            size="md"
+          />
+        </router-link>
+        <router-link
+          to="/store"
+          class="col-3 text-center"
+          lang="pt-PT"
+          aria-label="Botão para página de negócio"
+          :class="$route.path == '/store' ? 'text-' + darkModeConf.iconVar : 'text-grey-8'"
+        >
+          <q-icon
+            name="store"
+            size="md"
+          />
+        </router-link>
+        <router-link
+          to="/settings"
+          class="col-3 text-center"
+          lang="pt-PT"
+          aria-label="Botão para página de configurações"
+          :class="$route.path == '/settings' ? 'text-' + darkModeConf.iconVar : 'text-grey-8'"
+        >
+          <q-icon
+            name="settings"
+            size="md"
+          />
+        </router-link>
+      </div>
+
     </q-footer>
 
     <q-drawer
@@ -406,7 +483,7 @@
       </q-scroll-area>
     </q-drawer>
     <q-drawer
-      v-if="this.$route.path.split('/')[1] == 'admin' && userData.access"
+      v-if="$route.path.split('/')[1] == 'admin' && userData.access"
       v-model="drowerAdmin"
       bordered
       behavior="mobile"
@@ -475,7 +552,10 @@
             size="35px"
             class="GPL__side-btn"
             to="/"
-            :class="this.$route.path.split('/')[1] == '' ? 'bg-grey-4' : ''"
+            :class="$route.path.split('/')[1] == '' ? 'bg-grey-4' : ''"
+            role="link"
+            lang="pt-PT"
+            aria-label="Página Inicial"
           >
             <q-icon
               :color="darkModeConf.iconVar"
@@ -492,8 +572,11 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
-            :class="this.$route.path.split('/')[1] == 'vacancies' ? 'bg-grey-4' : ''"
+            :class="$route.path.split('/')[1] == 'vacancies' ? 'bg-grey-4' : ''"
             to="/vacancies"
+            role="link"
+            lang="pt-PT"
+            aria-label="Página de vagas de emprego"
           >
             <q-icon
               :color="darkModeConf.iconVar"
@@ -510,8 +593,11 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
-            :class="this.$route.path.split('/')[1] == 'store' ? 'bg-grey-4' : ''"
+            :class="$route.path.split('/')[1] == 'store' ? 'bg-grey-4' : ''"
             to="/store"
+            role="link"
+            lang="pt-PT"
+            aria-label="Página Produtos e serviços"
           >
             <q-icon
               :color="darkModeConf.iconVar"
@@ -531,8 +617,11 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
-            :class="this.$route.path.split('/')[1] == 'profile' ? 'bg-grey-4' : ''"
+            :class="$route.path.split('/')[1] == 'profile' ? 'bg-grey-4' : ''"
             to="/profile"
+            role="link"
+            lang="pt-PT"
+            aria-label="Página de perfil"
           >
             <q-icon
               :color="darkModeConf.iconVar"
@@ -549,8 +638,11 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
-            :class="this.$route.path.split('/')[1] == 'account' ? 'bg-grey-4' : ''"
+            :class="$route.path.split('/')[1] == 'account' ? 'bg-grey-4' : ''"
             to="/account"
+            role="link"
+            lang="pt-PT"
+            aria-label="Página de login"
           >
             <q-icon
               :color="darkModeConf.iconVar"
@@ -566,8 +658,11 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
-            :class="this.$route.path.split('/')[1] == 'settings' ? 'bg-grey-4' : ''"
+            :class="$route.path.split('/')[1] == 'settings' ? 'bg-grey-4' : ''"
             to="/settings"
+            role="link"
+            lang="pt-PT"
+            aria-label="Página de configurações"
           >
             <q-icon
               :color="darkModeConf.iconVar"
@@ -584,8 +679,11 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
-            :class="this.$route.path.split('/')[1] == 'admin' ? 'bg-grey-4' : ''"
+            :class="$route.path.split('/')[1] == 'admin' ? 'bg-grey-4' : ''"
             to="/admin"
+            role="link"
+            lang="pt-PT"
+            aria-label="Página de administração"
           >
             <q-icon
               :color="darkModeConf.iconVar"
@@ -753,7 +851,7 @@ export default {
           // speak
           sInstance.pitch = this.pitch;
           sInstance.rate = this.rate;
-          sInstance.lang = "pt-BR";
+          sInstance.lang = "pt-PT";
           this.synth.speak(sInstance);
         } else {
           let sInstance = new SpeechSynthesisUtterance(
@@ -772,7 +870,7 @@ export default {
           // speak
           sInstance.pitch = this.pitch;
           sInstance.rate = this.rate;
-          sInstance.lang = "pt-BR";
+          sInstance.lang = "pt-PT";
           this.synth.speak(sInstance);
         }
       }
@@ -783,7 +881,7 @@ export default {
         TTS.speak(
           {
             text: userInput,
-            locale: "pt-BR",
+            locale: "pt-PT",
             rate: 0.8,
           },
           function () {
@@ -994,4 +1092,6 @@ export default {
   @media (min-width: 1024px)
     &__page-container
       padding-left: 124px
+a
+  text-decoration: none
 </style>

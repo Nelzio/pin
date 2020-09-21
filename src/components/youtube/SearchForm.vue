@@ -8,9 +8,18 @@
           type="text"
           class="form-control"
           placeholder="Search ..."
+          lang="pt-PT"
+          aria-label="Search"
         >
-        <div class="input-group-append">
-          <button @click="parseSearchString" class="btn btn-outline-secondary" type="button">
+        <div
+          class="input-group-append"
+          role="group"
+        >
+          <button
+            @click="parseSearchString"
+            class="btn btn-outline-secondary"
+            type="button"
+          >
             <i class="fas fa-search"></i>
           </button>
         </div>
@@ -22,13 +31,13 @@
 <script>
 export default {
   name: 'SearchForm',
-  data() {
+  data () {
     return {
       searchString: ''
     };
   },
   methods: {
-    parseSearchString() {
+    parseSearchString () {
       // Trim search string
       const trimmedSearchString = this.searchString.trim();
 

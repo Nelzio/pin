@@ -13,6 +13,7 @@
             size="40px"
             @click="processFile()"
             role="button"
+            lang="pt-PT"
             aria-label="Trocar foto de perfil"
           >
             <q-icon
@@ -34,6 +35,7 @@
             round
             @click="processFile()"
             role="button"
+            lang="pt-PT"
             aria-label="Trocar foto de perfil"
           >
             <q-avatar size="120px">
@@ -57,6 +59,7 @@
           @reset.prevent.stop="onReset"
           class="q-gutter-md"
           role="form"
+          lang="pt-PT"
           aria-label="Atualizar dados"
         >
           <div>

@@ -7,6 +7,7 @@
         :text="[message.message]"
         :avatar="message.imgUserUrl"
         :stamp="message.timeSend.getHours() + 'horas:' + message.timeSend.getMinutes() + 'minutos'"
+        role="article"
       />
       <q-chat-message
         v-else
@@ -16,6 +17,7 @@
         :stamp="message.timeSend.getHours() + 'horas:' + message.timeSend.getMinutes() + 'minutos'"
         bg-color="white"
         size="8"
+        role="audio"
       >
         <q-card class="q-pt-none q-pb-none voice">
           <q-card-section class="row items-center no-wrap q-pt-none q-pl-none q-pb-none">
@@ -24,9 +26,15 @@
               round
               :icon="playing ? 'pause' : 'play_arrow'"
               size="lg"
+              :lang="pt-PT"
+              aria-label="playing ? 'Pausar audio' : 'Ouvir audio'"
               @click="playing ? pauseRecord() : playRecord(message.audio)"
+              role="button"
             />
-            <q-linear-progress :value="progress" color="primary" />
+            <q-linear-progress
+              :value="progress"
+              color="primary"
+            />
           </q-card-section>
         </q-card>
       </q-chat-message>
@@ -38,6 +46,7 @@
         :text="[message.message]"
         :stamp="message.timeSend.getHours() + 'horas:' + message.timeSend.getMinutes() + 'minutos'"
         sent
+        role="article"
       />
       <q-chat-message
         v-else
@@ -46,6 +55,7 @@
         :stamp="message.timeSend.getHours() + 'horas:' + message.timeSend.getMinutes() + 'minutos'"
         bg-color="white"
         size="8"
+        role="audio"
       >
         <q-card class="q-pt-none q-pb-none voice">
           <q-card-section class="row items-center no-wrap q-pt-none q-pl-none q-pb-none">
@@ -53,10 +63,16 @@
               flat
               round
               :icon="playing ? 'pause' : 'play_arrow'"
+              :lang="pt-PT"
+              aria-label="playing ? 'Pausar audio' : 'Ouvir audio'"
               size="lg"
               @click="playing ? pauseRecord() : playRecord(message.audio)"
+              role="button"
             />
-            <q-linear-progress :value="progress" color="primary" />
+            <q-linear-progress
+              :value="progress"
+              color="primary"
+            />
           </q-card-section>
         </q-card>
       </q-chat-message>
@@ -69,7 +85,7 @@ import { mapGetters } from "vuex";
 export default {
   // name: 'ComponentName',
   props: ["message"],
-  data() {
+  data () {
     return {
       progress: 0,
       playing: false,
@@ -83,7 +99,7 @@ export default {
     ...mapGetters("settings", ["getFont"])
   },
   methods: {
-    playRecord(audio) {
+    playRecord (audio) {
       if (this.progress == 0) {
         this.audioUrl = audio;
         this.audio = new Audio(this.audioUrl.audioUrl);
@@ -94,7 +110,7 @@ export default {
       this.playBtn(this.audioUrl.time, this.pausedTime);
     },
 
-    pauseRecord() {
+    pauseRecord () {
       this.playing = false;
       this.pausedTime = this.progress;
       this.progress = this.pausedTime;
@@ -102,7 +118,7 @@ export default {
       this.audio.pause();
     },
 
-    playBtn(val, pausedTime) {
+    playBtn (val, pausedTime) {
       var i = 0;
       const vm = this;
       if (pausedTime > 0) i = pausedTime;
@@ -122,7 +138,7 @@ export default {
         console.log(i);
       }, 1000);
 
-      function stopInter() {
+      function stopInter () {
         clearInterval(vm.counter);
       }
     }

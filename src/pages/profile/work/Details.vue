@@ -6,18 +6,22 @@
         <div
           v-if="$q.screen.gt.sm"
           class="shadow-2"
+          role="tablist"
         >
           <q-tabs
             v-model="tab"
             align="justify"
+            role="tab"
           >
             <q-tab
               name="details"
               label="Detalhes"
+              role="tab"
             />
             <q-tab
               name="aplayed"
               label="Candidatos"
+              role="tab"
             />
           </q-tabs>
         </div>
@@ -25,10 +29,12 @@
           v-model="tab"
           animated
           swipeable
+          role="group"
         >
           <q-tab-panel
             name="details"
             style="padding: 0;"
+            role="tabpanel"
           >
             <q-card
               bordered
@@ -38,6 +44,8 @@
                 v-if="getVacancy.img"
                 :src="getVacancy.img"
                 style="min-height: 200px;"
+                role="img"
+                alt="Imagem da vaga"
               />
               <q-card-section>
                 <div :class="getFont.title">{{ getVacancy.title }}</div>
@@ -81,6 +89,9 @@
           <q-tab-panel
             name="aplayed"
             style="padding: 0;"
+            role="tabpanel"
+            lang="pt-PT"
+            aria-label="Painel de candidatos"
           >
             <div
               class="q-pa-sm"
@@ -92,6 +103,7 @@
                   :class="darkModeConf.textColor"
                   clickable
                   @click="detailUser(candidate)"
+                  role="listitem"
                   v-ripple
                 >
                   <q-item-section avatar>
@@ -131,14 +143,17 @@
         <q-tabs
           v-model="tab"
           align="justify"
+          role="tab"
         >
           <q-tab
             name="details"
             label="Detalhes"
+            role="tab"
           />
           <q-tab
             name="aplayed"
             label="Candidatos"
+            role="tab"
           />
         </q-tabs>
       </div>

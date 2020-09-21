@@ -6,7 +6,8 @@
         <q-card class="my-card">
           <q-img
             :src="imageUrl"
-            alt
+            alt="Imagem do produto ou serviço"
+            role="img"
           />
           <q-card-actions>
             <q-btn
@@ -17,6 +18,7 @@
               icon="image"
               label="Inserir imagem"
               @click="processFile()"
+              role="button"
             />
           </q-card-actions>
         </q-card>
@@ -24,6 +26,9 @@
         <q-form
           class="q-gutter-md"
           ref="storeForm"
+          role="form"
+          lang="pt-PT"
+          aria-label="Formulário de detalhes do item a submeter"
         >
           <input
             id="fileInput"
@@ -40,6 +45,7 @@
             outlined
             v-model="store.title"
             label="Titulo"
+            type="text"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza O título']"
           />
@@ -51,6 +57,7 @@
             v-model="store.category"
             :options="categories"
             label="Categoria"
+            role="option"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Selecione a categoria']"
           />
@@ -61,6 +68,7 @@
             v-model="store.subCategory"
             :options="subCategories"
             label="Subcategoria"
+            role="option"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Selecione a subcategoria']"
           />
@@ -71,6 +79,7 @@
             v-model="store.place"
             :options="places"
             label="Província"
+            role="option"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Selecione a provincia']"
           />
@@ -80,6 +89,7 @@
             v-model="store.price"
             :color="darkModeConf.iconVar"
             label="Preço"
+            type="number"
           >
             <template v-slot:append>
               <q-checkbox
@@ -94,6 +104,7 @@
             :color="darkModeConf.iconVar"
             v-model="store.description"
             min-height="8rem"
+            role="textbox"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza uma descrição']"
           />
@@ -105,6 +116,7 @@
               :class="darkModeConf.textBtn"
               label="Enviar"
               @click="addStore()"
+              role="button"
             />
           </div>
         </q-form>
@@ -112,8 +124,15 @@
     </div>
 
     <div>
-      <q-dialog v-model="confirmInsert">
-        <q-card style="widht: 90vw">
+      <q-dialog
+        v-model="confirmInsert"
+        role="dialog"
+      >
+        <q-card
+          style="widht: 90vw"
+          lang="pt-PT"
+          aria-label="Confirmar adição de produto."
+        >
           <q-card-section>
             <div :class="getFont.title">Adição de negocio</div>
           </q-card-section>
@@ -124,14 +143,21 @@
               rounded
               outline
               label="OK"
+              role="button"
               v-close-popup
             />
           </q-card-actions>
         </q-card>
       </q-dialog>
 
-      <q-dialog v-model="errorFileDialog">
-        <q-card>
+      <q-dialog
+        v-model="errorFileDialog"
+        role="dialog"
+      >
+        <q-card
+          lang="pt-PT"
+          aria-label="Atenção com a imagem"
+        >
           <q-card-section>
             <div :class="getFont.title">Atenção</div>
           </q-card-section>
@@ -142,6 +168,7 @@
               rounded
               outline
               label="OK"
+              role="button"
               v-close-popup
             />
           </q-card-actions>

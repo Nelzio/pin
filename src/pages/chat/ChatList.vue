@@ -1,12 +1,17 @@
 <template>
-  <q-page
-    v-touch-swipe.mouse.right="handleSwipe"
-    v-touch-hold:650.mouse="handleHold"
-  >
+  <q-page v-touch-swipe.mouse.right="handleSwipe">
     <!-- content -->
-    <div class="row justify-center">
+    <div
+      class="row justify-center"
+      role="group"
+      lang="pt-PT"
+      aria-label="Lista de conversas"
+    >
       <div class="col-12 col-md-6">
-        <q-list separator>
+        <q-list
+          separator
+          role="list"
+        >
           <chat-list
             v-for="chat in chatList"
             :key="chat.key"
@@ -47,10 +52,6 @@ export default {
       if (val.direction === "right") {
         this.$router.go(-1);
       }
-    },
-
-    handleHold ({ evt, ...info }) {
-      // console.log(info)
     },
 
     getChat2 () {

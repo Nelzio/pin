@@ -12,6 +12,7 @@
           @click="$router.go(-1)"
           size="lg"
           role="button"
+          lang="pt-PT"
           aria-label="Voltar a página anterior"
         />
         <q-toolbar-title class="text-center text-primary text-h6">Superativo | Conta</q-toolbar-title>

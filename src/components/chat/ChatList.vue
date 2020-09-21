@@ -3,6 +3,7 @@
     @click="listenClick(chat.email, userDTL.displayName)"
     clickable
     v-ripple
+    role="listitem"
   >
     <q-item-section avatar>
       <q-avatar size="60px">

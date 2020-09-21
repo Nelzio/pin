@@ -16,6 +16,7 @@
             size="40px"
             @click="processFile()"
             role="button"
+            lang="pt-PT"
             aria-label="carregar foto de perfil"
           >
             <q-icon
@@ -37,10 +38,14 @@
             round
             @click="processFile()"
             role="button"
+            lang="pt-PT"
             aria-label="carregar outra foto de perfil"
           >
             <q-avatar size="120px">
-              <q-img :src="imageUrl" />
+              <q-img
+                :src="imageUrl"
+                role="img"
+              />
             </q-avatar>
             <q-badge
               floating
@@ -60,6 +65,8 @@
           @reset="onReset"
           class="q-gutter-y-md"
           role="form"
+          lang="pt-PT"
+          aria-label="Formulário de criação de conta"
         >
           <input
             id="fileInput"

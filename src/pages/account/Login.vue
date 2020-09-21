@@ -1,13 +1,17 @@
 <template>
   <q-page
     v-touch-swipe.mouse.right="accountSwipe"
-    v-touch-hold:600.mouse="handleHold"
     class="flex flex-center"
+    lang="pt-PT"
     aria-label="Página de autenticação"
   >
     <!-- content -->
 
-    <div class="row q-gutter-y-lg q-pa-md">
+    <div
+      class="row q-gutter-y-lg q-pa-md"
+      lang="pt-PT"
+      aria-label="Escolher método de autenticação"
+    >
       <q-btn
         align="between"
         rounded
@@ -17,6 +21,7 @@
         icon="img:https://imagepng.org/wp-content/uploads/2019/08/google-icon-1.png"
         @click="login('google')"
         role="button"
+        lang="pt-PT"
         aria-label="Entrar com conta Google"
       />
       <q-btn
@@ -27,6 +32,7 @@
         left-icon
         @click="login('facebook')"
         role="button"
+        lang="pt-PT"
         aria-label="Entrar com conta Facebook"
       >
         <q-icon
@@ -45,6 +51,7 @@
         icon="email"
         to="/account/login"
         role="button"
+        lang="pt-PT"
         aria-label="Entrar com Email"
       />
     </div>
@@ -188,7 +195,7 @@ export default {
     Loading.hide();
     this.$root.$emit(
       "textToSpeechRouter",
-      "Página de login. Pode se autenticar com conta Google, Facebook ou por email.\n Pressione a tela para entrar com a conta Google."
+      "Página de login. Pode se autenticar com conta Google, Facebook ou por email."
     );
   },
 

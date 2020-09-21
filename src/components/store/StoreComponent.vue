@@ -5,10 +5,12 @@
       class="my-card"
       v-touch-hold:300.mouse="handleHold"
       role="group"
+      lang="pt-PT"
       :aria-label="store.title"
     >
       <q-item
         role="group"
+        lang="pt-PT"
         :aria-label="'Anunciante do. ' + store.category + ': ' + user.displayName"
       >
         <q-item-section avatar>
@@ -16,6 +18,7 @@
             round
             @click="detailUser(user)"
             role="link"
+            lang="pt-PT"
             aria-label="Ir ao perfil do anunciante"
           >
             <q-avatar text-color="white">
@@ -53,6 +56,7 @@
         @click="$router.push('/store/details/'+store.key)"
         role="img"
         :alt="'Imagem do ' + store.category"
+        lang="pt-PT"
         :aria-label="'Clicar para ir a página de detalhes do ' + store.category"
       />
       <q-img
@@ -63,6 +67,7 @@
         @click="$router.push('/store/details/'+store.key)"
         role="img"
         :alt="'Imagem do '  + store.category"
+        lang="pt-PT"
         :aria-label="'Clicar para ir a página de detalhes do '  + store.category"
       />
 
@@ -85,6 +90,7 @@
           icon="details"
           label="Detalhes"
           :to="'/store/details/'+store.key"
+          lang="pt-PT"
           :aria-label="'Clicar para ir a página de detalhes do '  + store.category"
         />
       </q-card-actions>

@@ -1,11 +1,17 @@
 <template>
   <q-page
-    @click="handleRepeat()"
     v-touch-swipe.mouse.left.right="handleSwipe"
-    v-touch-hold:600.mouse="handleHold"
     role="group"
+    lang="pt-PT"
     :aria-label="'Página de detalhes do ' + getStore.category"
   >
+    <q-btn
+      label="Ouvir detalhes"
+      role="button"
+      @click="listenDetails()"
+      style="left: -800px;"
+    />
+
     <!-- content -->
     <div class="row justify-center">
       <div class="col-12 col-md-8">
@@ -81,6 +87,7 @@
                 :color="darkModeConf.iconVar"
                 icon="phone"
                 role="button"
+                lang="pt-PT"
                 :aria-label="'Ligar para ' + getUser.displayName"
               />
             </q-item-section>
@@ -172,7 +179,7 @@ export default {
       }
       if (userInput !== "") {
         let sInstance = new SpeechSynthesisUtterance(userInput);
-        sInstance.lang = 'pt-BR';
+        sInstance.lang = 'pt-PT';
         sInstance.onend = function (event) {
           // console.log('SpeechSynthesisUtterance.onend');
         };
@@ -211,7 +218,7 @@ export default {
       TTS.speak(
         {
           text: userInput,
-          locale: "pt-BR",
+          locale: "pt-PT",
           pitch: this.pitch,
           rate: this.rate
         },
@@ -252,6 +259,25 @@ export default {
         } else {
           this.speak(text);
         }
+      }
+      // console.log(this.vacancy)
+    },
+
+    listenDetails () {
+      var text =
+        this.getStore.title +
+        ". categoria: " +
+        this.getStore.category +
+        "; Preço: " +
+        this.getStore.price +
+        " meticais. numero de telefone: " +
+        this.converNumbPhone(this.getUser.phoneNumber) +
+        ";. descrição: " +
+        this.convertToPlain(this.getStore.description);
+      if (window.hasOwnProperty("cordova")) {
+        this.speakCordova(text);
+      } else {
+        this.speak(text);
       }
       // console.log(this.vacancy)
     },
@@ -323,7 +349,7 @@ export default {
             this.getStore.category +
             " " +
             this.getStore.title +
-            ".\n Pressione para ouvir descrição.\n Clique 5 vezes na tela para entrar em contacto com " +
+            " de " +
             this.getUser.displayName +
             "."
           );

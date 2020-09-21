@@ -6,7 +6,10 @@
       <div class="col-12 col-md-11">
         <!-- sec 6 -->
         <div v-if="myVacancies.length">
-          <div class="row">
+          <div
+            class="row"
+            role="group"
+          >
             <div
               ref="item"
               class="col-12 col-md-4 q-pa-sm"

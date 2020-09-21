@@ -15,6 +15,9 @@
           @submit.prevent="onSubmit"
           @reset="onReset"
           class="q-gutter-md"
+          role="form"
+          lang="pt-PT"
+          aria-label="Formulário de login"
         >
           <q-input
             rounded
@@ -57,6 +60,7 @@
               :color="darkModeConf.iconVar"
               class="full-width"
               :class="darkModeConf.textBtn"
+              role="button"
             />
           </div>
 
@@ -75,7 +79,7 @@
               rounded
               :color="darkModeConf.iconVar"
               outline
-              label="Criar conta"
+              label="Criar conta com email"
               icon-right="arrow_forward"
               to="/account/create"
               role="button"

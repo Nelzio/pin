@@ -1,9 +1,19 @@
 <template>
-  <q-page v-touch-swipe.mouse.left.right="handleSwipe" class="q-pb-xl">
+  <q-page
+    v-touch-swipe.mouse.left.right="handleSwipe"
+    class="q-pb-xl"
+  >
     <!-- content -->
 
-    <div v-if="!vacancies || loading" class="row justify-center q-gutter-y-md">
-      <div class="col-12 col-md-4" v-for="i in 20" :key="i">
+    <div
+      v-if="!vacancies || loading"
+      class="row justify-center q-gutter-y-md"
+    >
+      <div
+        class="col-12 col-md-4"
+        v-for="i in 20"
+        :key="i"
+      >
         <q-card>
           <q-item>
             <q-item-section avatar>
@@ -20,16 +30,25 @@
             </q-item-section>
           </q-item>
 
-          <q-skeleton height="200px" square />
+          <q-skeleton
+            height="200px"
+            square
+          />
 
-          <q-card-actions align="right" class="q-gutter-md">
+          <q-card-actions
+            align="right"
+            class="q-gutter-md"
+          >
             <q-skeleton type="QBtn" />
           </q-card-actions>
         </q-card>
       </div>
     </div>
 
-    <div class="q-pb-xl" :class="cardClass">
+    <div
+      class="q-pb-xl"
+      :class="cardClass"
+    >
       <!-- <div v-if="!val_search && !filterVal" class="row q-gutter-y-md">
         <div
           ref="item"
@@ -41,7 +60,11 @@
           <vacancy-component :lorem="lorem" :vacancy="vacancy" />
         </div>
       </div>-->
-      <q-infinite-scroll v-if="!val_search && !filterVal" @load="onLoad" :offset="250">
+      <q-infinite-scroll
+        v-if="!val_search && !filterVal"
+        @load="onLoad"
+        :offset="250"
+      >
         <div class="row q-gutter-y-md">
           <div
             ref="item"
@@ -50,24 +73,45 @@
             v-for="vacancy in tempVacancy"
             :key="vacancy.key"
           >
-            <vacancy-component :lorem="lorem" :vacancy="vacancy" />
+            <vacancy-component
+              :lorem="lorem"
+              :vacancy="vacancy"
+            />
           </div>
         </div>
-        <q-card v-if="endPage" class="my-card q-pt-lg">
-          <q-item clickable v-ripple>
+        <q-card
+          v-if="endPage"
+          class="my-card q-pt-lg"
+        >
+          <q-item
+            clickable
+            v-ripple
+          >
             <q-item-section>
-              <q-item-label class="text-center text-bold" :color="darkModeConf.iconVar">End Page</q-item-label>
+              <q-item-label
+                class="text-center text-bold"
+                :color="darkModeConf.iconVar"
+              >End Page</q-item-label>
             </q-item-section>
           </q-item>
         </q-card>
 
-        <template v-else v-slot:loading>
+        <template
+          v-else
+          v-slot:loading
+        >
           <div class="row justify-center q-my-md">
-            <q-spinner-dots color="primary" size="40px" />
+            <q-spinner-dots
+              color="primary"
+              size="40px"
+            />
           </div>
         </template>
       </q-infinite-scroll>
-      <div v-else class="row q-gutter-y-md">
+      <div
+        v-else
+        class="row q-gutter-y-md"
+      >
         <div
           ref="item"
           class="col-12 col-md-4"
@@ -75,7 +119,10 @@
           v-for="vacancy in data_var"
           :key="vacancy.key"
         >
-          <vacancy-component :lorem="lorem" :vacancy="vacancy" />
+          <vacancy-component
+            :lorem="lorem"
+            :vacancy="vacancy"
+          />
         </div>
       </div>
     </div>
@@ -89,7 +136,11 @@
       </q-list>
     </div>-->
 
-    <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user && isUserAuth">
+    <q-page-sticky
+      position="bottom-right"
+      :offset="[18, 18]"
+      v-if="user && isUserAuth"
+    >
       <q-btn
         fab
         round
@@ -97,7 +148,10 @@
         :class="darkModeConf.textBtn"
         to="/profile/vacancy/add"
       >
-        <q-icon size="lg" name="add" />
+        <q-icon
+          size="lg"
+          name="add"
+        />
       </q-btn>
     </q-page-sticky>
   </q-page>
@@ -110,7 +164,7 @@ export default {
   components: { VacancyComponent },
   name: "Vacancies",
   props: ["val_search", "filterVal"],
-  data() {
+  data () {
     return {
       lorem:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -152,7 +206,7 @@ export default {
     ...mapActions("vacancy", ["listVacancy", "createVacancy"]),
     ...mapActions("user", ["detailUser"]),
 
-    onLoad(index, done) {
+    onLoad (index, done) {
       let vm = this;
       if (this.tempVacancy.length == this.vacancies.length) {
         this.endPage = true;
@@ -170,7 +224,7 @@ export default {
       }
     },
 
-    firstLoad() {
+    firstLoad () {
       console.log("Hey");
       this.vacancies.slice(this.start, this.end).forEach(element => {
         this.tempVacancy.push(element);
@@ -180,18 +234,18 @@ export default {
       this.end = this.end + 1;
     },
 
-    speak(userInput) {
+    speak (userInput) {
       if (this.synth.speaking) {
         // console.error('speechSynthesis.speaking');
         return;
       }
       if (userInput !== "") {
         let sInstance = new SpeechSynthesisUtterance(userInput);
-        sInstance.lang = "pt-BR";
-        sInstance.onend = function(event) {
+        sInstance.lang = "pt-PT";
+        sInstance.onend = function (event) {
           // console.log('SpeechSynthesisUtterance.onend');
         };
-        sInstance.onerror = function(event) {
+        sInstance.onerror = function (event) {
           // console.error('SpeechSynthesisUtterance.onerror');
         };
         // vibrate antes de falar
@@ -204,10 +258,10 @@ export default {
         let sInstance = new SpeechSynthesisUtterance(
           "Nenhum texto nesta área."
         );
-        sInstance.onend = function(event) {
+        sInstance.onend = function (event) {
           // console.log('SpeechSynthesisUtterance.onend');
         };
-        sInstance.onerror = function(event) {
+        sInstance.onerror = function (event) {
           // console.error('SpeechSynthesisUtterance.onerror');
         };
 
@@ -220,25 +274,25 @@ export default {
       }
     },
 
-    speakCordova(userInput) {
+    speakCordova (userInput) {
       navigator.vibrate(200);
       TTS.speak(
         {
           text: userInput,
-          locale: "pt-BR",
+          locale: "pt-PT",
           pitch: this.pitch,
           rate: this.rate
         },
-        function() {
+        function () {
           console.log("Text succesfully spoken");
         },
-        function(reason) {
+        function (reason) {
           alert(reason);
         }
       );
     },
 
-    handleSwipe(val) {
+    handleSwipe (val) {
       if (val.direction === "left") {
         this.$router.push("/store");
       }
@@ -248,14 +302,14 @@ export default {
       }
     },
 
-    lazeItems() {
+    lazeItems () {
       if (!(this.itemsLayzeRef == this.$refs.item)) {
         this.itemsLayzeRef = this.$refs.item;
       }
       let active = false;
       if (active === false && this.itemsLayzeRef) {
         active = true;
-        this.itemsLayzeRef.forEach(function(item) {
+        this.itemsLayzeRef.forEach(function (item) {
           var position =
             window.innerHeight - item.getBoundingClientRect().bottom;
           var interval1 = item.getBoundingClientRect().top - 55;
@@ -274,7 +328,7 @@ export default {
       }
     },
 
-    search(val) {
+    search (val) {
       if (val != "") {
         var temp = new RegExp(".*" + val + ".*");
         var items = [];
@@ -315,10 +369,10 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.listVacancy();
   },
-  mounted() {
+  mounted () {
     // this.lazeItems();
     this.first = true;
     // this.firstLoad();
@@ -364,17 +418,17 @@ export default {
 
     this.$root.$emit(
       "textToSpeechRouter",
-      "Página de vagas.\n Ao rolar, o telefone vai vibrar quando um item estiver no centro.\n Pressione no centro para ouvir."
+      "Página de vagas.\n Ao rolar, o telefone vai vibrar quando um item estiver no centro."
     );
   },
   watch: {
-    val_search(val) {
+    val_search (val) {
       this.search(val);
     },
-    filterVal(val) {
+    filterVal (val) {
       this.search(val);
     },
-    vacancies() {
+    vacancies () {
       // this.lazeItems();
       if (this.first) {
         this.firstLoad();

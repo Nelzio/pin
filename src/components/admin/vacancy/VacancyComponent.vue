@@ -18,6 +18,8 @@
                 :src="user.photoURL"
                 spinner-color="white"
                 ref="imgProfile"
+                role="img"
+                alt="Imagem de perfil"
               />
             </q-avatar>
           </q-btn>
@@ -42,6 +44,9 @@
         :src="vacancy.img"
         style="min-height: 200px;"
         @click="detailsDrawer(vacancy)"
+        role="img"
+        lang="pt-PT"
+        aria-label="Imagem da vaga"
       />
       <q-img
         v-ripple
@@ -49,6 +54,9 @@
         src="statics/img/nophoto.png"
         style="min-height: 180px;"
         @click="detailsDrawer(vacancy)"
+        role="img"
+        lang="pt-PT"
+        aria-label="Imagem da vaga"
       />
 
       <q-card-section class="q-pb-none">
@@ -67,6 +75,7 @@
           :color="darkModeConf.iconVar"
           icon="details"
           label="Detalhes"
+          role="button"
           @click="detailsDrawer(vacancy)"
         />
       </q-card-actions>

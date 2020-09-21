@@ -9,6 +9,8 @@
         class="text-center q-pr-lg"
         style="height: 100%; width: 50vw; border-right: 2px solid rgba(0,0,0,.1); padding-top: 15%; border-bottom: 2px solid rgba(0,0,0,.1)"
         role=link
+        aria-label="Link para página de vagas"
+        lang="pt-PT"
       >
         <div>
           <q-icon
@@ -20,6 +22,8 @@
         <div
           class="text-h6"
           :class="darkModeConf.textColor"
+          lang="pt-PT"
+          v-show="vibrateState"
         >Vagas</div>
       </router-link>
       <router-link
@@ -27,6 +31,8 @@
         class="text-center q-pl-lg"
         style="height: 100%; width: 50vw; border-bottom: 2px solid rgba(0,0,0,.1); padding-top: 15%"
         role=link
+        aria-label="Link para página de Negócios"
+        lang="pt-PT"
       >
         <div>
           <q-icon
@@ -38,6 +44,8 @@
         <div
           class="text-h6"
           :class="darkModeConf.textColor"
+          lang="pt-PT"
+          v-show="vibrateState"
         >Negócio</div>
       </router-link>
     </div>
@@ -51,6 +59,8 @@
         class="text-center"
         style="height: 100%; width: 50vw; border-right: 2px solid rgba(0,0,0,.1); padding-top: 15%;"
         role=link
+        aria-label="Link para página de Perfil"
+        lang="pt-PT"
       >
         <div>
           <q-icon
@@ -62,6 +72,7 @@
         <div
           class="text-h6"
           :class="darkModeConf.textColor"
+          v-show="vibrateState"
         >Perfil</div>
       </router-link>
       <router-link
@@ -70,6 +81,8 @@
         class="text-center"
         style="height: 100%; width: 50vw; border-right: 2px solid rgba(0,0,0,.1); padding-top: 15%;"
         role=link
+        aria-label="Link para página de perfil"
+        lang="pt-PT"
       >
         <div>
           <q-icon
@@ -81,6 +94,7 @@
         <div
           class="text-h6"
           :class="darkModeConf.textColor"
+          v-show="vibrateState"
         >Perfil</div>
       </router-link>
       <router-link
@@ -88,6 +102,8 @@
         class="text-center"
         style="height: 100%; width: 50vw; padding-top: 15%;"
         role=link
+        aria-label="Link para página de configurações"
+        lang="pt-PT"
       >
         <div>
           <q-icon
@@ -98,6 +114,7 @@
           />
         </div>
         <div
+          v-show="vibrateState"
           class="text-h6"
           :class="darkModeConf.textColor"
         >Definições</div>
@@ -113,7 +130,7 @@ export default {
   name: "HomeContent",
   computed: {
     ...mapGetters("auth", ["isUserAuth"]),
-    ...mapState("settings", ["darkModeConf"]),
+    ...mapState("settings", ["darkModeConf", "vibrateState"]),
   },
   methods: {
     ...mapActions("auth", ["checkAuthUser"]),

@@ -11,6 +11,7 @@
       size="lg"
       to="/chat"
       role="button"
+      lang="pt-PT"
       aria-label="Ir a página de lista de conversas"
     >
       <!-- <q-badge v-if="numMessage" color="primary" text-color="white" floating>{{ numMessage }}</q-badge> -->

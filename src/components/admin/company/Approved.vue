@@ -6,20 +6,45 @@
       :columns="columns"
       row-key="name"
       :filter="filter"
+      role="table"
+      lang="pt-PT"
+      aria-label="Tabla de empresas aprovadas"
     >
       <template v-slot:top-right>
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          v-model="filter"
+          placeholder="Search"
+          role="search"
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
         </q-input>
       </template>
       <template v-slot:body="props">
-        <q-tr :props="props" @click="getCompanyDetails(props.row.compony)">
-          <q-td key="compony" :props="props">{{ props.row.name }}</q-td>
-          <q-td key="email" :props="props">{{ props.row.email }}</q-td>
-          <q-td key="telephone" :props="props">{{ props.row.telephone }}</q-td>
-          <q-td key="numVacancies" :props="props">{{ props.row.numVacancies }}</q-td>
+        <q-tr
+          :props="props"
+          @click="getCompanyDetails(props.row.compony)"
+        >
+          <q-td
+            key="compony"
+            :props="props"
+          >{{ props.row.name }}</q-td>
+          <q-td
+            key="email"
+            :props="props"
+          >{{ props.row.email }}</q-td>
+          <q-td
+            key="telephone"
+            :props="props"
+          >{{ props.row.telephone }}</q-td>
+          <q-td
+            key="numVacancies"
+            :props="props"
+          >{{ props.row.numVacancies }}</q-td>
         </q-tr>
       </template>
     </q-table>
@@ -29,7 +54,7 @@
 <script>
 export default {
   props: ["data"],
-  data() {
+  data () {
     return {
       filter: "",
       columns: [
@@ -74,11 +99,11 @@ export default {
     };
   },
   methods: {
-    getCompanyDetails(compony) {
+    getCompanyDetails (compony) {
       console.log(compony)
       this.$root.$emit("companyToEvaluation", compony)
     },
-    displayDatas(list) {
+    displayDatas (list) {
       const vm = this;
       let data = []
       list.forEach(element => {
@@ -95,11 +120,11 @@ export default {
       this.dataTable = data
     }
   },
-  mounted() {
+  mounted () {
     this.displayDatas(this.data);
   },
   watch: {
-    data(val) {
+    data (val) {
       this.displayDatas(val)
     }
   }

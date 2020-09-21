@@ -5,6 +5,9 @@
       class="vjs-custom-skin"
       :options="playerOptions"
       :playsinline="true"
+      role="video"
+      lang="pt-PT"
+      aria-label="Video de perfil"
     />
   </div>
 </template>

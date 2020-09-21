@@ -6,6 +6,7 @@
       :data="dataTable"
       :columns="columns"
       row-key="id"
+      role="table"
     />
   </div>
 </template>

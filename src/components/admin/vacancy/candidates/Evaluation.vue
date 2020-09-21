@@ -8,6 +8,9 @@
       bordered
       content-class="bg-grey-3"
       class="fixed-right"
+      role="aside"
+      lang="pt-PT"
+      aria-label="Avaliação de Usuário"
     >
       <q-scroll-area class="fit">
         <q-toolbar class="text-primary">
@@ -16,6 +19,9 @@
             round
             dense
             icon="arrow_forward"
+            role="button"
+            lang="pt-PT"
+            aria-label="Fechar avaliação"
             @click="drawer = false"
           />
           <q-toolbar-title>User</q-toolbar-title>
@@ -47,16 +53,19 @@
                     class="text-grey"
                     align="justify"
                     narrow-indicator
+                    role="tablist"
                   >
                     <q-tab
                       name="bio"
                       label="Contacto"
                       icon="contacts"
+                      role="tab"
                     />
                     <q-tab
                       name="ocupacao"
                       label="Sobre"
                       icon="description"
+                      role="tab"
                     />
                   </q-tabs>
 
@@ -66,9 +75,15 @@
                     v-model="tab"
                     animated
                   >
-                    <q-tab-panel name="bio">
-                      <q-list>
-                        <q-item class="text-left">
+                    <q-tab-panel
+                      name="bio"
+                      role="tabpanel"
+                    >
+                      <q-list role="list">
+                        <q-item
+                          class="text-left"
+                          role="listitem"
+                        >
                           <q-item-section
                             top
                             avatar
@@ -90,7 +105,10 @@
                           inset="item"
                         />
 
-                        <q-item class="text-left">
+                        <q-item
+                          class="text-left"
+                          role="listitem"
+                        >
                           <q-item-section
                             top
                             avatar
@@ -112,7 +130,10 @@
                           inset="item"
                         />
 
-                        <q-item class="text-left">
+                        <q-item
+                          class="text-left"
+                          role="listitem"
+                        >
                           <q-item-section
                             avatar
                             top
@@ -130,9 +151,15 @@
                       </q-list>
                     </q-tab-panel>
 
-                    <q-tab-panel name="ocupacao">
-                      <q-list>
-                        <q-item class="text-left">
+                    <q-tab-panel
+                      name="ocupacao"
+                      role="tabpanel"
+                    >
+                      <q-list role="list">
+                        <q-item
+                          class="text-left"
+                          role="listitem"
+                        >
                           <q-item-section
                             top
                             avatar
@@ -149,7 +176,10 @@
                           </q-item-section>
                         </q-item>
 
-                        <q-item class="text-left">
+                        <q-item
+                          class="text-left"
+                          role="listitem"
+                        >
                           <q-item-section
                             top
                             avatar
@@ -183,6 +213,7 @@
                 color="primary"
                 label="Adicionar Júri"
                 icon="add"
+                role="button"
                 @click="addRemoveEvaluators('add')"
               />
               <q-btn
@@ -190,11 +221,15 @@
                 color="red"
                 label="Remover Júri"
                 icon="cancel"
+                role="button"
                 @click="addRemoveEvaluators('remove')"
               />
             </q-btn-group>
           </div>
-          <div class="row">
+          <div
+            class="row"
+            role="group"
+          >
             <q-card
               class="my-card col-12"
               v-for="(evaluator, index) in evaluators"

@@ -8,6 +8,9 @@
         :src="store.img"
         style="min-height: 200px;"
         @click="$router.push('/profile/store/details/'+store.key)"
+        role="img"
+        lang="pt-PT"
+        :aria-label="'Imagem do ' + store.category"
       />
       <q-img
         v-ripple
@@ -15,6 +18,9 @@
         src="statics/img/nophoto.png"
         style="min-height: 200px;"
         @click="$router.push('/profile/store/details/'+store.key)"
+        role="img"
+        lang="pt-PT"
+        :aria-label="'Imagem do ' + store.category"
       />
       <q-card-section :class="getFont.title">{{ store.title }}</q-card-section>
       <q-card-actions align="right">
@@ -25,6 +31,7 @@
           label="Detalhes"
           icon="details"
           :to="'/profile/store/details/'+store.key"
+          role="link"
         />
         <q-btn
           outline
@@ -32,6 +39,7 @@
           :color="darkModeConf.iconVar"
           icon="edit"
           :to="'/profile/store/edit/'+store.key"
+          role="link"
         />
         <q-btn
           outline
@@ -39,6 +47,7 @@
           :color="darkModeConf.iconVar"
           icon="delete"
           @click="confirDelete = true"
+          role="button"
         />
         <q-btn
           outline
@@ -46,12 +55,20 @@
           :color="darkModeConf.iconVar"
           :icon="statusStore ? 'visibility' : 'visibility_off'"
           @click="makePublic(store.key, store, statusStore)"
+          lang="pt-PT"
+          :aria-label="statusStore ? 'Ocultar' : 'Desocultar'"
+          role="button"
         />
       </q-card-actions>
     </q-card>
 
     <div>
-      <q-dialog v-model="confirDelete">
+      <q-dialog
+        v-model="confirDelete"
+        role="dialog"
+        lang="pt-PT"
+        aria-label="Alerta de confirmação"
+      >
         <q-card style="width: 700px; max-width: 80vw;">
           <q-card-section>
             <div :class="getFont.title">Confirmar</div>
@@ -71,6 +88,7 @@
               outline
               :color="darkModeConf.iconVar"
               label="Remover"
+              role="button"
               @click="deleteStoreThis(store.key)"
             />
             <q-btn
@@ -78,13 +96,19 @@
               outline
               color="grey"
               label="Cancelar"
+              role="button"
               v-close-popup
             />
           </q-card-actions>
         </q-card>
       </q-dialog>
 
-      <q-dialog v-model="confirDeleteSuccess">
+      <q-dialog
+        v-model="confirDeleteSuccess"
+        role="alertdialog"
+        lang="pt-PT"
+        aria-label="Alerta de sucesso"
+      >
         <q-card>
           <q-card-section
             class="text-green"
@@ -96,6 +120,7 @@
               flat
               label="OK"
               color="primary"
+              role="button"
               v-close-popup
             />
           </q-card-actions>

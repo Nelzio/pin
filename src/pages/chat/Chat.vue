@@ -3,8 +3,22 @@
     padding
     class="q-pt-xl q-pb-xl"
     v-touch-swipe.mouse.right="handleSwipe"
-    v-touch-hold:650.mouse="handleHold"
   >
+    <q-btn
+      v-if="recording"
+      @click="recordAudio()"
+      style="left: -800px"
+      label="Parar gravação"
+      role="button"
+    />
+    <q-btn
+      v-else
+      @click="recordAudio()"
+      style="left: -800px"
+      label="Gravar áudio"
+      role="button"
+    />
+
     <!-- content -->
     <div class="row justify-center q-pt-md">
       <div class="col-12 col-md-7">
@@ -30,7 +44,10 @@
       </q-card>
     </div>-->
 
-    <q-footer v-if="!$q.screen.gt.sm">
+    <q-footer
+      v-if="!$q.screen.gt.sm"
+      role="none"
+    >
       <q-toolbar
         class="row"
         :class="[darkModeConf.bgColor, darkModeConf.textColor]"
@@ -40,6 +57,9 @@
           @submit="sendMessage"
           class="col-12"
           :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+          role="form"
+          lang="pt-PT"
+          aria-label="Formulário de mensagem"
         >
           <div
             class="row"
@@ -53,6 +73,8 @@
               dense
               class="WAL__field col-grow q-mr-sm"
               disable
+              lang="pt-PT"
+              aria-label="Gravando audio"
             />
             <q-input
               v-else
@@ -76,6 +98,9 @@
               flat
               icon="mic"
               @click="recordAudio()"
+              role="button"
+              lang="pt-PT"
+              aria-label="Gravar audio"
             />
             <q-btn
               v-else
@@ -85,6 +110,9 @@
               icon="stop"
               color="red"
               @click="stopRecord()"
+              role="button"
+              lang="pt-PT"
+              aria-label="Parar gravação e enviar"
             />
           </div>
         </q-form>
@@ -94,6 +122,7 @@
     <q-page-sticky
       position="bottom"
       v-if="$q.screen.gt.sm"
+      role="group"
     >
       <q-toolbar
         class="bg-grey-3 row"
@@ -103,6 +132,9 @@
         <q-form
           @submit="sendMessage"
           class="col-12"
+          role="form"
+          lang="pt-PT"
+          aria-label="Formulário de mensagem"
         >
           <div
             class="row"
@@ -118,6 +150,8 @@
               class="WAL__field col-grow q-mr-sm"
               bg-color="white"
               disable
+              lang="pt-PT"
+              aria-label="Gravando audio"
             />
             <q-input
               v-else
@@ -145,6 +179,9 @@
               flat
               icon="mic"
               @click="recordAudio()"
+              role="button"
+              lang="pt-PT"
+              aria-label="Gravar audio"
             />
             <q-btn
               v-else
@@ -153,6 +190,9 @@
               icon="stop"
               color="red"
               @click="stopRecord()"
+              role="button"
+              lang="pt-PT"
+              aria-label="Parar gravação e enviar"
             />
           </div>
         </q-form>

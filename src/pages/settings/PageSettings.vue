@@ -29,6 +29,7 @@
                     <q-toggle
                       :color="darkModeConf.icon"
                       v-model="mode"
+                      lang="pt-PT"
                       aria-label="Alterar de modo escuro para claro ou o inverso"
                     />
                   </q-item-section>
@@ -55,6 +56,7 @@
                     <q-toggle
                       :color="darkModeConf.icon"
                       v-model="vibrateMode"
+                      lang="pt-PT"
                       aria-label="Ativar ou desativar modo acessibilidade do aplicativo"
                     />
                   </q-item-section>
@@ -239,6 +241,7 @@
         <q-dialog
           v-model="deletDialog"
           role="dialog"
+          lang="pt-PT"
           aria-label="Alerta para remover conta"
         >
           <q-card
@@ -307,6 +310,7 @@
         <q-dialog
           v-model="logOutDialog"
           role="dialog"
+          lang="pt-PT"
           aria-label="Confirmar sair da conta"
         >
           <q-card style="width: 90vw">
@@ -339,6 +343,7 @@
         <q-dialog
           v-model="dialogAddProfile"
           role="dialog"
+          lang="pt-PT"
           aria-label="Escolher o tipo de perfil"
         >
           <q-card style="width: 90vw;">

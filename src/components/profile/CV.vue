@@ -3,6 +3,7 @@
     <q-form
       class="q-gutter-md"
       ref="storeForm"
+      role="form"
     >
       <input
         id="fileInput"
@@ -10,6 +11,9 @@
         hidden
         ref="fileDoc"
         accept="application/pdf"
+        role="button"
+        lang="pt-PT"
+        aria-label="Carregar ficheiro pdf"
         @change="onChangeDoc"
       />
     </q-form>
@@ -30,7 +34,7 @@
                 dense
                 round
                 icon="arrow_back"
-                aria-label="Menu"
+                lang="pt-PT" aria-label="Menu"
                 size="lg"
               />
 
@@ -50,7 +54,7 @@
                 dense
                 round
                 icon="edit"
-                aria-label="Trocar CV"
+                lang="pt-PT" aria-label="Trocar CV"
                 size="lg"
                 @click="processFile('doc')"
               />
@@ -66,6 +70,9 @@
       <q-dialog
         v-model="dialogCVHere"
         :maximized="maximizedToggle"
+        role="dialog"
+        lang="pt-PT"
+        aria-label="Dialogo de carregamento de documento"
       >
         <q-card class="bg-white">
           <q-toolbar
@@ -80,8 +87,10 @@
               dense
               round
               icon="arrow_back"
-              aria-label="Menu"
               size="lg"
+              role="button"
+              lang="pt-PT"
+              aria-label="Fechar dialogo"
             />
 
             <q-space />
@@ -100,7 +109,9 @@
               dense
               round
               icon="edit"
+              lang="pt-PT"
               aria-label="Trocar CV"
+              role="button"
               size="lg"
               @click="processFile('doc')"
             />

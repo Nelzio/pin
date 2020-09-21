@@ -8,7 +8,7 @@
         <q-card class="my-card">
           <q-img
             :src="imageUrl"
-            alt
+            alt="Imagem da vaga"
           />
           <q-card-actions>
             <q-btn
@@ -17,12 +17,18 @@
               :class="darkModeConf.textBtn"
               class="full-width"
               label="Trocar imagem"
+              role="button"
               @click="processFile()"
             />
           </q-card-actions>
         </q-card>
 
-        <q-form class="q-gutter-md">
+        <q-form
+          class="q-gutter-md"
+          role="form"
+          lang="pt-PT"
+          aria-label="Formulário de edição de vaga"
+        >
           <input
             id="fileInput"
             type="file"
@@ -37,6 +43,7 @@
             rounded
             outlined
             label="Titulo"
+            type="text"
             v-model="vacancyData.title"
           />
           <!-- <q-input :color="darkModeConf.iconVar" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
@@ -46,6 +53,7 @@
             :color="darkModeConf.iconVar"
             v-model="vacancyData.category"
             :options="categories"
+            role="combobox"
             label="Categoria"
           />
           <q-select
@@ -54,6 +62,7 @@
             :color="darkModeConf.iconVar"
             v-model="vacancyData.place"
             :options="places"
+            role="combobox"
             label="Província"
           />
           <q-input
@@ -98,6 +107,7 @@
               :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               label="Enviar"
+              role="button"
               @click="updateVacancyThis()"
             />
           </div>
@@ -105,7 +115,12 @@
       </div>
     </div>
     <div>
-      <q-dialog v-model="confirmInsert">
+      <q-dialog
+        v-model="confirmInsert"
+        role="dialog"
+        lang="pt-PT"
+        aria-label="Alerta de sucesso"
+      >
         <q-card>
           <q-card-section class="text-h5 text-green">Vaga atualizada com sucesso</q-card-section>
 
@@ -114,13 +129,19 @@
               flat
               label="OK"
               color="primary"
+              role="button"
               @click="confirmIsertFunc()"
             />
           </q-card-actions>
         </q-card>
       </q-dialog>
 
-      <q-dialog v-model="errorFileDialog">
+      <q-dialog
+        v-model="errorFileDialog"
+        role="dialog"
+        lang="pt-PT"
+        aria-label="Alerta de sucesso"
+      >
         <q-card>
           <q-card-section class="text-h5 text-red">Por favor, insira uma imagem válida.</q-card-section>
 
@@ -129,6 +150,7 @@
               flat
               label="OK"
               color="red"
+              role="button"
               v-close-popup
             />
           </q-card-actions>

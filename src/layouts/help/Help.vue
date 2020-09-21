@@ -1,30 +1,68 @@
 <template>
-  <q-layout view="hHh Lpr lff" class="bg-grey-1">
-    <q-header elevated class="bg-white text-grey-8" height-hint="64">
-      <q-toolbar class="GNL__toolbar" :class="[darkModeConf.bgColor, darkModeConf.textColor]">
+  <q-layout
+    view="hHh Lpr lff"
+    class="bg-grey-1"
+  >
+    <q-header
+      elevated
+      class="bg-white text-grey-8"
+      height-hint="64"
+    >
+      <q-toolbar
+        class="GNL__toolbar"
+        :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+        role="menubar"
+      >
         <q-btn
           flat
           dense
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
-          aria-label="Menu"
           icon="menu"
           class="q-mr-sm"
+          role="menu"
+          lang="pt-PT"
+          aria-label="Abrir menú"
         />
 
-        <q-toolbar-title shrink class="row items-center no-wrap">
-          <q-btn flat round to="/" style="margin: 0;">
-          <img src="statics/img/home/appLogo.png" style="height: 35px">
+        <q-toolbar-title
+          shrink
+          class="row items-center no-wrap"
+        >
+          <q-btn
+            flat
+            round
+            to="/"
+            style="margin: 0;"
+          >
+            <img
+              src="statics/img/home/appLogo.png"
+              style="height: 35px"
+            >
           </q-btn>
           <span class="q-ml-sm">Superativo | Ajuda</span>
         </q-toolbar-title>
 
         <q-space />
 
-        <div class="q-gutter-sm row items-center no-wrap" v-if="isUserAuth">
-          <q-btn round flat>
+        <div
+          class="q-gutter-sm row items-center no-wrap"
+          v-if="isUserAuth"
+        >
+          <q-btn
+            round
+            flat
+            role="button"
+            lang="pt-PT"
+            aria-label="Ir a página de perfil"
+            to="/profile"
+          >
             <q-avatar size="26px">
-              <img :src="user.photoURL">
+              <img
+                :src="user.photoURL"
+                role="img"
+                alt="Imagem de perfil"
+              >
             </q-avatar>
             <q-tooltip>Account</q-tooltip>
           </q-btn>
@@ -38,12 +76,37 @@
       :width="200"
       :breakpoint="500"
     >
-      <q-scroll-area class="fit">
-        <q-list padding>
-          <q-item class="GNL__drawer-item" v-ripple v-for="link in links1" :key="link.text" :to="link.to" clickable>
+      <q-scroll-area
+        class="fit"
+        role="navigation"
+        lang="pt-PT"
+        aria-label="Menú de navegação"
+      >
+        <q-list
+          padding
+          role="list"
+          lang="pt-PT"
+          aria-label="Lista de navegação na área administrativa."
+        >
+          <q-item
+            role="menuitem"
+            class="GNL__drawer-item"
+            v-ripple
+            v-for="link in links1"
+            :key="link.text"
+            :to="link.to"
+            clickable
+          >
             <q-item-section avatar>
-              <q-icon v-if="link.img" :name="'img:' + link.img" />
-              <q-icon :color="darkModeConf.iconVar" v-else :name="link.icon" />
+              <q-icon
+                v-if="link.img"
+                :name="'img:' + link.img"
+              />
+              <q-icon
+                :color="darkModeConf.iconVar"
+                v-else
+                :name="link.icon"
+              />
             </q-item-section>
             <q-item-section>
               <q-item-label :class="darkModeConf.textColor">{{ link.text }}</q-item-label>
@@ -54,11 +117,11 @@
 
           <div class="q-mt-md">
             <div class="flex flex-center q-gutter-xs">
-              <a class="GNL__drawer-footer-link" href="javascript:void(0)" aria-label="Privacy">Privacy</a>
+              <a class="GNL__drawer-footer-link" href="javascript:void(0)" lang="pt-PT" aria-label="Privacy">Privacy</a>
               <span> · </span>
-              <a class="GNL__drawer-footer-link" href="javascript:void(0)" aria-label="Terms">Terms</a>
+              <a class="GNL__drawer-footer-link" href="javascript:void(0)" lang="pt-PT" aria-label="Terms">Terms</a>
               <span> · </span>
-              <a class="GNL__drawer-footer-link" href="javascript:void(0)" aria-label="About">About Google</a>
+              <a class="GNL__drawer-footer-link" href="javascript:void(0)" lang="pt-PT" aria-label="About">About Google</a>
             </div>
           </div> -->
         </q-list>

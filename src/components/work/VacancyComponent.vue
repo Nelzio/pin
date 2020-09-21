@@ -6,10 +6,12 @@
       v-touch-hold:300.mouse="handleHold"
       v-touch-swipe.mouse.left.right="handleSwipe"
       role="group"
+      lang="pt-PT"
       :aria-label="'Vaga para ' +   vacancy.title"
     >
       <q-item
         role="group"
+        lang="pt-PT"
         :aria-label="'Anunciante da vaga ' + user.displayName"
       >
         <q-item-section avatar>
@@ -17,6 +19,7 @@
             round
             @click="detailUser(user)"
             role="link"
+            lang="pt-PT"
             aria-label="Ir ao perfil do anunciante"
           >
             <q-avatar text-color="white">
@@ -52,6 +55,7 @@
         @click="$router.push('/vacancies/details/'+vacancy.key)"
         role="img"
         alt="Imagem da vaga"
+        lang="pt-PT"
         :aria-label="'Clicar para ir a página de detalhes da vaga de ' +   vacancy.title"
       />
       <q-img
@@ -62,6 +66,7 @@
         @click="$router.push('/vacancies/details/'+vacancy.key)"
         role="img"
         alt="Imagem da vaga"
+        lang="pt-PT"
         :aria-label="'Clicar para ir a página de detalhes da vaga de ' +   vacancy.title"
       />
 
@@ -83,6 +88,7 @@
           label="Detalhes"
           :to="'/vacancies/details/'+vacancy.key"
           role="button"
+          lang="pt-PT"
           :aria-label="'Clicar para ir a página de detalhes da vaga de ' +   vacancy.title"
         />
       </q-card-actions>

@@ -10,6 +10,7 @@
       selection="multiple"
       :selected.sync="selected"
       hide-header
+      role="table"
     >
       <template v-slot:top-right>
         <div class="row q-gutter-x-lg">
@@ -33,6 +34,7 @@
             dense
             debounce="300"
             v-model="filter"
+            role="search"
             placeholder="Search"
           >
             <template v-slot:append>

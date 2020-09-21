@@ -11,6 +11,7 @@
             bottom-slots
             v-model="valSearch"
             label="Pesquise candidato"
+            role="search"
             @input="search"
           >
             <template v-slot:append>

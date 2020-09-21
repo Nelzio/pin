@@ -10,6 +10,9 @@
       selection="single"
       :selected.sync="selected"
       hide-header
+      role="table"
+      lang="pt-PT"
+      aria-label="Tabela de lista de associações."
     >
       <template
         v-slot:top-left
@@ -27,6 +30,7 @@
             outline
             color="primary"
             label="Adicionar Associação"
+            role="button"
             @click="openAddDialog()"
           />
         </div>
@@ -37,6 +41,7 @@
           debounce="300"
           v-model="filter"
           placeholder="Search"
+          role="search"
         >
           <template v-slot:append>
             <q-icon name="search" />
@@ -53,6 +58,7 @@
             :class="props.selected ? 'bg-grey-2' : ''"
             clickable
             v-ripple
+            role="grou+"
           >
             <q-list dense>
               <q-item

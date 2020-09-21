@@ -8,6 +8,9 @@
         :src="vacancy.img"
         style="min-height: 200px;"
         @click="$router.push('/profile/vacancy/details/'+vacancy.key)"
+        role="img"
+        lang="pt-PT"
+        aria-label="Imagem da vaga"
       />
       <q-img
         v-ripple
@@ -15,6 +18,9 @@
         src="statics/img/nophoto.png"
         style="min-height: 200px;"
         @click="$router.push('/profile/vacancy/details/'+vacancy.key)"
+        role="img"
+        lang="pt-PT"
+        aria-label="Imagem da vaga"
       />
       <q-card-section :class="getFont.title">{{ vacancy.title }}</q-card-section>
       <q-card-actions align="right">
@@ -39,19 +45,28 @@
           :color="darkModeConf.iconVar"
           icon="delete"
           @click="confirDelete = true"
+          role="button"
         />
         <q-btn
           outline
           rounded
           :color="darkModeConf.iconVar"
           :icon="vacancyStatus ? 'visibility' : 'visibility_off'"
+          lang="pt-PT"
+          :aria-label="vacancyStatus ? 'Ocultar' : 'Desocultar'"
           @click="makePublic(vacancy.key, vacancy, vacancyStatus)"
+          role="button"
         />
       </q-card-actions>
     </q-card>
 
     <div>
-      <q-dialog v-model="confirDelete">
+      <q-dialog
+        v-model="confirDelete"
+        role="dialog"
+        lang="pt-PT"
+        aria-label="Alerta de confirmação"
+      >
         <q-card style="width: 700px; max-width: 80vw;">
           <q-card-section>
             <div :class="getFont.title">Confirmar</div>
@@ -71,6 +86,7 @@
               outline
               :color="darkModeConf.iconVar"
               label="Remover"
+              role="button"
               @click="deleteVacancyThis(vacancy.key)"
             />
             <q-btn
@@ -78,13 +94,19 @@
               outline
               color="grey"
               label="Cancelar"
+              role="button"
               v-close-popup
             />
           </q-card-actions>
         </q-card>
       </q-dialog>
 
-      <q-dialog v-model="confirDeleteSuccess">
+      <q-dialog
+        v-model="confirDeleteSuccess"
+        role="alertdialog"
+        lang="pt-PT"
+        aria-label="Alerta de sucesso"
+      >
         <q-card>
           <q-card-section
             class="text-green"
@@ -96,6 +118,7 @@
               flat
               label="OK"
               color="primary"
+              role="button"
               v-close-popup
             />
           </q-card-actions>

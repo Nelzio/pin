@@ -1,5 +1,18 @@
 <template>
-  <q-page class="presentation bg-primary" padding v-touch-swipe.mouse.left.right.down="handleSwipe">
+  <q-page
+    class="presentation bg-primary"
+    padding
+    v-touch-swipe.mouse.left.right="handleSwipe"
+  >
+    <q-btn
+      color="white"
+      text-color="black"
+      label="Página inicial"
+      role="link"
+      to="/"
+      class="absolute"
+      style="left: -800px;"
+    />
     <q-carousel
       v-model="slide"
       transition-prev="slide-right"
@@ -10,27 +23,67 @@
       control-color="white"
       class="rounded-borders bg-primary"
     >
-      <q-carousel-slide name="primeiro" class="column no-wrap flex-center">
-        <q-btn round color="white" size="39px">
-          <q-icon color="primary" name="img:statics/img/home/appLogoHome.png" size="96px" />
+      <q-carousel-slide
+        name="primeiro"
+        class="column no-wrap flex-center"
+        role="group"
+      >
+        <q-btn
+          round
+          color="white"
+          size="39px"
+        >
+          <q-icon
+            color="primary"
+            name="img:statics/img/home/appLogoHome.png"
+            size="96px"
+            role="img"
+            lang="pt-PT"
+            aria-label="Imagem"
+          />
         </q-btn>
-        <div class="q-mt-md text-center text-white q-gutter-y-sm">
+        <div
+          class="q-mt-md text-center text-white q-gutter-y-sm"
+          role="group"
+        >
           <div class="text-h4">Superativo</div>
           <div class="text-h6">Bem-vindo a plataforma mais inclusiva de Moçambique.</div>
         </div>
       </q-carousel-slide>
-      <q-carousel-slide name="segundo" class="column no-wrap flex-center">
-        <q-btn round color="white" size="39px">
-          <q-icon color="primary" name="work" size="96px" />
+      <q-carousel-slide
+        name="segundo"
+        class="column no-wrap flex-center"
+      >
+        <q-btn
+          round
+          color="white"
+          size="39px"
+        >
+          <q-icon
+            color="primary"
+            name="work"
+            size="96px"
+          />
         </q-btn>
         <div class="q-mt-md text-center text-white q-gutter-y-sm">
           <div class="text-h4">Emprego</div>
           <div class="text-h6">Encontre e disponibilize vagas de emprego.</div>
         </div>
       </q-carousel-slide>
-      <q-carousel-slide name="terceiro" class="column no-wrap flex-center">
-        <q-btn round color="white" size="39px">
-          <q-icon color="primary" name="store" size="96px" />
+      <q-carousel-slide
+        name="terceiro"
+        class="column no-wrap flex-center"
+      >
+        <q-btn
+          round
+          color="white"
+          size="39px"
+        >
+          <q-icon
+            color="primary"
+            name="store"
+            size="96px"
+          />
         </q-btn>
         <div class="q-mt-md text-center text-white q-gutter-y-sm">
           <div class="text-h4">Negócio</div>
@@ -40,20 +93,48 @@
     </q-carousel>
 
     <div class="row justify-center">
-      <q-btn rounded color="white" text-color="primary" label="A seguir" @click="next()" />
-    </div>
-
-    <audio ref="testAudio" :src="audioPath" autoplay />
-
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn
-        round
+        rounded
         color="white"
         text-color="primary"
-        class="shadow-5"
-        :icon="vibrateMode ? 'volume_off' : 'volume_up'"
-        @click="vibrateMode = !vibrateMode"
+        label="A seguir"
+        @click="next()"
       />
+    </div>
+
+    <audio
+      ref="testAudio"
+      :src="audioPath"
+      autoplay
+    />
+
+    <q-page-sticky
+      position="bottom-right"
+      :offset="[18, 18]"
+    >
+      <div class="q-gutter-x-md">
+        <q-btn
+          rounded
+          color="white"
+          text-color="primary"
+          class="shadow-5"
+          icon="replay"
+          @click="$refs.testAudio.play()"
+          role="button"
+          label="Ouvir Audio"
+        />
+        <q-btn
+          round
+          color="white"
+          text-color="primary"
+          class="shadow-5"
+          :icon="vibrateMode ? 'volume_up' : 'volume_off'"
+          @click="vibrateMode = !vibrateMode"
+          role="button"
+          lang="pt-PT"
+          aria-label="Ativar e desativar narração."
+        />
+      </div>
     </q-page-sticky>
   </q-page>
 </template>
@@ -63,7 +144,7 @@ import { LocalStorage } from "quasar";
 import { mapState, mapActions } from "vuex";
 export default {
   name: "Home",
-  data() {
+  data () {
     return {
       options: [
         { label: 1, value: "primeiro" },
@@ -79,7 +160,7 @@ export default {
       lorem:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       textToSpeechRouter:
-        "Bem-vindo a plataforma Superativo.\n Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Deslize o dedo para a esquerda 3 vezes para ir a página inicial.\n Para desativar o modo de narração e vibração, vai até a Página de preferências e desabilite o modo de narração e vibração.\n Para repetir o áudio, deslize do dedo do topo da tela para baixo."
+        "Bem-vindo a plataforma Superativo. Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Para desativar o modo de narração e vibração, vai até a página de preferências ou clique no botão de audio no canto inferior direito da tela e desabilite o.\n Para repetir o áudio, clique no botão Ouvir Audio.",
     };
   },
   computed: {
@@ -89,7 +170,7 @@ export default {
   methods: {
     ...mapActions("settings", ["setVibrate"]),
 
-    next() {
+    next () {
       if (this.slide == "primeiro") {
         this.slide = "segundo";
       } else if (this.slide == "segundo") {
@@ -100,7 +181,7 @@ export default {
       }
     },
 
-    vibrateApp() {
+    vibrateApp () {
       if (this.vibrateMode) {
         this.setVibrate(1);
       } else {
@@ -109,7 +190,7 @@ export default {
       }
     },
 
-    handleSwipe(val) {
+    handleSwipe (val) {
       if (val.direction === "left" && this.slide == "terceiro") {
         LocalStorage.set("notFirst", true);
         this.$router.push("/");
@@ -120,9 +201,9 @@ export default {
       }
     },
 
-    accessibilityMode() {
+    accessibilityMode () {
       var textToSpeechRouter =
-        "Bem-vindo a plataforma Superativo. Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Para navegar até a página inicial deslize o dedo três vezes para a esquerda.\n Para desativar o modo de narração e vibração, vai até a página de preferências ou clique no botão no canto inferior direito da tela e desabilite o.\n Para repetir o áudio, deslize o dedo do topo da tela para baixo.";
+        "Bem-vindo a plataforma Superativo. Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Para desativar o modo de narração e vibração, vai até a página de preferências ou clique no botão de audio no canto inferior direito da tela e desabilite o.\n Para repetir o áudio, clique no botão Ouvir Audio.";
       if (window.hasOwnProperty("cordova")) {
         this.speakCordova(textToSpeechRouter);
       } else {
@@ -130,7 +211,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     if (this.vibrateState == 1) {
       this.vibrateMode = true;
       this.$refs.testAudio.play();
@@ -140,7 +221,7 @@ export default {
   },
 
   watch: {
-    vibrateMode() {
+    vibrateMode () {
       this.vibrateApp();
     }
   }
@@ -151,6 +232,5 @@ export default {
   // .presentation
   //   background: url("..statics/img/background/background.svg") center bottom no-repeat
   //   background-size: 100vh 100vw
-    
 </style>
 

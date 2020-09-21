@@ -2,6 +2,7 @@
   <q-dialog v-model="show">
     <q-card
       style="width: 80vw;"
+      lang="pt-PT"
       aria-label="Mensagem de confirmação"
       :class="darkModeConf.textColor"
     >

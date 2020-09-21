@@ -4,11 +4,16 @@
     <div class="row justify-center">
       <div class="col-12 col-md-8">
         <q-card flat>
-          <q-img :src="getStore.img" />
+          <q-img
+            :src="getStore.img"
+            role="img"
+            alt="Imagem do produto ou serviço"
+          />
         </q-card>
         <div
           v-if="mobile"
           class="row no-wrap items-center justify-end q-pa-md"
+          role="group"
         >
           <q-btn
             @click="socialShare('https://hack-a2a7b.firebaseapp.com/store/details/' + getStore.key, {title: 'Superativo Store', description: getStore.title})"
@@ -17,11 +22,13 @@
             rounded
             label="Partilhar"
             icon="share"
+            role="button"
           />
         </div>
         <div
           v-else
           class="row no-wrap items-center q-pa-md"
+          role="group"
         >
           <div
             class="col ellipsis"
@@ -42,6 +49,7 @@
                     color="blue"
                     rounded
                     icon="ion-logo-facebook"
+                    role="button"
                   />
                 </network>
                 <network network="whatsapp">
@@ -50,6 +58,7 @@
                     color="green"
                     rounded
                     icon="ion-logo-whatsapp"
+                    role="button"
                   />
                 </network>
               </div>
@@ -57,8 +66,11 @@
           </div>
         </div>
 
-        <q-list>
-          <q-item v-if="getStore.price">
+        <q-list role="list">
+          <q-item
+            v-if="getStore.price"
+            role="listitem"
+          >
             <q-item-section
               avatar
               top
@@ -79,7 +91,10 @@
             inset="item"
           />
 
-          <q-item class="text-left">
+          <q-item
+            class="text-left"
+            role="listitem"
+          >
             <q-item-section
               top
               avatar
@@ -101,7 +116,7 @@
             inset="item"
           />
 
-          <q-item>
+          <q-item role="listitem">
             <q-item-section
               top
               avatar
@@ -120,13 +135,17 @@
             </q-item-section>
           </q-item>
         </q-list>
-        <div class="row q-gutter-md q-pa-md">
+        <div
+          class="row q-gutter-md q-pa-md"
+          role="group"
+        >
           <q-btn
             outline
             rounded
             :color="darkModeConf.iconVar"
             icon="edit"
             :to="'/profile/store/edit/'+getStore.key"
+            role="button"
           />
           <q-btn
             outline
@@ -134,6 +153,7 @@
             :color="darkModeConf.iconVar"
             :icon="statusStore ? 'visibility' : 'visibility_off'"
             @click="makePublic(getStore.key, getStore, statusStore)"
+            role="button"
           />
           <q-btn
             outline
@@ -141,13 +161,19 @@
             :color="darkModeConf.iconVar"
             icon="delete"
             @click="confirDelete = true"
+            role="button"
           />
         </div>
       </div>
     </div>
 
     <div>
-      <q-dialog v-model="confirDelete">
+      <q-dialog
+        v-model="confirDelete"
+        role="dialog"
+        lang="pt-PT"
+        aria-label="Dialog de confirmação de remoção"
+      >
         <q-card style="width: 700px; max-width: 80vw;">
           <q-card-section>
             <div :class="getFont.title">Confirmar</div>
@@ -168,19 +194,26 @@
               :color="darkModeConf.iconVar"
               label="Remover"
               @click="deleteStoreThis(getStore.key)"
+              role="button"
             />
             <q-btn
               rounded
               outline
               color="grey"
               label="Cancelar"
+              role="button"
               v-close-popup
             />
           </q-card-actions>
         </q-card>
       </q-dialog>
 
-      <q-dialog v-model="confirDeleteSuccess">
+      <q-dialog
+        v-model="confirDeleteSuccess"
+        role="dialog"
+        lang="pt-PT"
+        aria-label="Dialog de alerta"
+      >
         <q-card>
           <q-card-section
             class="text-green"
@@ -193,6 +226,7 @@
               label="OK"
               color="primary"
               @click="$router.go(-1)"
+              role="button"
               v-close-popup
             />
           </q-card-actions>

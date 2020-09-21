@@ -1,12 +1,17 @@
 <template>
   <q-page
-    @click="handleRepeat"
     v-touch-swipe.mouse.left.right="handleSwipe"
     padding
-    v-touch-hold:650.mouse="handleHold"
     role="group"
+    lang="pt-PT"
     aria-label="Página de detalhes da vaga"
   >
+    <q-btn
+      label="Ouvir descrição"
+      role="button"
+      @click="listenDetails()"
+      style="left: -800px;"
+    />
     <!-- content -->
     <div
       class="row justify-center"
@@ -24,9 +29,13 @@
               spinner-color="white"
               style="min-height: 200px;"
               alt="img"
+              lang="pt-PT"
               aria-label="Imagem da vaga"
             />
-            <q-card-section :aria-label="getVacancy.title">
+            <q-card-section
+              lang="pt-PT"
+              :aria-label="getVacancy.title"
+            >
               <div :class="getFont.title">{{ getVacancy.title }}</div>
             </q-card-section>
             <q-card-section class="row q-pt-none">
@@ -101,7 +110,7 @@
             rounded
             :color="darkModeConf.iconVar"
             :class="darkModeConf.textBtn"
-            label="Cadastrar-se"
+            label="Candidatar-se"
             icon="done_all"
             @click="routeToAccount()"
             role="link"
@@ -114,6 +123,7 @@
       <q-dialog
         v-model="applyDialog"
         role="dialog"
+        lang="pt-PT"
         :aria-label="!vacancyDone ? 'Confirmar Candidatura' : 'Confirmar cancelamento de candidatura'"
       >
         <q-card style="width: 700px; max-width: 80vw;">
@@ -239,7 +249,7 @@ export default {
       }
       if (userInput !== "") {
         let sInstance = new SpeechSynthesisUtterance(userInput);
-        sInstance.lang = 'pt-BR';
+        sInstance.lang = 'pt-PT';
         sInstance.onend = function (event) {
           // console.log('SpeechSynthesisUtterance.onend');
         };
@@ -278,7 +288,7 @@ export default {
       TTS.speak(
         {
           text: userInput,
-          locale: "pt-BR",
+          locale: "pt-PT",
           pitch: this.pitch,
           rate: this.rate
         },
@@ -309,6 +319,26 @@ export default {
         } else {
           this.speak(text);
         }
+      }
+      // console.log(this.vacancy)
+    },
+
+    listenDetails () {
+      // console.log(info)
+      // console.log(evt)
+      var text =
+        "Vaga para " +
+        this.getVacancy.title +
+        ". Local: " +
+        this.getVacancy.place +
+        ". Categoría: " +
+        this.getVacancy.category +
+        ". Descrição: " +
+        this.convertToPlain(this.getVacancy.description);
+      if (window.hasOwnProperty("cordova")) {
+        this.speakCordova(text);
+      } else {
+        this.speak(text);
       }
       // console.log(this.vacancy)
     },
@@ -480,7 +510,7 @@ export default {
 
     this.$root.$emit(
       "textToSpeechRouter",
-      "Detalhes da vaga.\n Pressione para ouvir descrição.\n Clique 5 vezes na tela para se candidatar ou retirar candidatura."
+      "Detalhes da vaga."
     );
   },
 

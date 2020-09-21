@@ -336,6 +336,7 @@
                 dense
                 round
                 icon="arrow_back"
+                lang="pt-PT"
                 aria-label="Menu"
                 size="lg"
               />

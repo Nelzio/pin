@@ -9,7 +9,9 @@
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
           icon="menu"
-          aria-label="Menu"
+          role="button"
+          lang="pt-PT"
+          aria-label="Página de login"
         />
         <q-btn
           v-else
@@ -18,7 +20,9 @@
           dense
           round
           icon="arrow_back"
-          aria-label="Menu"
+          role="link"
+          lang="pt-PT"
+          aria-label="Página de login"
         />
 
         <q-toolbar-title>
@@ -27,16 +31,16 @@
 
         <div>
           <q-btn
-              icon="settings"
-              flat
-              round
-              to="/settings"
+            icon="settings"
+            flat
+            round
+            to="/settings"
           />
         </div>
       </q-toolbar>
     </q-header>
 
-      <base-left-drawer :leftDrawerOpen="leftDrawerOpen"/>
+    <base-left-drawer :leftDrawerOpen="leftDrawerOpen" />
 
     <q-page-container>
       <router-view />
@@ -48,18 +52,18 @@
 import BaseLeftDrawer from "../components/base/BaseLeftDrawer";
 export default {
   name: 'MyLayout',
-    components: {BaseLeftDrawer},
-    data () {
+  components: { BaseLeftDrawer },
+  data () {
     return {
       leftDrawerOpen: false,
-        isHome: true
+      isHome: true
     }
   },
-    mounted () {
-        this.$root.$on('isHomePage', (val) => {
-            this.isHome = val
-        })
-        this.$root.$emit('isHomePage', this.$router.currentRoute.path === '/')
-    },
+  mounted () {
+    this.$root.$on('isHomePage', (val) => {
+      this.isHome = val
+    })
+    this.$root.$emit('isHomePage', this.$router.currentRoute.path === '/')
+  },
 }
 </script>

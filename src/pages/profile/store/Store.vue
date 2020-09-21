@@ -1,9 +1,15 @@
 <template>
-  <q-page class="q-gutter-y-md q-pb-xl">
+  <q-page
+    class="q-gutter-y-md q-pb-xl"
+    role="feed"
+  >
     <!-- content -->
 
     <div class="row justify-center q-pb-xl">
-      <div class="col-12 col-md-11">
+      <div
+        class="col-12 col-md-11"
+        role="grid"
+      >
         <!-- sec 6 -->
         <div v-if="myStories.length">
           <div class="row">
@@ -30,6 +36,9 @@
         icon="add"
         :color="darkModeConf.iconVar"
         :class="darkModeConf.textBtn"
+        role="link"
+        lang="pt-PT"
+        aria-label="Adicionar produto ou serviço"
         to="/profile/store/add"
       />
     </q-page-sticky>

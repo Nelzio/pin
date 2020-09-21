@@ -12,11 +12,15 @@
             v-model="modelSelect"
             :options="optionsSelect"
             label="Selecionar província"
+            role="combobox"
           />
         </div>
       </q-toolbar>
     </div>
-    <div class="row q-pa-sm">
+    <div
+      class="row q-pa-sm"
+      role="group"
+    >
       <div class="col-3">
         <q-card class="my-card">
           <q-card-section class="text-h5">

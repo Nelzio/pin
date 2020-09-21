@@ -9,6 +9,7 @@
         bordered
         content-class="bg-grey-3"
         class="fixed-right"
+        role="aside"
       >
         <q-scroll-area class="fit">
           <q-toolbar class="text-primary">
@@ -18,6 +19,9 @@
               dense
               icon="arrow_forward"
               @click="drawer = false"
+              role="button"
+              lang="pt-PT"
+              aria-label="Fechar detalhes da empresa"
             />
             <q-toolbar-title>Empresa</q-toolbar-title>
             <q-icon
@@ -42,6 +46,9 @@
                     <q-img
                       :src="company.photoURL"
                       spinner-color="white"
+                      role="img"
+                      lang="pt-PT"
+                      aria-label="Imagem do perfil da empresa"
                     />
                   </q-avatar>
 
@@ -60,16 +67,19 @@
                       class="text-grey"
                       align="justify"
                       narrow-indicator
+                      role="tablist"
                     >
                       <q-tab
                         name="bio"
                         label="Contacto"
                         icon="contacts"
+                        role="tab"
                       />
                       <q-tab
                         name="description"
                         label="Sobre"
                         icon="description"
+                        role="tab"
                       />
                     </q-tabs>
 
@@ -79,7 +89,12 @@
                       v-model="tab"
                       animated
                     >
-                      <q-tab-panel name="bio">
+                      <q-tab-panel
+                        name="bio"
+                        role="tabpanel"
+                        lang="pt-PT"
+                        aria-label="Contacto da empresa"
+                      >
                         <q-list>
                           <q-item class="text-left">
                             <q-item-section
@@ -143,7 +158,12 @@
                         </q-list>
                       </q-tab-panel>
 
-                      <q-tab-panel name="description">
+                      <q-tab-panel
+                        name="description"
+                        role="tabpanel"
+                        lang="pt-PT"
+                        aria-label="Descrição da empresa"
+                      >
                         <q-list>
                           <q-item class="text-left">
                             <q-item-section>
@@ -166,6 +186,7 @@
                 class="full-width"
                 spread
                 rounded
+                role="button"
               >
                 <q-btn
                   push
@@ -173,6 +194,7 @@
                   label="Aprovar"
                   icon="check"
                   @click="dialogApprove = true"
+                  role="button"
                 />
                 <q-btn
                   push
@@ -180,6 +202,7 @@
                   label="Rejeitar"
                   icon="cancel"
                   @click="dialogRejected = true"
+                  role="button"
                 />
               </q-btn-group>
             </div>
@@ -188,7 +211,12 @@
       </q-drawer>
     </div>
     <div>
-      <q-dialog v-model="dialogApprove">
+      <q-dialog
+        v-model="dialogApprove"
+        role="alertdialog"
+        lang="pt-PT"
+        aria-label="Alerta de sucesso"
+      >
         <q-card style="width: 700px; max-width: 80vw;">
           <q-card-section>
             <div :class="getFont.title">Atenção</div>
@@ -200,6 +228,7 @@
               :class="darkModeConf.textBtn"
               rounded
               label="Aprovar"
+              role="button"
               @click="approveCompony()"
             />
             <q-btn
@@ -207,13 +236,17 @@
               outline
               rounded
               label="Cancelar"
+              role="button"
               v-close-popup
             />
           </q-card-actions>
         </q-card>
       </q-dialog>
 
-      <q-dialog v-model="dialogRejected">
+      <q-dialog
+        v-model="dialogRejected"
+        role="alertdialog"
+      >
         <q-card style="width: 700px; max-width: 80vw;">
           <q-card-section>
             <div
@@ -228,6 +261,7 @@
               :class="darkModeConf.textBtn"
               rounded
               label="Rejeitar"
+              role="button"
               @click="rejectCompony()"
             />
             <q-btn
@@ -235,6 +269,7 @@
               outline
               rounded
               label="Cancelar"
+              role="button"
               v-close-popup
             />
           </q-card-actions>

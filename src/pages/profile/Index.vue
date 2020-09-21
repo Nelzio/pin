@@ -2,9 +2,13 @@
   <q-page
     class="q-gutter-y-md q-pt-md q-pb-xl"
     v-touch-swipe.mouse.left.right="handleSwipe"
-    v-touch-hold:600.mouse="handleHold"
   >
     <!-- content -->
+    <q-btn
+      label="Ouvir perfil"
+      @click="listenDetails()"
+      style="left: -800px;"
+    />
 
     <div class="row justify-center q-pb-xl">
       <div class="col-12 col-md-8">
@@ -41,6 +45,7 @@
                 label="Contacto"
                 icon="contacts"
                 role="tab"
+                lang="pt-PT"
                 aria-label="Guia de contacto"
               />
               <q-tab
@@ -49,6 +54,7 @@
                 icon="description"
                 v-if="userData.profileType"
                 role="tab"
+                lang="pt-PT"
                 aria-label="Guia de mais   descrição do perfil"
               />
             </q-tabs>
@@ -267,6 +273,7 @@
         <div
           class="row"
           role="row"
+          lang="pt-PT"
           aria-label="Vídeo de perfil"
         >
           <q-card class="col-12">
@@ -275,12 +282,14 @@
               :ratio="16/9"
               :src="videoDownload.videoUrl"
               role="application"
+              lang="pt-PT"
               aria-label="Vídeo de perfil."
             />
             <VideoProfile
               v-else-if="videoDownload.videoUrl"
               :videoUrl="videoDownload.videoUrl"
               role="application"
+              lang="pt-PT"
               aria-label="Vídeo de perfil."
             />
 
@@ -298,6 +307,7 @@
                 :class="darkModeConf.textBtn"
                 @click="processFile('video')"
                 role="button"
+                lang="pt-PT"
                 aria-label="Carregar novo vídeo"
               />
               <q-btn
@@ -308,6 +318,7 @@
                 :class="darkModeConf.textBtn"
                 @click="dialogAddVideoLink = true"
                 role="button"
+                lang="pt-PT"
                 aria-label="Adicionar link do vídeo"
               />
               <q-btn
@@ -319,6 +330,7 @@
                 :class="darkModeConf.textBtn"
                 @click="deleteVideoDialog = true"
                 role="button"
+                lang="pt-PT"
                 aria-label="Remover vídeo"
               />
             </q-card-actions>
@@ -343,6 +355,7 @@
         <div
           v-if="vacanciesAply.length"
           role="group"
+          lang="pt-PT"
           aria-label="Candidaturas do usuário"
         >
           <q-toolbar
@@ -401,6 +414,7 @@
         <div
           v-if="!(vacancyNum == 0 && storeNum == 0)"
           role="group"
+          lang="pt-PT"
           aria-label="Atividades do usuário"
         >
           <q-toolbar
@@ -479,6 +493,7 @@
       <q-dialog
         v-model="dialogAddProfile"
         role="dialog"
+        lang="pt-PT"
         aria-label="Escolher tipo de perfil entre pessoal e empresarial."
       >
         <q-card style="width: 90vw;">
@@ -518,6 +533,7 @@
       <q-dialog
         v-model="dialogAddVideoLink"
         role="dialog"
+        lang="pt-PT"
         aria-label="Adicionar link do video de perfil"
       >
         <q-card style="width: 90vw;">
@@ -536,6 +552,7 @@
                 outlined
                 v-model="videoLink"
                 label="Link do vídeo"
+                type="url"
                 lazy-rules
                 :rules="[ val => val && val.length > 0 || 'Escreva o link do vídeo']"
               />
@@ -1018,7 +1035,7 @@ export default {
       }
     },
 
-    handleHold ({ evt, ...info }) {
+    listenDetails () {
       // console.log(info)
       // console.log(evt)
       this.$root.$emit(
@@ -1155,7 +1172,7 @@ export default {
 
     this.$root.$emit(
       "textToSpeechRouter",
-      "Página do seu perfil.\n Pressione para ouvir detalhes do seu perfil"
+      "Página do seu perfil."
     );
   }
 };

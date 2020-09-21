@@ -3,10 +3,22 @@
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <div class="col-12 text-center">
-        <q-icon :color="darkModeConf.iconVar" size="100px" name="account_circle" />
+        <q-icon
+          :color="darkModeConf.iconVar"
+          size="100px"
+          name="account_circle"
+        />
       </div>
       <div class="q-pa-lg col-md-4 col-12">
-        <q-form ref="loginForm" @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+        <q-form
+          ref="loginForm"
+          @submit="onSubmit"
+          @reset="onReset"
+          class="q-gutter-md"
+          role="form"
+          lang="pt-PT"
+          aria-label="Formulário de recuperação de senha."
+        >
           <q-input
             rounded
             outlined
@@ -15,7 +27,7 @@
             ref="email"
             v-model="email"
             label="Email do usuário"
-            placeholder="exemplo@dominio.com"
+            type="email"
             lazy-rules
             :rules="[ val => val && val.length > 0 && isPasswordValid || 'Introduza o seu email']"
           />
@@ -35,18 +47,39 @@
     </div>
 
     <div>
-      <q-dialog v-model="doneDialog">
-          <q-card style="width: 90vw">
-            <q-card-section>
-              <div :class="getFont.title">Alterar senha</div>
-            </q-card-section>
-            <q-card-section :class="getFont.text">{{ message }}</q-card-section>
-            <q-card-actions align="right">
-              <q-btn v-if="error" rounded label="Ok" :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" @click="closeDialog()" />
-              <q-btn v-else rounded label="Ok" :color="darkModeConf.iconVar" :class="darkModeConf.textBtn" @click="$router.push('/')" />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
+      <q-dialog
+        v-model="doneDialog"
+        role="dialog"
+        lang="pt-PT"
+        aria-label="Confirmação de alteração de senha."
+      >
+        <q-card style="width: 90vw">
+          <q-card-section>
+            <div :class="getFont.title">Alterar senha</div>
+          </q-card-section>
+          <q-card-section :class="getFont.text">{{ message }}</q-card-section>
+          <q-card-actions align="right">
+            <q-btn
+              v-if="error"
+              rounded
+              label="Ok"
+              :color="darkModeConf.iconVar"
+              :class="darkModeConf.textBtn"
+              @click="closeDialog()"
+              role="button"
+            />
+            <q-btn
+              v-else
+              rounded
+              label="Ok"
+              :color="darkModeConf.iconVar"
+              :class="darkModeConf.textBtn"
+              @click="$router.push('/')"
+              role="button"
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </q-page>
 </template>
@@ -57,7 +90,7 @@ import { Loading } from 'quasar';
 import { firebaseAuth } from "../../boot/firebase";
 export default {
   name: "LoginFormsComponent",
-  data() {
+  data () {
     return {
       authObject: {
         name: "",
@@ -78,7 +111,7 @@ export default {
   methods: {
     ...mapActions("auth", ["loginUser", "registerUser"]),
 
-    isPasswordValid(email) {
+    isPasswordValid (email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(String(email).toLowerCase());
     },
@@ -88,23 +121,23 @@ export default {
       this.doneDialog = false;
     },
 
-    sendEmaiPassReset() {
+    sendEmaiPassReset () {
       Loading.show();
       let vm = this;
       var auth = firebaseAuth;
 
       auth
         .sendPasswordResetEmail(this.email)
-        .then(function() {
+        .then(function () {
           // Email sent.
           // console.log("email enviado");
           Loading.hide();
           vm.message = "Verifique a sua caixa de email!"
           vm.doneDialog = true
         })
-        .catch(function(error) {
+        .catch(function (error) {
           // An error happened.
-          
+
           vm.message = "Email incorrecto"
           Loading.hide();
           vm.error = true
@@ -113,17 +146,17 @@ export default {
         });
     },
 
-    onReset() {
+    onReset () {
       alert("must reset form.");
     },
-    onSubmit() {
+    onSubmit () {
       this.$refs.email.validate();
 
       if (!this.$refs.email.hasError) {
         this.sendEmaiPassReset();
       }
     },
-    accountSwipe(val) {
+    accountSwipe (val) {
       if (val.direction === "left") {
         this.$router.push("/account/create");
       }
@@ -137,12 +170,12 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     this.$root.$emit("textToSpeechRouter", "Editar senha do usuário");
   },
 
   filters: {
-    captalizeFirstLetter(val) {
+    captalizeFirstLetter (val) {
       return val.charAt(0).toUpperCase() + "" + val.slice(1);
     }
   }

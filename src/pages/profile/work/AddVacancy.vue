@@ -6,7 +6,7 @@
         <q-card class="my-card">
           <q-img
             :src="imageUrl"
-            alt
+            alt="Imagem da vaga"
           />
           <q-card-actions>
             <q-btn
@@ -16,6 +16,7 @@
               class="full-width"
               icon="insert_photo"
               label="Inserir imagem"
+              role="button"
               @click="processFile()"
             />
           </q-card-actions>
@@ -24,6 +25,9 @@
         <q-form
           class="q-gutter-md"
           ref="vacancyForm"
+          role="form"
+          lang="pt-PT"
+          aria-label="Formulário de adição de vaga"
         >
           <input
             id="fileInput"
@@ -40,6 +44,7 @@
             outlined
             v-model="vacancy.title"
             label="Titulo"
+            type="text"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza o título']"
           />
@@ -51,6 +56,7 @@
             v-model="vacancy.category"
             :options="categories"
             label="Categoria"
+            role="combobox"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza a categoria']"
           />
@@ -61,6 +67,7 @@
             v-model="vacancy.place"
             :options="places"
             label="Província"
+            role="combobox"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza a província']"
           />
@@ -98,6 +105,7 @@
           <q-editor
             :color="darkModeConf.iconVar"
             v-model="vacancy.description"
+            role="textbox"
             min-height="8rem"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Introduza uma descrição']"
@@ -109,6 +117,7 @@
               :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
               label="Enviar"
+              role="button"
               @click="addVacancy()"
             />
           </div>
@@ -137,7 +146,12 @@
         </q-card>
       </q-dialog> -->
 
-      <q-dialog v-model="confirmInsert">
+      <q-dialog
+        v-model="confirmInsert"
+        role="dialog"
+        lang="pt-PT"
+        aria-label="Alerta de sucesso"
+      >
         <q-card style="widht: 90vw">
           <q-card-section>
             <div :class="getFont.title">Adição de vaga</div>
@@ -155,7 +169,12 @@
         </q-card>
       </q-dialog>
 
-      <q-dialog v-model="errorFileDialog">
+      <q-dialog
+        v-model="errorFileDialog"
+        role="dialog"
+        lang="pt-PT"
+        aria-label="Alerta de erro"
+      >
         <q-card>
           <q-card-section>
             <div :class="getFont.title">Atenção</div>

@@ -3,6 +3,7 @@
     <q-dialog
       v-model="dialog"
       persistent
+      role="dialog"
     >
       <q-card
         class="q-pb-lg"
@@ -16,6 +17,7 @@
             flat
             round
             dense
+            role="button"
             v-close-popup
           />
         </q-card-section>
@@ -25,12 +27,14 @@
             @submit="onSubmit"
             @reset="onReset"
             class="q-gutter-md"
+            role="form"
           >
             <q-input
               outlined
               rounded
               v-model="data.name"
               label="Nome da associação *"
+              type="text"
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Adicione o nome da associação']"
             />
@@ -39,6 +43,7 @@
               rounded
               v-model="data.phoneNumber"
               label="Telefone da associação *"
+              type="number"
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Adicione o telefone da associação']"
             />
@@ -46,6 +51,7 @@
               outlined
               rounded
               v-model="data.email"
+              type="email"
               label="Email da associação *"
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Adicione o email da associação']"
@@ -54,6 +60,7 @@
               outlined
               rounded
               v-model="data.address"
+              type="text"
               label="Endereço da associação *"
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Adicione o endereço da associação']"
@@ -69,6 +76,7 @@
               stack-label
               @filter="filterFn"
               label="Multiple selection"
+              role="combobox"
             >
               <template v-slot:no-option>
                 <q-item>
@@ -85,6 +93,7 @@
             label="Enviar"
             color="primary"
             @click="onSubmit()"
+            role="button"
           />
           <q-btn
             rounded
@@ -93,12 +102,18 @@
             flat
             class="q-ml-sm"
             @click="onReset()"
+            role="button"
           />
         </q-card-actions>
       </q-card>
     </q-dialog>
     <div>
-      <q-dialog v-model="confirmDialog">
+      <q-dialog
+        v-model="confirmDialog"
+        role="alertdialog"
+        lang="pt-PT"
+        aria-label="Alerta de sucesso"
+      >
         <q-card style="width: 400px; max-width: 50vw;">
           <q-card-section>
             <div :class="[getFont.title, 'text-'+darkModeConf.iconVar]">Adição de associação</div>
@@ -118,12 +133,18 @@
               flat
               label="OK"
               :color="darkModeConf.iconVar"
+              role="button"
               v-close-popup
             />
           </q-card-actions>
         </q-card>
       </q-dialog>
-      <q-dialog v-model="errorDialog">
+      <q-dialog
+        v-model="errorDialog"
+        role="alertdialog"
+        lang="pt-PT"
+        aria-label="Alerta de erro"
+      >
         <q-card style="width: 400px; max-width: 50vw;">
           <q-card-section>
             <div :class="[getFont.title, 'text-'+darkModeConf.iconVar]">Erro ao adicionar</div>

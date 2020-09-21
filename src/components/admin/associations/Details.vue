@@ -9,6 +9,7 @@
         bordered
         content-class="bg-grey-3"
         class="fixed-right"
+        role="aside"
       >
         <q-scroll-area class="fit">
           <q-toolbar class="text-primary">
@@ -17,6 +18,9 @@
               round
               dense
               icon="arrow_forward"
+              role="button"
+              lang="pt-PT"
+              aria-label="Fechar Detalhes da empresa"
               @click="drawer = false"
             />
             <q-toolbar-title>Empresa</q-toolbar-title>
@@ -26,6 +30,7 @@
                 color="primary"
                 label="Editar"
                 icon="edit"
+                role="button"
                 @click="openEditDialog()"
               />
               <q-btn
@@ -33,6 +38,7 @@
                 color="red"
                 label="Apagar"
                 icon="delete"
+                role="button"
                 @click="dialogDelete = true"
               />
             </div>
@@ -65,16 +71,19 @@
                       class="text-grey"
                       align="justify"
                       narrow-indicator
+                      role="tablist"
                     >
                       <q-tab
                         name="bio"
                         label="Contacto"
                         icon="contacts"
+                        role="tab"
                       />
                       <q-tab
                         name="description"
                         label="Sobre"
                         icon="description"
+                        role="tab"
                       />
                     </q-tabs>
 
@@ -84,9 +93,17 @@
                       v-model="tab"
                       animated
                     >
-                      <q-tab-panel name="bio">
-                        <q-list>
-                          <q-item class="text-left">
+                      <q-tab-panel
+                        name="bio"
+                        role="tabpanel"
+                        lang="pt-PT"
+                        aria-label="Identidade e contacto"
+                      >
+                        <q-list role="list">
+                          <q-item
+                            class="text-left"
+                            role="listitem"
+                          >
                             <q-item-section
                               top
                               avatar
@@ -108,7 +125,10 @@
                             inset="item"
                           />
 
-                          <q-item class="text-left">
+                          <q-item
+                            class="text-left"
+                            role="listitem"
+                          >
                             <q-item-section
                               top
                               avatar
@@ -130,7 +150,10 @@
                             inset="item"
                           />
 
-                          <q-item class="text-left">
+                          <q-item
+                            class="text-left"
+                            role="listitem"
+                          >
                             <q-item-section
                               avatar
                               top
@@ -148,9 +171,15 @@
                         </q-list>
                       </q-tab-panel>
 
-                      <q-tab-panel name="description">
-                        <q-list>
-                          <q-item class="text-left">
+                      <q-tab-panel
+                        name="description"
+                        role="tabpanel"
+                      >
+                        <q-list role="list">
+                          <q-item
+                            class="text-left"
+                            role="listitem"
+                          >
                             <q-item-section
                               top
                               avatar
@@ -184,7 +213,12 @@
       </q-drawer>
     </div>
     <div>
-      <q-dialog v-model="dialogDelete">
+      <q-dialog
+        v-model="dialogDelete"
+        role="dialog"
+        lang="pt-PT"
+        aria-label="Dialogo de confirmação"
+      >
         <q-card style="width: 700px; max-width: 80vw;">
           <q-card-section>
             <div :class="getFont.title">Atenção</div>
@@ -197,12 +231,14 @@
               rounded
               label="Remover"
               @click="deleteAssociation()"
+              role="button"
             />
             <q-btn
               :color="darkModeConf.iconVar"
               outline
               rounded
               label="Cancelar"
+              role="button"
               v-close-popup
             />
           </q-card-actions>
@@ -210,7 +246,12 @@
       </q-dialog>
 
       <div>
-        <q-dialog v-model="confirmDialog">
+        <q-dialog
+          v-model="confirmDialog"
+          role="dialog"
+          lang="pt-PT"
+          aria-label="Dialogo de confirmação"
+        >
           <q-card style="width: 400px; max-width: 50vw;">
             <q-card-section>
               <div :class="[getFont.title, 'text-'+darkModeConf.iconVar]">Remoção de associação</div>
@@ -235,7 +276,12 @@
             </q-card-actions>
           </q-card>
         </q-dialog>
-        <q-dialog v-model="errorDialog">
+        <q-dialog
+          v-model="errorDialog"
+          role="alertdialog"
+          lang="pt-PT"
+          aria-label="Alerta de erro"
+        >
           <q-card style="width: 400px; max-width: 50vw;">
             <q-card-section>
               <div :class="[getFont.title, 'text-'+darkModeConf.iconVar]">Erro ao remover</div>
@@ -254,6 +300,7 @@
               <q-btn
                 flat
                 label="OK"
+                role="button"
                 :color="darkModeConf.iconVar"
                 v-close-popup
               />
