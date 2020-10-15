@@ -1,11 +1,7 @@
 <template>
   <div class="row login justify-center q-gutter-y-lg">
     <div class="col-12">
-      <q-icon
-        :color="darkModeConf.iconVar"
-        size="100px"
-        name="person_add"
-      />
+      <q-icon :color="darkModeConf.iconVar" size="100px" name="person_add" />
     </div>
     <!-- <div class="col-12">
           Entrar ou se Inscrever
@@ -28,7 +24,9 @@
           label="Nome completo"
           type="text"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Por favor, indique o su nome']"
+          :rules="[
+            (val) => (val && val.length > 0) || 'Por favor, indique o su nome',
+          ]"
         />
 
         <!-- <q-input
@@ -50,10 +48,13 @@
           ref="email"
           v-model="authObject.email"
           type="number"
-          label="Numero de telefone"
+          label="Número de telefone"
           mask="#########"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
+          :rules="[
+            (val) =>
+              (val && val.length > 0) || 'Introduza o seu número de telefone',
+          ]"
         />
 
         <q-input
@@ -67,7 +68,10 @@
           v-model="authObject.password"
           :type="isPwd ? 'password' : 'text'"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Por favor, insira uma senha válida']"
+          :rules="[
+            (val) =>
+              (val && val.length > 0) || 'Por favor, insira uma senha válida',
+          ]"
         >
           <template v-slot:append>
             <q-icon
@@ -98,61 +102,52 @@
             role="button"
           />
         </div>
-
       </q-form>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex"
 export default {
   name: "RegisterFormComponent",
-  data () {
+  data() {
     return {
       authObject: {
-        name: '',
-        email: '',
-        password: '',
+        name: "",
+        email: "",
+        password: "",
       },
       isPwd: true,
     }
   },
 
   methods: {
-    ...mapActions('auth', [
-      'loginUser',
-      'registerUser',
-    ]),
+    ...mapActions("auth", ["loginUser", "registerUser"]),
 
-    isEmailValid (email) {
+    isEmailValid(email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       return re.test(String(email).toLowerCase())
     },
 
-    onReset () {
-      alert('must reset form.')
+    onReset() {
+      alert("must reset form.")
     },
-    onSubmit () {
-
+    onSubmit() {
       this.$refs.email.validate()
       this.$refs.password.validate()
 
       if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
-
-        this.$emit('loginUser', this.authObject)
-
+        this.$emit("loginUser", this.authObject)
       }
-
-    }
-
+    },
   },
 
   filters: {
-    captalizeFirstLetter (val) {
-      return val.charAt(0).toUpperCase() + '' + val.slice(1)
-    }
-  }
+    captalizeFirstLetter(val) {
+      return val.charAt(0).toUpperCase() + "" + val.slice(1)
+    },
+  },
 }
 </script>
 

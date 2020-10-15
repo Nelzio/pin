@@ -14,9 +14,9 @@
           </div>
           <div :class="getFont.text">
             <p>
-              A pagina de vagas da Administração de vagas apresenta uma lista de
+              A página de vagas da Administração de vagas apresenta uma lista de
               cartões que mostram informações básicas das vagas publicadas na
-              plataforma, o título da vaga, o nome da empresa, o numero de
+              plataforma, o título da vaga, o nome da empresa, o número de
               candidatos e data limite da vaga.
             </p>
             <p>
@@ -76,7 +76,7 @@
           <div :class="getFont.text">
             <p>
               Clicando em um cartão de uma determinada vaga na página de vagas
-              da administração, será redirecionado a pagina que contem mais
+              da administração, será redirecionado a página que contem mais
               detalhes da vaga inclusive todos os candidátos da vaga.
             </p>
             <p>

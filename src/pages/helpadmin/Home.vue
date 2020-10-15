@@ -14,12 +14,12 @@
               Visão geral
             </div>
             <div :class="getFont.text">
-              A pagina de visão geral apresenta um resumo dos dados da
+              A página de visão geral apresenta um resumo dos dados da
               plataforma.
             </div>
             <div :class="getFont.text">
               Na página de visão geral é possível ver quantos usuários a
-              plataforma tem, ver o numero de empresas, numero de vagas e numero
+              plataforma tem, ver o número de empresas, número de vagas e número
               de associações. Para além disso temos comporta duas tabelas que
               apresenta vagas e candidaturas recentes.
             </div>

@@ -14,7 +14,7 @@
           </div>
           <div :class="getFont.text">
             <p>
-              Na pagina de permissões, o administrador pode adicionar outros
+              Na página de permissões, o administrador pode adicionar outros
               administradores e dar permissões.
             </p>
           </div>

@@ -22,11 +22,14 @@
           dense
           ref="email"
           v-model="authObject.email"
-          label="Numero de telefone"
+          label="número de telefone"
           type="number"
           mask="#########"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
+          :rules="[
+            (val) =>
+              (val && val.length > 0) || 'Introduza o seu número de telefone',
+          ]"
         />
 
         <q-input
@@ -40,7 +43,7 @@
           v-model="authObject.password"
           :type="isPwd ? 'password' : 'text'"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Introduza a sua senha']"
+          :rules="[(val) => (val && val.length > 0) || 'Introduza a sua senha']"
         >
           <template v-slot:append>
             <q-icon
@@ -74,12 +77,7 @@
             />
           </q-item-section>
           <q-item-section>
-            <router-link
-              to="/"
-              role="link"
-            >
-              Recuperar senha
-            </router-link>
+            <router-link to="/" role="link"> Recuperar senha </router-link>
           </q-item-section>
         </q-item>
       </q-form>
@@ -88,54 +86,46 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex"
 export default {
   name: "LoginFormsComponent",
-  data () {
+  data() {
     return {
       authObject: {
-        name: '',
-        email: '',
-        password: '',
+        name: "",
+        email: "",
+        password: "",
       },
       isPwd: true,
     }
   },
 
   methods: {
-    ...mapActions('auth', [
-      'loginUser',
-      'registerUser',
-    ]),
+    ...mapActions("auth", ["loginUser", "registerUser"]),
 
-    isPasswordValid (email) {
+    isPasswordValid(email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       return re.test(String(email).toLowerCase())
     },
 
-    onReset () {
-      alert('must reset form.')
+    onReset() {
+      alert("must reset form.")
     },
-    onSubmit () {
-
+    onSubmit() {
       this.$refs.email.validate()
       this.$refs.password.validate()
 
       if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
-
-        this.$emit('loginUser', this.authObject)
-
+        this.$emit("loginUser", this.authObject)
       }
-
-    }
-
+    },
   },
 
   filters: {
-    captalizeFirstLetter (val) {
-      return val.charAt(0).toUpperCase() + '' + val.slice(1)
-    }
-  }
+    captalizeFirstLetter(val) {
+      return val.charAt(0).toUpperCase() + "" + val.slice(1)
+    },
+  },
 }
 </script>
 

@@ -69,9 +69,9 @@
               Barra de navegação
             </div>
             <div :class="getFont.text">
-              A barra de navegação é fixa e presente nas 4 principais paginas do
+              A barra de navegação é fixa e presente nas 4 principais páginas do
               aplicativo, nomeadamente: página inicial, página de vagas, página
-              de negócios e pagina de configurações
+              de negócios e página de configurações
             </div>
           </q-card-section>
           <q-card-section v-if="$q.screen.gt.sm" class="col-5 flex flex-center">

@@ -18,7 +18,7 @@
           size="lg"
           role="button"
           lang="pt-PT"
-          aria-label="Voltar a pagina anterior"
+          aria-label="Voltar a página anterior"
         />
         <!-- <q-btn
           to="/"

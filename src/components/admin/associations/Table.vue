@@ -14,10 +14,7 @@
       lang="pt-PT"
       aria-label="Tabela de lista de associações."
     >
-      <template
-        v-slot:top-left
-        class="q-gutter-x-lg"
-      >
+      <template v-slot:top-left class="q-gutter-x-lg">
         <div class="row q-gutter-x-md">
           <div :class="getFont.title">Associações</div>
           <q-btn
@@ -42,10 +39,7 @@
         </div>
       </template>
 
-      <template
-        v-slot:top-right
-        class="q-gutter-x-lg"
-      >
+      <template v-slot:top-right class="q-gutter-x-lg">
         <div class="q-mr-xl">
           <q-btn
             rounded
@@ -84,15 +78,16 @@
           >
             <q-list dense>
               <q-item
-                v-for="col in props.cols.filter(col => col.name !== 'desc')"
+                v-for="col in props.cols.filter((col) => col.name !== 'desc')"
                 :key="col.name"
               >
                 <q-item-section>
-                  <q-item-label
-                    :class="getFont.text"
-                    class="text-bold"
-                  >{{ col.label }}</q-item-label>
-                  <q-item-label :class="getFont.text">{{ col.value }}</q-item-label>
+                  <q-item-label :class="getFont.text" class="text-bold">{{
+                    col.label
+                  }}</q-item-label>
+                  <q-item-label :class="getFont.text">{{
+                    col.value
+                  }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -104,11 +99,11 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDB } from "boot/firebase";
-import exportFromJSON from 'export-from-json';
+import { mapState, mapActions, mapGetters } from "vuex"
+import { firestoreDB } from "boot/firebase"
+import exportFromJSON from "export-from-json"
 export default {
-  data () {
+  data() {
     return {
       filter: "",
       selected: [],
@@ -146,34 +141,34 @@ export default {
           email: "associa@gmail.com",
         },
       ],
-      dataJson: []
-    };
+      dataJson: [],
+    }
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapGetters("settings", ["getFont"]),
   },
   methods: {
-    openAddDialog () {
-      this.$root.$emit("addAssociation");
+    openAddDialog() {
+      this.$root.$emit("addAssociation")
     },
-    addRemoveSelection (object) {
+    addRemoveSelection(object) {
       if (object == this.selected[0]) {
-        this.selected = [];
-        this.$root.$emit("associationDetailsClose");
+        this.selected = []
+        this.$root.$emit("associationDetailsClose")
       } else {
-        if (this.selected.length) this.selected = [];
-        this.selected.push(object);
-        this.$root.$emit("associationDetails", object);
+        if (this.selected.length) this.selected = []
+        this.selected.push(object)
+        this.$root.$emit("associationDetails", object)
       }
     },
 
-    getData () {
-      const vm = this;
-      const ref = firestoreDB.collection("associations");
+    getData() {
+      const vm = this
+      const ref = firestoreDB.collection("associations")
       ref.onSnapshot(function (docs) {
-        var data = [];
-        var dataJson = [];
+        var data = []
+        var dataJson = []
         docs.forEach(function (doc) {
           var object = {
             id: doc.id,
@@ -183,29 +178,29 @@ export default {
             types: doc.data().types,
             phoneNumber: doc.data().phoneNumber,
             email: doc.data().email,
-          };
-          if (object.types.length > 1) {
-            object["type"] = "Diferentes tipos";
-          } else if (object.types.length) {
-            object["type"] = object.types[0];
           }
-          data.push(object);
+          if (object.types.length > 1) {
+            object["type"] = "Diferentes tipos"
+          } else if (object.types.length) {
+            object["type"] = object.types[0]
+          }
+          data.push(object)
           dataJson.push({
             Nome: object.name,
             Endereço: object.address,
             Deficiências: object.type,
-            "Numero de telefone": object.phoneNumber,
-            Email: object.email
+            "Número de telefone": object.phoneNumber,
+            Email: object.email,
           })
-        });
-        vm.data = data;
-        vm.dataJson = dataJson;
-      });
+        })
+        vm.data = data
+        vm.dataJson = dataJson
+      })
     },
-    giveNewData () {
-      const vm = this;
+    giveNewData() {
+      const vm = this
       this.$root.$on("pleaseNewData", function (id) {
-        const ref = firestoreDB.collection("associations").doc(id);
+        const ref = firestoreDB.collection("associations").doc(id)
         ref
           .get()
           .then((doc) => {
@@ -217,42 +212,41 @@ export default {
                 types: doc.data().types,
                 phoneNumber: doc.data().phoneNumber,
                 email: doc.data().email,
-              };
+              }
 
-              this.$root.$emit("newData", object);
+              this.$root.$emit("newData", object)
             } else {
-              this.$root.$emit("newData", {});
+              this.$root.$emit("newData", {})
             }
           })
           .catch((error) => {
-            console.log(error);
-          });
-      });
+            console.log(error)
+          })
+      })
     },
 
-    exportTable () {
+    exportTable() {
       // naive encoding to csv format
       const data = this.dataJson
-      const fileName = 'associations'
-      const exportType = 'csv'
+      const fileName = "associations"
+      const exportType = "csv"
 
       exportFromJSON({ data, fileName, exportType })
     },
 
-
-    exportToExl () {
+    exportToExl() {
       const data = this.dataJson
-      const fileName = 'associations'
-      const exportType = 'xls'
+      const fileName = "associations"
+      const exportType = "xls"
 
       exportFromJSON({ data, fileName, exportType })
-    }
+    },
   },
-  mounted () {
-    this.getData();
-    this.giveNewData();
+  mounted() {
+    this.getData()
+    this.giveNewData()
   },
-};
+}
 </script>
 
 <style lang="sass">

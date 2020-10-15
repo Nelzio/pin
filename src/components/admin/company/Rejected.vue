@@ -10,9 +10,7 @@
     >
       <template v-slot:top-left>
         <div class="row q-gutter-x-sm">
-          <div class="text-h6">
-            Empresas Rejeitadas
-          </div>
+          <div class="text-h6">Empresas Rejeitadas</div>
           <q-btn
             rounded
             outline
@@ -48,26 +46,13 @@
         </q-input>
       </template>
       <template v-slot:body="props">
-        <q-tr
-          :props="props"
-          @click="getCompanyDetails(props.row.compony)"
-        >
-          <q-td
-            key="compony"
-            :props="props"
-          >{{ props.row.name }}</q-td>
-          <q-td
-            key="email"
-            :props="props"
-          >{{ props.row.email }}</q-td>
-          <q-td
-            key="telephone"
-            :props="props"
-          >{{ props.row.telephone }}</q-td>
-          <q-td
-            key="numVacancies"
-            :props="props"
-          >{{ props.row.numVacancies }}</q-td>
+        <q-tr :props="props" @click="getCompanyDetails(props.row.compony)">
+          <q-td key="compony" :props="props">{{ props.row.name }}</q-td>
+          <q-td key="email" :props="props">{{ props.row.email }}</q-td>
+          <q-td key="telephone" :props="props">{{ props.row.telephone }}</q-td>
+          <q-td key="numVacancies" :props="props">{{
+            props.row.numVacancies
+          }}</q-td>
         </q-tr>
       </template>
     </q-table>
@@ -75,10 +60,10 @@
 </template>
 
 <script>
-import exportFromJSON from 'export-from-json'
+import exportFromJSON from "export-from-json"
 export default {
   props: ["data"],
-  data () {
+  data() {
     return {
       filter: "",
       columns: [
@@ -106,7 +91,7 @@ export default {
         },
         {
           name: "numVacancies",
-          label: "Numero de vagas",
+          label: "Número de vagas",
           field: "numVacancies",
         },
       ],
@@ -116,64 +101,63 @@ export default {
           email: "",
           telephone: "",
           numVacancies: null,
-          compony: {}
+          compony: {},
         },
       ],
-      dataJson: []
-    };
+      dataJson: [],
+    }
   },
   methods: {
-    getCompanyDetails (compony) {
+    getCompanyDetails(compony) {
       this.$root.$emit("companyToEvaluation", compony)
     },
-    displayDatas (list) {
+    displayDatas(list) {
       console.log(list)
-      const vm = this;
-      let data = [];
-      let dataJson = [];
+      const vm = this
+      let data = []
+      let dataJson = []
       list.forEach((element) => {
         data.push({
           name: element.displayName,
           email: element.email,
           telephone: element.phoneNumber,
           numVacancies: element.numVacancies,
-          compony: element
-        });
+          compony: element,
+        })
         dataJson.push({
           Nome: element.displayName,
           Email: element.email,
           Telefone: element.phoneNumber,
-          "Numero de vagas": element.numVacancies,
-        });
-      });
-      this.dataTable = data;
+          "Número de vagas": element.numVacancies,
+        })
+      })
+      this.dataTable = data
       this.dataJson = dataJson
     },
-    exportTable () {
+    exportTable() {
       // naive encoding to csv format
       const data = this.dataJson
-      const fileName = 'rejectedCompanies'
-      const exportType = 'csv'
+      const fileName = "rejectedCompanies"
+      const exportType = "csv"
 
       exportFromJSON({ data, fileName, exportType })
     },
 
-
-    exportToExl () {
+    exportToExl() {
       const data = this.dataJson
-      const fileName = 'rejectedCompanies'
-      const exportType = 'xls'
+      const fileName = "rejectedCompanies"
+      const exportType = "xls"
 
       exportFromJSON({ data, fileName, exportType })
-    }
+    },
   },
-  mounted () {
-    this.displayDatas(this.data);
+  mounted() {
+    this.displayDatas(this.data)
   },
   watch: {
-    data (val) {
-      this.displayDatas(val);
+    data(val) {
+      this.displayDatas(val)
     },
   },
-};
+}
 </script>

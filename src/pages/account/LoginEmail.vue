@@ -28,7 +28,11 @@
             v-model="authObject.email"
             label="Email do usuário"
             lazy-rules
-            :rules="[ val => val && val.length > 0 && isEmailValid(val) || 'Introduza o seu numero de telefone']"
+            :rules="[
+              (val) =>
+                (val && val.length > 0 && isEmailValid(val)) ||
+                'Introduza o seu número de telefone',
+            ]"
           />
 
           <q-input
@@ -40,7 +44,9 @@
             v-model="authObject.password"
             :type="isPwd ? 'password' : 'text'"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza a sua senha']"
+            :rules="[
+              (val) => (val && val.length > 0) || 'Introduza a sua senha',
+            ]"
           >
             <template v-slot:append>
               <q-icon
@@ -105,68 +111,68 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex"
 export default {
   name: "LoginFormsComponent",
-  data () {
+  data() {
     return {
       authObject: {
         name: "",
         email: "",
-        password: ""
+        password: "",
       },
-      isPwd: true
-    };
+      isPwd: true,
+    }
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"])
+    ...mapState("settings", ["appMode", "darkModeConf"]),
   },
   methods: {
     ...mapActions("auth", ["loginUser"]),
 
-    isEmailValid (email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    isEmailValid(email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       // return re.test(String(email).toLowerCase())
-      return re.test(String(email));
+      return re.test(String(email))
     },
 
-    onReset () {
-      alert("must reset form.");
+    onReset() {
+      alert("must reset form.")
     },
 
-    onSubmit () {
-      this.$refs.email.validate();
-      this.$refs.password.validate();
+    onSubmit() {
+      this.$refs.email.validate()
+      this.$refs.password.validate()
 
       if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
-        this.loginUser(this.authObject);
+        this.loginUser(this.authObject)
       }
     },
 
-    accountSwipe (val) {
+    accountSwipe(val) {
       if (val.direction === "right") {
         this.$router.go(-1)
       }
 
       if (val.direction === "left") {
-        this.$router.push("/account/create");
+        this.$router.push("/account/create")
       }
       // if (val.direction === "up") {
       //   this.$router.push("/");
       // }
-    }
+    },
   },
 
-  mounted () {
-    this.$root.$emit("textToSpeechRouter", "Entrar com email");
+  mounted() {
+    this.$root.$emit("textToSpeechRouter", "Entrar com email")
   },
 
   filters: {
-    captalizeFirstLetter (val) {
-      return val.charAt(0).toUpperCase() + "" + val.slice(1);
-    }
-  }
-};
+    captalizeFirstLetter(val) {
+      return val.charAt(0).toUpperCase() + "" + val.slice(1)
+    },
+  },
+}
 </script>
 
 <style lang="sass">

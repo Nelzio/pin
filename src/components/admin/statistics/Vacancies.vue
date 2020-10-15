@@ -21,7 +21,7 @@
           <q-card-section class="q-pa-none">
             <q-item clickable v-ripple>
               <q-item-section class="text-body1">
-                Numero de anúncios vagas
+                Número de anúncios vagas
               </q-item-section>
               <q-item-section side>
                 <q-badge
@@ -35,7 +35,7 @@
             <q-separator />
             <q-item clickable v-ripple>
               <q-item-section class="text-body1">
-                Numero de anúncios vagas válidas
+                Número de anúncios vagas válidas
               </q-item-section>
               <q-item-section side>
                 <q-badge
@@ -49,7 +49,7 @@
             <q-separator />
             <q-item clickable v-ripple>
               <q-item-section class="text-body1">
-                Numero de anúncios vagas expiradas
+                Número de anúncios vagas expiradas
               </q-item-section>
               <q-item-section side>
                 <q-badge
@@ -63,7 +63,7 @@
             <q-separator />
             <q-item clickable v-ripple>
               <q-item-section class="text-body1">
-                Numero de vagas
+                Número de vagas
               </q-item-section>
               <q-item-section side>
                 <q-badge
@@ -77,7 +77,7 @@
             <q-separator />
             <q-item clickable v-ripple>
               <q-item-section class="text-body1">
-                Numero de vagas disponíveis
+                Número de vagas disponíveis
               </q-item-section>
               <q-item-section side>
                 <q-badge
@@ -91,7 +91,7 @@
             <q-separator />
             <q-item clickable v-ripple>
               <q-item-section class="text-body1">
-                Numero de vagas não disponíveis
+                Número de vagas não disponíveis
               </q-item-section>
               <q-item-section side>
                 <q-badge

@@ -14,9 +14,7 @@
     >
       <template v-slot:top-left>
         <div class="row q-gutter-x-sm">
-          <div class="text-h6">
-            Vagas
-          </div>
+          <div class="text-h6">Vagas</div>
           <q-btn
             rounded
             outline
@@ -48,11 +46,7 @@
               label="Aprovar vagas "
               to="/admin/evalvacancies"
             >
-              <q-badge
-                color="teal"
-                :label="newVacancies.length"
-                floating
-              />
+              <q-badge color="teal" :label="newVacancies.length" floating />
             </q-btn>
           </div>
           <q-input
@@ -67,7 +61,6 @@
               <q-icon name="search" />
             </template>
           </q-input>
-
         </div>
       </template>
 
@@ -83,7 +76,7 @@
             :class="props.selected ? 'bg-grey-2' : ''"
           >
             <q-card-section
-              v-for="col in props.cols.filter(col => col.name !== 'desc')"
+              v-for="col in props.cols.filter((col) => col.name !== 'desc')"
               :key="col.name"
               class="q-pa-xs"
             >
@@ -98,16 +91,11 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import exportFromJSON from 'export-from-json';
-import {
-  firebaseAuth,
-  firestoreDB,
-  fireStorage,
-  firebase,
-} from "boot/firebase";
+import { mapActions } from "vuex"
+import exportFromJSON from "export-from-json"
+import { firebaseAuth, firestoreDB, fireStorage, firebase } from "boot/firebase"
 export default {
-  data () {
+  data() {
     return {
       filter: "",
       selected: [],
@@ -130,7 +118,7 @@ export default {
         },
         {
           name: "candidatures",
-          label: "Numero de candidatos",
+          label: "Número de candidatos",
           field: "candidatures",
           sortable: true,
         },
@@ -140,130 +128,136 @@ export default {
       users: [],
       candidates: [],
       newVacancies: [],
-      vacanciesJson: []
-    };
+      vacanciesJson: [],
+    }
   },
   methods: {
     ...mapActions("admin", ["getVacancy"]),
-    goToVacancy (val) {
-      this.getVacancy(val);
+    goToVacancy(val) {
+      this.getVacancy(val)
     },
-    userName (id) {
+    userName(id) {
       // Get user name of a user in users array
       for (let index = 0; index < this.users.length; index++) {
-        let element = this.users[index];
+        let element = this.users[index]
         if (element.email == id) {
-          return element.displayName;
+          return element.displayName
         }
       }
     },
-    countVacancyCandidature (vacancyId) {
-      var countNumCandidatures = 0;
+    countVacancyCandidature(vacancyId) {
+      var countNumCandidatures = 0
       for (let index = 0; index < this.candidates.length; index++) {
-        const element = this.candidates[index];
+        const element = this.candidates[index]
         if (element.vacancyId == vacancyId) {
-          countNumCandidatures += 1;
+          countNumCandidatures += 1
         }
       }
-      return countNumCandidatures;
+      return countNumCandidatures
     },
-    getNewVacancies () {
+    getNewVacancies() {
       const vm = this
       this.newVacancies = []
-      let ref = firestoreDB.collection("vacancies");
-      ref.where("approved", "==", false).get().then(docsVacancies => {
-        docsVacancies.forEach(docVacancy => {
-          vm.newVacancies.push(docVacancy)
-        });
-      })
+      let ref = firestoreDB.collection("vacancies")
+      ref
+        .where("approved", "==", false)
+        .get()
+        .then((docsVacancies) => {
+          docsVacancies.forEach((docVacancy) => {
+            vm.newVacancies.push(docVacancy)
+          })
+        })
     },
-    getVacancies () {
-      const vm = this;
-      let tempObject = {};
-      let candidates = [];
-      let refUser = firestoreDB.collection("users");
-      let ref = firestoreDB.collection("vacancies");
-      var numVacancies = 0;
+    getVacancies() {
+      const vm = this
+      let tempObject = {}
+      let candidates = []
+      let refUser = firestoreDB.collection("users")
+      let ref = firestoreDB.collection("vacancies")
+      var numVacancies = 0
 
       //first get all users
       refUser.get().then(function (querySnapshotUser) {
         querySnapshotUser.forEach(function (doc) {
-          vm.users.push(doc.data());
-        });
+          vm.users.push(doc.data())
+        })
 
         // get all vacancies candidatures
-        ref.where("approved", "==", true).get().then(function (querySnapshotVacancy) {
-          querySnapshotVacancy.forEach(function (docVacancy) {
-            ref
-              .doc(docVacancy.id)
-              .collection("candidates")
-              .get()
-              .then(function (querySnapshotCandidates) {
-                querySnapshotCandidates.forEach(function (docCandidate) {
-                  candidates.push({
-                    id: docCandidate.id,
-                    vacancyId: docVacancy.id,
-                  });
-                });
-                numVacancies += 1;
-                if (querySnapshotVacancy.docs.length == numVacancies) {
-                  vm.candidates = candidates;
-                  // Then get vacancies
-                  ref
-                    .where("public", "==", true).where("approved", "==", true)
-                    .onSnapshot(function (querySnapshot) {
-                      querySnapshot.forEach(function (docData) {
-                        tempObject = docData.data();
-                        tempObject["id"] = docData.id;
-                        vm.data.push({
-                          name: docData.data().title,
-                          company: vm.userName(docData.data().user),
-                          candidatures: vm.countVacancyCandidature(
-                            docData.id
-                          ),
-                          limitDate: docData.data().validate,
-                          vacancy: tempObject,
-                        });
+        ref
+          .where("approved", "==", true)
+          .get()
+          .then(function (querySnapshotVacancy) {
+            querySnapshotVacancy.forEach(function (docVacancy) {
+              ref
+                .doc(docVacancy.id)
+                .collection("candidates")
+                .get()
+                .then(function (querySnapshotCandidates) {
+                  querySnapshotCandidates.forEach(function (docCandidate) {
+                    candidates.push({
+                      id: docCandidate.id,
+                      vacancyId: docVacancy.id,
+                    })
+                  })
+                  numVacancies += 1
+                  if (querySnapshotVacancy.docs.length == numVacancies) {
+                    vm.candidates = candidates
+                    // Then get vacancies
+                    ref
+                      .where("public", "==", true)
+                      .where("approved", "==", true)
+                      .onSnapshot(function (querySnapshot) {
+                        querySnapshot.forEach(function (docData) {
+                          tempObject = docData.data()
+                          tempObject["id"] = docData.id
+                          vm.data.push({
+                            name: docData.data().title,
+                            company: vm.userName(docData.data().user),
+                            candidatures: vm.countVacancyCandidature(
+                              docData.id
+                            ),
+                            limitDate: docData.data().validate,
+                            vacancy: tempObject,
+                          })
 
-                        vm.vacanciesJson.push({
-                          Título: docData.data().title,
-                          Empresa: vm.userName(docData.data().user),
-                          Candidaturas: vm.countVacancyCandidature(
-                            docData.id
-                          ),
-                          "Data limite": docData.data().validate,
-                        });
-                      });
-                    });
-                }
-              });
-          });
-        });
-      });
+                          vm.vacanciesJson.push({
+                            Título: docData.data().title,
+                            Empresa: vm.userName(docData.data().user),
+                            Candidaturas: vm.countVacancyCandidature(
+                              docData.id
+                            ),
+                            "Data limite": docData.data().validate,
+                          })
+                        })
+                      })
+                  }
+                })
+            })
+          })
+      })
     },
-    exportTable () {
+    exportTable() {
       // naive encoding to csv format
       const data = this.vacanciesJson
-      const fileName = 'vacancies'
-      const exportType = 'csv'
+      const fileName = "vacancies"
+      const exportType = "csv"
 
       exportFromJSON({ data, fileName, exportType })
     },
 
-
-    exportToExl () {
+    exportToExl() {
       const data = this.vacanciesJson
-      const fileName = 'vacancies'
-      const exportType = 'xls'
+      const fileName = "vacancies"
+      const exportType = "xls"
 
       exportFromJSON({ data, fileName, exportType })
-    }
+    },
   },
-  mounted () {
-    this.getVacancies();
-    this.getNewVacancies();
+  mounted() {
+    this.getVacancies()
+    this.getNewVacancies()
   },
-};
+}
 </script>
 
 <style lang="sass">

@@ -9,17 +9,14 @@
       label="Ouvir detalhes"
       role="button"
       @click="listenDetails()"
-      style="left: -800px;"
+      style="left: -800px"
     />
 
     <!-- content -->
     <div class="row justify-center">
       <div class="col-12 col-md-8">
         <q-card flat>
-          <q-img
-            v-if="getStore.img"
-            :src="getStore.img"
-          />
+          <q-img v-if="getStore.img" :src="getStore.img" />
           <q-img
             v-else
             src="statics/img/nophoto.png"
@@ -28,18 +25,11 @@
           />
         </q-card>
 
-        <div
-          class="row no-wrap items-center q-pa-md"
-          role="row"
-        >
-          <div
-            class="col ellipsis"
-            :class="getFont.title"
-          >{{ getStore.title }}</div>
-          <div
-            class="col ellipsis"
-            :class="getFont.title"
-          >
+        <div class="row no-wrap items-center q-pa-md" role="row">
+          <div class="col ellipsis" :class="getFont.title">
+            {{ getStore.title }}
+          </div>
+          <div class="col ellipsis" :class="getFont.title">
             <q-btn
               rounded
               :color="darkModeConf.iconVar"
@@ -54,31 +44,20 @@
 
         <q-list>
           <q-item v-if="getStore.price">
-            <q-item-section
-              avatar
-              top
-            >
-              <q-icon
-                :color="darkModeConf.iconVar"
-                name="attach_money"
-              />
+            <q-item-section avatar top>
+              <q-icon :color="darkModeConf.iconVar" name="attach_money" />
             </q-item-section>
             <q-item-section>
-              <q-item-label :class="getFont.title">{{ getStore.price }} MZN</q-item-label>
+              <q-item-label :class="getFont.title"
+                >{{ getStore.price }} MZN</q-item-label
+              >
             </q-item-section>
           </q-item>
 
-          <q-separator
-            v-if="getStore.price"
-            spaced
-            inset="item"
-          />
+          <q-separator v-if="getStore.price" spaced inset="item" />
 
           <q-item class="text-left">
-            <q-item-section
-              top
-              avatar
-            >
+            <q-item-section top avatar>
               <!-- <q-icon :color="darkModeConf.iconVar" name="phone" /> -->
               <q-btn
                 round
@@ -94,33 +73,23 @@
 
             <q-item-section>
               <q-item-label :class="getFont.title">Telefone</q-item-label>
-              <q-item-label :class="getFont.text">{{ getUser.phoneNumber }}</q-item-label>
+              <q-item-label :class="getFont.text">{{
+                getUser.phoneNumber
+              }}</q-item-label>
             </q-item-section>
           </q-item>
 
-          <q-separator
-            spaced
-            inset="item"
-          />
+          <q-separator spaced inset="item" />
 
           <q-item>
-            <q-item-section
-              top
-              avatar
-            >
-              <q-icon
-                :color="darkModeConf.iconVar"
-                name="description"
-              />
+            <q-item-section top avatar>
+              <q-icon :color="darkModeConf.iconVar" name="description" />
             </q-item-section>
 
             <q-item-section>
               <q-item-label :class="getFont.title">Descrição</q-item-label>
               <q-item-label :class="getFont.text">
-                <div
-                  v-html="getStore.description"
-                  role="row"
-                ></div>
+                <div v-html="getStore.description" role="row"></div>
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -132,21 +101,21 @@
 
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDB } from "boot/firebase";
-import { QSpinnerRings, QSpinnerRadio } from "quasar";
-import offline from "v-offline";
+import { mapState, mapActions, mapGetters } from "vuex"
+import { firestoreDB } from "boot/firebase"
+import { QSpinnerRings, QSpinnerRadio } from "quasar"
+import offline from "v-offline"
 export default {
   // name: 'PageName',
-  data () {
+  data() {
     return {
       tab: "details",
       candidates: [],
       pitch: 0.9,
       rate: 0.8,
       synth: window.speechSynthesis,
-      touchNums: 0
-    };
+      touchNums: 0,
+    }
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
@@ -154,7 +123,7 @@ export default {
     ...mapGetters("store", ["getStories", "getStore"]),
     ...mapGetters("auth", ["user", "userData"]),
     ...mapGetters("user", ["getUser"]),
-    ...mapGetters("settings", ["getFont"])
+    ...mapGetters("settings", ["getFont"]),
   },
   methods: {
     ...mapActions("store", [
@@ -162,85 +131,80 @@ export default {
       "createStore",
       "detailStore",
       "updateStore",
-      "deleteStore"
+      "deleteStore",
     ]),
     ...mapActions("user", ["detailUserStore"]),
 
-    callPhone (number) {
+    callPhone(number) {
       if (number) {
-        window.open("tel:" + number);
+        window.open("tel:" + number)
       }
     },
 
-    speak (userInput) {
+    speak(userInput) {
       if (this.synth.speaking) {
         // console.error('speechSynthesis.speaking');
-        return;
+        return
       }
       if (userInput !== "") {
-        let sInstance = new SpeechSynthesisUtterance(userInput);
-        sInstance.lang = 'pt-PT';
+        let sInstance = new SpeechSynthesisUtterance(userInput)
+        sInstance.lang = "pt-PT"
         sInstance.onend = function (event) {
           // console.log('SpeechSynthesisUtterance.onend');
-        };
+        }
         sInstance.onerror = function (event) {
           // console.error('SpeechSynthesisUtterance.onerror');
-        };
+        }
 
         // vibrate antes de falar
-        window.navigator.vibrate(200);
+        window.navigator.vibrate(200)
         // speak
-        sInstance.pitch = this.pitch;
-        sInstance.rate = this.rate;
-        this.synth.speak(sInstance);
+        sInstance.pitch = this.pitch
+        sInstance.rate = this.rate
+        this.synth.speak(sInstance)
       } else {
-        let sInstance = new SpeechSynthesisUtterance(
-          "Nenhum texto nesta área."
-        );
+        let sInstance = new SpeechSynthesisUtterance("Nenhum texto nesta área.")
         sInstance.onend = function (event) {
           // console.log('SpeechSynthesisUtterance.onend');
-        };
+        }
         sInstance.onerror = function (event) {
           // console.error('SpeechSynthesisUtterance.onerror');
-        };
+        }
 
         // vibrate antes de falar
-        window.navigator.vibrate(200);
+        window.navigator.vibrate(200)
         // speak
-        sInstance.pitch = this.pitch;
-        sInstance.rate = this.rate;
-        this.synth.speak(sInstance);
+        sInstance.pitch = this.pitch
+        sInstance.rate = this.rate
+        this.synth.speak(sInstance)
       }
     },
 
-    speakCordova (userInput) {
-      navigator.vibrate(200);
+    speakCordova(userInput) {
+      navigator.vibrate(200)
       TTS.speak(
         {
           text: userInput,
           locale: "pt-PT",
           pitch: this.pitch,
-          rate: this.rate
+          rate: this.rate,
         },
         function () {
-          console.log("Text succesfully spoken");
+          console.log("Text succesfully spoken")
         },
         function (reason) {
-          alert(reason);
+          alert(reason)
         }
-      );
+      )
     },
 
-    convertToPlain (text) {
-      if ((text === null) || (text === ''))
-        return false;
-      else
-        var str = text.toString();
-      return str.replace(/(<([^>]+)>)/ig, '').replace(/([A-Z])/g, '\n $1');
+    convertToPlain(text) {
+      if (text === null || text === "") return false
+      else var str = text.toString()
+      return str.replace(/(<([^>]+)>)/gi, "").replace(/([A-Z])/g, "\n $1")
     },
 
-
-    handleHold ({ evt, ...info }) {
+    handleHold({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)  getStore.price getUser.phoneNumber getStore.description
       if (this.vibrateState) {
@@ -250,112 +214,112 @@ export default {
           this.getStore.category +
           "; Preço: " +
           this.getStore.price +
-          " meticais. numero de telefone: " +
+          " meticais. número de telefone: " +
           this.converNumbPhone(this.getUser.phoneNumber) +
           ";. descrição: " +
-          this.convertToPlain(this.getStore.description);
+          this.convertToPlain(this.getStore.description)
         if (window.hasOwnProperty("cordova")) {
-          this.speakCordova(text);
+          this.speakCordova(text)
         } else {
-          this.speak(text);
+          this.speak(text)
         }
       }
       // console.log(this.vacancy)
     },
 
-    listenDetails () {
+    listenDetails() {
       var text =
         this.getStore.title +
         ". categoria: " +
         this.getStore.category +
         "; Preço: " +
         this.getStore.price +
-        " meticais. numero de telefone: " +
+        " meticais. número de telefone: " +
         this.converNumbPhone(this.getUser.phoneNumber) +
         ";. descrição: " +
-        this.convertToPlain(this.getStore.description);
+        this.convertToPlain(this.getStore.description)
       if (window.hasOwnProperty("cordova")) {
-        this.speakCordova(text);
+        this.speakCordova(text)
       } else {
-        this.speak(text);
+        this.speak(text)
       }
       // console.log(this.vacancy)
     },
 
-    handleSwipe (val) {
+    handleSwipe(val) {
       if (val.direction === "right") {
-        this.$router.go(-1);
+        this.$router.go(-1)
       }
     },
 
-    converNumbPhone (number) {
-      var converted = "";
-      var count = 0;
+    converNumbPhone(number) {
+      var converted = ""
+      var count = 0
       const value = String(number)
         .replace(/(.)(?=(\d{3})+$)/g, "$1,")
-        .split(",");
-      value.forEach(element => {
-        count += 1;
+        .split(",")
+      value.forEach((element) => {
+        count += 1
         if (value.length > count) {
-          converted = converted + element + "; ";
+          converted = converted + element + "; "
         } else {
-          converted = converted + element;
+          converted = converted + element
         }
-      });
-      return converted;
+      })
+      return converted
     },
 
-    handleRepeat () {
+    handleRepeat() {
       if (this.vibrateState) {
-        var vm = this;
+        var vm = this
 
-        this.touchNums += 1;
+        this.touchNums += 1
 
         if (this.touchNums >= 5) {
-          this.touchNums = -80;
-          navigator.vibrate(200);
-          window.navigator.vibrate(200);
+          this.touchNums = -80
+          navigator.vibrate(200)
+          window.navigator.vibrate(200)
           if (!this.user) {
-            var text = "Usuário não autenticado.";
+            var text = "Usuário não autenticado."
             if (window.hasOwnProperty("cordova")) {
-              this.speakCordova(text);
+              this.speakCordova(text)
             } else {
-              this.speak(text);
+              this.speak(text)
             }
-            return;
+            return
           }
 
-          this.$router.push("/chat/" + this.getUser.email);
+          this.$router.push("/chat/" + this.getUser.email)
         }
 
         setTimeout(() => {
-          vm.touchNums = 0;
-        }, 5000);
+          vm.touchNums = 0
+        }, 5000)
       }
-    }
+    },
   },
-  created () {
-    this.detailStore(this.$route.params.id);
+  created() {
+    this.detailStore(this.$route.params.id)
   },
-  mounted () { },
+  mounted() {},
   watch: {
-    getStore () {
+    getStore() {
       if (this.getStore.title) {
-        this.detailUserStore(this.getStore.user);
+        this.detailUserStore(this.getStore.user)
         if (this.getUser.displayName) {
           this.$root.$emit(
             "textToSpeechRouter",
             "Detalhes do " +
-            this.getStore.category +
-            " " +
-            this.getStore.title +
-            " de " +
-            this.getUser.displayName +
-            "."
-          );
+              this.getStore.category +
+              " " +
+              this.getStore.title +
+              " de " +
+              this.getUser.displayName +
+              "."
+          )
         }
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>

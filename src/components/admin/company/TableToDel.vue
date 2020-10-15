@@ -29,86 +29,97 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      filter: '',
+      filter: "",
       columns: [
         {
-          name: 'vacancy',
+          name: "vacancy",
           required: true,
-          label: 'Título da vaga',
-          align: 'left',
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
+          label: "Título da vaga",
+          align: "left",
+          field: (row) => row.name,
+          format: (val) => `${val}`,
+          sortable: true,
         },
-        { name: 'company', align: 'center', label: 'Empresa', field: 'company', sortable: true },
-        { name: 'candidatures', label: 'Numero de candidatos', field: 'candidatures', sortable: true },
-        { name: 'limitDate', label: 'Data limite da vaga', field: 'limitDate' }
+        {
+          name: "company",
+          align: "center",
+          label: "Empresa",
+          field: "company",
+          sortable: true,
+        },
+        {
+          name: "candidatures",
+          label: "Número de candidatos",
+          field: "candidatures",
+          sortable: true,
+        },
+        { name: "limitDate", label: "Data limite da vaga", field: "limitDate" },
       ],
       data: [
         {
-          name: 'Frozen Yogurt',
+          name: "Frozen Yogurt",
           company: 159,
           candidatures: 6.0,
-          limitDate: 24
+          limitDate: 24,
         },
         {
-          name: 'Ice cream sandwich',
+          name: "Ice cream sandwich",
           company: 237,
           candidatures: 9.0,
-          limitDate: 37
+          limitDate: 37,
         },
         {
-          name: 'Eclair',
+          name: "Eclair",
           company: 262,
           candidatures: 16.0,
-          limitDate: 23
+          limitDate: 23,
         },
         {
-          name: 'Cupcake',
+          name: "Cupcake",
           company: 305,
           candidatures: 3.7,
-          limitDate: 67
+          limitDate: 67,
         },
         {
-          name: 'Gingerbread',
+          name: "Gingerbread",
           company: 356,
           candidatures: 16.0,
-          limitDate: 49
+          limitDate: 49,
         },
         {
-          name: 'Jelly bean',
+          name: "Jelly bean",
           company: 375,
           candidatures: 0.0,
-          limitDate: 94
+          limitDate: 94,
         },
         {
-          name: 'Lollipop',
+          name: "Lollipop",
           company: 392,
           candidatures: 0.2,
-          limitDate: 98
+          limitDate: 98,
         },
         {
-          name: 'Honeycomb',
+          name: "Honeycomb",
           company: 408,
           candidatures: 3.2,
-          limitDate: 87
+          limitDate: 87,
         },
         {
-          name: 'Donut',
+          name: "Donut",
           company: 452,
           candidatures: 25.0,
-          limitDate: 51
+          limitDate: 51,
         },
         {
-          name: 'KitKat',
+          name: "KitKat",
           company: 518,
           candidatures: 26.0,
-          limitDate: 65
-        }
-      ]
+          limitDate: 65,
+        },
+      ],
     }
-  }
+  },
 }
 </script>

@@ -35,8 +35,10 @@
                 <div class="text-subtitle1">{{ vacancyDetails.validate }}</div>
               </div>
               <div>
-                <div class="text-body1 text-bold">Numero de vagas</div>
-                <div class="text-subtitle1">{{ vacancyDetails.numVacancies }} vagas</div>
+                <div class="text-body1 text-bold">Número de vagas</div>
+                <div class="text-subtitle1">
+                  {{ vacancyDetails.numVacancies }} vagas
+                </div>
               </div>
               <div>
                 <div class="text-body1 text-bold">Descrição</div>
@@ -54,23 +56,23 @@
 </template>
 
 <script>
-import { firestoreDB } from "boot/firebase";
-import { mapGetters } from "vuex";
+import { firestoreDB } from "boot/firebase"
+import { mapGetters } from "vuex"
 export default {
-  data () {
+  data() {
     return {
       vacancyDetails: {},
-    };
+    }
   },
   computed: {
     ...mapGetters("admin", ["vacancy"]),
   },
   methods: {
-    getVacancy () {
-      const vm = this;
+    getVacancy() {
+      const vm = this
       // console.log(this.vacancy.id);
       if (this.vacancy.id) {
-        const ref = firestoreDB.collection("vacancies").doc(this.vacancy.id);
+        const ref = firestoreDB.collection("vacancies").doc(this.vacancy.id)
 
         ref.get().then((doc) => {
           if (doc.exists) {
@@ -86,19 +88,19 @@ export default {
               category: doc.data().category,
               numVacancies: doc.data().numVacancies,
               timeSend: new Date(doc.data().timeSend),
-            };
-            vm.getUser(doc.data().user);
+            }
+            vm.getUser(doc.data().user)
             // Loading.hide()
           } else {
-            console.log("No such document!");
+            console.log("No such document!")
             // Loading.hide()
           }
-        });
+        })
       }
     },
-    getUser (userId) {
-      const vm = this;
-      let ref = firestoreDB.collection("users").doc(userId);
+    getUser(userId) {
+      const vm = this
+      let ref = firestoreDB.collection("users").doc(userId)
 
       ref.get().then((doc) => {
         if (doc.exists) {
@@ -106,9 +108,9 @@ export default {
             name: doc.data().displayName,
             email: doc.data().email,
             img: doc.data().photoURL,
-          };
+          }
         }
-      });
+      })
     },
 
     // updateAllUsers () {
@@ -138,10 +140,10 @@ export default {
     //   });
     // },
   },
-  mounted () {
-    this.getVacancy();
+  mounted() {
+    this.getVacancy()
   },
-};
+}
 </script>
 
 <style>

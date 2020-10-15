@@ -2,9 +2,7 @@
   <div>
     <div>
       <q-toolbar class="text-primary q-pa-md">
-        <q-toolbar-title class="text-h5">
-          Usuários
-        </q-toolbar-title>
+        <q-toolbar-title class="text-h5"> Usuários </q-toolbar-title>
         <div style="width: 200px">
           <q-select
             outlined
@@ -16,22 +14,14 @@
         </div>
       </q-toolbar>
     </div>
-    <div
-      class="row q-pa-sm"
-      role="group"
-    >
+    <div class="row q-pa-sm" role="group">
       <div class="col-3">
         <q-card class="my-card">
-          <q-card-section class="text-h5">
-            Resumo
-          </q-card-section>
+          <q-card-section class="text-h5"> Resumo </q-card-section>
           <q-card-section class="q-pa-none">
-            <q-item
-              clickable
-              v-ripple
-            >
+            <q-item clickable v-ripple>
               <q-item-section class="text-body1">
-                Numero de usuários
+                Número de usuários
               </q-item-section>
               <q-item-section side>
                 <q-badge
@@ -40,16 +30,12 @@
                   text-color="white"
                   :label="users.length"
                 />
-
               </q-item-section>
             </q-item>
             <q-separator />
-            <q-item
-              clickable
-              v-ripple
-            >
+            <q-item clickable v-ripple>
               <q-item-section class="text-body1">
-                Numero de usuários do sexo feminino
+                Número de usuários do sexo feminino
               </q-item-section>
               <q-item-section side>
                 <q-badge
@@ -58,14 +44,9 @@
                   text-color="white"
                   :label="genderCount.womans"
                 />
-
               </q-item-section>
             </q-item>
-            <q-item
-              v-if="genderCount.null"
-              clickable
-              v-ripple
-            >
+            <q-item v-if="genderCount.null" clickable v-ripple>
               <q-item-section class="text-body1">
                 Género não definido
               </q-item-section>
@@ -76,16 +57,12 @@
                   text-color="white"
                   :label="genderCount.null"
                 />
-
               </q-item-section>
             </q-item>
             <q-separator />
-            <q-item
-              clickable
-              v-ripple
-            >
+            <q-item clickable v-ripple>
               <q-item-section class="text-body1">
-                Numero de usuários do sexo masculino
+                Número de usuários do sexo masculino
               </q-item-section>
               <q-item-section side>
                 <q-badge
@@ -94,14 +71,10 @@
                   text-color="white"
                   :label="genderCount.mans"
                 />
-
               </q-item-section>
             </q-item>
             <q-separator />
-            <q-item
-              clickable
-              v-ripple
-            >
+            <q-item clickable v-ripple>
               <q-item-section class="text-body1">
                 Usuários candidatos
               </q-item-section>
@@ -112,14 +85,10 @@
                   text-color="white"
                   :label="approvedNum + reprovedNum + pendingNum"
                 />
-
               </q-item-section>
             </q-item>
             <q-separator />
-            <q-item
-              clickable
-              v-ripple
-            >
+            <q-item clickable v-ripple>
               <q-item-section class="text-body1">
                 Usuários aprovados a vagas
               </q-item-section>
@@ -130,14 +99,10 @@
                   text-color="white"
                   :label="approvedNum"
                 />
-
               </q-item-section>
             </q-item>
             <q-separator />
-            <q-item
-              clickable
-              v-ripple
-            >
+            <q-item clickable v-ripple>
               <q-item-section class="text-body1">
                 Usuários por avaliar
               </q-item-section>
@@ -148,14 +113,10 @@
                   text-color="white"
                   :label="pendingNum"
                 />
-
               </q-item-section>
             </q-item>
             <q-separator />
-            <q-item
-              clickable
-              v-ripple
-            >
+            <q-item clickable v-ripple>
               <q-item-section class="text-body1">
                 Usuários auto emprego
               </q-item-section>
@@ -166,18 +127,13 @@
                   text-color="white"
                   :label="businessUsersLen"
                 />
-
               </q-item-section>
             </q-item>
             <q-separator />
           </q-card-section>
         </q-card>
-
       </div>
-      <div
-        v-if="users.length"
-        class="col-9 q-pa-sm"
-      >
+      <div v-if="users.length" class="col-9 q-pa-sm">
         <div class="row">
           <div class="col-8">
             <TimeLine :data="users" />
@@ -213,10 +169,12 @@ import Business from "./graphs/users/Business"
 import Vacancies from "./graphs/users/Vacancies"
 import { firestoreDB } from "boot/firebase"
 export default {
-  data () {
+  data() {
     return {
       modelSelect: "",
-      optionsSelect: ["Todas províncias", "Cabo Delgado",
+      optionsSelect: [
+        "Todas províncias",
+        "Cabo Delgado",
         "Gaza",
         "Inhambane",
         "Manica",
@@ -226,12 +184,13 @@ export default {
         "Niassa",
         "Sofala",
         "Tete",
-        "Zambézia"],
+        "Zambézia",
+      ],
       users: [],
       genderCount: {
         womans: 0,
         mans: 0,
-        null: 0
+        null: 0,
       },
       vacancies: [],
       vacanciesToEmit: [],
@@ -244,63 +203,79 @@ export default {
   },
   components: { TimeLine, Gender, Business, Vacancies },
   methods: {
-    getUsers () {
+    getUsers() {
       const vm = this
-      const ref = firestoreDB.collection("users");
+      const ref = firestoreDB.collection("users")
       let users = []
       let genderCount = {
         womans: 0,
-        mans: 0
+        mans: 0,
       }
-      ref.get().then(function (docs) {
-        docs.forEach(doc => {
-          if (doc.data().place == vm.modelSelect && vm.modelSelect != vm.optionsSelect[0]) {
-            users.push(doc.data())
-            if (doc.data().gender) {
-              genderCount.mans += 1;
-            } else if (doc.data().gender === "" || doc.data().gender == undefined) {
-              genderCount.null += 1;
-            } else {
-              genderCount.womans += 1;
+      ref
+        .get()
+        .then(function (docs) {
+          docs.forEach((doc) => {
+            if (
+              doc.data().place == vm.modelSelect &&
+              vm.modelSelect != vm.optionsSelect[0]
+            ) {
+              users.push(doc.data())
+              if (doc.data().gender) {
+                genderCount.mans += 1
+              } else if (
+                doc.data().gender === "" ||
+                doc.data().gender == undefined
+              ) {
+                genderCount.null += 1
+              } else {
+                genderCount.womans += 1
+              }
+            } else if (
+              !vm.modelSelect ||
+              vm.modelSelect == vm.optionsSelect[0]
+            ) {
+              users.push(doc.data())
+              if (doc.data().gender) {
+                genderCount.mans += 1
+              } else if (
+                doc.data().gender === "" ||
+                doc.data().gender == undefined
+              ) {
+                genderCount.null += 1
+              } else {
+                genderCount.womans += 1
+              }
             }
-          } else if (!vm.modelSelect || vm.modelSelect == vm.optionsSelect[0]) {
-            users.push(doc.data())
-            if (doc.data().gender) {
-              genderCount.mans += 1;
-            } else if (doc.data().gender === "" || doc.data().gender == undefined) {
-              genderCount.null += 1;
-            } else {
-              genderCount.womans += 1;
-            }
-
-          }
-        });
-        vm.users = users
-        vm.genderCount = genderCount
-        vm.getVacancies() // get vacancies if users are get done
-        // console.log(users)
-      }).catch(function (error) { console.log(error) })
+          })
+          vm.users = users
+          vm.genderCount = genderCount
+          vm.getVacancies() // get vacancies if users are get done
+          // console.log(users)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     // ====================================
     // ====================================
     // ========== Other section ===========
     // ====================================
     // ====================================
-    isApproved (candidate, approvedCandidates) {
+    isApproved(candidate, approvedCandidates) {
       for (let index = 0; index < approvedCandidates.length; index++) {
-        const element = approvedCandidates[index];
+        const element = approvedCandidates[index]
         if (element.id == candidate.id) {
-          return true;
+          return true
         }
       }
-      return false;
+      return false
     },
-    candidatesEvaluateByCompany (candidates, numVacancies) {
-      const vm = this;
-      let lastNumEvaluate = 0;
+    candidatesEvaluateByCompany(candidates, numVacancies) {
+      const vm = this
+      let lastNumEvaluate = 0
       let listPunctuation = []
-      var candidatesApproved = [];
-      var candidatesReproved = [];
+      var candidatesApproved = []
+      var candidatesReproved = []
       let pendingCandidates = []
       // make foreach in candidates list
       candidates.forEach((candidate) => {
@@ -308,27 +283,30 @@ export default {
         if (!candidate.evaluators.length) {
           pendingCandidates.push(candidate)
         }
-        if (!vm.isApproved(candidate, candidatesApproved) && candidate.evaluators.length) {
+        if (
+          !vm.isApproved(candidate, candidatesApproved) &&
+          candidate.evaluators.length
+        ) {
           // calculate punctuation
-          var numEvaluate = 0;
+          var numEvaluate = 0
           candidate.evaluators.forEach((val) => {
-            numEvaluate += val.punctuation;
-          });
+            numEvaluate += val.punctuation
+          })
           // make push elements if have vacancies
           if (numVacancies > candidatesApproved.length) {
-            candidatesApproved.push(candidate);
+            candidatesApproved.push(candidate)
             listPunctuation.push(numEvaluate)
           } else {
             // change users approved by punctuation
-            var auxIndex = 0;
-            var iterate = true; // to allow get in IF bloc of iterator of list punctuation.
-            var makeChange = false; // not allow change
+            var auxIndex = 0
+            var iterate = true // to allow get in IF bloc of iterator of list punctuation.
+            var makeChange = false // not allow change
             for (let index = 0; index < listPunctuation.length; index++) {
-              const punctuation = listPunctuation[index];
+              const punctuation = listPunctuation[index]
               if (numEvaluate > punctuation && iterate) {
-                auxIndex = index; // store index of listPunctuation and candidatesApproved
-                iterate = false; // to block get in IF bloc of iterator of list punctuation.
-                makeChange = true; // allow change
+                auxIndex = index // store index of listPunctuation and candidatesApproved
+                iterate = false // to block get in IF bloc of iterator of list punctuation.
+                makeChange = true // allow change
               }
             }
             // change users and punctuation
@@ -339,7 +317,7 @@ export default {
             }
           }
         }
-      });
+      })
       // console.log(candidatesApproved)
       return {
         approvedCandidates: candidatesApproved,
@@ -347,12 +325,12 @@ export default {
         pendingCandidates: pendingCandidates,
       }
     },
-    getVacancies () {
-      const vm = this;
-      let tempObject = {};
-      let candidates = [];
-      let ref = firestoreDB.collection("vacancies");
-      var numVacancies = 0;
+    getVacancies() {
+      const vm = this
+      let tempObject = {}
+      let candidates = []
+      let ref = firestoreDB.collection("vacancies")
+      var numVacancies = 0
       let isSelect = this.modelSelect ? true : false
 
       // get all vacancies candidatures
@@ -368,28 +346,40 @@ export default {
             .then(function (querySnapshotCandidates) {
               querySnapshotCandidates.forEach(function (docCandidate) {
                 var candidate = docCandidate.data()
-                if (candidate.place == vm.modelSelect && vm.modelSelect != vm.optionsSelect[0]) {
-                  vacancy["candidates"].push(candidate);
-                } else if (!vm.modelSelect || vm.modelSelect == vm.optionsSelect[0]) {
-                  vacancy["candidates"].push(candidate);
+                if (
+                  candidate.place == vm.modelSelect &&
+                  vm.modelSelect != vm.optionsSelect[0]
+                ) {
+                  vacancy["candidates"].push(candidate)
+                } else if (
+                  !vm.modelSelect ||
+                  vm.modelSelect == vm.optionsSelect[0]
+                ) {
+                  vacancy["candidates"].push(candidate)
                 }
-              });
-              let candidatesEvaluateByCompanyList = vm.candidatesEvaluateByCompany(vacancy.candidates, vacancy.numVacancies)
-              vacancy["approvedCandidates"] = candidatesEvaluateByCompanyList.approvedCandidates
-              vacancy["reprovedCandidates"] = candidatesEvaluateByCompanyList.reprovedCandidates
-              vacancy["pendingCandidates"] = candidatesEvaluateByCompanyList.pendingCandidates
+              })
+              let candidatesEvaluateByCompanyList = vm.candidatesEvaluateByCompany(
+                vacancy.candidates,
+                vacancy.numVacancies
+              )
+              vacancy["approvedCandidates"] =
+                candidatesEvaluateByCompanyList.approvedCandidates
+              vacancy["reprovedCandidates"] =
+                candidatesEvaluateByCompanyList.reprovedCandidates
+              vacancy["pendingCandidates"] =
+                candidatesEvaluateByCompanyList.pendingCandidates
               vm.vacancies.push(vacancy)
               if (!isSelect) vm.vacanciesToEmit.push(vacancy)
               // console.log(vm.vacancies)
-            });
-        });
-      });
+            })
+        })
+      })
     },
-    filterValues () {
+    filterValues() {
       console.log()
-    }
+    },
   },
-  mounted () {
+  mounted() {
     const vm = this
     this.getUsers()
     this.$root.$on("businessUsers", function (users) {
@@ -397,14 +387,14 @@ export default {
     })
   },
   watch: {
-    vacancies (vacancies) {
+    vacancies(vacancies) {
       if (vacancies.length == this.vacanciesLength) {
         const vm = this
         let approvedNum = 0
         let reprovedNum = 0
         let pendingNum = 0
         for (let index = 0; index < vacancies.length; index++) {
-          const vacancy = vacancies[index];
+          const vacancy = vacancies[index]
           approvedNum += vacancy.approvedCandidates.length
           reprovedNum += vacancy.reprovedCandidates.length
           pendingNum += vacancy.pendingCandidates.length
@@ -414,7 +404,7 @@ export default {
         this.pendingNum = pendingNum
       }
     },
-    vacanciesToEmit (vacancies) {
+    vacanciesToEmit(vacancies) {
       if (vacancies.length == this.vacanciesLength) {
         const vm = this
         // emit vacancies processed with users for other components
@@ -424,11 +414,10 @@ export default {
         })
       }
     },
-    modelSelect () {
+    modelSelect() {
       this.getUsers()
-    }
-  }
-
+    },
+  },
 }
 </script>
 

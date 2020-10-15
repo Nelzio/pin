@@ -147,7 +147,7 @@
               <p>
                 A Partir do seu perfil, nas actividades o usuário deve clicar no
                 item que conta as vagas publicadas por si para ser redirecionado
-                a pagina de suas vagas. Na página de suas vagas, em cada vaga
+                a página de suas vagas. Na página de suas vagas, em cada vaga
                 listada tem botões que dão opção de editar, apagar e ocultar a
                 vaga.
               </p>

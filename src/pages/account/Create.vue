@@ -1,8 +1,5 @@
 <template>
-  <q-page
-    padding
-    v-touch-swipe.mouse.right.left="accountSwipe"
-  >
+  <q-page padding v-touch-swipe.mouse.right.left="accountSwipe">
     <!-- content -->
     <div class="row login justify-center q-gutter-y-lg">
       <!-- <div class="col-12">
@@ -19,18 +16,9 @@
             lang="pt-PT"
             aria-label="carregar foto de perfil"
           >
-            <q-icon
-              :color="darkModeConf.iconVar"
-              name="person_add"
-            />
-            <q-badge
-              floating
-              :color="darkModeConf.iconVar"
-            >
-              <q-icon
-                color="white"
-                name="insert_photo"
-              />
+            <q-icon :color="darkModeConf.iconVar" name="person_add" />
+            <q-badge floating :color="darkModeConf.iconVar">
+              <q-icon color="white" name="insert_photo" />
             </q-badge>
           </q-btn>
           <q-btn
@@ -42,19 +30,10 @@
             aria-label="carregar outra foto de perfil"
           >
             <q-avatar size="120px">
-              <q-img
-                :src="imageUrl"
-                role="img"
-              />
+              <q-img :src="imageUrl" role="img" />
             </q-avatar>
-            <q-badge
-              floating
-              :color="darkModeConf.iconVar"
-            >
-              <q-icon
-                color="white"
-                name="insert_photo"
-              />
+            <q-badge floating :color="darkModeConf.iconVar">
+              <q-icon color="white" name="insert_photo" />
             </q-badge>
           </q-btn>
         </div>
@@ -85,7 +64,11 @@
             type="text"
             label="Nome"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Por favor, introduza o nome da instituição ou pessoa']"
+            :rules="[
+              (val) =>
+                (val && val.length > 0) ||
+                'Por favor, introduza o nome da instituição ou pessoa',
+            ]"
           />
           <q-input
             rounded
@@ -93,10 +76,13 @@
             :color="darkModeConf.iconVar"
             ref="number"
             v-model="authObject.phoneNumber"
-            label="Numero de telefone"
+            label="Número de telefone"
             mask="#########"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza o seu numero de telefone']"
+            :rules="[
+              (val) =>
+                (val && val.length > 0) || 'Introduza o seu número de telefone',
+            ]"
           />
 
           <q-input
@@ -108,7 +94,11 @@
             v-model="authObject.email"
             label="Email"
             lazy-rules
-            :rules="[ val => val && val.length > 0  && isEmailValid(val) || 'Introduza o seu numero de telefone']"
+            :rules="[
+              (val) =>
+                (val && val.length > 0 && isEmailValid(val)) ||
+                'Introduza o seu número de telefone',
+            ]"
           />
 
           <!-- <q-input
@@ -145,7 +135,10 @@
             label="password"
             :type="isPwd ? 'password' : 'text'"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Por favor, insira uma senha válida']"
+            :rules="[
+              (val) =>
+                (val && val.length > 0) || 'Por favor, insira uma senha válida',
+            ]"
           >
             <template v-slot:append>
               <q-icon
@@ -185,10 +178,10 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex"
 export default {
   name: "RegisterFormComponent",
-  data () {
+  data() {
     return {
       authObject: {
         displayName: "",
@@ -199,38 +192,38 @@ export default {
         address: "",
         profession: "",
         education: "",
-        date: ""
+        date: "",
       },
       imageUrl: "",
-      isPwd: true
-    };
+      isPwd: true,
+    }
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"])
+    ...mapState("settings", ["appMode", "darkModeConf"]),
   },
   methods: {
     ...mapActions("auth", ["loginUser", "registerUser"]),
 
-    isEmailValid (email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(String(email));
+    isEmailValid(email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return re.test(String(email))
     },
 
-    onReset () {
-      alert("must reset form.");
+    onReset() {
+      alert("must reset form.")
     },
-    onSubmit () {
-      this.$refs.email.validate();
-      this.$refs.password.validate();
+    onSubmit() {
+      this.$refs.email.validate()
+      this.$refs.password.validate()
       if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
         // this.$emit("registerUser", {email: this.authObject.email, password: this.authObject.password});
-        this.registerUser(this.authObject);
+        this.registerUser(this.authObject)
       }
       // this.$emit("registerUser", {email: this.authObject.email, password: this.authObject.password})
     },
-    accountSwipe (val) {
+    accountSwipe(val) {
       if (val.direction === "right") {
-        this.$router.go(-1);
+        this.$router.go(-1)
       }
 
       // if (val.direction === "up") {
@@ -238,35 +231,35 @@ export default {
       // }
     },
 
-    processFile () {
-      this.$refs.fileImg.click();
+    processFile() {
+      this.$refs.fileImg.click()
     },
-    onChangeImg (event) {
-      const files = event.target.files;
-      let filename = files[0].name;
-      let file = files[0];
+    onChangeImg(event) {
+      const files = event.target.files
+      let filename = files[0].name
+      let file = files[0]
       if (!(file && file["type"].split("/")[0] === "image")) {
-        return (this.errorFileDialog = true);
+        return (this.errorFileDialog = true)
       }
-      const fileReader = new FileReader();
+      const fileReader = new FileReader()
       fileReader.addEventListener("load", () => {
-        this.imageUrl = fileReader.result;
-      });
-      fileReader.readAsDataURL(files[0]);
-      this.authObject.img = files[0];
-    }
+        this.imageUrl = fileReader.result
+      })
+      fileReader.readAsDataURL(files[0])
+      this.authObject.img = files[0]
+    },
   },
 
-  mounted () {
-    this.$root.$emit("textToSpeechRouter", "Criar conta");
+  mounted() {
+    this.$root.$emit("textToSpeechRouter", "Criar conta")
   },
 
   filters: {
-    captalizeFirstLetter (val) {
-      return val.charAt(0).toUpperCase() + "" + val.slice(1);
-    }
-  }
-};
+    captalizeFirstLetter(val) {
+      return val.charAt(0).toUpperCase() + "" + val.slice(1)
+    },
+  },
+}
 </script>
 
 <style lang="sass">

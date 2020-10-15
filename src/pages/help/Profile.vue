@@ -136,7 +136,7 @@
               Candidaturas e Actividades
             </div>
             <div :class="getFont.text">
-              O aplicativo regista algumas actividades do usuário na pagina do
+              O aplicativo regista algumas actividades do usuário na página do
               seu perfil para facilitar o acesso delas. As actividades são:
               candidaturas, adição de vagas, e adição de produtos e serviços.
             </div>
