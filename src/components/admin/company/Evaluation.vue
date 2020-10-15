@@ -181,7 +181,10 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
+            <div
+              class="col-12"
+              v-if="userData.access[1] == 'w'"
+            >
               <q-btn-group
                 class="full-width"
                 spread
@@ -212,6 +215,7 @@
     </div>
     <div>
       <q-dialog
+        v-if="userData.access[1] == 'w'"
         v-model="dialogApprove"
         role="alertdialog"
         lang="pt-PT"
@@ -244,6 +248,7 @@
       </q-dialog>
 
       <q-dialog
+        v-if="userData.access[1] == 'w'"
         v-model="dialogRejected"
         role="alertdialog"
       >
@@ -296,12 +301,12 @@ export default {
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("auth", ["userData"])
   },
   methods: {
     changeCompany () {
       const vm = this;
       this.$root.$on("companyToEvaluation", (val) => {
-        console.log(val);
         vm.company = val;
         vm.drawer = true;
       });
@@ -317,7 +322,6 @@ export default {
         .set(company)
         .then(() => {
           Loading.hide();
-          console.log("done approved");
           vm.dialogApprove = false;
         })
         .catch((error) => {
@@ -336,7 +340,6 @@ export default {
         .set(company)
         .then(() => {
           Loading.hide();
-          console.log("done rejected");
           vm.dialogRejected = false;
         })
         .catch((error) => {

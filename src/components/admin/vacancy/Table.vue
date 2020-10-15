@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-table
       grid
-      title="Treats"
+      title="Vagas"
       :data="data"
       :columns="columns"
       row-key="name"
@@ -12,6 +12,32 @@
       hide-header
       role="table"
     >
+      <template v-slot:top-left>
+        <div class="row q-gutter-x-sm">
+          <div class="text-h6">
+            Vagas
+          </div>
+          <q-btn
+            rounded
+            outline
+            color="primary"
+            icon-right="archive"
+            label="Export em csv"
+            no-caps
+            @click="exportTable"
+          />
+
+          <q-btn
+            rounded
+            outline
+            color="primary"
+            icon-right="archive"
+            label="Export em excel"
+            no-caps
+            @click="exportToExl"
+          />
+        </div>
+      </template>
       <template v-slot:top-right>
         <div class="row q-gutter-x-lg">
           <div>
@@ -73,6 +99,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import exportFromJSON from 'export-from-json';
 import {
   firebaseAuth,
   firestoreDB,
@@ -113,6 +140,7 @@ export default {
       users: [],
       candidates: [],
       newVacancies: [],
+      vacanciesJson: []
     };
   },
   methods: {
@@ -196,6 +224,15 @@ export default {
                           limitDate: docData.data().validate,
                           vacancy: tempObject,
                         });
+
+                        vm.vacanciesJson.push({
+                          Título: docData.data().title,
+                          Empresa: vm.userName(docData.data().user),
+                          Candidaturas: vm.countVacancyCandidature(
+                            docData.id
+                          ),
+                          "Data limite": docData.data().validate,
+                        });
                       });
                     });
                 }
@@ -204,6 +241,23 @@ export default {
         });
       });
     },
+    exportTable () {
+      // naive encoding to csv format
+      const data = this.vacanciesJson
+      const fileName = 'vacancies'
+      const exportType = 'csv'
+
+      exportFromJSON({ data, fileName, exportType })
+    },
+
+
+    exportToExl () {
+      const data = this.vacanciesJson
+      const fileName = 'vacancies'
+      const exportType = 'xls'
+
+      exportFromJSON({ data, fileName, exportType })
+    }
   },
   mounted () {
     this.getVacancies();

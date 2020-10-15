@@ -3,7 +3,7 @@ import { firestoreDB, fireStorage, firebase } from "boot/firebase"
 import { showErrorMessage } from "../../functions/handle-error-messages"
 import offline from 'v-offline'
 
-export function uploadAuxFunc ({ commit }, payload) {
+export function uploadAuxFunc({ commit }, payload) {
     // Upload file and metadata to the object
     var storageRef = fireStorage.ref();
     var uploadTask = storageRef.child('vacancies/' + payload.id).put(payload.img);
@@ -61,7 +61,7 @@ export function uploadAuxFunc ({ commit }, payload) {
 }
 
 
-export function createVacancy ({ commit }, payload) { // done
+export function createVacancy({ commit }, payload) { // done
     if (!offline.data().isOnline) {
         return alert("Está sem internet")
     }
@@ -169,7 +169,7 @@ export function createVacancy ({ commit }, payload) { // done
 }
 
 
-export function updateVacancy ({ commit, dispatch }, payload) {
+export function updateVacancy({ commit, dispatch }, payload) {
     Loading.show()
     commit("SET_VACANCY_CHANGE", false)
     var storageRef = fireStorage.ref();
@@ -204,7 +204,7 @@ export function updateVacancy ({ commit, dispatch }, payload) {
 }
 
 
-export function listVacancy ({ commit }) { // done
+export function listVacancy({ commit }) { // done
     var storageRef = fireStorage.ref()
     if (!offline.data().isOnline) {
         showErrorMessage("Está sem internet.")
@@ -218,7 +218,7 @@ export function listVacancy ({ commit }) { // done
     var yyyy = today.getFullYear();
 
     today = mm + '/' + dd + '/' + yyyy;
-    ref.where("public", "==", true)
+    ref.where("public", "==", true).where("approved", "==", true)
         .onSnapshot(function (querySnapshot) {
             if (offline.data().isOnline && querySnapshot.length !== vacanciesData.length) {
                 querySnapshot.forEach(function (doc) {
@@ -227,6 +227,8 @@ export function listVacancy ({ commit }) { // done
                         itemsReady.push(doc.id)
                         vacanciesData.push({
                             key: doc.id,
+                            approved: doc.data().approved,
+                            numVacancies: doc.data().numVacancies,
                             title: doc.data().title,
                             user: doc.data().user,
                             description: doc.data().description,
@@ -249,7 +251,7 @@ export function listVacancy ({ commit }) { // done
 }
 
 
-export function listVacancyMy ({ commit }, user) { // done
+export function listVacancyMy({ commit }, user) { // done
     var storageRef = fireStorage.ref()
     if (!offline.data().isOnline) {
         return showErrorMessage("Está sem internet.")
@@ -263,6 +265,8 @@ export function listVacancyMy ({ commit }, user) { // done
                 vacancies.push({
                     key: doc.id,
                     title: doc.data().title,
+                    approved: doc.data().approved,
+                    numVacancies: doc.data().numVacancies,
                     user: doc.data().user,
                     description: doc.data().description,
                     img: doc.data().img,
@@ -281,7 +285,7 @@ export function listVacancyMy ({ commit }, user) { // done
 }
 
 
-export function detailVacancy ({ commit }, id) { // test
+export function detailVacancy({ commit }, id) { // test
     // Loading.show()
     if (!offline.data().isOnline) {
         return showErrorMessage("Está sem internet.")
@@ -290,6 +294,8 @@ export function detailVacancy ({ commit }, id) { // test
     let data = {
         key: "",
         title: "",
+        approved: false,
+        numVacancies: 0,
         user: "",
         description: "",
         img: "",
@@ -307,6 +313,8 @@ export function detailVacancy ({ commit }, id) { // test
                 key: doc.id,
                 title: doc.data().title,
                 user: doc.data().user,
+                approved: doc.data().approved,
+                numVacancies: doc.data().numVacancies,
                 description: doc.data().description,
                 img: doc.data().img,
                 public: doc.data().public,
@@ -326,7 +334,7 @@ export function detailVacancy ({ commit }, id) { // test
 }
 
 
-export function deleteVacancy ({ commit }, id) {
+export function deleteVacancy({ commit }, id) {
     if (!offline.data().isOnline) {
         return showErrorMessage("Está sem internet.")
     }

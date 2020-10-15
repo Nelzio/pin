@@ -11,10 +11,7 @@
     >
       <div class="q-gutter-y-md col-12 col-md-8">
         <q-card class="my-card">
-          <q-img
-            :src="imageUrl"
-            alt="Imagem do item"
-          />
+          <q-img :src="imageUrl" alt="Imagem do item" />
           <q-card-actions>
             <q-btn
               rounded
@@ -28,11 +25,7 @@
           </q-card-actions>
         </q-card>
 
-        <q-form
-          class="q-gutter-md"
-          ref="storeForm"
-          role="form"
-        >
+        <q-form class="q-gutter-md" ref="storeForm" role="form">
           <input
             id="fileInput"
             type="file"
@@ -50,7 +43,7 @@
             label="Titulo"
             type="text"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza O título']"
+            :rules="[(val) => (val && val.length > 0) || 'Introduza O título']"
           />
           <!-- <q-input :color="darkModeConf.iconVar" rounded outlined v-model="store.description" label="Descricao" /> -->
           <q-select
@@ -61,7 +54,9 @@
             :options="categories"
             role="combobox"
             label="Categoria"
-            :rules="[ val => val && val.length > 0 || 'Selecione a categoria']"
+            :rules="[
+              (val) => (val && val.length > 0) || 'Selecione a categoria',
+            ]"
           />
           <q-select
             rounded
@@ -71,7 +66,10 @@
             :options="subCategories"
             label="Subcategoria"
             role="combobox"
-            :rules="[ val => val && val.length > 0 || 'Selecione a sub subcategoria']"
+            :rules="[
+              (val) =>
+                (val && val.length > 0) || 'Selecione a sub subcategoria',
+            ]"
           />
           <q-select
             rounded
@@ -81,7 +79,9 @@
             :options="places"
             label="Província"
             role="combobox"
-            :rules="[ val => val && val.length > 0 || 'Selecione a província']"
+            :rules="[
+              (val) => (val && val.length > 0) || 'Selecione a província',
+            ]"
           />
           <q-input
             rounded
@@ -104,7 +104,9 @@
             v-model="storeData.description"
             min-height="8rem"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza uma descrição']"
+            :rules="[
+              (val) => (val && val.length > 0) || 'Introduza uma descrição',
+            ]"
           />
           <div>
             <q-btn
@@ -127,14 +129,20 @@
         lang="pt-PT"
         aria-label="Alerta de sucesso"
       >
-        <q-card>
-          <q-card-section class="text-h5 text-green">Atualizada com sucesso</q-card-section>
+        <q-card style="width: 700px; max-width: 80vw">
+          <q-card-section>
+            <div class="text-h6" :class="getFont.title">Atenção</div>
+          </q-card-section>
+          <q-card-section :class="getFont.text"
+            >Vaga atualizada com sucesso</q-card-section
+          >
 
           <q-card-actions align="right">
             <q-btn
-              flat
+              rounded
               label="OK"
-              color="primary"
+              :color="darkModeConf.iconVar"
+              :class="darkModeConf.textBtn"
               @click="confirmIsertFunc()"
               role="button"
             />
@@ -149,16 +157,12 @@
         aria-label="Alerta de erro"
       >
         <q-card>
-          <q-card-section class="text-h5 text-red">Por favor, insira uma imagem válida.</q-card-section>
+          <q-card-section class="text-h5 text-red"
+            >Por favor, insira uma imagem válida.</q-card-section
+          >
 
           <q-card-actions align="right">
-            <q-btn
-              flat
-              label="OK"
-              color="red"
-              role="button"
-              v-close-popup
-            />
+            <q-btn flat label="OK" color="red" role="button" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -167,11 +171,11 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDB } from "boot/firebase";
+import { mapState, mapActions, mapGetters } from "vuex"
+import { firestoreDB } from "boot/firebase"
 export default {
   // name: 'PageName',
-  data () {
+  data() {
     return {
       confirmInsert: false,
       errorFileDialog: false,
@@ -185,7 +189,7 @@ export default {
         place: "",
         subCategory: "",
         price: "",
-        priceVariable: false
+        priceVariable: false,
       },
       storeDataTemp: {
         title: "",
@@ -197,7 +201,7 @@ export default {
         place: "",
         subCategory: "",
         price: "",
-        priceVariable: false
+        priceVariable: false,
       },
       fileImage: null,
       imageUrl: "",
@@ -213,7 +217,7 @@ export default {
         "Niassa",
         "Sofala",
         "Tete",
-        "Zambézia"
+        "Zambézia",
       ],
       subCategories: [
         "Construção",
@@ -228,28 +232,29 @@ export default {
         "Domésticos, Reparações e Mudanças",
         "Saúde e Beleza",
         "Eventos",
-        "Técnicos"
-      ]
-    };
+        "Técnicos",
+      ],
+    }
   },
   computed: {
     ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
     ...mapState("store", ["storeDtl", "storeUploaded"]),
-    ...mapGetters("store", ["getSore"])
+    ...mapGetters("store", ["getSore"]),
+    ...mapGetters("settings", ["getFont"]),
   },
   methods: {
-    confirmIsertFunc () {
-      this.confirmInsert = false;
-      this.$router.go(-1);
+    confirmIsertFunc() {
+      this.confirmInsert = false
+      this.$router.go(-1)
     },
     ...mapActions("store", ["detailStore", "updateStore"]),
 
-    detailStoreLocal (id) {
+    detailStoreLocal(id) {
       // test
       // Loading.show()
-      const ref = firestoreDB.collection("stories").doc(id);
-      let data = {};
-      ref.get().then(doc => {
+      const ref = firestoreDB.collection("stories").doc(id)
+      let data = {}
+      ref.get().then((doc) => {
         if (doc.exists) {
           data = {
             key: doc.id,
@@ -263,62 +268,62 @@ export default {
             subCategory: doc.data().subCategory,
             price: doc.data().price,
             priceVariable: doc.data().priceVariable,
-            timeSend: doc.data().timeSend
-          };
-          this.storeData = data;
-          this.imageUrl = data.img;
+            timeSend: doc.data().timeSend,
+          }
+          this.storeData = data
+          this.imageUrl = data.img
           // Loading.hide()
         } else {
-          console.log("No such document!");
+          console.log("No such document!")
           // Loading.hide()
         }
-      });
+      })
     },
 
-    updateStoreThis () {
+    updateStoreThis() {
       this.updateStore({
         id: this.$route.params.idEditStore,
         data: this.storeData,
-        img: this.fileImage
-      });
+        img: this.fileImage,
+      })
     },
 
-    processFile () {
+    processFile() {
       // document.getElementById("fileInput").click()
-      this.$refs.fileImg.click();
-      console.log(document.getElementById("fileInput"));
+      this.$refs.fileImg.click()
+      console.log(document.getElementById("fileInput"))
     },
 
-    onChangeImg (event) {
-      const files = event.target.files;
-      let filename = files[0].name;
-      let file = files[0];
+    onChangeImg(event) {
+      const files = event.target.files
+      let filename = files[0].name
+      let file = files[0]
       if (!(file && file["type"].split("/")[0] === "image")) {
-        return (this.errorFileDialog = true);
+        return (this.errorFileDialog = true)
       }
-      const fileReader = new FileReader();
+      const fileReader = new FileReader()
       fileReader.addEventListener("load", () => {
-        this.imageUrl = fileReader.result;
-      });
-      fileReader.readAsDataURL(files[0]);
-      this.fileImage = files[0];
-    }
+        this.imageUrl = fileReader.result
+      })
+      fileReader.readAsDataURL(files[0])
+      this.fileImage = files[0]
+    },
   },
 
-  mounted () {
-    this.detailStoreLocal(this.$route.params.idEditStore);
+  mounted() {
+    this.detailStoreLocal(this.$route.params.idEditStore)
 
     this.$root.$emit(
       "textToSpeechRouter",
       "Editar " + this.storeData.category + " " + this.storeData.title
-    );
+    )
   },
   watch: {
-    storeUploaded () {
+    storeUploaded() {
       if (this.storeUploaded) {
-        this.confirmInsert = true;
+        this.confirmInsert = true
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>

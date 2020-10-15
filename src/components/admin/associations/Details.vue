@@ -24,7 +24,10 @@
               @click="drawer = false"
             />
             <q-toolbar-title>Empresa</q-toolbar-title>
-            <div class="q-gutter-sm">
+            <div
+              class="q-gutter-sm"
+              v-if="userData.access[1] == 'w'"
+            >
               <q-btn
                 rounded
                 color="primary"
@@ -214,6 +217,7 @@
     </div>
     <div>
       <q-dialog
+        v-if="userData.access[1] == 'w'"
         v-model="dialogDelete"
         role="dialog"
         lang="pt-PT"
@@ -330,6 +334,7 @@ export default {
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("auth", ["userData"])
   },
   methods: {
     openEditDialog () {

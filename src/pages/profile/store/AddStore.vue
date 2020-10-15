@@ -47,7 +47,7 @@
             label="Titulo"
             type="text"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza O título']"
+            :rules="[(val) => (val && val.length > 0) || 'Introduza O título']"
           />
           <!-- <q-input :color="darkModeConf.iconVar" rounded outlined v-model="store.description" label="Descricao" /> -->
           <q-select
@@ -59,7 +59,9 @@
             label="Categoria"
             role="option"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Selecione a categoria']"
+            :rules="[
+              (val) => (val && val.length > 0) || 'Selecione a categoria',
+            ]"
           />
           <q-select
             rounded
@@ -70,7 +72,9 @@
             label="Subcategoria"
             role="option"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Selecione a subcategoria']"
+            :rules="[
+              (val) => (val && val.length > 0) || 'Selecione a subcategoria',
+            ]"
           />
           <q-select
             rounded
@@ -81,7 +85,9 @@
             label="Província"
             role="option"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Selecione a provincia']"
+            :rules="[
+              (val) => (val && val.length > 0) || 'Selecione a provincia',
+            ]"
           />
           <q-input
             rounded
@@ -106,7 +112,9 @@
             min-height="8rem"
             role="textbox"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza uma descrição']"
+            :rules="[
+              (val) => (val && val.length > 0) || 'Introduza uma descrição',
+            ]"
           />
           <div>
             <q-btn
@@ -124,24 +132,23 @@
     </div>
 
     <div>
-      <q-dialog
-        v-model="confirmInsert"
-        role="dialog"
-      >
+      <q-dialog v-model="confirmInsert" role="dialog">
         <q-card
-          style="widht: 90vw"
+          style="width: 80vw"
           lang="pt-PT"
           aria-label="Confirmar adição de produto."
         >
           <q-card-section>
             <div :class="getFont.title">Adição de negocio</div>
           </q-card-section>
-          <q-card-section :class="getFont.text">Inserido com sucesso.</q-card-section>
+          <q-card-section :class="getFont.text"
+            >Inserido com sucesso.</q-card-section
+          >
           <q-card-actions align="right">
             <q-btn
               :color="darkModeConf.iconVar"
+              :class="darkModeConf.textBtn"
               rounded
-              outline
               label="OK"
               role="button"
               v-close-popup
@@ -150,18 +157,14 @@
         </q-card>
       </q-dialog>
 
-      <q-dialog
-        v-model="errorFileDialog"
-        role="dialog"
-      >
-        <q-card
-          lang="pt-PT"
-          aria-label="Atenção com a imagem"
-        >
+      <q-dialog v-model="errorFileDialog" role="dialog">
+        <q-card lang="pt-PT" aria-label="Atenção com a imagem">
           <q-card-section>
             <div :class="getFont.title">Atenção</div>
           </q-card-section>
-          <q-card-section :class="getFont.text">Por favor, insira uma imagem válida.</q-card-section>
+          <q-card-section :class="getFont.text"
+            >Por favor, insira uma imagem válida.</q-card-section
+          >
           <q-card-actions align="right">
             <q-btn
               :color="darkModeConf.iconVar"
@@ -179,10 +182,10 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex"
 export default {
   // name: 'PageName',
-  data () {
+  data() {
     return {
       confirmInsert: false,
       errorFileDialog: false,
@@ -197,7 +200,7 @@ export default {
         subCategory: "",
         price: "",
         timeSend: "",
-        priceVariable: false
+        priceVariable: false,
       },
       imageUrl: "",
       categories: ["Produto", "Serviço"],
@@ -212,7 +215,7 @@ export default {
         "Niassa",
         "Sofala",
         "Tete",
-        "Zambézia"
+        "Zambézia",
       ],
       subCategories: [
         "Construção",
@@ -227,55 +230,55 @@ export default {
         "Domésticos, Reparações e Mudanças",
         "Saúde e Beleza",
         "Eventos",
-        "Técnicos"
-      ]
-    };
+        "Técnicos",
+      ],
+    }
   },
   computed: {
     ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
     ...mapState("store", ["storeDtl"]),
     ...mapGetters("settings", ["getFont"]),
-    ...mapGetters("auth", ["user"])
+    ...mapGetters("auth", ["user"]),
   },
   methods: {
     ...mapActions("store", ["createStore"]),
-    addStore () {
-      var today = new Date();
-      this.store.timeSend = String(today);
-      this.store.user = this.user.email;
-      this.$refs.storeForm.validate();
+    addStore() {
+      var today = new Date()
+      this.store.timeSend = String(today)
+      this.store.user = this.user.email
+      this.$refs.storeForm.validate()
       if (this.$refs.storeForm.hasError) {
-        this.formHasError = true;
+        this.formHasError = true
       } else {
-        this.createStore(this.store);
+        this.createStore(this.store)
       }
     },
-    processFile () {
+    processFile() {
       // document.getElementById("fileInput").click()
-      this.$refs.fileImg.click();
+      this.$refs.fileImg.click()
     },
-    onChangeImg (event) {
-      const files = event.target.files;
-      let filename = files[0].name;
-      let file = files[0];
+    onChangeImg(event) {
+      const files = event.target.files
+      let filename = files[0].name
+      let file = files[0]
       if (!(file && file["type"].split("/")[0] === "image")) {
-        return (this.errorFileDialog = true);
+        return (this.errorFileDialog = true)
       }
-      const fileReader = new FileReader();
+      const fileReader = new FileReader()
       fileReader.addEventListener("load", () => {
-        this.imageUrl = fileReader.result;
-      });
-      fileReader.readAsDataURL(files[0]);
-      this.store.img = files[0];
+        this.imageUrl = fileReader.result
+      })
+      fileReader.readAsDataURL(files[0])
+      this.store.img = files[0]
     },
-    mounted () {
-      this.$root.$emit("textToSpeechRouter", "Adiciona produto ou serviço");
-    }
+    mounted() {
+      this.$root.$emit("textToSpeechRouter", "Adiciona produto ou serviço")
+    },
   },
   watch: {
-    storeDtl () {
+    storeDtl() {
       if (!this.storeDtl.title) {
-        this.imageUrl = "";
+        this.imageUrl = ""
         this.store = {
           title: "",
           user: "",
@@ -286,12 +289,12 @@ export default {
           place: "",
           subCategory: "",
           price: "",
-          priceVariable: false
-        };
-        this.$refs.storeForm.resetValidation();
-        this.confirmInsert = true;
+          priceVariable: false,
+        }
+        this.$refs.storeForm.resetValidation()
+        this.confirmInsert = true
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>

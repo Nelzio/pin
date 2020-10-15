@@ -212,10 +212,10 @@ export function registerUser ({ commit, dispatch }, payload) {
                             const dataUser = {
                                 displayName: payload.displayName,
                                 email: payload.email,
-                                gender: payload.gender,
-                                deficiency: payload.deficiency,
+                                gender: "",
+                                deficiency: "",
                                 access: "",
-                                association: payload.association,
+                                association: "",
                                 photoURL: "",
                                 phoneNumber: payload.phoneNumber,
                                 address: "",
@@ -739,6 +739,7 @@ export function facebookSignIn ({ commit }) {
     }).catch(function (error) {
         // Handle Errors here.
         Loading.hide()
+        console.log(error)
         var errorCode = error.code;
         var errorMessage = "Ops! Ocorreu um erro durante o processamento.";
         console.log(errorMessage)
@@ -940,6 +941,7 @@ export function loginUser ({ commit }, payload) {
                         access: doc.data().access,
                         association: doc.data().association,
                         deficiency: doc.data().deficiency,
+                        registrationDate: doc.data().registrationDate,
                         displayName: doc.data().displayName,
                         gender: doc.data().gender,
                         email: doc.data().email,
@@ -1113,7 +1115,6 @@ export function deleteUser ({ commit }, payload) {
             payload.password
         );
 
-        console.log(credential)
         user.reauthenticateWithCredential(credential).then(function () {
             // User re-authenticated.
             user = firebase.auth().currentUser;
@@ -1267,9 +1268,7 @@ export function deleteUser ({ commit }, payload) {
                 user = firebase.auth().currentUser;
                 const ref = firestoreDB.collection('users').doc(user.email);
                 setTimeout(function () {
-                    console.log("Hello");
                     ref.get().then((doc) => {
-                        console.log("BD User")
                         if (doc.exists) {
                             deleteCandidature(payload.id)
                             deleteChat(payload.id)

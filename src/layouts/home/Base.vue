@@ -1,10 +1,7 @@
 <template>
   <q-layout view="hHh Lpr fFf">
     <!-- Be sure to play with the Layout demo on docs -->
-    <q-header
-      elevated
-      height-hint="64"
-    >
+    <q-header elevated height-hint="64">
       <q-toolbar
         :class="[darkModeConf.bgColor, darkModeConf.textColor]"
         class="GPL__toolbar"
@@ -84,9 +81,9 @@
             class="text-primary"
             to="/"
             role="link"
-            style="text-decoration: none;"
-          >Superativo</router-link>
-
+            style="text-decoration: none"
+            >Superativo</router-link
+          >
         </q-toolbar-title>
         <q-toolbar-title
           shrink
@@ -114,8 +111,9 @@
             role="link"
             lang="pt-PT"
             aria-label="Link para a página inicial"
-            style="text-decoration: none;"
-          >Superativo</router-link>
+            style="text-decoration: none"
+            >Superativo</router-link
+          >
         </q-toolbar-title>
 
         <q-space />
@@ -127,7 +125,7 @@
           rounded
           v-model="valueSearch"
           input-class="text-right"
-          style="width: 50%;"
+          style="width: 50%"
           type="search"
           role="searchbox"
         >
@@ -185,11 +183,7 @@
             aria-label="Entrar na conta"
           >
             <q-avatar>
-              <q-icon
-                name="account_circle"
-                size="lg"
-                color="primary"
-              />
+              <q-icon name="account_circle" size="lg" color="primary" />
             </q-avatar>
           </q-btn>
           <q-btn
@@ -293,54 +287,55 @@
       <div class="row justify-around">
         <router-link
           to="/"
-          :class="$route.path == '/' ? 'text-' + darkModeConf.iconVar : 'text-grey-8'"
+          :class="
+            $route.path == '/' ? 'text-' + darkModeConf.iconVar : 'text-grey-8'
+          "
           class="col-3 text-center"
           lang="pt-PT"
           aria-label="Home page"
         >
-          <q-icon
-            name="home"
-            size="md"
-          />
+          <q-icon name="home" size="md" />
         </router-link>
         <router-link
           to="/vacancies"
           class="col-3 text-center"
           lang="pt-PT"
           aria-label="Botão para página de vagas"
-          :class="$route.path == '/vacancies' ? 'text-' + darkModeConf.iconVar : 'text-grey-8'"
+          :class="
+            $route.path == '/vacancies'
+              ? 'text-' + darkModeConf.iconVar
+              : 'text-grey-8'
+          "
         >
-          <q-icon
-            name="work"
-            size="md"
-          />
+          <q-icon name="work" size="md" />
         </router-link>
         <router-link
           to="/store"
           class="col-3 text-center"
           lang="pt-PT"
           aria-label="Botão para página de negócio"
-          :class="$route.path == '/store' ? 'text-' + darkModeConf.iconVar : 'text-grey-8'"
+          :class="
+            $route.path == '/store'
+              ? 'text-' + darkModeConf.iconVar
+              : 'text-grey-8'
+          "
         >
-          <q-icon
-            name="store"
-            size="md"
-          />
+          <q-icon name="store" size="md" />
         </router-link>
         <router-link
           to="/settings"
           class="col-3 text-center"
           lang="pt-PT"
           aria-label="Botão para página de configurações"
-          :class="$route.path == '/settings' ? 'text-' + darkModeConf.iconVar : 'text-grey-8'"
+          :class="
+            $route.path == '/settings'
+              ? 'text-' + darkModeConf.iconVar
+              : 'text-grey-8'
+          "
         >
-          <q-icon
-            name="settings"
-            size="md"
-          />
+          <q-icon name="settings" size="md" />
         </router-link>
       </div>
-
     </q-footer>
 
     <q-drawer
@@ -361,17 +356,16 @@
           <q-item
             clickable
             v-ripple
-            @click="filterVal = '', drowerFilter = false"
+            @click=";(filterVal = ''), (drowerFilter = false)"
           >
             <q-item-section avatar>
-              <q-icon
-                :color="darkModeConf.iconVar"
-                name="list"
-              />
+              <q-icon :color="darkModeConf.iconVar" name="list" />
             </q-item-section>
 
             <q-item-section>
-              <q-item-label :class="darkModeConf.textColor">Todas vagas</q-item-label>
+              <q-item-label :class="darkModeConf.textColor"
+                >Todas vagas</q-item-label
+              >
             </q-item-section>
           </q-item>
           <q-expansion-item
@@ -384,10 +378,12 @@
               v-ripple
               v-for="(item, idx) in categories"
               :key="idx"
-              @click="filterVal = item, drowerFilter = false"
+              @click=";(filterVal = item), (drowerFilter = false)"
             >
               <q-item-section>
-                <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+                <q-item-label :class="darkModeConf.textColor">{{
+                  item
+                }}</q-item-label>
               </q-item-section>
             </q-item>
           </q-expansion-item>
@@ -402,10 +398,12 @@
               v-ripple
               v-for="(item, idx) in places"
               :key="idx"
-              @click="filterVal = item, drowerFilter = false"
+              @click=";(filterVal = item), (drowerFilter = false)"
             >
               <q-item-section>
-                <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+                <q-item-label :class="darkModeConf.textColor">{{
+                  item
+                }}</q-item-label>
               </q-item-section>
             </q-item>
           </q-expansion-item>
@@ -431,17 +429,16 @@
           <q-item
             clickable
             v-ripple
-            @click="filterVal = '', drowerFilterStore = false"
+            @click=";(filterVal = ''), (drowerFilterStore = false)"
           >
             <q-item-section avatar>
-              <q-icon
-                :color="darkModeConf.iconVar"
-                name="list"
-              />
+              <q-icon :color="darkModeConf.iconVar" name="list" />
             </q-item-section>
 
             <q-item-section>
-              <q-item-label :class="darkModeConf.textColor">Todas Produtos e serviços</q-item-label>
+              <q-item-label :class="darkModeConf.textColor"
+                >Todas Produtos e serviços</q-item-label
+              >
             </q-item-section>
           </q-item>
           <q-expansion-item
@@ -454,10 +451,12 @@
               v-ripple
               v-for="(item, idx) in categoriesStore"
               :key="idx"
-              @click="filterVal = item, drowerFilterStore = false"
+              @click=";(filterVal = item), (drowerFilterStore = false)"
             >
               <q-item-section>
-                <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+                <q-item-label :class="darkModeConf.textColor">{{
+                  item
+                }}</q-item-label>
               </q-item-section>
             </q-item>
           </q-expansion-item>
@@ -472,10 +471,12 @@
               v-ripple
               v-for="(item, idx) in places"
               :key="idx"
-              @click="filterVal = item, drowerFilterStore = false"
+              @click=";(filterVal = item), (drowerFilterStore = false)"
             >
               <q-item-section>
-                <q-item-label :class="darkModeConf.textColor">{{ item }}</q-item-label>
+                <q-item-label :class="darkModeConf.textColor">{{
+                  item
+                }}</q-item-label>
               </q-item-section>
             </q-item>
           </q-expansion-item>
@@ -513,17 +514,19 @@
             :to="item.to"
             @click="drowerAdmin = false"
           >
-            <q-item-section
-              avatar
-              v-if="item.icon"
-            >
+            <q-item-section avatar>
               <q-icon
+                v-if="item.iconawesome"
                 :color="darkModeConf.iconVar"
-                :name="item.icon"
+                :name="'fas fa-' + item.iconawesome"
+                size="20px"
               />
+              <q-icon v-else :color="darkModeConf.iconVar" :name="item.icon" />
             </q-item-section>
             <q-item-section>
-              <q-item-label :class="darkModeConf.textColor">{{ item.name.toUpperCase() }}</q-item-label>
+              <q-item-label :class="darkModeConf.textColor">{{
+                item.name.toUpperCase()
+              }}</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -538,11 +541,7 @@
       />
       <router-view v-else />
 
-      <q-page-sticky
-        v-if="$q.screen.gt.sm"
-        expand
-        position="left"
-      >
+      <q-page-sticky v-if="$q.screen.gt.sm" expand position="left">
         <div class="fit q-pt-lg q-px-xs column">
           <q-btn
             round
@@ -552,16 +551,18 @@
             size="35px"
             class="GPL__side-btn"
             to="/"
-            :class="$route.path.split('/')[1] == '' ? 'bg-grey-4' : ''"
+            :class="
+              $route.path.split('/')[1] == ''
+                ? appMode
+                  ? 'bg-grey-4'
+                  : 'bg-grey-9'
+                : ''
+            "
             role="link"
             lang="pt-PT"
             aria-label="Página Inicial"
           >
-            <q-icon
-              :color="darkModeConf.iconVar"
-              size="lg"
-              name="home"
-            />
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="home" />
             <div class="GPL__side-btn__label">Home</div>
           </q-btn>
 
@@ -572,17 +573,19 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
-            :class="$route.path.split('/')[1] == 'vacancies' ? 'bg-grey-4' : ''"
+            :class="
+              $route.path.split('/')[1] == 'vacancies'
+                ? appMode
+                  ? 'bg-grey-4'
+                  : 'bg-grey-9'
+                : ''
+            "
             to="/vacancies"
             role="link"
             lang="pt-PT"
             aria-label="Página de vagas de emprego"
           >
-            <q-icon
-              :color="darkModeConf.iconVar"
-              size="lg"
-              name="work"
-            />
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="work" />
             <div class="GPL__side-btn__label">Vagas</div>
           </q-btn>
 
@@ -593,17 +596,19 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
-            :class="$route.path.split('/')[1] == 'store' ? 'bg-grey-4' : ''"
+            :class="
+              $route.path.split('/')[1] == 'store'
+                ? appMode
+                  ? 'bg-grey-4'
+                  : 'bg-grey-9'
+                : ''
+            "
             to="/store"
             role="link"
             lang="pt-PT"
             aria-label="Página Produtos e serviços"
           >
-            <q-icon
-              :color="darkModeConf.iconVar"
-              size="lg"
-              name="store"
-            />
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="store" />
             <div class="GPL__side-btn__label">Negócio</div>
             <!-- <q-badge floating :color="darkModeConf.iconVar" text-color="white" style="top: 8px right: 16px">
               1
@@ -617,17 +622,19 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
-            :class="$route.path.split('/')[1] == 'profile' ? 'bg-grey-4' : ''"
+            :class="
+              $route.path.split('/')[1] == 'profile'
+                ? appMode
+                  ? 'bg-grey-4'
+                  : 'bg-grey-9'
+                : ''
+            "
             to="/profile"
             role="link"
             lang="pt-PT"
             aria-label="Página de perfil"
           >
-            <q-icon
-              :color="darkModeConf.iconVar"
-              size="lg"
-              name="person"
-            />
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="person" />
             <div class="GPL__side-btn__label">Perfil</div>
           </q-btn>
           <q-btn
@@ -638,17 +645,19 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
-            :class="$route.path.split('/')[1] == 'account' ? 'bg-grey-4' : ''"
+            :class="
+              $route.path.split('/')[1] == 'account'
+                ? appMode
+                  ? 'bg-grey-4'
+                  : 'bg-grey-9'
+                : ''
+            "
             to="/account"
             role="link"
             lang="pt-PT"
             aria-label="Página de login"
           >
-            <q-icon
-              :color="darkModeConf.iconVar"
-              size="lg"
-              name="person"
-            />
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="person" />
             <div class="GPL__side-btn__label">Perfil</div>
           </q-btn>
           <q-btn
@@ -658,17 +667,19 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
-            :class="$route.path.split('/')[1] == 'settings' ? 'bg-grey-4' : ''"
+            :class="
+              $route.path.split('/')[1] == 'settings'
+                ? appMode
+                  ? 'bg-grey-4'
+                  : 'bg-grey-9'
+                : ''
+            "
             to="/settings"
             role="link"
             lang="pt-PT"
             aria-label="Página de configurações"
           >
-            <q-icon
-              :color="darkModeConf.iconVar"
-              size="lg"
-              name="settings"
-            />
+            <q-icon :color="darkModeConf.iconVar" size="lg" name="settings" />
             <div class="GPL__side-btn__label">Definições</div>
           </q-btn>
           <q-btn
@@ -679,7 +690,13 @@
             no-caps
             size="35px"
             class="GPL__side-btn"
-            :class="$route.path.split('/')[1] == 'admin' ? 'bg-grey-4' : ''"
+            :class="
+              $route.path.split('/')[1] == 'admin'
+                ? appMode
+                  ? 'bg-grey-4'
+                  : 'bg-grey-9'
+                : ''
+            "
             to="/admin"
             role="link"
             lang="pt-PT"
@@ -699,14 +716,14 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import { LocalStorage } from "quasar";
-import { firestoreDB } from "boot/firebase";
-import ChatCount from "components/layout/ChatCount";
+import { mapState, mapActions, mapGetters } from "vuex"
+import { LocalStorage } from "quasar"
+import { firestoreDB } from "boot/firebase"
+import ChatCount from "components/layout/ChatCount"
 export default {
   // name: 'LayoutName',
 
-  data () {
+  data() {
     return {
       readed: false,
       textColor: "text-black",
@@ -798,11 +815,21 @@ export default {
         { name: "Home Admin", icon: "admin_panel_settings", to: "/admin" },
         { name: "Empresas", icon: "business", to: "/admin/companies" },
         { name: "Usuários", icon: "group", to: "/admin/users" },
-        { name: "Associações", icon: "groups", to: "/admin/associations" },
+        {
+          name: "Associações",
+          iconawesome: "users",
+          to: "/admin/associations",
+        },
         { name: "Vagas", icon: "work", to: "/admin/vacancies" },
         { name: "Estatística", icon: "show_chart", to: "/admin/statistics" },
+        {
+          name: "Add Admin",
+          icon: "admin_panel_settings",
+          to: "/admin/admins",
+        },
+        { name: "Ajuda", icon: "help", to: "/helpadmin" },
       ],
-    };
+    }
   },
   components: {
     ChatCount,
@@ -816,9 +843,9 @@ export default {
     ...mapActions("auth", ["signOut"]),
     ...mapActions("settings", ["setAppMode"]),
 
-    backIconFunc (to) {
+    backIconFunc(to) {
       // active/ deactivate icon
-      this.backIcon = false;
+      this.backIcon = false
       if (
         to.path !== "/" &&
         to.path !== "/vacancies" &&
@@ -826,57 +853,57 @@ export default {
         to.path !== "/store" &&
         to.path !== "/settings"
       )
-        this.backIcon = true;
+        this.backIcon = true
     },
 
-    speak (userInput) {
+    speak(userInput) {
       if (this.vibrateState === 1 && this.getVibrate) {
         if (this.synth.speaking) {
           // console.error('speechSynthesis.speaking');
           // console.log("Teste")
-          this.synth.cancel();
+          this.synth.cancel()
           // return;
         }
         if (userInput !== "") {
-          let sInstance = new SpeechSynthesisUtterance(userInput);
+          let sInstance = new SpeechSynthesisUtterance(userInput)
           sInstance.onend = function (event) {
             // console.log('SpeechSynthesisUtterance.onend');
-          };
+          }
           sInstance.onerror = function (event) {
             // console.error('SpeechSynthesisUtterance.onerror');
-          };
+          }
           // vibrate antes de falar
           //navigator.vibrate(200);
           // window.navigator.vibrate(200);
           // speak
-          sInstance.pitch = this.pitch;
-          sInstance.rate = this.rate;
-          sInstance.lang = "pt-PT";
-          this.synth.speak(sInstance);
+          sInstance.pitch = this.pitch
+          sInstance.rate = this.rate
+          sInstance.lang = "pt-PT"
+          this.synth.speak(sInstance)
         } else {
           let sInstance = new SpeechSynthesisUtterance(
             "Nenhum texto nesta área."
-          );
+          )
           sInstance.onend = function (event) {
             // console.log('SpeechSynthesisUtterance.onend');
-          };
+          }
           sInstance.onerror = function (event) {
             // console.error('SpeechSynthesisUtterance.onerror');
-          };
+          }
 
           // vibrate antes de falar
           //navigator.vibrate(200);
           // window.navigator.vibrate(200);
           // speak
-          sInstance.pitch = this.pitch;
-          sInstance.rate = this.rate;
-          sInstance.lang = "pt-PT";
-          this.synth.speak(sInstance);
+          sInstance.pitch = this.pitch
+          sInstance.rate = this.rate
+          sInstance.lang = "pt-PT"
+          this.synth.speak(sInstance)
         }
       }
     },
 
-    speakCordova (userInput) {
+    speakCordova(userInput) {
       if (this.vibrateState === 1 && this.getVibrate) {
         TTS.speak(
           {
@@ -888,9 +915,9 @@ export default {
             // console.log('Text succesfully spoken');
           },
           function (reason) {
-            console.log(reason);
+            console.log(reason)
           }
-        );
+        )
       }
     },
 
@@ -919,74 +946,74 @@ export default {
     //   }
     // },
 
-    getChat (vm) {
+    getChat(vm) {
       const ref = firestoreDB
         .collection("chat")
-        .doc(vm.user.email.split("@")[0]);
-      var chatDataObj = {};
+        .doc(vm.userData.email.split("@")[0])
+      var chatDataObj = {}
 
       ref.onSnapshot(function (doc) {
         if (doc.exists) {
-          vm.numMessage = 0;
+          vm.numMessage = 0
           doc.data().peopleChat.forEach((element) => {
             var refToCount = firestoreDB
               .collection("chat")
-              .doc(vm.user.email.split("@")[0])
-              .collection(element);
+              .doc(vm.userData.email.split("@")[0])
+              .collection(element)
             refToCount
               .where("readed", "==", false)
               .onSnapshot(function (querySnap) {
                 querySnap.forEach(function (doc) {
                   if (
                     !doc.data().readed &&
-                    doc.data().sender !== vm.user.email
+                    doc.data().sender !== vm.userData.email
                   ) {
-                    vm.numMessage += 1;
+                    vm.numMessage += 1
                   }
-                });
-              });
-          });
+                })
+              })
+          })
         }
-      });
+      })
     },
 
-    accessibilityMode () {
+    accessibilityMode() {
       this.$root.$on("textToSpeechRouter", (val) => {
         if (window.hasOwnProperty("cordova")) {
-          this.speakCordova(val);
+          this.speakCordova(val)
         } else {
-          this.speak(val);
+          this.speak(val)
         }
-      });
+      })
     },
   },
 
-  beforeCreate () {
+  beforeCreate() {
     if (!LocalStorage.getItem("notFirst")) {
-      this.$router.push("/welcome");
+      this.$router.push("/welcome")
     }
   },
 
-  created () {
+  created() {
     // if (!LocalStorage.getItem("notFirst")) {
     //   this.$router.push("/welcome");
     // }
   },
 
-  mounted () {
-    const vm = this;
+  mounted() {
+    const vm = this
     if (LocalStorage.getItem("lightMode") !== null) {
       if (LocalStorage.getItem("lightMode") === 1) {
-        this.setAppMode(1);
+        this.setAppMode(1)
       } else {
-        this.setAppMode(0);
+        this.setAppMode(0)
       }
     } else {
-      this.setAppMode(1);
+      this.setAppMode(1)
     }
 
     if (this.user && this.isUserAuth) {
-      this.getChat(vm);
+      this.getChat(vm)
     }
 
     // // // // // this.$root.$on("countMessages", val => {
@@ -1002,38 +1029,49 @@ export default {
 
     // // // // // // this.$root.$store.state.vibrateState
 
-    this.accessibilityMode();
+    this.accessibilityMode()
 
-    this.backIconFunc(this.$route);
+    this.backIconFunc(this.$route)
 
     if (this.$route.path == "/store" || this.$route.path == "/vacancies")
-      this.toSearch = true;
+      this.toSearch = true
   },
 
   watch: {
-    $route (to, from) {
+    $route(to, from) {
       // react to route changes...
-      this.toSearch = false;
+      this.toSearch = false
       if (this.$route.path == "/store" || this.$route.path == "/vacancies") {
-        this.toSearch = true;
-        this.valueSearch = "";
-        this.filterVal = "";
+        this.toSearch = true
+        this.valueSearch = ""
+        this.filterVal = ""
       }
-      this.backIconFunc(to);
+      this.backIconFunc(to)
 
       if (this.vibrateState && this.getVibrate) {
         if (window.hasOwnProperty("cordova")) {
-          navigator.vibrate(200);
+          navigator.vibrate(200)
         } else {
-          window.navigator.vibrate(200);
+          window.navigator.vibrate(200)
         }
       }
+
+      if (to.path.split("/")[1] == "admin" && !this.userData.access) {
+        this.$router.go(-1)
+      }
+
+      if (
+        to == "/profile/vacancy/add" &&
+        userData.profileType == "organization"
+      ) {
+        this.$router.go(-1)
+      }
     },
-    appMode (val) {
+    appMode(val) {
       if (val) {
-        this.$q.dark.set(false);
+        this.$q.dark.set(false)
       } else {
-        this.$q.dark.set(true);
+        this.$q.dark.set(true)
       }
     },
 
@@ -1047,7 +1085,7 @@ export default {
     //   // this.accessibilityMode()
     // }
   },
-};
+}
 </script>
 
 <style lang="sass">

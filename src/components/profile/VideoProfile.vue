@@ -17,15 +17,15 @@
  * vue-video-player引入方式为
  * import { videoPlayer } from 'vue-video-player
  */
-import VideoPlayer from "vue-video-player-vjs";
-import "video.js/dist/video-js.css";
-import "vue-video-player-vjs/styles/index.css";
+import VideoPlayer from "vue-video-player-vjs"
+import "video.js/dist/video-js.css"
+import "vue-video-player-vjs/styles/index.css"
 
 export default {
   name: "App",
   components: { VideoPlayer },
   props: ["videoUrl"],
-  data () {
+  data() {
     return {
       playerOptions: {
         autoplay: false, // 自动播放，false
@@ -40,23 +40,22 @@ export default {
           timeDivider: false,
           remainingTimeDisplay: false,
           currentTimeDisplay: false,
-          durationDisplay: false
-        }
-      }
-    };
+          durationDisplay: false,
+        },
+      },
+    }
   },
-  computed () {
-  },
-  mounted () {
+  computed() {},
+  mounted() {
     // console.log(this.videoUrl);
     // console.log(this.playerOptions.sources);
     this.playerOptions.sources = [
       {
         withCredentials: false,
         type: "video/mp4",
-        src: this.videoUrl
-      }
-    ];
-  }
-};
+        src: this.videoUrl,
+      },
+    ]
+  },
+}
 </script>

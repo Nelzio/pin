@@ -4,10 +4,7 @@
     <div class="row justify-center">
       <div class="q-gutter-y-md col-12 col-md-8">
         <q-card class="my-card">
-          <q-img
-            :src="imageUrl"
-            alt="Imagem da vaga"
-          />
+          <q-img :src="imageUrl" alt="Imagem da vaga" />
           <q-card-actions>
             <q-btn
               rounded
@@ -46,8 +43,9 @@
             label="Titulo"
             type="text"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza o título']"
+            :rules="[(val) => (val && val.length > 0) || 'Introduza o título']"
           />
+
           <!-- <q-input :color="darkModeConf.iconVar" rounded outlined v-model="vacancy.description" label="Descricao" /> -->
           <q-select
             rounded
@@ -58,7 +56,19 @@
             label="Categoria"
             role="combobox"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza a categoria']"
+            :rules="[
+              (val) => (val && val.length > 0) || 'Introduza a categoria',
+            ]"
+          />
+          <q-input
+            :color="darkModeConf.iconVar"
+            rounded
+            outlined
+            v-model.number="vacancy.numVacancies"
+            type="number"
+            label="Número de vagas"
+            lazy-rules
+            :rules="[(val) => val || 'Introduza o número de vagas']"
           />
           <q-select
             rounded
@@ -69,7 +79,9 @@
             label="Província"
             role="combobox"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza a província']"
+            :rules="[
+              (val) => (val && val.length > 0) || 'Introduza a província',
+            ]"
           />
           <q-input
             :color="darkModeConf.iconVar"
@@ -79,7 +91,10 @@
             v-model="vacancy.validate"
             mask="##/##/####"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza a data de validade']"
+            :rules="[
+              (val) =>
+                (val && val.length > 0) || 'Introduza a data de validade',
+            ]"
           >
             <template v-slot:append>
               <q-icon
@@ -108,7 +123,9 @@
             role="textbox"
             min-height="8rem"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Introduza uma descrição']"
+            :rules="[
+              (val) => (val && val.length > 0) || 'Introduza uma descrição',
+            ]"
           />
           <div>
             <q-btn
@@ -152,17 +169,19 @@
         lang="pt-PT"
         aria-label="Alerta de sucesso"
       >
-        <q-card style="widht: 90vw">
+        <q-card style="width: 80vw">
           <q-card-section>
             <div :class="getFont.title">Adição de vaga</div>
           </q-card-section>
-          <q-card-section :class="getFont.text">Vaga inserida com sucesso.</q-card-section>
+          <q-card-section :class="getFont.text"
+            >Vaga inserida com sucesso.</q-card-section
+          >
           <q-card-actions align="right">
             <q-btn
               rounded
-              outline
               label="OK"
               :color="darkModeConf.iconVar"
+              :class="darkModeConf.textBtn"
               v-close-popup
             />
           </q-card-actions>
@@ -179,7 +198,9 @@
           <q-card-section>
             <div :class="getFont.title">Atenção</div>
           </q-card-section>
-          <q-card-section :class="getFont.text">Por favor, insira uma imagem válida.</q-card-section>
+          <q-card-section :class="getFont.text"
+            >Por favor, insira uma imagem válida.</q-card-section
+          >
           <q-card-actions align="right">
             <q-btn
               rounded
@@ -196,10 +217,10 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex"
 export default {
   // name: 'PageName',
-  data () {
+  data() {
     return {
       confirmInsert: false,
       errorFileDialog: false,
@@ -211,7 +232,9 @@ export default {
         public: true,
         category: "",
         validate: "",
-        place: ""
+        place: "",
+        approved: false,
+        numVacancies: null,
       },
       imageUrl: "",
       places: [
@@ -225,7 +248,7 @@ export default {
         "Niassa",
         "Sofala",
         "Tete",
-        "Zambézia"
+        "Zambézia",
       ],
       categories: [
         "Administração e Secretariado",
@@ -255,53 +278,54 @@ export default {
         "Supervisão e Coordenação",
         "Técnico",
         "Transportes e Logística",
-        "Vendas"
-      ]
-    };
+        "Vendas",
+      ],
+    }
   },
   computed: {
     ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
     ...mapState("vacancy", ["vacancyDtl"]),
     ...mapGetters("settings", ["getFont"]),
-    ...mapGetters("auth", ["user"])
+    ...mapGetters("auth", ["user"]),
   },
   methods: {
     ...mapActions("vacancy", ["listVacancy", "createVacancy"]),
-    addVacancy () {
+    addVacancy() {
       // console.log(this.vacancy)
-      var today = new Date();
-      this.vacancy.user = this.user.email;
-      this.vacancy.timeSend = String(today);
-      this.$refs.vacancyForm.validate();
+      var today = new Date()
+      this.vacancy.user = this.user.email
+      this.vacancy.numVacancies = parseInt(this.vacancy.numVacancies)
+      this.vacancy.timeSend = String(today)
+      this.$refs.vacancyForm.validate()
       if (this.$refs.vacancyForm.hasError) {
-        this.formHasError = true;
+        this.formHasError = true
       } else {
-        this.createVacancy(this.vacancy);
+        this.createVacancy(this.vacancy)
       }
     },
-    processFile () {
+    processFile() {
       // document.getElementById("fileInput").click()
-      this.$refs.fileImg.click();
+      this.$refs.fileImg.click()
     },
-    onChangeImg (event) {
-      const files = event.target.files;
-      let filename = files[0].name;
-      let file = files[0];
+    onChangeImg(event) {
+      const files = event.target.files
+      let filename = files[0].name
+      let file = files[0]
       if (!(file && file["type"].split("/")[0] === "image")) {
-        return (this.errorFileDialog = true);
+        return (this.errorFileDialog = true)
       }
-      const fileReader = new FileReader();
+      const fileReader = new FileReader()
       fileReader.addEventListener("load", () => {
-        this.imageUrl = fileReader.result;
-      });
-      fileReader.readAsDataURL(files[0]);
-      this.vacancy.img = files[0];
-    }
+        this.imageUrl = fileReader.result
+      })
+      fileReader.readAsDataURL(files[0])
+      this.vacancy.img = files[0]
+    },
   },
   watch: {
-    vacancyDtl () {
+    vacancyDtl() {
       if (!this.vacancyDtl.title) {
-        this.imageUrl = "";
+        this.imageUrl = ""
         this.vacancy = {
           title: "",
           user: "",
@@ -311,12 +335,14 @@ export default {
           category: "",
           validate: "",
           place: "",
-          timeSend: ""
-        };
-        this.$refs.vacancyForm.resetValidation();
-        this.confirmInsert = true;
+          timeSend: "",
+          approved: false,
+          numVacancies: "",
+        }
+        this.$refs.vacancyForm.resetValidation()
+        this.confirmInsert = true
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>

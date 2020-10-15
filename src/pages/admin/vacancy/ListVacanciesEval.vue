@@ -13,8 +13,8 @@
           color="white"
           text-color="primary"
           :options="[
-          {label: 'Empresas aprovadas', value: 'approved'},
-          {label: 'Empresas por aprova', value: 'notApproved'}
+          {label: 'Vagas por aprova', value: 'notApproved'},
+          {label: 'Vagas aprovadas', value: 'approved'}
         ]"
         />
 
@@ -51,7 +51,7 @@ import { firestoreDB } from "boot/firebase";
 export default {
   data () {
     return {
-      buttonsModel: "approved",
+      buttonsModel: "notApproved",
       selectedId: "",
       detailDrawer: false,
       vacancies: [],

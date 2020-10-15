@@ -10,24 +10,47 @@
       :fullscreen="false"
     >
       <template v-slot:top>
-        <q-select
-          v-model="visibleColumns"
-          multiple
-          outlined
-          dense
-          options-dense
-          :display-value="$q.lang.table.columns"
-          emit-value
-          map-options
-          :options="tableColumns"
-          option-value="name"
-          style="min-width: 150px"
-        />
+        <div class="row q-gutter-x-sm">
+          <q-select
+            v-model="visibleColumns"
+            multiple
+            rounded
+            outlined
+            dense
+            options-dense
+            :display-value="$q.lang.table.columns"
+            emit-value
+            map-options
+            :options="tableColumns"
+            option-value="name"
+            style="min-width: 150px"
+          />
+          <q-btn
+            rounded
+            outline
+            color="primary"
+            icon-right="archive"
+            label="Export em csv"
+            no-caps
+            @click="exportTable"
+          />
+
+          <q-btn
+            rounded
+            outline
+            color="primary"
+            icon-right="archive"
+            label="Export em excel"
+            no-caps
+            @click="exportToExl"
+          />
+        </div>
 
         <q-space />
 
         <q-select
           outlined
+          rounded
           dense
           options-dense
           v-model="filterGender"
@@ -65,6 +88,8 @@
 </template>
 
 <script>
+import exportFromJSON from 'export-from-json'
+
 export default {
   props: ["users"],
   data () {
@@ -135,12 +160,14 @@ export default {
         },
       ],
       tableData: [],
-      listByGender: []
+      listByGender: [],
+      usersJson: []
     };
   },
   methods: {
     addUsersList () {
       let userList = [];
+      let usersJson = [];
       const vm = this;
       this.users.forEach((element) => {
         userList.push({
@@ -151,12 +178,25 @@ export default {
           date: element.date,
           deficiency: element.deficiency,
           profession: element.profession ? element.profession : "",
-          association: element.association
-            ? element.association
+          association: element.association && element.association.label
+            ? element.association.label
+            : "Não associado",
+        });
+        usersJson.push({
+          Nome: element.displayName,
+          Telefone: element.phoneNumber,
+          Email: element.email,
+          Género: element.gender !== "" ? (element.gender ? "M" : "F") : "Não definido",
+          "Data de Nascimento": element.date,
+          Deficiência: element.deficiency,
+          Profissão: element.profession ? element.profession : "",
+          Associação: element.association && element.association.label
+            ? element.association.label
             : "Não associado",
         });
       });
       vm.tableData = userList;
+      vm.usersJson = usersJson
     },
     filterByGender (gender) {
       let userList = []
@@ -203,6 +243,23 @@ export default {
         }
       });
       this.tableData = userList;
+    },
+    exportTable () {
+      // naive encoding to csv format
+      const data = this.usersJson
+      const fileName = 'users'
+      const exportType = 'csv'
+
+      exportFromJSON({ data, fileName, exportType })
+    },
+
+
+    exportToExl () {
+      const data = this.usersJson
+      const fileName = 'users'
+      const exportType = 'xls'
+
+      exportFromJSON({ data, fileName, exportType })
     }
   },
   mounted () {

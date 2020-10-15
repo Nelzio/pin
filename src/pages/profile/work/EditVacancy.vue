@@ -6,10 +6,7 @@
     <div class="row justify-center">
       <div class="q-gutter-y-md col-12 col-md-8">
         <q-card class="my-card">
-          <q-img
-            :src="imageUrl"
-            alt="Imagem da vaga"
-          />
+          <q-img :src="imageUrl" alt="Imagem da vaga" />
           <q-card-actions>
             <q-btn
               rounded
@@ -56,6 +53,16 @@
             role="combobox"
             label="Categoria"
           />
+          <q-input
+            :color="darkModeConf.iconVar"
+            rounded
+            outlined
+            v-model.number="vacancyData.numVacancies"
+            label="Número de vagas"
+            type="number"
+            lazy-rules
+            :rules="[(val) => val || 'Introduza o número de vagas']"
+          />
           <q-select
             rounded
             outlined
@@ -72,7 +79,10 @@
             outlined
             v-model="vacancyData.validate"
             mask="##/##/####"
-            :rules="[ val => val && val.length > 0 || 'Introduza a data de validade']"
+            :rules="[
+              (val) =>
+                (val && val.length > 0) || 'Introduza a data de validade',
+            ]"
           >
             <template v-slot:append>
               <q-icon
@@ -121,14 +131,20 @@
         lang="pt-PT"
         aria-label="Alerta de sucesso"
       >
-        <q-card>
-          <q-card-section class="text-h5 text-green">Vaga atualizada com sucesso</q-card-section>
+        <q-card style="width: 700px; max-width: 80vw">
+          <q-card-section>
+            <div class="text-h6" :class="getFont.title">Atenção</div>
+          </q-card-section>
+          <q-card-section :class="getFont.text"
+            >Vaga atualizada com sucesso</q-card-section
+          >
 
           <q-card-actions align="right">
             <q-btn
-              flat
+              rounded
               label="OK"
-              color="primary"
+              :color="darkModeConf.iconVar"
+              :class="darkModeConf.textBtn"
               role="button"
               @click="confirmIsertFunc()"
             />
@@ -143,16 +159,12 @@
         aria-label="Alerta de sucesso"
       >
         <q-card>
-          <q-card-section class="text-h5 text-red">Por favor, insira uma imagem válida.</q-card-section>
+          <q-card-section class="text-h5 text-red"
+            >Por favor, insira uma imagem válida.</q-card-section
+          >
 
           <q-card-actions align="right">
-            <q-btn
-              flat
-              label="OK"
-              color="red"
-              role="button"
-              v-close-popup
-            />
+            <q-btn flat label="OK" color="red" role="button" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -161,11 +173,11 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDB } from "boot/firebase";
+import { mapState, mapActions, mapGetters } from "vuex"
+import { firestoreDB } from "boot/firebase"
 export default {
   // name: 'PageName',
-  data () {
+  data() {
     return {
       confirmInsert: false,
       errorFileDialog: false,
@@ -177,7 +189,9 @@ export default {
         public: false,
         category: "",
         validate: "",
-        place: ""
+        place: "",
+        approved: false,
+        numVacancies: 0,
       },
       vacancyDataTemp: {
         description: "",
@@ -187,7 +201,9 @@ export default {
         public: false,
         category: "",
         validate: "",
-        place: ""
+        place: "",
+        approved: false,
+        numVacancies: 0,
       },
       fileImage: null,
       imageUrl: "",
@@ -202,7 +218,7 @@ export default {
         "Niassa",
         "Sofala",
         "Tete",
-        "Zambézia"
+        "Zambézia",
       ],
       categories: [
         "Administração e Secretariado",
@@ -232,95 +248,99 @@ export default {
         "Supervisão e Coordenação",
         "Técnico",
         "Transportes e Logística",
-        "Vendas"
-      ]
-    };
+        "Vendas",
+      ],
+    }
   },
   computed: {
     ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
     ...mapState("vacancy", ["vacancyDtl", "vacancyUploaded"]),
-    ...mapGetters("vacancy", ["getVacancy"])
+    ...mapGetters("vacancy", ["getVacancy"]),
+    ...mapGetters("settings", ["getFont"]),
   },
   methods: {
-    confirmIsertFunc () {
-      this.confirmInsert = false;
-      this.$router.go(-1);
+    confirmIsertFunc() {
+      this.confirmInsert = false
+      this.$router.go(-1)
     },
     ...mapActions("vacancy", [
       "listVacancy",
       "createVacancy",
       "detailVacancy",
-      "updateVacancy"
+      "updateVacancy",
     ]),
 
-    detailVacancyLocal (id) {
+    detailVacancyLocal(id) {
       // test
       // Loading.show()
-      const ref = firestoreDB.collection("vacancies").doc(id);
-      let data = {};
-      ref.get().then(doc => {
+      const ref = firestoreDB.collection("vacancies").doc(id)
+      let data = {}
+      ref.get().then((doc) => {
         if (doc.exists) {
           data = {
             key: doc.id,
             title: doc.data().title,
             user: doc.data().user,
+            approved: doc.data().approved ? doc.data().approved : false,
+            numVacancies: doc.data().numVacancies,
             description: doc.data().description,
             img: doc.data().img,
             public: doc.data().public,
             category: doc.data().category,
             validate: doc.data().validate,
             place: doc.data().place,
-            timeSend: doc.data().timeSend
-          };
-          this.vacancyData = data;
-          this.imageUrl = data.img;
+            timeSend: doc.data().timeSend,
+          }
+          this.vacancyData = data
+          this.imageUrl = data.img
           // Loading.hide()
         } else {
-          console.log("No such document!");
+          console.log("No such document!")
           // Loading.hide()
         }
-      });
+      })
     },
 
-    updateVacancyThis () {
+    updateVacancyThis() {
+      this.vacancyData.numVacancies = parseInt(this.vacancyData.numVacancies)
       this.updateVacancy({
         id: this.$route.params.idEdit,
         data: this.vacancyData,
-        img: this.fileImage
-      });
+        img: this.fileImage,
+      })
     },
 
-    processFile () {
+    processFile() {
       // document.getElementById("fileInput").click()
-      this.$refs.fileImg.click();
-      console.log(document.getElementById("fileInput"));
+      this.$refs.fileImg.click()
+      console.log(document.getElementById("fileInput"))
     },
 
-    onChangeImg (event) {
-      const files = event.target.files;
-      let filename = files[0].name;
-      let file = files[0];
+    onChangeImg(event) {
+      const files = event.target.files
+      let filename = files[0].name
+      let file = files[0]
       if (!(file && file["type"].split("/")[0] === "image")) {
-        return (this.errorFileDialog = true);
+        return (this.errorFileDialog = true)
       }
-      const fileReader = new FileReader();
+      const fileReader = new FileReader()
       fileReader.addEventListener("load", () => {
-        this.imageUrl = fileReader.result;
-      });
-      fileReader.readAsDataURL(files[0]);
-      this.fileImage = files[0];
-    }
+        this.imageUrl = fileReader.result
+      })
+      fileReader.readAsDataURL(files[0])
+      this.fileImage = files[0]
+    },
   },
 
-  mounted () {
-    this.detailVacancyLocal(this.$route.params.idEdit);
+  mounted() {
+    this.detailVacancyLocal(this.$route.params.idEdit)
   },
   watch: {
-    vacancyUploaded () {
+    vacancyUploaded() {
       if (this.vacancyUploaded) {
-        this.confirmInsert = true;
+        this.confirmInsert = true
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>

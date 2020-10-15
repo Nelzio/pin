@@ -1,7 +1,13 @@
 <template>
-  <q-page v-touch-swipe.mouse.right="accountSwipe" class="flex flex-center">
+  <q-page
+    v-touch-swipe.mouse.right="accountSwipe"
+    class="flex flex-center"
+  >
     <!-- content -->
-    <div id="firebaseui-auth-container" class="row q-gutter-y-lg q-pa-md"></div>
+    <div
+      id="firebaseui-auth-container"
+      class="row q-gutter-y-lg q-pa-md"
+    ></div>
   </q-page>
 </template>
 
@@ -12,7 +18,7 @@ import * as firebaseui from "firebaseui"
 import "firebaseui/dist/firebaseui.css";
 export default {
   name: "LoginFormsComponent",
-  data() {
+  data () {
     return {
       authObject: {
         name: "",
@@ -33,7 +39,7 @@ export default {
       "facebookSignIn"
     ]),
 
-    SignInUI() {
+    SignInUI () {
       var ui = new firebaseui.auth.AuthUI(firebase.auth());
       ui.start("#firebaseui-auth-container", {
         signInOptions: [
@@ -60,15 +66,15 @@ export default {
       });
     },
 
-    isPasswordValid(email) {
+    isPasswordValid (email) {
       var re = /^(([^<>()\[\]\\.,:\s@"]+(\.[^<>()\[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(String(email).toLowerCase());
+      return re.test(String(email));
     },
 
-    onReset() {
+    onReset () {
       alert("must reset form.");
     },
-    onSubmit() {
+    onSubmit () {
       this.$refs.email.validate();
       this.$refs.password.validate();
 
@@ -76,7 +82,7 @@ export default {
         this.loginUser(this.authObject);
       }
     },
-    accountSwipe(val) {
+    accountSwipe (val) {
       // if (val.direction === "left") {
       //   this.$router.push("/account/create")
       // }
@@ -90,7 +96,7 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     this.SignInUI()
     this.$root.$emit(
       "textToSpeechRouter",
@@ -99,7 +105,7 @@ export default {
   },
 
   filters: {
-    captalizeFirstLetter(val) {
+    captalizeFirstLetter (val) {
       return val.charAt(0).toUpperCase() + "" + val.slice(1);
     }
   }

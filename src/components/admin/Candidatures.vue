@@ -1,6 +1,7 @@
 <template>
   <div>
     <q-table
+      hide-bottom
       title="Candidáturas recentes"
       :data="dataCandidates"
       :columns="columns"

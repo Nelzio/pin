@@ -83,6 +83,19 @@ const routes = [
     ]
   },
   {
+    path: '/helpadmin',
+    component: () => import('layouts/help/Helpadmin.vue'),
+    children: [
+      { path: '', component: () => import('pages/helpadmin/Home.vue') },
+      { path: 'vacancies', component: () => import('pages/helpadmin/Vacancies.vue') },
+      { path: 'users', component: () => import('pages/helpadmin/Users.vue') },
+      { path: 'associations', component: () => import('pages/helpadmin/Associations.vue') },
+      { path: 'companies', component: () => import('pages/helpadmin/Companies.vue') },
+      { path: 'statistics', component: () => import('pages/helpadmin/Statistics.vue') },
+      { path: 'adminmanager', component: () => import('pages/helpadmin/AdminManager.vue') },
+    ]
+  },
+  {
     path: '/admin',
     component: () => import('layouts/home/Base.vue'),
     children: [
@@ -93,6 +106,7 @@ const routes = [
       { path: 'vacancies', component: () => import('pages/admin/Vacancies.vue') },
       { path: 'statistics', component: () => import('pages/admin/Statistics.vue') },
       { path: 'evalvacancies', component: () => import('pages/admin/vacancy/ListVacanciesEval.vue') },
+      { path: 'admins', component: () => import('pages/admin/managers/Index.vue') },
       { path: 'vacancies/vacancy', component: () => import('pages/admin/vacancy/Details.vue') },
       // { path: 'evalvacancies/:idVacancyToEval', component: () => import('pages/admin/vacancy/Details.vue') },
 

@@ -1,15 +1,9 @@
 <template>
-  <q-page
-    class="q-gutter-y-md q-pb-xl"
-    role="feed"
-  >
+  <q-page class="q-gutter-y-md q-pb-xl" role="feed">
     <!-- content -->
 
     <div class="row justify-center q-pb-xl">
-      <div
-        class="col-12 col-md-11"
-        role="grid"
-      >
+      <div class="col-12 col-md-11" role="grid">
         <!-- sec 6 -->
         <div v-if="myStories.length">
           <div class="row">
@@ -26,11 +20,7 @@
       </div>
     </div>
 
-    <q-page-sticky
-      position="bottom-right"
-      :offset="[18, 18]"
-      v-if="user"
-    >
+    <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="user">
       <q-btn
         fab
         icon="add"
@@ -46,18 +36,18 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import { Loading } from "quasar";
-import { firebaseAuth, firestoreDB, fireStorage } from "boot/firebase";
-import offline from "v-offline";
-import Store from "components/profile/Store.vue";
+import { mapState, mapActions, mapGetters } from "vuex"
+import { Loading } from "quasar"
+import { firebaseAuth, firestoreDB, fireStorage } from "boot/firebase"
+import offline from "v-offline"
+import Store from "components/profile/Store.vue"
 
 export default {
   // name: 'PageName',
   components: {
-    Store
+    Store,
   },
-  data () {
+  data() {
     return {
       tab: "bio",
       confirDeleteSuccess: false,
@@ -66,17 +56,17 @@ export default {
       isPublic: true,
       storeDel: {
         title: "",
-        key: null
+        key: null,
       },
       storiesAply: [],
       myStories: [],
-      myStoriesAux: []
-    };
+      myStoriesAux: [],
+    }
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapGetters("settings", ["getFont"]),
-    ...mapGetters("auth", ["user", "userData"])
+    ...mapGetters("auth", ["user", "userData"]),
   },
   methods: {
     ...mapActions("store", [
@@ -85,28 +75,28 @@ export default {
       "createStore",
       "detailStore",
       "updateStore",
-      "deleteStore"
+      "deleteStore",
     ]),
     ...mapActions("auth", ["detailUser", "checkAuthUser"]),
 
     // handleHold({ ...info }) {
     // },
 
-    listStoreMyHere (user) {
+    listStoreMyHere(user) {
       // done
-      var storageRef = fireStorage.ref();
+      var storageRef = fireStorage.ref()
       if (!offline.data().isOnline) {
-        return alert("Sem internet");
+        return alert("Sem internet")
       }
-      const vm = this;
-      var myStories = [];
-      var update = false;
-      var myStoriesAux = [];
-      const ref = firestoreDB.collection("stories");
+      const vm = this
+      var myStories = []
+      var update = false
+      var myStoriesAux = []
+      const ref = firestoreDB.collection("stories")
       ref.where("user", "==", user).onSnapshot(function (querySnapshot) {
         if (vm.myStories.length !== querySnapshot.docs.length) {
-          update = true;
-          myStories = [];
+          update = true
+          myStories = []
           querySnapshot.forEach(function (doc) {
             myStories.push({
               key: doc.id,
@@ -119,48 +109,49 @@ export default {
               place: doc.data().place,
               subCategory: doc.data().subCategory,
               price: doc.data().price,
-              priceVariable: doc.data().priceVariable
-            });
-          });
-          if (update) vm.myStories = myStories;
+              priceVariable: doc.data().priceVariable,
+              timeSend: doc.data().timeSend,
+            })
+          })
+          if (update) vm.myStories = myStories
         }
-      });
+      })
     },
 
-    lazeItems () {
+    lazeItems() {
       if (!(this.itemsLayzeRef == this.$refs.item)) {
-        this.itemsLayzeRef = this.$refs.item;
+        this.itemsLayzeRef = this.$refs.item
       }
-      let active = false;
+      let active = false
       if (active === false && this.itemsLayzeRef) {
-        active = true;
+        active = true
         this.itemsLayzeRef.forEach(function (item) {
           var position =
-            window.innerHeight - item.getBoundingClientRect().bottom;
-          var interval1 = item.getBoundingClientRect().top - 55;
-          var interval2 = item.getBoundingClientRect().top + 55;
+            window.innerHeight - item.getBoundingClientRect().bottom
+          var interval1 = item.getBoundingClientRect().top - 55
+          var interval2 = item.getBoundingClientRect().top + 55
           if (position <= interval2 && position >= interval1) {
             // setTimeout(function() {
-            navigator.vibrate(350);
-            window.navigator.vibrate(350);
+            navigator.vibrate(350)
+            window.navigator.vibrate(350)
             // console.log("Workkkk")
             // }, 200)
           }
-        });
-        active = false;
+        })
+        active = false
       }
     },
   },
 
-  created () {
-    this.checkAuthUser();
-    this.detailUser(this.user.email);
-    this.listStoreMyHere(this.user.email);
+  created() {
+    this.checkAuthUser()
+    this.detailUser(this.user.email)
+    this.listStoreMyHere(this.user.email)
   },
-  mounted () {
+  mounted() {
     // this.listStoreMy(this.user.email)
 
-    this.$root.$emit("textToSpeechRouter", "Seus produtos e serviços");
-  }
-};
+    this.$root.$emit("textToSpeechRouter", "Seus produtos e serviços")
+  },
+}
 </script>

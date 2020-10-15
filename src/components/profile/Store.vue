@@ -6,8 +6,8 @@
         v-ripple
         v-if="store.img"
         :src="store.img"
-        style="min-height: 200px;"
-        @click="$router.push('/profile/store/details/'+store.key)"
+        style="min-height: 200px"
+        @click="$router.push('/profile/store/details/' + store.key)"
         role="img"
         lang="pt-PT"
         :aria-label="'Imagem do ' + store.category"
@@ -16,8 +16,8 @@
         v-ripple
         v-else
         src="statics/img/nophoto.png"
-        style="min-height: 200px;"
-        @click="$router.push('/profile/store/details/'+store.key)"
+        style="min-height: 200px"
+        @click="$router.push('/profile/store/details/' + store.key)"
         role="img"
         lang="pt-PT"
         :aria-label="'Imagem do ' + store.category"
@@ -30,7 +30,7 @@
           :color="darkModeConf.iconVar"
           label="Detalhes"
           icon="details"
-          :to="'/profile/store/details/'+store.key"
+          :to="'/profile/store/details/' + store.key"
           role="link"
         />
         <q-btn
@@ -38,7 +38,7 @@
           rounded
           :color="darkModeConf.iconVar"
           icon="edit"
-          :to="'/profile/store/edit/'+store.key"
+          :to="'/profile/store/edit/' + store.key"
           role="link"
         />
         <q-btn
@@ -69,20 +69,16 @@
         lang="pt-PT"
         aria-label="Alerta de confirmação"
       >
-        <q-card style="width: 700px; max-width: 80vw;">
+        <q-card style="width: 700px; max-width: 80vw">
           <q-card-section>
             <div :class="getFont.title">Confirmar</div>
           </q-card-section>
 
-          <q-card-section
-            class="q-pt-none"
-            :class="getFont.text"
-          >Remover {{ store.title }}?</q-card-section>
-
-          <q-card-actions
-            align="right"
-            class="bg-white text-teal"
+          <q-card-section class="q-pt-none" :class="getFont.text"
+            >Remover {{ store.title }}?</q-card-section
           >
+
+          <q-card-actions align="right" class="bg-white text-teal">
             <q-btn
               rounded
               outline
@@ -110,10 +106,9 @@
         aria-label="Alerta de sucesso"
       >
         <q-card>
-          <q-card-section
-            class="text-green"
-            :class="getFont.title"
-          >Removido com sucesso</q-card-section>
+          <q-card-section class="text-green" :class="getFont.title"
+            >Removido com sucesso</q-card-section
+          >
 
           <q-card-actions align="right">
             <q-btn
@@ -131,66 +126,66 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import { Loading } from "quasar";
-import { firebaseAuth, firestoreDB, fireStorage } from "boot/firebase";
-import offline from "v-offline";
+import { mapState, mapActions, mapGetters } from "vuex"
+import { Loading } from "quasar"
+import { firebaseAuth, firestoreDB, fireStorage } from "boot/firebase"
+import offline from "v-offline"
 
 export default {
   // name: 'PageName',
   props: ["store"],
-  data () {
+  data() {
     return {
       tab: "bio",
       confirDeleteSuccess: false,
       confirDelete: false,
       myStories: [],
-      statusStore: false
-    };
+      statusStore: false,
+    }
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapGetters("settings", ["getFont"])
+    ...mapGetters("settings", ["getFont"]),
   },
   methods: {
-    handleHold ({ ...info }) {
+    handleHold({ ...info }) {
       // console.log(evt)
       // console.log(val)
       // console.log(this.store)
       if (window.hasOwnProperty("cordova")) {
-        navigator.vibrate(200);
+        navigator.vibrate(200)
       } else {
-        window.navigator.vibrate(200);
+        window.navigator.vibrate(200)
       }
       this.$root.$emit(
         "textToSpeechRouter",
         "Você adicionou" +
-        this.store.category +
-        " " +
-        this.store.title +
-        ".\n Clique para detalhes."
-      );
+          this.store.category +
+          " " +
+          this.store.title +
+          ".\n Clique para detalhes."
+      )
     },
 
-    getStatusStore (id) {
-      const vm = this;
-      const ref = firestoreDB.collection("stories").doc(id);
-      ref.onSnapshot(doc => {
+    getStatusStore(id) {
+      const vm = this
+      const ref = firestoreDB.collection("stories").doc(id)
+      ref.onSnapshot((doc) => {
         if (doc.exists) {
-          vm.statusStore = doc.data().public;
+          vm.statusStore = doc.data().public
         } else {
-          console.log("No such document!");
+          console.log("No such document!")
         }
-      });
+      })
     },
 
-    deleteStoreThis (id) {
-      const vm = this;
+    deleteStoreThis(id) {
+      const vm = this
 
-      Loading.show();
-      var storageRef = fireStorage.ref();
+      Loading.show()
+      var storageRef = fireStorage.ref()
 
-      var desertRef = storageRef.child("stories/" + id);
+      var desertRef = storageRef.child("stories/" + id)
 
       firestoreDB
         .collection("stories")
@@ -202,37 +197,37 @@ export default {
             .delete()
             .then(function () {
               // File deleted successfully
-              vm.confirDeleteSuccess = true;
-              Loading.hide();
+              vm.confirDeleteSuccess = true
+              Loading.hide()
             })
             .catch(function (error) {
               // Uh-oh, an error occurred!
-              vm.confirDeleteSuccess = true;
-              console.log("Erro ao Remover imagem");
-              Loading.hide();
-            });
+              vm.confirDeleteSuccess = true
+              console.log("Erro ao Remover imagem")
+              Loading.hide()
+            })
         })
-        .catch(error => {
-          Loading.hide();
-          alert("Error removing document: ", error);
-        });
+        .catch((error) => {
+          Loading.hide()
+          alert("Error removing document: ", error)
+        })
     },
 
-    updateStoreHere (payload) {
-      Loading.show();
-      const updateRef = firestoreDB.collection("stories").doc(payload.id);
+    updateStoreHere(payload) {
+      Loading.show()
+      const updateRef = firestoreDB.collection("stories").doc(payload.id)
       updateRef
         .set(payload.data)
         .then(() => {
-          Loading.hide();
+          Loading.hide()
         })
-        .catch(error => {
-          Loading.hide();
-          console.log("Error update document: ", error);
-        });
+        .catch((error) => {
+          Loading.hide()
+          console.log("Error update document: ", error)
+        })
     },
 
-    makePublic (id, data, val) {
+    makePublic(id, data, val) {
       let dataAux = {
         title: data.title,
         user: data.user,
@@ -245,16 +240,16 @@ export default {
         price: data.price,
         priceVariable: data.priceVariable,
         timeSend: data.timeSend,
-      };
+      }
       this.updateStoreHere({
         id: id,
-        data: dataAux
-      });
-    }
+        data: dataAux,
+      })
+    },
   },
-  created () { },
-  mounted () {
-    this.getStatusStore(this.store.key);
-  }
-};
+  created() {},
+  mounted() {
+    this.getStatusStore(this.store.key)
+  },
+}
 </script>

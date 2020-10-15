@@ -4,11 +4,7 @@
     v-touch-swipe.mouse.left.right="handleSwipe"
   >
     <!-- content -->
-    <q-btn
-      label="Ouvir perfil"
-      @click="listenDetails()"
-      style="left: -800px;"
-    />
+    <q-btn label="Ouvir perfil" @click="listenDetails()" style="left: -800px" />
 
     <div class="row justify-center q-pb-xl">
       <div class="col-12 col-md-8">
@@ -61,77 +57,76 @@
 
             <q-separator />
 
-            <q-tab-panels
-              v-model="tab"
-              animated
-            >
+            <q-tab-panels v-model="tab" animated>
               <q-tab-panel name="bio">
                 <q-list>
-                  <q-item
-                    v-if="userData.phoneNumber"
-                    class="text-left"
-                  >
-                    <q-item-section
-                      top
-                      avatar
-                    >
-                      <q-icon
-                        :color="darkModeConf.iconVar"
-                        name="phone"
-                      />
+                  <q-item v-if="userData.phoneNumber" class="text-left">
+                    <q-item-section top avatar>
+                      <q-icon :color="darkModeConf.iconVar" name="phone" />
                     </q-item-section>
 
                     <q-item-section>
-                      <q-item-label :class="getFont.title">Telefone</q-item-label>
-                      <q-item-label :class="getFont.text">{{ userData.phoneNumber }}</q-item-label>
+                      <q-item-label :class="getFont.title"
+                        >Telefone</q-item-label
+                      >
+                      <q-item-label :class="getFont.text">{{
+                        userData.phoneNumber
+                      }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
                   <q-separator
-                    v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'"
+                    v-if="
+                      userData.email.split('@')[
+                        userData.email.split('@').length - 1
+                      ] !== 'superactive.com'
+                    "
                     spaced
                     inset="item"
                   />
 
                   <q-item
-                    v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'"
+                    v-if="
+                      userData.email.split('@')[
+                        userData.email.split('@').length - 1
+                      ] !== 'superactive.com'
+                    "
                     class="text-left"
                   >
-                    <q-item-section
-                      top
-                      avatar
-                    >
-                      <q-icon
-                        :color="darkModeConf.iconVar"
-                        name="email"
-                      />
+                    <q-item-section top avatar>
+                      <q-icon :color="darkModeConf.iconVar" name="email" />
                     </q-item-section>
 
                     <q-item-section>
                       <q-item-label :class="getFont.title">Email</q-item-label>
-                      <q-item-label :class="getFont.text">{{ user.email }}</q-item-label>
+                      <q-item-label :class="getFont.text">{{
+                        user.email
+                      }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
                   <q-separator
-                    v-if="userData.phoneNumber || userData.email.split('@')[userData.email.split('@').length - 1] !== 'superactive'"
+                    v-if="
+                      userData.phoneNumber ||
+                      userData.email.split('@')[
+                        userData.email.split('@').length - 1
+                      ] !== 'superactive'
+                    "
                     spaced
                     inset="item"
                   />
 
                   <q-item class="text-left">
-                    <q-item-section
-                      avatar
-                      top
-                    >
-                      <q-icon
-                        :color="darkModeConf.iconVar"
-                        name="place"
-                      />
+                    <q-item-section avatar top>
+                      <q-icon :color="darkModeConf.iconVar" name="place" />
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label :class="getFont.title">Endereço</q-item-label>
-                      <q-item-label :class="getFont.text">{{ userData.address }}</q-item-label>
+                      <q-item-label :class="getFont.title"
+                        >Endereço</q-item-label
+                      >
+                      <q-item-label :class="getFont.text">{{
+                        userData.address
+                      }}</q-item-label>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -143,10 +138,7 @@
               >
                 <q-list>
                   <q-item class="text-left">
-                    <q-item-section
-                      top
-                      avatar
-                    >
+                    <q-item-section top avatar>
                       <q-icon
                         :color="darkModeConf.iconVar"
                         name="calendar_today"
@@ -154,70 +146,51 @@
                     </q-item-section>
 
                     <q-item-section>
-                      <q-item-label :class="getFont.title">Data de nascimento</q-item-label>
-                      <q-item-label :class="getFont.text">{{ userData.date }}</q-item-label>
+                      <q-item-label :class="getFont.title"
+                        >Data de nascimento</q-item-label
+                      >
+                      <q-item-label :class="getFont.text">{{
+                        userData.date
+                      }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
                   <q-item class="text-left">
-                    <q-item-section
-                      top
-                      avatar
-                    >
-                      <q-icon
-                        :color="darkModeConf.iconVar"
-                        name="work"
-                      />
+                    <q-item-section top avatar>
+                      <q-icon :color="darkModeConf.iconVar" name="work" />
                     </q-item-section>
 
                     <q-item-section>
-                      <q-item-label :class="getFont.title">Profissão</q-item-label>
-                      <q-item-label :class="getFont.text">{{ userData.profession }}</q-item-label>
+                      <q-item-label :class="getFont.title"
+                        >Profissão</q-item-label
+                      >
+                      <q-item-label :class="getFont.text">{{
+                        userData.profession
+                      }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
-                  <q-separator
-                    spaced
-                    inset="item"
-                  />
+                  <q-separator spaced inset="item" />
 
                   <q-item class="text-left">
-                    <q-item-section
-                      avatar
-                      top
-                    >
-                      <q-icon
-                        :color="darkModeConf.iconVar"
-                        name="school"
-                      />
+                    <q-item-section avatar top>
+                      <q-icon :color="darkModeConf.iconVar" name="school" />
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label :class="getFont.title">Curiculum</q-item-label>
+                      <q-item-label :class="getFont.title"
+                        >Curiculum</q-item-label
+                      >
                     </q-item-section>
-                    <q-item-section
-                      top
-                      side
-                    >
+                    <q-item-section top side>
                       <div class="text-grey-8 q-gutter-xs">
-                        <q-btn
-                          flat
-                          dense
-                          round
-                          icon="more_vert"
-                        >
-                          <q-menu
-                            persistent
-                            auto-close
-                          >
+                        <q-btn flat dense round icon="more_vert">
+                          <q-menu persistent auto-close>
                             <q-list style="min-width: 100px">
                               <q-item
                                 clickable
                                 @click="$root.$emit('cvDialog', true)"
                               >
-                                <q-item-section
-                                  top
-                                  avatar
-                                >
+                                <q-item-section top avatar>
                                   <q-icon
                                     :color="darkModeConf.iconVar"
                                     name="visibility"
@@ -229,10 +202,7 @@
                                 clickable
                                 @click="$root.$emit('uploadCV')"
                               >
-                                <q-item-section
-                                  top
-                                  avatar
-                                >
+                                <q-item-section top avatar>
                                   <q-icon
                                     :color="darkModeConf.iconVar"
                                     name="upload_file"
@@ -241,10 +211,7 @@
                                 <q-item-section>Carregar</q-item-section>
                               </q-item>
                               <q-item clickable>
-                                <q-item-section
-                                  top
-                                  avatar
-                                >
+                                <q-item-section top avatar>
                                   <q-icon
                                     :color="darkModeConf.iconVar"
                                     name="delete"
@@ -261,7 +228,9 @@
                 </q-list>
               </q-tab-panel>
               <q-tab-panel
-                v-else-if="userData.profileType && userData.profileType == 'organization'"
+                v-else-if="
+                  userData.profileType && userData.profileType == 'organization'
+                "
                 name="ocupacao"
               >
                 <div v-html="userData.description"></div>
@@ -270,16 +239,11 @@
           </q-card>
         </div>
 
-        <div
-          class="row"
-          role="row"
-          lang="pt-PT"
-          aria-label="Vídeo de perfil"
-        >
+        <div class="row" role="row" lang="pt-PT" aria-label="Vídeo de perfil">
           <q-card class="col-12">
             <q-video
               v-if="videoDownload.videoUrl && videoDownload.from == 'link'"
-              :ratio="16/9"
+              :ratio="16 / 9"
               :src="videoDownload.videoUrl"
               role="application"
               lang="pt-PT"
@@ -293,10 +257,9 @@
               aria-label="Vídeo de perfil."
             />
 
-            <div
-              class="row q-pa-md"
-              :class="getFont.text"
-            >Carregar vídeo ou adicionar link</div>
+            <div class="row q-pa-md" :class="getFont.text">
+              Carregar vídeo ou adicionar link
+            </div>
 
             <q-card-actions align="left">
               <q-btn
@@ -335,11 +298,7 @@
               />
             </q-card-actions>
           </q-card>
-          <q-form
-            class="q-gutter-md"
-            ref="storeForm"
-            role="form"
-          >
+          <q-form class="q-gutter-md" ref="storeForm" role="form">
             <input
               type="file"
               hidden
@@ -358,11 +317,10 @@
           lang="pt-PT"
           aria-label="Candidaturas do usuário"
         >
-          <q-toolbar
-            :class="darkModeConf.bgColor"
-            class="shadow-1"
-          >
-            <q-toolbar-title :class="getFont.title">Minhas candidaturas</q-toolbar-title>
+          <q-toolbar :class="darkModeConf.bgColor" class="shadow-1">
+            <q-toolbar-title :class="getFont.title"
+              >Minhas candidaturas</q-toolbar-title
+            >
           </q-toolbar>
           <div class="row">
             <div
@@ -383,14 +341,19 @@
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
+                    <div class="text-bold" :class="getFont.title">
+                      {{ candidate.title }}
+                    </div>
                     <div
-                      class="text-bold"
-                      :class="getFont.title"
-                    >{{ candidate.title}}</div>
-                    <div
-                      v-if="candidate.user.split('@')[candidate.user.split('@').length - 1] !== 'superactive.com'"
+                      v-if="
+                        candidate.user.split('@')[
+                          candidate.user.split('@').length - 1
+                        ] !== 'superactive.com'
+                      "
                       :class="getFont.text"
-                    >{{ candidate.user }}</div>
+                    >
+                      {{ candidate.user }}
+                    </div>
                   </q-item-section>
                 </q-item>
               </q-card>
@@ -417,18 +380,13 @@
           lang="pt-PT"
           aria-label="Atividades do usuário"
         >
-          <q-toolbar
-            :class="darkModeConf.bgColor"
-            class="shadow-1"
-            role="tab"
-          >
-            <q-toolbar-title :class="getFont.title">Actividades</q-toolbar-title>
+          <q-toolbar :class="darkModeConf.bgColor" class="shadow-1" role="tab">
+            <q-toolbar-title :class="getFont.title"
+              >Actividades</q-toolbar-title
+            >
           </q-toolbar>
           <div class="row">
-            <div
-              v-if="vacancyNum > 0"
-              class="q-pa-sm col-12 col-md-6"
-            >
+            <div v-if="vacancyNum > 0" class="q-pa-sm col-12 col-md-6">
               <q-card class="my-card">
                 <q-item
                   :class="darkModeConf.textColor"
@@ -438,25 +396,18 @@
                 >
                   <q-item-section avatar>
                     <q-avatar size="65px">
-                      <q-icon
-                        :color="darkModeConf.iconVar"
-                        name="work"
-                      />
+                      <q-icon :color="darkModeConf.iconVar" name="work" />
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
-                    <div
-                      class="text-bold"
-                      :class="getFont.text"
-                    >{{ vacancyNum }} vagas de emprego.</div>
+                    <div class="text-bold" :class="getFont.text">
+                      {{ vacancyNum }} vagas de emprego.
+                    </div>
                   </q-item-section>
                 </q-item>
               </q-card>
             </div>
-            <div
-              v-if="storeNum > 0"
-              class="q-pa-sm col-12 col-md-6"
-            >
+            <div v-if="storeNum > 0" class="q-pa-sm col-12 col-md-6">
               <q-card class="my-card">
                 <q-item
                   :class="darkModeConf.textColor"
@@ -466,17 +417,13 @@
                 >
                   <q-item-section avatar>
                     <q-avatar size="65px">
-                      <q-icon
-                        :color="darkModeConf.iconVar"
-                        name="store"
-                      />
+                      <q-icon :color="darkModeConf.iconVar" name="store" />
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
-                    <div
-                      class="text-bold"
-                      :class="getFont.text"
-                    >{{ storeNum }} produtos e Serviços</div>
+                    <div class="text-bold" :class="getFont.text">
+                      {{ storeNum }} produtos e Serviços
+                    </div>
                   </q-item-section>
                 </q-item>
               </q-card>
@@ -496,17 +443,12 @@
         lang="pt-PT"
         aria-label="Escolher tipo de perfil entre pessoal e empresarial."
       >
-        <q-card style="width: 90vw;">
+        <q-card style="width: 90vw">
           <q-card-section class="row">
             <div :class="getFont.title">Tipo de perfil</div>
             <q-space />
             <div :class="getFont.title">
-              <q-btn
-                flat
-                round
-                icon="close"
-                v-close-popup
-              />
+              <q-btn flat round icon="close" v-close-popup />
             </div>
           </q-card-section>
           <q-card-section class="q-gutter-y-md">
@@ -536,16 +478,12 @@
         lang="pt-PT"
         aria-label="Adicionar link do video de perfil"
       >
-        <q-card style="width: 90vw;">
+        <q-card style="width: 90vw">
           <q-card-section>
             <div :class="getFont.title">Adicionar Link</div>
           </q-card-section>
           <q-card-section :class="getFont.text">
-            <q-form
-              ref="linkForm"
-              class="q-gutter-md"
-              role="form"
-            >
+            <q-form ref="linkForm" class="q-gutter-md" role="form">
               <q-input
                 :color="darkModeConf.iconVar"
                 rounded
@@ -554,7 +492,9 @@
                 label="Link do vídeo"
                 type="url"
                 lazy-rules
-                :rules="[ val => val && val.length > 0 || 'Escreva o link do vídeo']"
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Escreva o link do vídeo',
+                ]"
               />
             </q-form>
           </q-card-section>
@@ -578,12 +518,19 @@
         </q-card>
       </q-dialog>
 
-      <q-dialog v-model="errorFileDialog">
-        <q-card style="width: 90vw;">
+      <q-dialog
+        v-model="errorFileDialog"
+        role="alertdialog"
+        aria-label="Alerta de erro"
+        lang="pt-PT"
+      >
+        <q-card style="width: 90vw">
           <q-card-section>
             <div :class="getFont.title">Atenção</div>
           </q-card-section>
-          <q-card-section :class="getFont.text">{{ errorFileDialogMessage }}</q-card-section>
+          <q-card-section :class="getFont.text">{{
+            errorFileDialogMessage
+          }}</q-card-section>
           <q-card-actions align="right">
             <q-btn
               rounded
@@ -595,8 +542,13 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
-      <q-dialog v-model="deleteVideoDialog">
-        <q-card style="width: 90vw;">
+      <q-dialog
+        v-model="deleteVideoDialog"
+        role="dialog"
+        aria-label="Alerta de confirmação"
+        lang="pt-PT"
+      >
+        <q-card style="width: 90vw">
           <q-card-section>
             <div :class="getFont.title">Atenção</div>
           </q-card-section>
@@ -613,6 +565,30 @@
               rounded
               outline
               label="Cancelar"
+              :color="darkModeConf.iconVar"
+              v-close-popup
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+      <q-dialog
+        v-model="dialogConnection"
+        role="alertdialog"
+        lang="pt-PT"
+        aria-label="Alerta de erro de conexão"
+      >
+        <q-card style="width: 80vw">
+          <q-card-section>
+            <div :class="getFont.title">Erro</div>
+          </q-card-section>
+          <q-card-section :class="getFont.text">
+            Está sem internet
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn
+              rounded
+              outline
+              label="OK"
               :color="darkModeConf.iconVar"
               v-close-popup
             />
@@ -644,17 +620,10 @@
           :class="darkModeConf.textBtn"
           to="/account/edit"
         >
-          <q-icon
-            name="edit"
-            size="lg"
-          />
+          <q-icon name="edit" size="lg" />
         </q-btn>
       </q-page-sticky>
-      <q-page-sticky
-        v-else
-        position="bottom-right"
-        :offset="[18, 18]"
-      >
+      <q-page-sticky v-else position="bottom-right" :offset="[18, 18]">
         <q-btn
           v-if="scrollNum < 150"
           rounded
@@ -672,10 +641,7 @@
           :class="darkModeConf.textBtn"
           @click="dialogAddProfile = true"
         >
-          <q-icon
-            name="edit"
-            size="lg"
-          />
+          <q-icon name="edit" size="lg" />
         </q-btn>
       </q-page-sticky>
     </div>
@@ -683,24 +649,20 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import { LocalStorage, Loading } from "quasar";
-import {
-  firebaseAuth,
-  firestoreDB,
-  fireStorage,
-  firebase
-} from "boot/firebase";
-import { showErrorMessage } from "../../functions/handle-error-messages";
-import VideoProfile from "components/profile/VideoProfile.vue";
-import offline from "v-offline";
-import CV from "components/profile/CV.vue";
+import { mapState, mapActions, mapGetters } from "vuex"
+import { LocalStorage, Loading } from "quasar"
+import { firebaseAuth, firestoreDB, fireStorage, firebase } from "boot/firebase"
+import { showErrorMessage } from "../../functions/handle-error-messages"
+import VideoProfile from "components/profile/VideoProfile.vue"
+import offline from "v-offline"
+import CV from "components/profile/CV.vue"
 export default {
   // name: 'PageName',
 
-  data () {
+  data() {
     return {
       tab: "bio",
+      dialogConnection: false,
       deleteVideoDialog: false,
       dialogAddVideoLink: false,
       dialogAddProfile: false,
@@ -716,7 +678,7 @@ export default {
       errorFileDialogMessage: "",
       vacancyDel: {
         title: "",
-        key: null
+        key: null,
       },
       vacanciesAply: [],
       myVacancies: [],
@@ -729,23 +691,23 @@ export default {
           {
             src:
               "https://firebasestorage.googleapis.com/v0/b/hack-a2a7b.appspot.com/o/videos%2Fnelziositoe%40gmail.com?alt=media&token=f9ad9952-a781-4bfa-a706-d38ff3ee4fb6",
-            type: "video/mp4"
-          }
+            type: "video/mp4",
+          },
         ],
         options: {
           autoplay: false,
           volume: 0.6,
-          poster: "statics/app-logo-128x128.png"
-        }
+          poster: "statics/app-logo-128x128.png",
+        },
       },
       videoUpload: {
         video: null,
-        user: ""
+        user: "",
       },
       videoDownload: {},
 
-      pathDoc: ""
-    };
+      pathDoc: "",
+    }
   },
   components: { VideoProfile, CV },
   computed: {
@@ -755,10 +717,10 @@ export default {
       "vacancyDtl",
       "vacancyDeleted",
       "vacancyUploaded",
-      "vacancyDetail"
+      "vacancyDetail",
     ]),
     ...mapGetters("auth", ["user", "userData"]),
-    ...mapGetters("settings", ["getFont"])
+    ...mapGetters("settings", ["getFont"]),
     // player() {
     //   return this.$refs.videoPlayer.player
     // }
@@ -770,72 +732,71 @@ export default {
       "createVacancy",
       "detailVacancy",
       "updateVacancy",
-      "deleteVacancy"
+      "deleteVacancy",
     ]),
     ...mapActions("auth", ["checkAuthUser"]),
 
-    errorDocumentUpload () {
-      this.errorFileDialogMessage = "O documento deve estar no formato PDF.";
-      this.errorFileDialog = true;
+    errorDocumentUpload() {
+      this.errorFileDialogMessage = "O documento deve estar no formato PDF."
+      this.errorFileDialog = true
     },
 
-    setStoreProfileType (type) {
-      LocalStorage.set("profileType", type);
-      this.$router.push("/account/edit");
+    setStoreProfileType(type) {
+      LocalStorage.set("profileType", type)
+      this.$router.push("/account/edit")
     },
 
-    playVIdeo () {
-      this.$refs.player.play();
+    playVIdeo() {
+      this.$refs.player.play()
     },
 
-    processFile (type) {
+    processFile(type) {
       // document.getElementById("fileInput").click()
-      this.$refs.fileVideo.click();
+      this.$refs.fileVideo.click()
     },
-    onChange (event) {
+    onChange(event) {
       if (!event.target.files) {
-        return;
+        return
       }
-      const files = event.target.files;
-      let filename = files[0].name;
-      let file = files[0];
+      const files = event.target.files
+      let filename = files[0].name
+      let file = files[0]
       if (!(file && file["type"].split("/")[0] === "video")) {
-        this.errorFileDialogMessage = "Insira um vídeo válido.";
-        return (this.errorFileDialog = true);
+        this.errorFileDialogMessage = "Insira um vídeo válido."
+        return (this.errorFileDialog = true)
       }
-      const fileReader = new FileReader();
+      const fileReader = new FileReader()
       // addEventListener to preload image
       fileReader.addEventListener("load", () => {
-        this.video.sources[0].src = fileReader.result;
-      });
-      fileReader.readAsDataURL(files[0]);
-      this.videoUpload.video = files[0];
-      this.uploadFile(this.videoUpload);
+        this.video.sources[0].src = fileReader.result
+      })
+      fileReader.readAsDataURL(files[0])
+      this.videoUpload.video = files[0]
+      this.uploadFile(this.videoUpload)
     },
-    uploadFile (payload, type) {
-      Loading.show();
-      const vm = this;
+    uploadFile(payload, type) {
+      Loading.show()
+      const vm = this
       // Upload file and metadata to the object
-      var storageRef = fireStorage.ref();
+      var storageRef = fireStorage.ref()
       var uploadTask = storageRef
         .child("videos/" + payload.user)
-        .put(payload.video);
+        .put(payload.video)
 
       // Listen for state changes, errors, and completion of the upload.
       uploadTask.on(
         firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
         function (snapshot) {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          var progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
+          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          console.log("Upload is " + progress + "% done")
           switch (snapshot.state) {
             case firebase.storage.TaskState.PAUSED: // or 'paused'
-              console.log("Upload is paused");
-              break;
+              console.log("Upload is paused")
+              break
             case firebase.storage.TaskState.RUNNING: // or 'running'
-              console.log("Upload is running");
-              break;
+              console.log("Upload is running")
+              break
           }
         },
         function (error) {
@@ -843,218 +804,221 @@ export default {
           // https://firebase.google.com/docs/storage/web/handle-errors
           switch (error.code) {
             case "storage/unauthorized":
-              Loading.hide();
+              Loading.hide()
               // User doesn't have permission to access the object
-              break;
+              break
 
             case "storage/canceled":
-              Loading.hide();
+              Loading.hide()
               // User canceled the upload
-              break;
+              break
 
             case "storage/unknown":
-              Loading.hide();
+              Loading.hide()
               // Unknown error occurred, inspect error.serverResponse
-              break;
+              break
           }
         },
         function () {
           // Upload completed successfully, now we can get the download URL
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-            console.log("File available at", downloadURL);
+            console.log("File available at", downloadURL)
             uploadTask.snapshot.ref
               .getDownloadURL()
               .then(function (downloadURL) {
-                console.log("File available at", downloadURL);
-                Loading.hide();
+                console.log("File available at", downloadURL)
+                Loading.hide()
                 vm.videoDB({
                   videoUrl: downloadURL,
                   user: vm.user.email,
-                  from: "storange"
-                });
-              });
-          });
+                  from: "storange",
+                })
+              })
+          })
         }
-      );
+      )
     },
 
-    deleteVideo () {
-      const vm = this;
+    deleteVideo() {
+      const vm = this
       // console.log(vm.userData.email);
       if (!offline.data().isOnline) {
-        return showErrorMessage("Está sem internet.");
+        return (this.dialogConnection = true)
       }
-      Loading.show();
+      Loading.show()
 
-      const ref = firestoreDB.collection("videos").doc(vm.userData.email);
+      const ref = firestoreDB.collection("videos").doc(vm.userData.email)
       ref
         .get()
-        .then(doc => {
+        .then((doc) => {
           if (doc.exists) {
             // console.log(doc.data().from);
             if (doc.data().from == "storange") {
-              var storageRef = fireStorage.ref();
+              var storageRef = fireStorage.ref()
 
-              var desertRef = storageRef.child("videos/" + vm.userData.email);
+              var desertRef = storageRef.child("videos/" + vm.userData.email)
 
               desertRef
                 .delete()
                 .then(function () {
                   // File deleted successfully
-                  console.log("video file deleted");
+                  console.log("video file deleted")
                   ref
                     .delete()
                     .then(function () {
                       // File deleted successfully
-                      vm.videoDownload = {};
-                      console.log("video deleted firestore");
-                      vm.deleteVideoDialog = false;
-                      Loading.hide();
+                      vm.videoDownload = {}
+                      console.log("video deleted firestore")
+                      vm.deleteVideoDialog = false
+                      Loading.hide()
                     })
-                    .catch(error => {
-                      console.log("video delete Error firestore");
-                      console.log(error);
-                    });
-                  console.log("Video deletado");
+                    .catch((error) => {
+                      console.log("video delete Error firestore")
+                      console.log(error)
+                    })
+                  console.log("Video deletado")
                 })
                 .catch(function (error) {
                   // Uh-oh, an error occurred!
-                  console.log("Erro ao Remover video");
-                  Loading.hide();
-                });
+                  console.log("Erro ao Remover video")
+                  Loading.hide()
+                })
             } else {
               ref
                 .delete()
                 .then(function () {
                   // File deleted successfully
-                  vm.videoDownload = {};
-                  console.log("video deleted firestore2");
-                  vm.deleteVideoDialog = false;
-                  Loading.hide();
+                  vm.videoDownload = {}
+                  console.log("video deleted firestore2")
+                  vm.deleteVideoDialog = false
+                  Loading.hide()
                 })
-                .catch(error => {
-                  console.log("video delete Error firestore");
-                  console.log(error);
-                });
+                .catch((error) => {
+                  console.log("video delete Error firestore")
+                  console.log(error)
+                })
             }
           } else {
-            console.log("No such document!");
-            Loading.hide();
+            console.log("No such document!")
+            Loading.hide()
           }
         })
-        .catch(error => {
-          Loading.hide();
-          showErrorMessage("Error adding document: ", error);
-        });
+        .catch((error) => {
+          Loading.hide()
+          showErrorMessage("Error adding document: ", error)
+        })
     },
 
-    videoDB (payload) {
-      Loading.show();
-      const vm = this;
+    videoDB(payload) {
+      Loading.show()
+      const vm = this
       if (!offline.data().isOnline) {
-        return alert("Está sem internet");
+        Loading.hide()
+        return (this.dialogConnection = true)
       }
+
       // Loading.show()
-      const ref = firestoreDB.collection("videos").doc(payload.user);
+      const ref = firestoreDB.collection("videos").doc(payload.user)
       // Create a root reference
-      var storageRef = fireStorage.ref();
+      var storageRef = fireStorage.ref()
       // Create the file metadata
       ref
         .set(payload)
-        .then(docRef => {
+        .then((docRef) => {
           // console.log(docRef);
-          vm.getVideo(payload.user);
-          Loading.hide();
-          this.dialogAddVideoLink = false;
-          this.videoLink = "";
+          vm.getVideo(payload.user)
+          Loading.hide()
+          this.dialogAddVideoLink = false
+          this.videoLink = ""
         })
-        .catch(error => {
+        .catch((error) => {
           // Loading.hide()
-          console.log("Error adding document: ", error);
-          Loading.hide();
-        });
+          console.log("Error adding document: ", error)
+          Loading.hide()
+        })
     },
 
-    addLink () {
-      this.$refs.linkForm.validate();
-      if (this.$refs.linkForm.hasError) {
-        this.errorFileDialogMessage = "";
-        this.errorFileDialog = true;
-        return;
+    addLink() {
+      this.$refs.linkForm.validate()
+      if (this.$refs.linkForm.hasError || !this.videoLink) {
+        this.errorFileDialogMessage =
+          "Adicione um link válido para o seu vídeo."
+        this.errorFileDialog = true
+        return
       } else {
-        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-        var match = this.videoLink.match(regExp);
+        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/
+        var match = this.videoLink.match(regExp)
         if (match && match[2].length == 11) {
           // 'https://www.youtube.com/embed/' + match[2] + '?autoplay=0';
-          this.videoLink = "https://www.youtube.com/embed/" + match[2];
+          this.videoLink = "https://www.youtube.com/embed/" + match[2]
         }
         this.videoDB({
           videoUrl: this.videoLink,
           user: this.user.email,
-          from: "link"
-        });
+          from: "link",
+        })
       }
     },
 
-    getVideo (id) {
+    getVideo(id) {
       // test
       // Loading.show()
-      const vm = this;
+      const vm = this
       if (!offline.data().isOnline) {
-        return showErrorMessage("Está sem internet.");
+        return (this.dialogConnection = true)
       }
-      const ref = firestoreDB.collection("videos").doc(id);
-      ref.onSnapshot(doc => {
+      const ref = firestoreDB.collection("videos").doc(id)
+      ref.onSnapshot((doc) => {
         if (doc.exists) {
           vm.videoDownload = {
             key: doc.id,
             videoUrl: doc.data().videoUrl,
             user: doc.data().user,
-            from: doc.data().from
-          };
+            from: doc.data().from,
+          }
           // console.log(doc.data().from);
 
           // console.log(vm.videoDownload);
           // vm.video.sources[0].src = doc.data().videoUrl
           // Loading.hide()
         } else {
-          console.log("No such document!");
+          console.log("No such document!")
           // Loading.hide()
         }
-      });
+      })
     },
 
-    handleSwipe (val) {
+    handleSwipe(val) {
       // if (val.direction === "left") {
       //   this.$router.push("/store");
       // }
 
       if (val.direction === "right") {
         // this.$router.push("/settings");
-        this.$router.go(-1);
+        this.$router.go(-1)
       }
     },
 
-    listenDetails () {
+    listenDetails() {
       // console.log(info)
       // console.log(evt)
       this.$root.$emit(
         "textToSpeechRouter",
         this.userData.displayName +
-        ".\n Telefone: " +
-        this.converNumbPhone(this.userData.phoneNumber) +
-        ";\n email: " +
-        this.userData.email +
-        "; data de nascimento: " +
-        this.userData.date +
-        ";\n profissão: " +
-        this.userData.profession +
-        "."
-      );
+          ".\n Telefone: " +
+          this.converNumbPhone(this.userData.phoneNumber) +
+          ";\n email: " +
+          this.userData.email +
+          "; data de nascimento: " +
+          this.userData.date +
+          ";\n profissão: " +
+          this.userData.profession +
+          "."
+      )
       // console.log(this.vacancy)
     },
 
-    makePublic (id, data, val) {
+    makePublic(id, data, val) {
       let dataAux = {
         title: data.title,
         user: data.user,
@@ -1063,22 +1027,22 @@ export default {
         place: data.place,
         category: data.category,
         validate: data.validate,
-        public: !val
-      };
+        public: !val,
+      }
       this.updateVacancyHere({
         id: id,
-        data: dataAux
-      });
+        data: dataAux,
+      })
     },
 
-    listCandidatures (user) {
+    listCandidatures(user) {
       // done
       if (!offline.data().isOnline) {
-        return showErrorMessage("Está sem internet.");
+        return (this.dialogConnection = true)
       }
-      this.vacanciesAply = [];
-      const ref = firestoreDB.collection("vacancies");
-      const vm = this;
+      this.vacanciesAply = []
+      const ref = firestoreDB.collection("vacancies")
+      const vm = this
       ref
         .where("public", "==", true)
         .get()
@@ -1090,90 +1054,87 @@ export default {
               .collection("candidates")
               .doc(user)
               .get()
-              .then(doc2 => {
+              .then((doc2) => {
                 if (doc2.exists) {
                   vm.vacanciesAply.push({
                     id: doc.id,
                     title: doc.data().title,
                     user: doc.data().user,
-                    img: doc.data().img
-                  });
-                  if (vm.vacanciesAply.length >= 3) return;
+                    img: doc.data().img,
+                  })
+                  if (vm.vacanciesAply.length >= 3) return
                 }
-              });
-          });
-        });
+              })
+          })
+        })
     },
 
-    listVacancyMyHere (user) {
+    listVacancyMyHere(user) {
       // done
-      var storageRef = fireStorage.ref();
+      var storageRef = fireStorage.ref()
       if (!offline.data().isOnline) {
-        showErrorMessage("Está sem internet.");
+        return (this.dialogConnection = true)
       }
-      const vm = this;
+      const vm = this
       // vm.myVacancies = []
-      var myVacanciesAux = [];
-      const ref = firestoreDB.collection("vacancies");
+      var myVacanciesAux = []
+      const ref = firestoreDB.collection("vacancies")
       ref.where("user", "==", user).onSnapshot(function (querySnapshot) {
-        vm.vacancyNum = querySnapshot.docs.length;
-      });
+        vm.vacancyNum = querySnapshot.docs.length
+      })
     },
 
-    listStoreMyHere (user) {
-      var storageRef = fireStorage.ref();
+    listStoreMyHere(user) {
+      var storageRef = fireStorage.ref()
       if (!offline.data().isOnline) {
-        showErrorMessage("Está sem internet.");
+        return (this.dialogConnection = true)
       }
-      const vm = this;
-      const ref = firestoreDB.collection("stories");
+      const vm = this
+      const ref = firestoreDB.collection("stories")
       ref.where("user", "==", user).onSnapshot(function (querySnapshot) {
-        vm.storeNum = querySnapshot.docs.length;
-      });
+        vm.storeNum = querySnapshot.docs.length
+      })
     },
 
-    converNumbPhone (valueNum) {
-      var converted = "";
-      var count = 0;
+    converNumbPhone(valueNum) {
+      var converted = ""
+      var count = 0
       const value = String(valueNum)
         .replace(/(.)(?=(\d{3})+$)/g, "$1,")
-        .split(",");
-      value.forEach(element => {
-        count += 1;
+        .split(",")
+      value.forEach((element) => {
+        count += 1
         if (value.length > count) {
-          converted = converted + element + "; ";
+          converted = converted + element + "; "
         } else {
-          converted = converted + element;
+          converted = converted + element
         }
-      });
-      return converted;
+      })
+      return converted
     },
-    windowScroll () {
-      this.scrollNum = window.scrollY;
-    }
+    windowScroll() {
+      this.scrollNum = window.scrollY
+    },
 
     // Video Player functions
   },
-  created () {
-    this.checkAuthUser("back");
-    this.listVacancyMyHere(this.user.email);
-    this.listStoreMyHere(this.user.email);
+  created() {
+    this.checkAuthUser("back")
+    this.listVacancyMyHere(this.user.email)
+    this.listStoreMyHere(this.user.email)
   },
-  mounted () {
+  mounted() {
     Loading.hide()
-    this.getVideo(this.user.email);
+    this.getVideo(this.user.email)
     // this.listVacancyMy(this.user.email)
-    this.videoUpload.user = this.user.email;
+    this.videoUpload.user = this.user.email
 
-    window.addEventListener("scroll", this.windowScroll);
-    this.listCandidatures(this.user.email);
+    window.addEventListener("scroll", this.windowScroll)
+    this.listCandidatures(this.user.email)
 
     // console.log(this.userData)
 
-    this.$root.$emit(
-      "textToSpeechRouter",
-      "Página do seu perfil."
-    );
-  }
-};
+    this.$root.$emit("textToSpeechRouter", "Página do seu perfil.")
+  },
+}
 </script>

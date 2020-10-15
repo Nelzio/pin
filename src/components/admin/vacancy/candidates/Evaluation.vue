@@ -202,7 +202,10 @@
               </div>
             </div>
           </div>
-          <div class="col-12">
+          <div
+            class="col-12"
+            v-if="userData.access[1] == 'w'"
+          >
             <q-btn-group
               class="full-width"
               spread
@@ -229,6 +232,7 @@
           <div
             class="row"
             role="group"
+            v-if="userData.access[1] == 'w'"
           >
             <q-card
               class="my-card col-12"
@@ -261,7 +265,7 @@
             </q-card>
           </div>
           <div
-            v-if="evaluators.length"
+            v-if="evaluators.length && userData.access[1] == 'w'"
             class="row q-mb-lg"
           >
             <q-btn
@@ -298,6 +302,7 @@ export default {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapGetters("settings", ["getFont"]),
     ...mapGetters("admin", ["vacancy"]),
+    ...mapGetters("auth", ["userData"])
   },
   methods: {
     getCandidate (candidateId) {
@@ -307,6 +312,7 @@ export default {
       ref.get().then(doc => {
         if (doc.exists) {
           vm.user = doc.data()
+          vm.user["id"] = doc.id
           vm.evaluators = doc.data().evaluators
           vm.drawer = true;
         }
@@ -342,7 +348,6 @@ export default {
       Loading.show()
       let candidate = val
       candidate.evaluators = this.evaluators;
-      console.log(candidate)
       const ref = firestoreDB.collection("vacancies").doc(this.vacancy.id).collection("candidates").doc(candidate.id);
       ref.set(candidate).then(() => {
         Loading.hide()

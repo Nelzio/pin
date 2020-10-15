@@ -20,14 +20,8 @@
               outline
               rounded
               color="primary"
-              label="Usuários"
+              label="Ir para Usuários"
               to="/admin/users"
-            />
-            <q-btn
-              outline
-              rounded
-              color="primary"
-              label="Estatísticas"
             />
           </q-card-actions>
         </q-card>
@@ -51,14 +45,8 @@
               outline
               rounded
               color="primary"
-              label="Empresas"
+              label="Ir para Empresas"
               to="/admin/companies"
-            />
-            <q-btn
-              outline
-              rounded
-              color="primary"
-              label="Estatísticas"
             />
           </q-card-actions>
         </q-card>
@@ -82,14 +70,8 @@
               outline
               rounded
               color="primary"
-              label="Vagas"
+              label="Ir para Vagas"
               to="/admin/vacancies"
-            />
-            <q-btn
-              outline
-              rounded
-              color="primary"
-              label="Estatísticas"
             />
           </q-card-actions>
         </q-card>
@@ -130,14 +112,8 @@
               outline
               rounded
               color="primary"
-              label="Associações"
+              label="Ir para Associações"
               to="/admin/associations"
-            />
-            <q-btn
-              outline
-              rounded
-              color="primary"
-              label="Estatísticas"
             />
           </q-card-actions>
         </q-card>

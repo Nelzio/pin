@@ -24,11 +24,11 @@
             outlined
             :color="darkModeConf.iconVar"
             ref="email"
-            v-model="authObject.email"
             type="email"
+            v-model="authObject.email"
             label="Email do usuário"
             lazy-rules
-            :rules="[ val => val && val.length > 0 && isEmailValid() || 'Introduza o seu numero de telefone']"
+            :rules="[ val => val && val.length > 0 && isEmailValid(val) || 'Introduza o seu numero de telefone']"
           />
 
           <q-input
@@ -125,8 +125,9 @@ export default {
     ...mapActions("auth", ["loginUser"]),
 
     isEmailValid (email) {
-      var re = /^(([^<>()\[\]\\.,:\s@"]+(\.[^<>()\[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(String(email).toLowerCase());
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      // return re.test(String(email).toLowerCase())
+      return re.test(String(email));
     },
 
     onReset () {

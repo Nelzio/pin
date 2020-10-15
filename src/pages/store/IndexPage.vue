@@ -1,19 +1,12 @@
 <template>
-  <q-page
-    class="q-pb-xl"
-    v-touch-swipe.mouse.left.right="handleSwipe"
-  >
+  <q-page class="q-pb-xl" v-touch-swipe.mouse.left.right="handleSwipe">
     <!-- content -->
     <div
       v-if="!stories || loading"
       class="row justify-center q-gutter-y-md"
       v-touch-swipe.mouse.left.right="handleSwipe"
     >
-      <div
-        class="col-12 col-md-4"
-        v-for="i in 20"
-        :key="i"
-      >
+      <div class="col-12 col-md-4" v-for="i in 20" :key="i">
         <q-card>
           <q-item>
             <q-item-section avatar>
@@ -30,15 +23,9 @@
             </q-item-section>
           </q-item>
 
-          <q-skeleton
-            height="200px"
-            square
-          />
+          <q-skeleton height="200px" square />
 
-          <q-card-actions
-            align="right"
-            class="q-gutter-md"
-          >
+          <q-card-actions align="right" class="q-gutter-md">
             <q-skeleton type="QBtn" />
           </q-card-actions>
         </q-card>
@@ -63,44 +50,27 @@
             v-for="store in tempTestStories"
             :key="store.key"
           >
-            <store-component
-              :lorem="lorem"
-              :store="store"
-            />
+            <store-component :lorem="lorem" :store="store" />
           </div>
         </div>
-        <q-card
-          v-if="endPage"
-          class="my-card q-pt-lg"
-        >
-          <q-item
-            clickable
-            v-ripple
-          >
+        <q-card v-if="endPage" class="my-card q-pt-lg">
+          <q-item clickable v-ripple>
             <q-item-section>
               <q-item-label
                 class="text-center text-bold"
                 :color="darkModeConf.iconVar"
-              >End Page</q-item-label>
+                >End Page</q-item-label
+              >
             </q-item-section>
           </q-item>
         </q-card>
-        <template
-          v-else
-          v-slot:loading
-        >
+        <template v-else v-slot:loading>
           <div class="row justify-center q-my-md">
-            <q-spinner-dots
-              color="primary"
-              size="40px"
-            />
+            <q-spinner-dots color="primary" size="40px" />
           </div>
         </template>
       </q-infinite-scroll>
-      <div
-        v-else
-        class="row q-gutter-y-md"
-      >
+      <div v-else class="row q-gutter-y-md">
         <div
           ref="item"
           class="col-12 col-md-4"
@@ -108,10 +78,7 @@
           v-for="store in data_var"
           :key="store.key"
         >
-          <store-component
-            :lorem="lorem"
-            :store="store"
-          />
+          <store-component :lorem="lorem" :store="store" />
         </div>
       </div>
     </div>
@@ -137,23 +104,20 @@
         :class="darkModeConf.textBtn"
         to="/profile/store/add"
       >
-        <q-icon
-          size="lg"
-          name="add"
-        />
+        <q-icon size="lg" name="add" />
       </q-btn>
     </q-page-sticky>
   </q-page>
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import StoreComponent from "components/store/StoreComponent.vue";
+import { mapState, mapActions, mapGetters } from "vuex"
+import StoreComponent from "components/store/StoreComponent.vue"
 export default {
   components: { StoreComponent },
   name: "stories",
   props: ["val_search", "filterVal"],
-  data () {
+  data() {
     return {
       lorem:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -176,215 +140,214 @@ export default {
       start: 0,
       end: 50,
       endPage: false,
-      first: true
-    };
+      first: true,
+    }
   },
   computed: {
     ...mapState("settings", [
       "settings",
       "appMode",
       "darkModeConf",
-      "vibrateState"
+      "vibrateState",
     ]),
     ...mapState("store", ["stories", "store"]),
     ...mapGetters("store", ["getStories", "getStore"]),
-    ...mapGetters("auth", ["user", "isUserAuth"])
+    ...mapGetters("auth", ["user", "isUserAuth"]),
   },
   methods: {
     ...mapActions("settings", ["setSettings", "playSound"]),
     ...mapActions("store", ["listStore", "createStore"]),
     ...mapActions("user", ["detailUser"]),
 
-    onLoad (index, done) {
-      let vm = this;
+    onLoad(index, done) {
+      let vm = this
       if (this.tempTestStories.length == this.stories.length) {
-        this.endPage = true;
+        this.endPage = true
       } else {
         setTimeout(() => {
           if (vm.tempTestStories) {
-            vm.stories.slice(vm.start, vm.end).forEach(element => {
-              vm.tempTestStories.push(element);
-            });
-            vm.start = vm.end;
-            vm.end = vm.end + 50;
-            done();
+            vm.stories.slice(vm.start, vm.end).forEach((element) => {
+              vm.tempTestStories.push(element)
+            })
+            vm.start = vm.end
+            vm.end = vm.end + 50
+            done()
           }
-        }, 3000);
+        }, 3000)
       }
     },
 
-    firstLoad () {
-      this.stories.slice(this.start, this.end).forEach(element => {
-        this.tempTestStories.push(element);
-      });
-      this.start = this.end;
-      this.end = this.end + 1;
+    firstLoad() {
+      this.stories.slice(this.start, this.end).forEach((element) => {
+        this.tempTestStories.push(element)
+      })
+      this.start = this.end
+      this.end = this.end + 1
     },
 
-    speak (userInput) {
+    speak(userInput) {
       if (this.synth.speaking) {
         // console.error('speechSynthesis.speaking');
-        return;
+        return
       }
       if (userInput !== "") {
-        let sInstance = new SpeechSynthesisUtterance(userInput);
-        sInstance.lang = "pt-PT";
+        let sInstance = new SpeechSynthesisUtterance(userInput)
+        sInstance.lang = "pt-PT"
         sInstance.onend = function (event) {
           // console.log('SpeechSynthesisUtterance.onend');
-        };
+        }
         sInstance.onerror = function (event) {
           // console.error('SpeechSynthesisUtterance.onerror');
-        };
+        }
         // vibrate antes de falar
-        window.navigator.vibrate(200);
+        window.navigator.vibrate(200)
         // speak
-        sInstance.pitch = this.pitch;
-        sInstance.rate = this.rate;
-        this.synth.speak(sInstance);
+        sInstance.pitch = this.pitch
+        sInstance.rate = this.rate
+        this.synth.speak(sInstance)
       } else {
-        let sInstance = new SpeechSynthesisUtterance(
-          "Nenhum texto nesta área."
-        );
+        let sInstance = new SpeechSynthesisUtterance("Nenhum texto nesta área.")
         sInstance.onend = function (event) {
           // console.log('SpeechSynthesisUtterance.onend');
-        };
+        }
         sInstance.onerror = function (event) {
           // console.error('SpeechSynthesisUtterance.onerror');
-        };
+        }
 
         // vibrate antes de falar
-        window.navigator.vibrate(200);
+        window.navigator.vibrate(200)
         // speak
-        sInstance.pitch = this.pitch;
-        sInstance.rate = this.rate;
-        this.synth.speak(sInstance);
+        sInstance.pitch = this.pitch
+        sInstance.rate = this.rate
+        this.synth.speak(sInstance)
       }
     },
 
-    speakCordova (userInput) {
-      navigator.vibrate(200);
+    speakCordova(userInput) {
+      navigator.vibrate(200)
       TTS.speak(
         {
           text: userInput,
           locale: "pt-PT",
           pitch: this.pitch,
-          rate: this.rate
+          rate: this.rate,
         },
         function () {
-          console.log("Text succesfully spoken");
+          console.log("Text succesfully spoken")
         },
         function (reason) {
-          alert(reason);
+          alert(reason)
         }
-      );
+      )
     },
 
-    handleSwipe (val) {
+    handleSwipe(val) {
       if (val.direction === "left") {
-        this.$router.push("/settings");
+        this.$router.push("/settings")
       }
 
       if (val.direction === "right") {
-        this.$router.push("/vacancies");
+        this.$router.push("/vacancies")
       }
     },
 
-    lazeItems () {
+    lazeItems() {
       if (!(this.itemsLayzeRef == this.$refs.item)) {
-        this.itemsLayzeRef = this.$refs.item;
+        this.itemsLayzeRef = this.$refs.item
       }
-      let active = false;
+      let active = false
       if (active === false && this.itemsLayzeRef) {
-        active = true;
+        active = true
         this.itemsLayzeRef.forEach(function (item) {
           var position =
-            window.innerHeight - item.getBoundingClientRect().bottom;
-          var interval1 = item.getBoundingClientRect().top - 55;
-          var interval2 = item.getBoundingClientRect().top + 55;
+            window.innerHeight - item.getBoundingClientRect().bottom
+          var interval1 = item.getBoundingClientRect().top - 55
+          var interval2 = item.getBoundingClientRect().top + 55
           if (position <= interval2 && position >= interval1) {
             // setTimeout(function() {
             if (window.hasOwnProperty("cordova")) {
-              navigator.vibrate(350);
+              navigator.vibrate(350)
             } else {
-              window.navigator.vibrate(350);
+              window.navigator.vibrate(350)
             }
             // console.log("Workkkk")
             // }, 200)
           }
-        });
-        active = false;
+        })
+        active = false
       }
     },
 
-    search (val) {
+    search(val) {
       if (val != "") {
-        var temp = new RegExp(".*" + val + ".*");
-        var items = [];
-        var stories = this.stories;
+        var temp = new RegExp(".*" + val + ".*")
+        var items = []
+        var stories = this.stories
         for (var i in stories) {
-          var value = stories[i]["title"].match(temp);
-          var valueDesc = stories[i]["description"].match(temp);
-          var valuePlace = stories[i]["place"].match(temp);
-          var valueCategory = stories[i]["category"].match(temp);
-          var valueSubCategory = stories[i]["subCategory"].match(temp);
+          var value = stories[i]["title"].match(temp)
+          var valueDesc = stories[i]["description"].match(temp)
+          var valuePlace = stories[i]["place"].match(temp)
+          var valueCategory = stories[i]["category"].match(temp)
+          var valueSubCategory = stories[i]["subCategory"].match(temp)
           if (value != null && valueDesc != null) {
             if (
               stories[i]["title"] == value[0] &&
               stories[i]["description"] == valueDesc[0]
             ) {
-              items.push(stories[i]);
+              items.push(stories[i])
             }
           } else if (value != null) {
             if (stories[i]["title"] == value[0]) {
-              items.push(stories[i]);
+              items.push(stories[i])
             }
           } else if (valueDesc != null) {
             if (stories[i]["description"] == valueDesc[0]) {
-              items.push(stories[i]);
+              items.push(stories[i])
             }
           } else if (valuePlace != null) {
             if (stories[i]["place"] == valuePlace[0]) {
-              items.push(stories[i]);
+              items.push(stories[i])
             }
           } else if (valueCategory != null) {
             if (stories[i]["category"] == valueCategory[0]) {
-              items.push(stories[i]);
+              items.push(stories[i])
             }
-          } else if (valueCategory != null) {
+          } else if (valueSubCategory != null) {
+            console.log("hey")
             if (stories[i]["subCategory"] == valueSubCategory[0]) {
-              items.push(stories[i]);
+              items.push(stories[i])
             }
           }
         }
-        this.data_var = items.slice(0, 2);
+        this.data_var = items.slice(0, 2)
       } else {
-        this.data_var = [];
+        this.data_var = []
       }
-    }
+    },
   },
-  created () {
-    this.listStore();
+  created() {
+    this.listStore()
     // this.firstLoad();
   },
-  mounted () {
+  mounted() {
     // this.lazeItems();
     // this.first = true;
 
     if (this.vibrateState) {
-      window.addEventListener("scroll", this.lazeItems);
-      window.addEventListener("resize", this.lazeItems);
-      window.addEventListener("orientationchange", this.lazeItems);
+      window.addEventListener("scroll", this.lazeItems)
+      window.addEventListener("resize", this.lazeItems)
+      window.addEventListener("orientationchange", this.lazeItems)
     }
-    this.loading = false;
-    this.deviceWidth = window.screen.width;
+    this.loading = false
+    this.deviceWidth = window.screen.width
     if (this.$q.screen.gt.sm) {
-      this.padding = "q-pa-sm";
-      this.cardClass = "q-pl-xl";
+      this.padding = "q-pa-sm"
+      this.cardClass = "q-pl-xl"
     }
     // console.log(this.deviceWidth)
     // text to speech
-    this.$root.$on("textToSpeechStore", val => {
-      var text;
+    this.$root.$on("textToSpeechStore", (val) => {
+      var text
       if (val.store.price) {
         var text =
           val.user +
@@ -394,7 +357,7 @@ export default {
           val.store.title +
           " de " +
           val.store.price +
-          " meticais. \n Clique para descrição.";
+          " meticais. \n Clique para descrição."
       } else if (val.store.price && val.store.priceVariable) {
         text =
           val.user +
@@ -404,7 +367,7 @@ export default {
           val.store.title +
           " de " +
           val.store.price +
-          " meticais.; Negociavel. \n Clique para descrição.";
+          " meticais.; Negociavel. \n Clique para descrição."
       } else {
         text =
           val.user +
@@ -412,14 +375,14 @@ export default {
           val.store.category +
           " " +
           val.store.title +
-          ". \n Clique para descrição.";
+          ". \n Clique para descrição."
       }
       if (window.hasOwnProperty("cordova")) {
-        this.speakCordova(text);
+        this.speakCordova(text)
       } else {
-        this.speak(text);
+        this.speak(text)
       }
-    });
+    })
 
     // Vibração
     // if (this.settings.isVibrationActive) {
@@ -436,22 +399,22 @@ export default {
     this.$root.$emit(
       "textToSpeechRouter",
       "Página de produtos e serviços.\n Ao rolar, o telefone vai vibrar quando um item estiver no centro."
-    );
+    )
   },
   watch: {
-    val_search (val) {
-      this.search(val);
+    val_search(val) {
+      this.search(val)
     },
-    filterVal (val) {
-      this.search(val);
+    filterVal(val) {
+      this.search(val)
     },
-    stories () {
+    stories() {
       // this.lazeItems();
       if (this.first) {
-        this.firstLoad();
-        this.first = false;
+        this.firstLoad()
+        this.first = false
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>

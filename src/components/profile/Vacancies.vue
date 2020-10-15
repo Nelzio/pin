@@ -6,8 +6,8 @@
         v-ripple
         v-if="vacancy.img"
         :src="vacancy.img"
-        style="min-height: 200px;"
-        @click="$router.push('/profile/vacancy/details/'+vacancy.key)"
+        style="min-height: 200px"
+        @click="$router.push('/profile/vacancy/details/' + vacancy.key)"
         role="img"
         lang="pt-PT"
         aria-label="Imagem da vaga"
@@ -16,13 +16,16 @@
         v-ripple
         v-else
         src="statics/img/nophoto.png"
-        style="min-height: 200px;"
-        @click="$router.push('/profile/vacancy/details/'+vacancy.key)"
+        style="min-height: 200px"
+        @click="$router.push('/profile/vacancy/details/' + vacancy.key)"
         role="img"
         lang="pt-PT"
         aria-label="Imagem da vaga"
       />
-      <q-card-section :class="getFont.title">{{ vacancy.title }}</q-card-section>
+      <q-card-section :class="getFont.title">
+        {{ vacancy.title }}
+        <q-icon name="verified" :color="vacancy.approved ? 'blue' : 'grey'" />
+      </q-card-section>
       <q-card-actions align="right">
         <q-btn
           outline
@@ -30,14 +33,14 @@
           :color="darkModeConf.iconVar"
           label="Detalhes"
           icon="details"
-          :to="'/profile/vacancy/details/'+vacancy.key"
+          :to="'/profile/vacancy/details/' + vacancy.key"
         />
         <q-btn
           outline
           rounded
           :color="darkModeConf.iconVar"
           icon="edit"
-          :to="'/profile/vacancy/edit/'+vacancy.key"
+          :to="'/profile/vacancy/edit/' + vacancy.key"
         />
         <q-btn
           outline
@@ -67,24 +70,20 @@
         lang="pt-PT"
         aria-label="Alerta de confirmação"
       >
-        <q-card style="width: 700px; max-width: 80vw;">
+        <q-card style="width: 700px; max-width: 80vw">
           <q-card-section>
             <div :class="getFont.title">Confirmar</div>
           </q-card-section>
 
-          <q-card-section
-            class="q-pt-none"
-            :class="getFont.text"
-          >Remover vaga de {{ vacancy.title }}?</q-card-section>
-
-          <q-card-actions
-            align="right"
-            class="bg-white text-teal"
+          <q-card-section class="q-pt-none" :class="getFont.text"
+            >Remover vaga de {{ vacancy.title }}?</q-card-section
           >
+
+          <q-card-actions align="right" class="bg-white text-teal">
             <q-btn
               rounded
-              outline
               :color="darkModeConf.iconVar"
+              :class="darkModeConf.textBtn"
               label="Remover"
               role="button"
               @click="deleteVacancyThis(vacancy.key)"
@@ -92,7 +91,7 @@
             <q-btn
               rounded
               outline
-              color="grey"
+              :color="darkModeConf.iconVar"
               label="Cancelar"
               role="button"
               v-close-popup
@@ -108,10 +107,9 @@
         aria-label="Alerta de sucesso"
       >
         <q-card>
-          <q-card-section
-            class="text-green"
-            :class="getFont.title"
-          >Vaga deletada com sucesso</q-card-section>
+          <q-card-section class="text-green" :class="getFont.title"
+            >Vaga deletada com sucesso</q-card-section
+          >
 
           <q-card-actions align="right">
             <q-btn
@@ -129,14 +127,14 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import { Loading } from "quasar";
-import { firebaseAuth, firestoreDB, fireStorage } from "boot/firebase";
-import offline from "v-offline";
+import { mapState, mapActions, mapGetters } from "vuex"
+import { Loading } from "quasar"
+import { firebaseAuth, firestoreDB, fireStorage } from "boot/firebase"
+import offline from "v-offline"
 export default {
   // name: 'PageName',
   props: ["vacancy"],
-  data () {
+  data() {
     return {
       tab: "bio",
       confirDeleteSuccess: false,
@@ -145,40 +143,40 @@ export default {
       isPublic: true,
       vacancyDel: {
         title: "",
-        key: null
+        key: null,
       },
       vacanciesAply: [],
       myVacancies: [],
-      vacancyStatus: false
-    };
+      vacancyStatus: false,
+    }
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapGetters("settings", ["getFont"]),
-    ...mapGetters("auth", ["user", "userData"])
+    ...mapGetters("auth", ["user", "userData"]),
   },
   methods: {
     ...mapActions("auth", ["detailUser", "checkAuthUser"]),
 
-    handleHold ({ ...info }) {
+    handleHold({ ...info }) {
       if (window.hasOwnProperty("cordova")) {
-        navigator.vibrate(200);
+        navigator.vibrate(200)
       } else {
-        window.navigator.vibrate(200);
+        window.navigator.vibrate(200)
       }
       this.$root.$emit(
         "textToSpeechRouter",
         "Você adicionou" + this.vacancy.title + ".\n Clique para detalhes."
-      );
+      )
     },
 
-    deleteVacancyThis (id) {
-      const vm = this;
+    deleteVacancyThis(id) {
+      const vm = this
 
-      Loading.show();
-      var storageRef = fireStorage.ref();
+      Loading.show()
+      var storageRef = fireStorage.ref()
 
-      var desertRef = storageRef.child("vacancies/" + id);
+      var desertRef = storageRef.child("vacancies/" + id)
 
       firestoreDB
         .collection("vacancies")
@@ -190,76 +188,78 @@ export default {
             .delete()
             .then(function () {
               // File deleted successfully
-              vm.confirDeleteSuccess = true;
-              Loading.hide();
+              vm.confirDeleteSuccess = true
+              Loading.hide()
             })
             .catch(function (error) {
               // Uh-oh, an error occurred!
-              vm.confirDeleteSuccess = true;
-              console.log("Erro ao Remover imagem");
-              Loading.hide();
-            });
+              vm.confirDeleteSuccess = true
+              console.log("Erro ao Remover imagem")
+              Loading.hide()
+            })
         })
-        .catch(error => {
-          Loading.hide();
-          alert("Error removing document: ", error);
-        });
+        .catch((error) => {
+          Loading.hide()
+          alert("Error removing document: ", error)
+        })
     },
 
-    getVacancyStatus (id) {
-      const vm = this;
-      const ref = firestoreDB.collection("vacancies").doc(id);
+    getVacancyStatus(id) {
+      const vm = this
+      const ref = firestoreDB.collection("vacancies").doc(id)
 
-      ref.onSnapshot(doc => {
+      ref.onSnapshot((doc) => {
         if (doc.exists) {
-          vm.vacancyStatus = doc.data().public;
+          vm.vacancyStatus = doc.data().public
         } else {
-          console.log("No such document!");
+          console.log("No such document!")
           // Loading.hide()
         }
-      });
+      })
     },
 
-    updateVacancyHere (payload) {
-      Loading.show();
-      const updateRef = firestoreDB.collection("vacancies").doc(payload.id);
+    updateVacancyHere(payload) {
+      Loading.show()
+      const updateRef = firestoreDB.collection("vacancies").doc(payload.id)
       updateRef
         .set(payload.data)
         .then(() => {
-          Loading.hide();
+          Loading.hide()
         })
-        .catch(error => {
-          Loading.hide();
-          alert("Error update document: ", error);
-        });
+        .catch((error) => {
+          Loading.hide()
+          alert("Error update document: ", error)
+        })
     },
 
-    makePublic (id, data, val) {
+    makePublic(id, data, val) {
       let dataAux = {
+        approved: data.approved,
+        numVacancies: data.numVacancies,
         title: data.title,
         user: data.user,
         description: data.description,
         img: data.img,
+        public: !val,
         place: data.place,
-        category: data.category,
         validate: data.validate,
+        category: data.category,
         timeSend: data.timeSend,
-        public: !val
-      };
+      }
 
       this.updateVacancyHere({
         id: id,
-        data: dataAux
-      });
-    }
+        data: dataAux,
+      })
+    },
   },
-  created () {
-    this.checkAuthUser();
+  created() {
+    this.checkAuthUser()
   },
-  mounted () {
-    this.getVacancyStatus(this.vacancy.key);
+  mounted() {
+    this.getVacancyStatus(this.vacancy.key)
     // this.listVacancyMy(this.user.email)
     // this.listVacancyMyHere(this.user.email);
-  }
-};
+  },
+}
 </script>

@@ -64,11 +64,10 @@ export default {
       } else {
         this.setVibrate(0)
       }
-    } else {
-      this.setVibrate(1)
     }
-
-
+    // else {
+    //   this.setVibrate(1)
+    // }
   },
   watch: {
     darkModeConf (val) {

@@ -8,6 +8,32 @@
       :filter="filter"
       role="table"
     >
+      <template v-slot:top-left>
+        <div class="row q-gutter-x-sm">
+          <div class="text-h6">
+            Empresas Rejeitadas
+          </div>
+          <q-btn
+            rounded
+            outline
+            color="primary"
+            icon-right="archive"
+            label="Export em csv"
+            no-caps
+            @click="exportTable"
+          />
+
+          <q-btn
+            rounded
+            outline
+            color="primary"
+            icon-right="archive"
+            label="Export em excel"
+            no-caps
+            @click="exportToExl"
+          />
+        </div>
+      </template>
       <template v-slot:top-right>
         <q-input
           borderless
@@ -49,6 +75,7 @@
 </template>
 
 <script>
+import exportFromJSON from 'export-from-json'
 export default {
   props: ["data"],
   data () {
@@ -92,29 +119,53 @@ export default {
           compony: {}
         },
       ],
+      dataJson: []
     };
   },
   methods: {
     getCompanyDetails (compony) {
-      console.log(compony)
       this.$root.$emit("companyToEvaluation", compony)
     },
     displayDatas (list) {
+      console.log(list)
       const vm = this;
       let data = [];
+      let dataJson = [];
       list.forEach((element) => {
-        console.log(element);
         data.push({
           name: element.displayName,
           email: element.email,
           telephone: element.phoneNumber,
-          numVacancies: 65,
+          numVacancies: element.numVacancies,
           compony: element
         });
+        dataJson.push({
+          Nome: element.displayName,
+          Email: element.email,
+          Telefone: element.phoneNumber,
+          "Numero de vagas": element.numVacancies,
+        });
       });
-      console.log(data);
       this.dataTable = data;
+      this.dataJson = dataJson
     },
+    exportTable () {
+      // naive encoding to csv format
+      const data = this.dataJson
+      const fileName = 'rejectedCompanies'
+      const exportType = 'csv'
+
+      exportFromJSON({ data, fileName, exportType })
+    },
+
+
+    exportToExl () {
+      const data = this.dataJson
+      const fileName = 'rejectedCompanies'
+      const exportType = 'xls'
+
+      exportFromJSON({ data, fileName, exportType })
+    }
   },
   mounted () {
     this.displayDatas(this.data);

@@ -1,13 +1,6 @@
 <template>
-  <q-layout
-    view="hHh Lpr lff"
-    class="bg-grey-1"
-  >
-    <q-header
-      elevated
-      class="bg-white text-grey-8"
-      height-hint="64"
-    >
+  <q-layout view="hHh Lpr lff" class="bg-grey-1">
+    <q-header elevated class="bg-white text-grey-8" height-hint="64">
       <q-toolbar
         class="GNL__toolbar"
         :class="[darkModeConf.bgColor, darkModeConf.textColor]"
@@ -25,30 +18,16 @@
           aria-label="Abrir menú"
         />
 
-        <q-toolbar-title
-          shrink
-          class="row items-center no-wrap"
-        >
-          <q-btn
-            flat
-            round
-            to="/"
-            style="margin: 0;"
-          >
-            <img
-              src="statics/img/home/appLogo.png"
-              style="height: 35px"
-            >
+        <q-toolbar-title shrink class="row items-center no-wrap">
+          <q-btn flat round to="/" style="margin: 0">
+            <img src="statics/img/home/appLogo.png" style="height: 35px" />
           </q-btn>
           <span class="q-ml-sm">Superativo | Ajuda</span>
         </q-toolbar-title>
 
         <q-space />
 
-        <div
-          class="q-gutter-sm row items-center no-wrap"
-          v-if="isUserAuth"
-        >
+        <div class="q-gutter-sm row items-center no-wrap" v-if="isUserAuth">
           <q-btn
             round
             flat
@@ -58,11 +37,7 @@
             to="/profile"
           >
             <q-avatar size="26px">
-              <img
-                :src="user.photoURL"
-                role="img"
-                alt="Imagem de perfil"
-              >
+              <img :src="user.photoURL" role="img" alt="Imagem de perfil" />
             </q-avatar>
             <q-tooltip>Account</q-tooltip>
           </q-btn>
@@ -98,18 +73,13 @@
             clickable
           >
             <q-item-section avatar>
-              <q-icon
-                v-if="link.img"
-                :name="'img:' + link.img"
-              />
-              <q-icon
-                :color="darkModeConf.iconVar"
-                v-else
-                :name="link.icon"
-              />
+              <q-icon v-if="link.img" :name="'img:' + link.img" />
+              <q-icon :color="darkModeConf.iconVar" v-else :name="link.icon" />
             </q-item-section>
             <q-item-section>
-              <q-item-label :class="darkModeConf.textColor">{{ link.text }}</q-item-label>
+              <q-item-label :class="darkModeConf.textColor">{{
+                link.text
+              }}</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -129,61 +99,88 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view :class="[darkModeConf.bgColor, darkModeConf.textColor]" />
-      <!-- <q-page padding>
-          <p v-for="n in 15" :key="n">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
-          </p>
-        </q-page> -->
+      <router-view
+        :class="[darkModeConf.bgColor, darkModeConf.textColor]"
+        class="q-pb-xl"
+      />
+      <div v-if="isUserAuth">
+        <q-page-sticky class="q-pa-md">
+          <q-btn
+            icon="message"
+            rounded
+            role="button"
+            label="Reclamar ou sugerir"
+            :color="darkModeConf.iconVar"
+            :class="darkModeConf.textBtn"
+            @click="openDialogQuestion = true"
+          />
+        </q-page-sticky>
+        <Questions
+          :openDialogQuestion="openDialogQuestion"
+          @close="openDialogQuestion = false"
+        />
+      </div>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import { fasGlobeAmericas, fasFlask } from '@quasar/extras/fontawesome-v5'
+import { mapState, mapActions, mapGetters } from "vuex"
+import { fasGlobeAmericas, fasFlask } from "@quasar/extras/fontawesome-v5"
+import Questions from "components/Questions.vue"
 export default {
-  name: 'GoogleNewsLayout',
-  data () {
+  name: "GoogleNewsLayout",
+  data() {
     return {
+      openDialogQuestion: false,
       leftDrawerOpen: false,
-      search: '',
+      search: "",
       showAdvanced: false,
       showDateOptions: false,
-      exactPhrase: '',
-      hasWords: '',
-      excludeWords: '',
-      byWebsite: '',
-      byDate: 'Any time',
+      exactPhrase: "",
+      hasWords: "",
+      excludeWords: "",
+      byWebsite: "",
+      byDate: "Any time",
       links1: [
-        { icon: 'web', text: 'Overview', to: "/help", img: "statics/img/home/appLogo.png" },
-        { icon: 'home', text: 'Página Inicial', to: "/help/home" },
-        { icon: 'work', text: 'Vagas', to: "/help/vacancies" },
-        { icon: 'store', text: 'Negocio', to: "/help/stories" },
-        { icon: 'settings', text: 'Configurações', to: "/help/settings" },
-        { icon: 'account_circle', text: 'Perfil', to: "/help/profile" },
-        { icon: 'message', text: 'Conversas', to: "/help/chat" },
-        { icon: 'accessibility', text: 'Acessibilidade', to: "/help/accessibility" }
+        {
+          icon: "web",
+          text: "Overview",
+          to: "/help",
+          img: "statics/img/home/appLogo.png",
+        },
+        { icon: "home", text: "Página Inicial", to: "/help/home" },
+        { icon: "work", text: "Vagas", to: "/help/vacancies" },
+        { icon: "store", text: "Negocio", to: "/help/stories" },
+        { icon: "settings", text: "Configurações", to: "/help/settings" },
+        { icon: "account_circle", text: "Perfil", to: "/help/profile" },
+        { icon: "message", text: "Conversas", to: "/help/chat" },
+        {
+          icon: "accessibility",
+          text: "Acessibilidade",
+          to: "/help/accessibility",
+        },
       ],
     }
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
-    ...mapGetters("auth", ["isUserAuth", "user"])
+    ...mapGetters("auth", ["isUserAuth", "user"]),
   },
+  components: { Questions },
   methods: {
-    onClear () {
-      this.exactPhrase = ''
-      this.hasWords = ''
-      this.excludeWords = ''
-      this.byWebsite = ''
-      this.byDate = 'Any time'
+    onClear() {
+      this.exactPhrase = ""
+      this.hasWords = ""
+      this.excludeWords = ""
+      this.byWebsite = ""
+      this.byDate = "Any time"
     },
-    changeDate (option) {
+    changeDate(option) {
       this.byDate = option
       this.showDateOptions = false
-    }
-  }
+    },
+  },
 }
 </script>
 

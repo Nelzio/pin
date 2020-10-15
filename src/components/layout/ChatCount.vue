@@ -40,7 +40,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("auth", ["isUserAuth", "user"]),
+    ...mapGetters("auth", ["isUserAuth", "user", "userData"]),
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"])
   },
   methods: {
@@ -48,7 +48,7 @@ export default {
       const vm = this;
       const ref = firestoreDB
         .collection("chat")
-        .doc(vm.user.email.split("@")[0]);
+        .doc(vm.userData.email.split("@")[0]);
       var chatDataObj = {};
       var arrayToCountMessage = [];
 
@@ -66,7 +66,7 @@ export default {
       const vm = this;
       const ref = firestoreDB
         .collection("chat")
-        .doc(vm.user.email.split("@")[0]);
+        .doc(vm.userData.email.split("@")[0]);
       var chatDataObj = {};
       var arrayToCountMessage = [];
 
@@ -86,7 +86,7 @@ export default {
       let time = 1000;
       var refToCount = firestoreDB
         .collection("chat")
-        .doc(vm.user.email.split("@")[0])
+        .doc(vm.userData.email.split("@")[0])
         .collection(val);
       refToCount
         .where("readed", "==", false)
@@ -96,7 +96,7 @@ export default {
           vm.notification = false;
           // console.log(querySnap.length)
           querySnap.forEach(doc => {
-            if (!doc.data().readed && doc.data().sender !== vm.user.email) {
+            if (!doc.data().readed && doc.data().sender !== vm.userData.email) {
               setTimeout(() => {
                 vm.notification = true;
                 console.log(doc.data());
@@ -117,7 +117,7 @@ export default {
       let notification = false;
       var refToCount = firestoreDB
         .collection("chat")
-        .doc(vm.user.email.split("@")[0])
+        .doc(vm.userData.email.split("@")[0])
         .collection(val);
       refToCount.where("readed", "==", false).onSnapshot(function (querySnap) {
         vm.numMessage = querySnap.length;
@@ -125,7 +125,7 @@ export default {
         notification = false;
         // console.log(querySnap.length)
         querySnap.forEach(doc => {
-          if (!doc.data().readed && doc.data().sender !== vm.user.email) {
+          if (!doc.data().readed && doc.data().sender !== vm.userData.email) {
             vm.notification = true;
             notification = true;
             // console.log(doc.data());
@@ -158,7 +158,7 @@ export default {
     //   var load = false;
     //   var refToCount = firestoreDB
     //     .collection("chat")
-    //     .doc(vm.user.email.split("@")[0])
+    //     .doc(vm.userData.email.split("@")[0])
     //     .collection(val);
     //   refToCount
     //     .where("readed", "==", false)
@@ -172,9 +172,9 @@ export default {
     //         setTimeout(() => {
     //           querySnap.forEach(function(doc) {
     //             console.log(doc.data().sender);
-    //             console.log(vm.user.email);
+    //             console.log(vm.userData.email);
     //             console.log(doc.data().readed);
-    //             if (!doc.data().readed && doc.data().sender !== vm.user.email) {
+    //             if (!doc.data().readed && doc.data().sender !== vm.userData.email) {
     //               // vm.numMessage += 1;
     //               countNumTemp++;
     //               arrayToCountMessage.push("num");

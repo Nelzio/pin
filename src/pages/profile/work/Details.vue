@@ -95,7 +95,7 @@
           >
             <div
               class="q-pa-sm"
-              v-for="candidate in candidates"
+              v-for="candidate in candidatesApproved"
               :key="candidate.id"
             >
               <q-card class="my-card">
@@ -178,7 +178,8 @@ export default {
   data () {
     return {
       tab: "details",
-      candidates: []
+      candidates: [],
+      candidatesApproved: []
     };
   },
   computed: {
@@ -217,10 +218,70 @@ export default {
             address: doc.data().address,
             profession: doc.data().profession,
             education: doc.data().education,
-            date: doc.data().date
+            date: doc.data().date,
+            address: doc.data().address,
+            access: doc.data().access,
+            association: doc.data().association,
+            deficiency: doc.data().deficiency,
+            description: doc.data().description,
+            evaluators: doc.data().evaluators,
+            gender: doc.data().gender,
+            place: doc.data().place,
+            profileType: doc.data().profileType,
+            registrationDate: doc.data().registrationDate,
+            submittedDate: doc.data().submittedDate
           });
         });
         vm.candidates = candidates;
+      });
+    },
+    isApproved (candidate) {
+      for (let index = 0; index < this.candidatesApproved.length; index++) {
+        const element = this.candidatesApproved[index];
+        if (element.id == candidate.id) {
+          return true;
+        }
+      }
+      return false;
+    },
+    candidateEvaluateStatus (candidates, numVacancies) {
+      const vm = this;
+      let lastNumEvaluate = 0;
+      let listPunctuation = []
+      this.candidatesApproved = [];
+      // make foreach in candidates list
+      candidates.forEach((candidate) => {
+        // verify if candidate it is in approved list
+        if (!vm.isApproved(candidate)) {
+          // calculate punctuation
+          var numEvaluate = 0;
+          candidate.evaluators.forEach((val) => {
+            numEvaluate += val.punctuation;
+          });
+          // make push elements if have vacancies
+          if (numVacancies > vm.candidatesApproved.length) {
+            vm.candidatesApproved.push(candidate);
+            listPunctuation.push(numEvaluate)
+          } else {
+            // change users approved by punctuation
+            var auxIndex = 0;
+            var iterate = true; // to allow get in IF bloc of iterator of list punctuation.
+            var makeChange = false; // not allow change
+            for (let index = 0; index < listPunctuation.length; index++) {
+              const punctuation = listPunctuation[index];
+              if (numEvaluate > punctuation && iterate) {
+                auxIndex = index; // store index of listPunctuation and candidatesApproved
+                iterate = false; // to block get in IF bloc of iterator of list punctuation.
+                makeChange = true; // allow change
+              }
+            }
+            // change users and punctuation
+            if (makeChange) {
+              listPunctuation[auxIndex] = numEvaluate
+              vm.candidatesApproved[auxIndex] = candidate
+            }
+          }
+        }
       });
     },
     yearsOld (date) {
@@ -235,6 +296,18 @@ export default {
     // this.listVacancy()
     this.getCandidates();
     this.detailVacancy(this.$route.params.id);
+  },
+  watch: {
+    candidates (val) {
+      if (Object.keys(this.getVacancy)) {
+        this.candidateEvaluateStatus(val, this.getVacancy.numVacancies)
+      }
+    },
+    getVacancy (val) {
+      if (this.candidates) {
+        this.candidateEvaluateStatus(this.candidates, val.numVacancies)
+      }
+    },
   }
 };
 </script>

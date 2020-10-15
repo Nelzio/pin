@@ -26,8 +26,8 @@
               round
               :icon="playing ? 'pause' : 'play_arrow'"
               size="lg"
-              :lang="pt-PT"
-              aria-label="playing ? 'Pausar audio' : 'Ouvir audio'"
+              lang="pt-PT"
+              :aria-label="playing ? 'Pausar audio' : 'Ouvir audio'"
               @click="playing ? pauseRecord() : playRecord(message.audio)"
               role="button"
             />
@@ -63,8 +63,8 @@
               flat
               round
               :icon="playing ? 'pause' : 'play_arrow'"
-              :lang="pt-PT"
-              aria-label="playing ? 'Pausar audio' : 'Ouvir audio'"
+              lang="pt-PT"
+              :aria-label="playing ? 'Pausar audio' : 'Ouvir audio'"
               size="lg"
               @click="playing ? pauseRecord() : playRecord(message.audio)"
               role="button"

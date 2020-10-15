@@ -18,8 +18,30 @@
         v-slot:top-left
         class="q-gutter-x-lg"
       >
-        <div :class="getFont.title">Associações</div>
+        <div class="row q-gutter-x-md">
+          <div :class="getFont.title">Associações</div>
+          <q-btn
+            rounded
+            outline
+            color="primary"
+            icon-right="archive"
+            label="Export em csv"
+            no-caps
+            @click="exportTable"
+          />
+
+          <q-btn
+            rounded
+            outline
+            color="primary"
+            icon-right="archive"
+            label="Export em excel"
+            no-caps
+            @click="exportToExl"
+          />
+        </div>
       </template>
+
       <template
         v-slot:top-right
         class="q-gutter-x-lg"
@@ -58,7 +80,7 @@
             :class="props.selected ? 'bg-grey-2' : ''"
             clickable
             v-ripple
-            role="grou+"
+            role="group"
           >
             <q-list dense>
               <q-item
@@ -84,6 +106,7 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { firestoreDB } from "boot/firebase";
+import exportFromJSON from 'export-from-json';
 export default {
   data () {
     return {
@@ -123,6 +146,7 @@ export default {
           email: "associa@gmail.com",
         },
       ],
+      dataJson: []
     };
   },
   computed: {
@@ -149,6 +173,7 @@ export default {
       const ref = firestoreDB.collection("associations");
       ref.onSnapshot(function (docs) {
         var data = [];
+        var dataJson = [];
         docs.forEach(function (doc) {
           var object = {
             id: doc.id,
@@ -165,8 +190,16 @@ export default {
             object["type"] = object.types[0];
           }
           data.push(object);
+          dataJson.push({
+            Nome: object.name,
+            Endereço: object.address,
+            Deficiências: object.type,
+            "Numero de telefone": object.phoneNumber,
+            Email: object.email
+          })
         });
         vm.data = data;
+        vm.dataJson = dataJson;
       });
     },
     giveNewData () {
@@ -196,6 +229,24 @@ export default {
           });
       });
     },
+
+    exportTable () {
+      // naive encoding to csv format
+      const data = this.dataJson
+      const fileName = 'associations'
+      const exportType = 'csv'
+
+      exportFromJSON({ data, fileName, exportType })
+    },
+
+
+    exportToExl () {
+      const data = this.dataJson
+      const fileName = 'associations'
+      const exportType = 'xls'
+
+      exportFromJSON({ data, fileName, exportType })
+    }
   },
   mounted () {
     this.getData();

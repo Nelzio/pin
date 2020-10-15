@@ -1,29 +1,15 @@
 <template>
   <div>
-    <q-dialog
-      v-model="dialog"
-      persistent
-      role="dialog"
-    >
-      <q-card
-        class="q-pb-lg"
-        style="width: 700px; max-width: 80vw;"
-      >
+    <q-dialog v-model="dialog" persistent role="dialog">
+      <q-card class="q-pb-lg" style="width: 700px; max-width: 80vw">
         <q-card-section class="row items-center">
-          <div class="text-h6">Adicionar Associação</div>
+          <div class="text-h6">Editar Associação</div>
           <q-space />
-          <q-btn
-            icon="close"
-            flat
-            round
-            dense
-            role="button"
-            v-close-popup
-          />
+          <q-btn icon="close" flat round dense role="button" v-close-popup />
         </q-card-section>
         <q-card-section>
           <q-form
-            ref="form"
+            ref="associationForm"
             @submit="onSubmit"
             @reset="onReset"
             class="q-gutter-md"
@@ -36,7 +22,10 @@
               label="Nome da associação *"
               type="text"
               lazy-rules
-              :rules="[ val => val && val.length > 0 || 'Adicione o nome da associação']"
+              :rules="[
+                (val) =>
+                  (val && val.length > 0) || 'Adicione o nome da associação',
+              ]"
             />
             <q-input
               outlined
@@ -45,7 +34,11 @@
               label="Telefone da associação *"
               type="number"
               lazy-rules
-              :rules="[ val => val && val.length > 0 || 'Adicione o telefone da associação']"
+              :rules="[
+                (val) =>
+                  (val && val.length > 0) ||
+                  'Adicione o telefone da associação',
+              ]"
             />
             <q-input
               outlined
@@ -54,7 +47,11 @@
               type="email"
               label="Email da associação *"
               lazy-rules
-              :rules="[ val => val && val.length > 0 || 'Adicione o email da associação']"
+              :rules="[
+                (val) =>
+                  (val && val.length > 0 && isEmailValid(val)) ||
+                  'Adicione o email da associação',
+              ]"
             />
             <q-input
               outlined
@@ -63,7 +60,11 @@
               type="text"
               label="Endereço da associação *"
               lazy-rules
-              :rules="[ val => val && val.length > 0 || 'Adicione o endereço da associação']"
+              :rules="[
+                (val) =>
+                  (val && val.length > 0) ||
+                  'Adicione o endereço da associação',
+              ]"
             />
             <q-select
               outlined
@@ -75,7 +76,7 @@
               use-input
               stack-label
               @filter="filterFn"
-              label="Multiple selection"
+              label="Tipos de deficiência"
               role="combobox"
             >
               <template v-slot:no-option>
@@ -114,19 +115,14 @@
         lang="pt-PT"
         aria-label="Alerta de sucesso"
       >
-        <q-card style="width: 400px; max-width: 50vw;">
+        <q-card style="width: 400px; max-width: 50vw">
           <q-card-section>
-            <div :class="[getFont.title, 'text-'+darkModeConf.iconVar]">Adição de associação</div>
+            <div :class="[getFont.title, 'text-' + darkModeConf.iconVar]">
+              Edição de associação
+            </div>
           </q-card-section>
-          <q-card-section
-            :class="getFont.text"
-            class="text-center"
-          >
-            <q-icon
-              name="check_circle"
-              color="green"
-              size="80px"
-            />
+          <q-card-section :class="getFont.text" class="text-center">
+            <q-icon name="check_circle" color="green" size="80px" />
           </q-card-section>
           <q-card-actions align="right">
             <q-btn
@@ -145,19 +141,14 @@
         lang="pt-PT"
         aria-label="Alerta de erro"
       >
-        <q-card style="width: 400px; max-width: 50vw;">
+        <q-card style="width: 400px; max-width: 50vw">
           <q-card-section>
-            <div :class="[getFont.title, 'text-'+darkModeConf.iconVar]">Erro ao adicionar</div>
+            <div :class="[getFont.title, 'text-' + darkModeConf.iconVar]">
+              Erro ao adicionar
+            </div>
           </q-card-section>
-          <q-card-section
-            :class="getFont.text"
-            class="text-center"
-          >
-            <q-icon
-              name="mood_bad"
-              color="red"
-              size="80px"
-            />
+          <q-card-section :class="getFont.text" class="text-center">
+            <q-icon name="mood_bad" color="red" size="80px" />
           </q-card-section>
           <q-card-actions align="right">
             <q-btn
@@ -174,12 +165,13 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
-import { Loading } from "quasar";
-import { firestoreDB } from "boot/firebase";
-const options = ["Visual", "Auditiva", "Física", "Psico Social"];
+import { mapState, mapGetters } from "vuex"
+import { Loading } from "quasar"
+import { firestoreDB } from "boot/firebase"
+import offline from "v-offline"
+const options = ["Visual", "Auditiva", "Física", "Psico Social"]
 export default {
-  data () {
+  data() {
     return {
       confirmDialog: false,
       errorDialog: false,
@@ -194,15 +186,21 @@ export default {
       },
       id: "",
       optionsType: options,
-    };
+    }
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("auth", ["userData"]),
   },
   methods: {
-    openDialog () {
-      const vm = this;
+    isEmailValid(email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+      return re.test(String(email))
+    },
+    openDialog() {
+      const vm = this
       this.$root.$on("editAssociation", function (val) {
         vm.data = {
           name: val.name,
@@ -210,75 +208,90 @@ export default {
           email: val.email,
           address: val.address,
           types: val.types,
-        };
+        }
 
-        vm.id = val.id;
-        vm.dialog = true;
-      });
+        vm.id = val.id
+        vm.dialog = true
+      })
     },
-    onSubmit () {
-      Loading.show();
-      const vm = this;
-      const ref = firestoreDB.collection("associations").doc(this.id);
-      ref
-        .set(this.data)
-        .then(() => {
-          vm.emitToGetDataForDetails();
-          vm.dialog = false;
-          vm.onReset();
-          Loading.hide();
-          vm.confirmDialog = true;
-        })
-        .catch((error) => {
-          console.log(error);
-          Loading.hide();
-          vm.errorDialog = true;
-        });
+    onSubmit() {
+      const vm = this
+      if (!offline.data().isOnline) {
+        return alert("Está sem internet")
+      }
+      const ref = firestoreDB.collection("associations").doc(this.id)
+      this.$refs.associationForm.validate().then((success) => {
+        if (success) {
+          // yay, models are correct
+          Loading.show()
+          ref
+            .set(this.data)
+            .then(() => {
+              vm.emitToGetDataForDetails()
+              vm.dialog = false
+              vm.onReset()
+              Loading.hide()
+              vm.confirmDialog = true
+            })
+            .catch((error) => {
+              console.log(error)
+              Loading.hide()
+              vm.errorDialog = true
+            })
+        } else {
+          // oh no, user has filled in
+          // at least one invalid value
+          Loading.hide()
+        }
+      })
     },
-    onReset () {
-      this.$refs.form.resetValidation();
+    onReset() {
+      this.$refs.associationForm.resetValidation()
       this.data = {
         name: "",
         phoneNumber: "",
         email: "",
         address: "",
         types: [],
-      };
+      }
     },
-    filterFn (val, update) {
+    filterFn(val, update) {
       if (val === "") {
         update(() => {
-          this.optionsType = options;
+          this.optionsType = options
 
           // with Quasar v1.7.4+
           // here you have access to "ref" which
           // is the Vue reference of the QSelect
-        });
-        return;
+        })
+        return
       }
 
       update(() => {
-        const needle = val.toLowerCase();
+        const needle = val.toLowerCase()
         this.optionsType = options.filter(
           (v) => v.toLowerCase().indexOf(needle) > -1
-        );
-      });
+        )
+      })
     },
 
-    emitToGetDataForDetails () {
-      this.$root.$emit("pleaseNewData", this.id);
+    emitToGetDataForDetails() {
+      this.$root.$emit("pleaseNewData", this.id)
     },
   },
-  mounted () {
+  mounted() {
     // Loading.hide()
-    this.openDialog();
+    this.openDialog()
+    if (!this.userData.access[1] == "w") {
+      this.$router.go(-1)
+    }
   },
   watch: {
-    tempSelect (val) {
-      console.log(val);
+    tempSelect(val) {
+      console.log(val)
     },
   },
-};
+}
 </script>
 
 <style>

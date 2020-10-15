@@ -22,8 +22,6 @@
         <div
           class="text-h6"
           :class="darkModeConf.textColor"
-          lang="pt-PT"
-          v-show="vibrateState"
         >Vagas</div>
       </router-link>
       <router-link
@@ -44,8 +42,6 @@
         <div
           class="text-h6"
           :class="darkModeConf.textColor"
-          lang="pt-PT"
-          v-show="vibrateState"
         >Negócio</div>
       </router-link>
     </div>
@@ -72,7 +68,6 @@
         <div
           class="text-h6"
           :class="darkModeConf.textColor"
-          v-show="vibrateState"
         >Perfil</div>
       </router-link>
       <router-link
@@ -94,7 +89,6 @@
         <div
           class="text-h6"
           :class="darkModeConf.textColor"
-          v-show="vibrateState"
         >Perfil</div>
       </router-link>
       <router-link
@@ -114,7 +108,6 @@
           />
         </div>
         <div
-          v-show="vibrateState"
           class="text-h6"
           :class="darkModeConf.textColor"
         >Definições</div>

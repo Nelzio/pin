@@ -27,5 +27,5 @@ export default {
     iconVar: "primary",
   },
   homeSpeak: true,
-  vibrateState: LocalStorage.getItem("vibrate") ? LocalStorage.getItem("vibrate") : 1,
+  vibrateState: LocalStorage.getItem("vibrate") ? LocalStorage.getItem("vibrate") : 0,
 }

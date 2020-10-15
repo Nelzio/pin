@@ -2,9 +2,7 @@
   <div>
     <div>
       <q-toolbar class="text-primary q-pa-md">
-        <q-toolbar-title class="text-h5">
-          Vagas de emprego
-        </q-toolbar-title>
+        <q-toolbar-title class="text-h5"> Vagas de emprego </q-toolbar-title>
         <div style="width: 200px">
           <q-select
             outlined
@@ -19,14 +17,9 @@
     <div class="row q-pa-sm">
       <div class="col-3">
         <q-card class="my-card">
-          <q-card-section class="text-h5">
-            Resumo
-          </q-card-section>
+          <q-card-section class="text-h5"> Resumo </q-card-section>
           <q-card-section class="q-pa-none">
-            <q-item
-              clickable
-              v-ripple
-            >
+            <q-item clickable v-ripple>
               <q-item-section class="text-body1">
                 Numero de anúncios vagas
               </q-item-section>
@@ -37,14 +30,10 @@
                   text-color="white"
                   :label="numAnnouncement"
                 />
-
               </q-item-section>
             </q-item>
             <q-separator />
-            <q-item
-              clickable
-              v-ripple
-            >
+            <q-item clickable v-ripple>
               <q-item-section class="text-body1">
                 Numero de anúncios vagas válidas
               </q-item-section>
@@ -55,14 +44,10 @@
                   text-color="white"
                   :label="announcementValid"
                 />
-
               </q-item-section>
             </q-item>
             <q-separator />
-            <q-item
-              clickable
-              v-ripple
-            >
+            <q-item clickable v-ripple>
               <q-item-section class="text-body1">
                 Numero de anúncios vagas expiradas
               </q-item-section>
@@ -73,14 +58,10 @@
                   text-color="white"
                   :label="announcementExpired"
                 />
-
               </q-item-section>
             </q-item>
             <q-separator />
-            <q-item
-              clickable
-              v-ripple
-            >
+            <q-item clickable v-ripple>
               <q-item-section class="text-body1">
                 Numero de vagas
               </q-item-section>
@@ -91,14 +72,10 @@
                   text-color="white"
                   :label="vacanciesPerUser"
                 />
-
               </q-item-section>
             </q-item>
             <q-separator />
-            <q-item
-              clickable
-              v-ripple
-            >
+            <q-item clickable v-ripple>
               <q-item-section class="text-body1">
                 Numero de vagas disponíveis
               </q-item-section>
@@ -109,14 +86,10 @@
                   text-color="white"
                   :label="approvedNum"
                 />
-
               </q-item-section>
             </q-item>
             <q-separator />
-            <q-item
-              clickable
-              v-ripple
-            >
+            <q-item clickable v-ripple>
               <q-item-section class="text-body1">
                 Numero de vagas não disponíveis
               </q-item-section>
@@ -127,13 +100,11 @@
                   text-color="white"
                   :label="reprovedNum"
                 />
-
               </q-item-section>
             </q-item>
             <q-separator />
           </q-card-section>
         </q-card>
-
       </div>
       <div class="col-9 q-pa-sm">
         <div class="row">
@@ -161,10 +132,12 @@ import DisabilityEmployees from "./graphs/vacancies/DisabilityEmployees"
 import Evaluation from "./graphs/vacancies/Evaluation"
 import { firestoreDB } from "boot/firebase"
 export default {
-  data () {
+  data() {
     return {
       modelSelect: "",
-      optionsSelect: ["Todas províncias", "Cabo Delgado",
+      optionsSelect: [
+        "Todas províncias",
+        "Cabo Delgado",
         "Gaza",
         "Inhambane",
         "Manica",
@@ -174,7 +147,8 @@ export default {
         "Niassa",
         "Sofala",
         "Tete",
-        "Zambézia",],
+        "Zambézia",
+      ],
       numAnnouncement: 0,
       announcementValid: 0,
       announcementExpired: 0,
@@ -187,14 +161,17 @@ export default {
   },
   components: { TimeLineCandidatures, DisabilityEmployees, Evaluation },
   methods: {
-    getVacancies () {
+    getVacancies() {
       const vm = this
-      const todayDate = new Date
-      const today = todayDate.getMonth() + "/" + todayDate.getDate() + "/" + todayDate.getFullYear()
+      const todayDate = new Date()
+      const today =
+        todayDate.getMonth() +
+        "/" +
+        todayDate.getDate() +
+        "/" +
+        todayDate.getFullYear()
 
-
-
-      this.$root.$on("vacanciesToStatistic", vacancies => {
+      this.$root.$on("vacanciesToStatistic", (vacancies) => {
         // console.log(vacancies)
         vm.announcementValid = 0
         vm.announcementExpired = 0
@@ -202,120 +179,167 @@ export default {
         vm.vacancies = vacancies
         vm.vacanciesToProps = vacancies
         vm.numAnnouncement = vm.vacancies.length
-        vm.vacancies.forEach(vacancy => {
+        vm.vacancies.forEach((vacancy) => {
           let vacancyDateList = vacancy.validate.split("/")
-          let vacancyDate = vacancyDateList[1] + "/" + vacancyDateList[0] + "/" + vacancyDateList[2]
+          let vacancyDate =
+            vacancyDateList[1] +
+            "/" +
+            vacancyDateList[0] +
+            "/" +
+            vacancyDateList[2]
           if (new Date(vacancyDate) >= new Date(today)) {
-            vm.announcementValid += 1;
+            vm.announcementValid += 1
           } else {
-            vm.announcementExpired += 1;
+            vm.announcementExpired += 1
           }
           // count vacancies Per User
-          if (vacancy.numVacancies) vm.vacanciesPerUser += vacancy.numVacancies
-        });
+          console.log(vacancy.numVacancies)
+          console.log(vacancy)
+          if (vacancy.numVacancies)
+            vm.vacanciesPerUser += parseInt(vacancy.numVacancies)
+        })
       })
     },
 
-    filterVacancies () {
-      const todayDate = new Date
-      const today = todayDate.getMonth() + "/" + todayDate.getDate() + "/" + todayDate.getFullYear()
+    filterVacancies() {
+      const todayDate = new Date()
+      const today =
+        todayDate.getMonth() +
+        "/" +
+        todayDate.getDate() +
+        "/" +
+        todayDate.getFullYear()
       this.announcementValid = 0
       this.announcementExpired = 0
       this.vacanciesPerUser = 0
       this.numAnnouncement = 0
       this.vacanciesToProps = []
       for (let index = 0; index < this.vacancies.length; index++) {
-        const vacancy = this.vacancies[index];
-        if (vacancy.place == this.modelSelect && this.modelSelect != this.optionsSelect[0]) {
+        const vacancy = this.vacancies[index]
+        if (
+          vacancy.place == this.modelSelect &&
+          this.modelSelect != this.optionsSelect[0]
+        ) {
           this.vacanciesToProps.push(vacancy)
-          this.numAnnouncement += 1;
+          this.numAnnouncement += 1
           let vacancyDateList = vacancy.validate.split("/")
-          let vacancyDate = vacancyDateList[1] + "/" + vacancyDateList[0] + "/" + vacancyDateList[2];
+          let vacancyDate =
+            vacancyDateList[1] +
+            "/" +
+            vacancyDateList[0] +
+            "/" +
+            vacancyDateList[2]
           if (new Date(vacancyDate) >= new Date(today)) {
-            this.announcementValid += 1;
+            this.announcementValid += 1
           } else {
-            this.announcementExpired += 1;
+            this.announcementExpired += 1
           }
           // count vacancies Per User
-          if (vacancy.numVacancies) this.vacanciesPerUser += vacancy.numVacancies
-        } else if (!this.modelSelect || this.modelSelect == this.optionsSelect[0]) {
-          if (!this.vacanciesToProps.length) this.vacanciesToProps = this.vacancies;
-          if (!this.numAnnouncement) this.numAnnouncement = this.vacancies.length;
+          if (vacancy.numVacancies)
+            this.vacanciesPerUser += vacancy.numVacancies
+        } else if (
+          !this.modelSelect ||
+          this.modelSelect == this.optionsSelect[0]
+        ) {
+          if (!this.vacanciesToProps.length)
+            this.vacanciesToProps = this.vacancies
+          if (!this.numAnnouncement)
+            this.numAnnouncement = this.vacancies.length
           let vacancyDateList = vacancy.validate.split("/")
-          let vacancyDate = vacancyDateList[1] + "/" + vacancyDateList[0] + "/" + vacancyDateList[2];
+          let vacancyDate =
+            vacancyDateList[1] +
+            "/" +
+            vacancyDateList[0] +
+            "/" +
+            vacancyDateList[2]
           if (new Date(vacancyDate) >= new Date(today)) {
-            this.announcementValid += 1;
+            this.announcementValid += 1
           } else {
-            this.announcementExpired += 1;
+            this.announcementExpired += 1
           }
           // count vacancies Per User
-          if (vacancy.numVacancies) this.vacanciesPerUser += vacancy.numVacancies
+          if (vacancy.numVacancies)
+            this.vacanciesPerUser += vacancy.numVacancies
         }
       }
     },
 
-    requestData () {
+    requestData() {
       const vm = this
       setTimeout(() => {
         if (!vm.vacancies.length) {
           vm.$root.$emit("pleaseVacanciesStatisticData")
         }
-      }, 1000);
+      }, 1000)
     },
 
-    getAvailableNumVacancies () {
+    getAvailableNumVacancies() {
       let approvedNum = 0
       let reprovedNum = 0
       let pendingNum = 0
       for (let index = 0; index < this.vacancies.length; index++) {
-        const vacancy = this.vacancies[index];
+        const vacancy = this.vacancies[index]
         if (vacancy.numVacancies) {
-          approvedNum += vacancy.numVacancies - vacancy.approvedCandidates.length
-          reprovedNum += vacancy.numVacancies - (vacancy.numVacancies - vacancy.approvedCandidates.length)
+          approvedNum +=
+            vacancy.numVacancies - vacancy.approvedCandidates.length
+          reprovedNum +=
+            vacancy.numVacancies -
+            (vacancy.numVacancies - vacancy.approvedCandidates.length)
         }
       }
       this.approvedNum = approvedNum
       this.reprovedNum = reprovedNum
     },
 
-    getAvailableNumVacanciesFiltered () {
+    getAvailableNumVacanciesFiltered() {
       let approvedNum = 0
       let reprovedNum = 0
       let pendingNum = 0
       for (let index = 0; index < this.vacancies.length; index++) {
-        const vacancy = this.vacancies[index];
-        if (vacancy.place == this.modelSelect && this.modelSelect != this.optionsSelect[0]) {
+        const vacancy = this.vacancies[index]
+        if (
+          vacancy.place == this.modelSelect &&
+          this.modelSelect != this.optionsSelect[0]
+        ) {
           if (vacancy.numVacancies) {
-            approvedNum += vacancy.numVacancies - vacancy.approvedCandidates.length
-            reprovedNum += vacancy.numVacancies - (vacancy.numVacancies - vacancy.approvedCandidates.length)
+            approvedNum +=
+              vacancy.numVacancies - vacancy.approvedCandidates.length
+            reprovedNum +=
+              vacancy.numVacancies -
+              (vacancy.numVacancies - vacancy.approvedCandidates.length)
           }
-        } else if (!this.modelSelect || this.modelSelect == this.optionsSelect[0]) {
+        } else if (
+          !this.modelSelect ||
+          this.modelSelect == this.optionsSelect[0]
+        ) {
           if (vacancy.numVacancies) {
-            approvedNum += vacancy.numVacancies - vacancy.approvedCandidates.length
-            reprovedNum += vacancy.numVacancies - (vacancy.numVacancies - vacancy.approvedCandidates.length)
+            approvedNum +=
+              vacancy.numVacancies - vacancy.approvedCandidates.length
+            reprovedNum +=
+              vacancy.numVacancies -
+              (vacancy.numVacancies - vacancy.approvedCandidates.length)
           }
         }
       }
       this.approvedNum = approvedNum
       this.reprovedNum = reprovedNum
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.getVacancies()
     this.requestData()
   },
   watch: {
-    vacancies (vacancies) {
+    vacancies(vacancies) {
       if (vacancies.length) {
         this.getAvailableNumVacancies()
       }
     },
-    modelSelect () {
+    modelSelect() {
       this.filterVacancies()
       this.getAvailableNumVacanciesFiltered()
-    }
-  }
-
+    },
+  },
 }
 </script>
 
