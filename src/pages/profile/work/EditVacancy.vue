@@ -253,10 +253,15 @@ export default {
     }
   },
   computed: {
-    ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
+    ...mapState("settings", [
+      "settings",
+      "appMode",
+      "darkModeConf",
+      "vibrateState",
+    ]),
     ...mapState("vacancy", ["vacancyDtl", "vacancyUploaded"]),
     ...mapGetters("vacancy", ["getVacancy"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
   },
   methods: {
     confirmIsertFunc() {
@@ -334,6 +339,8 @@ export default {
 
   mounted() {
     this.detailVacancyLocal(this.$route.params.idEdit)
+    if (this.vibrateState === 1 && this.getVibrate)
+      this.$root.$emit("textToSpeechRouter", "Página de edição de vaga")
   },
   watch: {
     vacancyUploaded() {

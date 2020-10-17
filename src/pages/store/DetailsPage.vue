@@ -29,8 +29,9 @@
           <div class="col ellipsis" :class="getFont.title">
             {{ getStore.title }}
           </div>
-          <div class="col ellipsis" :class="getFont.title">
+          <div class="col ellipsis" :class="getFont.title" v-if="isUserAuth">
             <q-btn
+              v-if="isUserAuth"
               rounded
               :color="darkModeConf.iconVar"
               :class="darkModeConf.textBtn"
@@ -118,12 +119,12 @@ export default {
     }
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"]),
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
     ...mapState("store", ["stories", "storeDtl"]),
     ...mapGetters("store", ["getStories", "getStore"]),
-    ...mapGetters("auth", ["user", "userData"]),
+    ...mapGetters("auth", ["isUserAuth", "user", "userData"]),
     ...mapGetters("user", ["getUser"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
   },
   methods: {
     ...mapActions("store", [
@@ -307,16 +308,17 @@ export default {
       if (this.getStore.title) {
         this.detailUserStore(this.getStore.user)
         if (this.getUser.displayName) {
-          this.$root.$emit(
-            "textToSpeechRouter",
-            "Detalhes do " +
-              this.getStore.category +
-              " " +
-              this.getStore.title +
-              " de " +
-              this.getUser.displayName +
-              "."
-          )
+          if (this.vibrateState === 1 && this.getVibrate)
+            this.$root.$emit(
+              "textToSpeechRouter",
+              "Detalhes do " +
+                this.getStore.category +
+                " " +
+                this.getStore.title +
+                " de " +
+                this.getUser.displayName +
+                "."
+            )
         }
       }
     },

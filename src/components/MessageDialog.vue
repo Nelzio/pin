@@ -1,16 +1,13 @@
 <template>
   <q-dialog v-model="show">
     <q-card
-      style="width: 80vw;"
+      style="width: 80vw"
       lang="pt-PT"
       aria-label="Mensagem de confirmação"
       :class="darkModeConf.textColor"
     >
       <q-card-section>
-        <div
-          class="text-h6"
-          :class="getFont.title"
-        >Confirmar</div>
+        <div class="text-h6" :class="getFont.title">Confirmar</div>
       </q-card-section>
       <q-card-section :class="getFont.text">
         {{ message }}
@@ -30,25 +27,24 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters } from "vuex"
 export default {
   props: ["message"],
-  data () {
+  data() {
     return {
       show: false,
     }
   },
   computed: {
     ...mapState("settings", ["darkModeConf"]),
-    ...mapGetters("settings", ["getFont"])
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
   },
-  mounted () {
+  mounted() {
     const vm = this
     this.$root.$on("openConfirmDialog", () => {
       vm.show = true
     })
-  }
-
+  },
 }
 </script>
 

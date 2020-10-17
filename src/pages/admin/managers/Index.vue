@@ -24,12 +24,8 @@
               </template>
             </q-input>
           </div>
-
         </template>
-        <template
-          v-slot:top-right
-          v-if="userData.access == 'rwxrw'"
-        >
+        <template v-slot:top-right v-if="userData.access == 'rwxrw'">
           <q-btn
             color="primary"
             rounded
@@ -41,67 +37,41 @@
         </template>
         <template v-slot:body="props">
           <q-tr :props="props">
-            <q-td
-              key="name"
-              :props="props"
-            >
+            <q-td key="name" :props="props">
               {{ props.row.name }}
             </q-td>
-            <q-td
-              key="email"
-              :props="props"
-            >
+            <q-td key="email" :props="props">
               {{ props.row.email }}
             </q-td>
-            <q-td
-              key="read"
-              :props="props"
-            >
+            <q-td key="read" :props="props">
               <q-checkbox
                 v-if="userData.access == 'rwxrw'"
                 v-model="props.row.read"
                 @input="addAdminTable(props.row, props.row.read ? 'r' : '')"
               />
-              <q-checkbox
-                v-else
-                disable
-                v-model="props.row.read"
-              />
+              <q-checkbox v-else disable v-model="props.row.read" />
             </q-td>
-            <q-td
-              key="write"
-              :props="props"
-            >
+            <q-td key="write" :props="props">
               <q-checkbox
                 v-if="userData.access == 'rwxrw'"
                 v-model="props.row.write"
                 @input="addAdminTable(props.row, props.row.write ? 'rw' : 'r')"
               />
-              <q-checkbox
-                v-else
-                disable
-                v-model="props.row.write"
-              />
+              <q-checkbox v-else disable v-model="props.row.write" />
             </q-td>
-            <q-td
-              key="master"
-              :props="props"
-            >
+            <q-td key="master" :props="props">
               <q-checkbox
                 v-if="userData.access == 'rwxrw'"
                 v-model="props.row.master"
-                @input="addAdminTable(props.row, props.row.master ? 'rwxrw' : 'rw')"
+                @input="
+                  addAdminTable(props.row, props.row.master ? 'rwxrw' : 'rw')
+                "
               />
-              <q-checkbox
-                v-else
-                disable
-                v-model="props.row.master"
-              />
+              <q-checkbox v-else disable v-model="props.row.master" />
             </q-td>
           </q-tr>
         </template>
       </q-table>
-
     </div>
 
     <div>
@@ -111,27 +81,17 @@
         aria-label="Dialogo de adição de administrador"
         lang="pt-PT"
       >
-        <q-card style="width: 80vw;">
+        <q-card style="width: 80vw">
           <q-card-section>
             <q-toolbar :class="[darkModeConf.bgColor, darkModeConf.textColor]">
               <q-toolbar-title :class="getFont.title">
                 Adicionar Administrador
               </q-toolbar-title>
-              <q-btn
-                flat
-                round
-                dense
-                icon="close"
-                v-close-popup
-              />
+              <q-btn flat round dense icon="close" v-close-popup />
             </q-toolbar>
-
           </q-card-section>
           <q-card-section>
-            <div
-              class="text-center"
-              :class="getFont.title"
-            >
+            <div class="text-center" :class="getFont.title">
               Pesquisar usuário por nome ou email
             </div>
             <div>
@@ -147,10 +107,7 @@
                 type="search"
                 role="searchbox"
               >
-                <template
-                  v-slot:append
-                  v-if="!loadingStateInput"
-                >
+                <template v-slot:append v-if="!loadingStateInput">
                   <q-icon
                     :color="darkModeConf.iconVar"
                     v-if="valueSearch === ''"
@@ -177,13 +134,8 @@
             >
               <q-item-section avatar>
                 <q-avatar>
-                  <img
-                    :src="user.photoURL"
-                    alt="image do usuário"
-                    role="img"
-                  >
+                  <img :src="user.photoURL" alt="image do usuário" role="img" />
                 </q-avatar>
-
               </q-item-section>
               <q-item-section>
                 <div :class="getFont.text">{{ user.displayName }}</div>
@@ -194,16 +146,15 @@
         </q-card>
       </q-dialog>
     </div>
-
   </q-page>
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex"
 import { Loading } from "quasar"
-import { firestoreDB } from "boot/firebase";
+import { firestoreDB } from "boot/firebase"
 export default {
-  data () {
+  data() {
     return {
       filter: "",
       valueSearch: "",
@@ -212,42 +163,52 @@ export default {
       dataSearch: [],
       columns: [
         {
-          name: 'name',
+          name: "name",
           required: true,
-          label: 'Nome',
-          align: 'left',
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
+          label: "Nome",
+          align: "left",
+          field: (row) => row.name,
+          format: (val) => `${val}`,
+          sortable: true,
         },
-        { name: 'email', align: 'center', label: 'Email', field: 'email', sortable: true },
-        { name: 'read', label: 'Acesso a leitura', field: 'read', sortable: true },
-        { name: 'write', label: 'Acesso a escrita', field: 'write' },
-        { name: 'master', label: 'Adição de admins', field: 'master' },
+        {
+          name: "email",
+          align: "center",
+          label: "Email",
+          field: "email",
+          sortable: true,
+        },
+        {
+          name: "read",
+          label: "Acesso a leitura",
+          field: "read",
+          sortable: true,
+        },
+        { name: "write", label: "Acesso a escrita", field: "write" },
+        { name: "master", label: "Adição de admins", field: "master" },
       ],
 
       data: [],
       adminsUsers: [],
-      users: []
+      users: [],
     }
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
     ...mapGetters("auth", ["user", "userData"]),
   },
   methods: {
-
-    getUsers () {
-      const vm = this;
-      const ref = firestoreDB.collection("users");
+    getUsers() {
+      const vm = this
+      const ref = firestoreDB.collection("users")
       let admins = []
-      if (!this.users.length) this.loadingStateInput = true;
-      ref.onSnapshot(usersDocs => {
+      if (!this.users.length) this.loadingStateInput = true
+      ref.onSnapshot((usersDocs) => {
         vm.users = []
         vm.adminsUsers = []
         admins = []
-        usersDocs.forEach(userDoc => {
+        usersDocs.forEach((userDoc) => {
           let user = userDoc.data()
           user["id"] = userDoc.id
           if (user.access) {
@@ -263,48 +224,48 @@ export default {
           } else {
             vm.users.push(user)
           }
-        });
+        })
         vm.data = admins
         vm.loadingStateInput = false
         vm.search(vm.valueSearch) // to search after get datas
       })
     },
 
-    search (val) {
+    search(val) {
       this.loadingStateInput = true
       if (val != "") {
-        var temp = new RegExp(".*" + val + ".*");
-        var items = [];
-        var users = this.users;
+        var temp = new RegExp(".*" + val + ".*")
+        var items = []
+        var users = this.users
         for (var i in users) {
-          var value = users[i]["email"].match(temp);
-          var valueName = users[i]["displayName"].match(temp);
+          var value = users[i]["email"].match(temp)
+          var valueName = users[i]["displayName"].match(temp)
           if (value != null && valueName != null) {
             if (
               users[i]["email"] == value[0] &&
               users[i]["displayName"] == valueName[0]
             ) {
-              items.push(users[i]);
+              items.push(users[i])
             }
           } else if (value != null) {
             if (users[i]["email"] == value[0]) {
-              items.push(users[i]);
+              items.push(users[i])
             }
           } else if (valueName != null) {
             if (users[i]["displayName"] == valueName[0]) {
-              items.push(users[i]);
+              items.push(users[i])
             }
           }
         }
-        this.dataSearch = items.slice(0, 4);
+        this.dataSearch = items.slice(0, 4)
         this.loadingStateInput = false
       } else {
-        this.dataSearch = [];
+        this.dataSearch = []
         this.loadingStateInput = false
       }
     },
 
-    addAdmin (user, access) {
+    addAdmin(user, access) {
       /* access is rwxrw */
       Loading.show()
       const ref = firestoreDB.collection("users")
@@ -324,23 +285,27 @@ export default {
         place: user.place,
         profession: user.profession,
         profileType: user.profileType,
-        registrationDate: user.registrationDate
+        registrationDate: user.registrationDate,
       }
-      ref.doc(user.id).set(dataUser).then(response => {
-        // console.log("done")
-        Loading.hide()
-      }).catch(error => {
-        console.log(error)
-        Loading.hide()
-      })
+      ref
+        .doc(user.id)
+        .set(dataUser)
+        .then((response) => {
+          // console.log("done")
+          Loading.hide()
+        })
+        .catch((error) => {
+          console.log(error)
+          Loading.hide()
+        })
     },
 
-    addAdminTable (user, access) {
+    addAdminTable(user, access) {
       /* access is rwxrw */
       Loading.show()
       let userObject = {}
       for (let index = 0; index < this.adminsUsers.length; index++) {
-        const userElement = this.adminsUsers[index];
+        const userElement = this.adminsUsers[index]
         if (userElement.email == user.email) {
           userObject = userElement
           continue
@@ -363,29 +328,33 @@ export default {
         place: userObject.place,
         profession: userObject.profession,
         profileType: userObject.profileType,
-        registrationDate: userObject.registrationDate
+        registrationDate: userObject.registrationDate,
       }
-      ref.doc(userObject.id).set(dataUser).then(response => {
-        // console.log("done")
-        Loading.hide()
-      }).catch(error => {
-        console.log(error)
-        Loading.hide()
-      })
-    }
+      ref
+        .doc(userObject.id)
+        .set(dataUser)
+        .then((response) => {
+          // console.log("done")
+          Loading.hide()
+        })
+        .catch((error) => {
+          console.log(error)
+          Loading.hide()
+        })
+    },
   },
-  mounted () {
+  mounted() {
     this.getUsers()
   },
   watch: {
-    valueSearch (val) {
+    valueSearch(val) {
       if (!this.users.length) {
         this.getUsers()
       } else {
         this.search(val)
       }
     },
-  }
+  },
 }
 </script>
 

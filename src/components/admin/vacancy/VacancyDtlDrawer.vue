@@ -135,7 +135,7 @@ export default {
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
     ...mapGetters("auth", ["userData"]),
   },
   methods: {

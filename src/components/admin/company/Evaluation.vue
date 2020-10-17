@@ -85,10 +85,7 @@
 
                     <q-separator />
 
-                    <q-tab-panels
-                      v-model="tab"
-                      animated
-                    >
+                    <q-tab-panels v-model="tab" animated>
                       <q-tab-panel
                         name="bio"
                         role="tabpanel"
@@ -97,10 +94,7 @@
                       >
                         <q-list>
                           <q-item class="text-left">
-                            <q-item-section
-                              top
-                              avatar
-                            >
+                            <q-item-section top avatar>
                               <q-icon
                                 :color="darkModeConf.iconVar"
                                 name="phone"
@@ -108,21 +102,19 @@
                             </q-item-section>
 
                             <q-item-section>
-                              <q-item-label :class="getFont.title">Telefone</q-item-label>
-                              <q-item-label :class="getFont.text">{{company.phoneNumber}}</q-item-label>
+                              <q-item-label :class="getFont.title"
+                                >Telefone</q-item-label
+                              >
+                              <q-item-label :class="getFont.text">{{
+                                company.phoneNumber
+                              }}</q-item-label>
                             </q-item-section>
                           </q-item>
 
-                          <q-separator
-                            spaced
-                            inset="item"
-                          />
+                          <q-separator spaced inset="item" />
 
                           <q-item class="text-left">
-                            <q-item-section
-                              top
-                              avatar
-                            >
+                            <q-item-section top avatar>
                               <q-icon
                                 :color="darkModeConf.iconVar"
                                 name="email"
@@ -130,29 +122,31 @@
                             </q-item-section>
 
                             <q-item-section>
-                              <q-item-label :class="getFont.title">Email</q-item-label>
-                              <q-item-label :class="getFont.text">{{company.email}}</q-item-label>
+                              <q-item-label :class="getFont.title"
+                                >Email</q-item-label
+                              >
+                              <q-item-label :class="getFont.text">{{
+                                company.email
+                              }}</q-item-label>
                             </q-item-section>
                           </q-item>
 
-                          <q-separator
-                            spaced
-                            inset="item"
-                          />
+                          <q-separator spaced inset="item" />
 
                           <q-item class="text-left">
-                            <q-item-section
-                              avatar
-                              top
-                            >
+                            <q-item-section avatar top>
                               <q-icon
                                 :color="darkModeConf.iconVar"
                                 name="place"
                               />
                             </q-item-section>
                             <q-item-section>
-                              <q-item-label :class="getFont.title">Endereço</q-item-label>
-                              <q-item-label :class="getFont.text">{{company.address}}</q-item-label>
+                              <q-item-label :class="getFont.title"
+                                >Endereço</q-item-label
+                              >
+                              <q-item-label :class="getFont.text">{{
+                                company.address
+                              }}</q-item-label>
                             </q-item-section>
                           </q-item>
                         </q-list>
@@ -167,7 +161,9 @@
                         <q-list>
                           <q-item class="text-left">
                             <q-item-section>
-                              <q-item-label :class="getFont.title">Descrição</q-item-label>
+                              <q-item-label :class="getFont.title"
+                                >Descrição</q-item-label
+                              >
                               <q-item-label
                                 :class="getFont.text"
                                 v-html="company.description"
@@ -181,16 +177,8 @@
                 </div>
               </div>
             </div>
-            <div
-              class="col-12"
-              v-if="userData.access[1] == 'w'"
-            >
-              <q-btn-group
-                class="full-width"
-                spread
-                rounded
-                role="button"
-              >
+            <div class="col-12" v-if="userData.access[1] == 'w'">
+              <q-btn-group class="full-width" spread rounded role="button">
                 <q-btn
                   push
                   color="primary"
@@ -221,11 +209,13 @@
         lang="pt-PT"
         aria-label="Alerta de sucesso"
       >
-        <q-card style="width: 700px; max-width: 80vw;">
+        <q-card style="width: 700px; max-width: 80vw">
           <q-card-section>
             <div :class="getFont.title">Atenção</div>
           </q-card-section>
-          <q-card-section :class="getFont.text">Aprovar empresa {{ company.displayName }}?</q-card-section>
+          <q-card-section :class="getFont.text"
+            >Aprovar empresa {{ company.displayName }}?</q-card-section
+          >
           <q-card-actions align="right">
             <q-btn
               :color="darkModeConf.iconVar"
@@ -252,14 +242,13 @@
         v-model="dialogRejected"
         role="alertdialog"
       >
-        <q-card style="width: 700px; max-width: 80vw;">
+        <q-card style="width: 700px; max-width: 80vw">
           <q-card-section>
-            <div
-              class="text-h6"
-              :class="getFont.title"
-            >Atenção</div>
+            <div class="text-h6" :class="getFont.title">Atenção</div>
           </q-card-section>
-          <q-card-section :class="getFont.text">Rejeitar empresa {{ company.displayName }}?</q-card-section>
+          <q-card-section :class="getFont.text"
+            >Rejeitar empresa {{ company.displayName }}?</q-card-section
+          >
           <q-card-actions align="right">
             <q-btn
               :color="darkModeConf.iconVar"
@@ -285,73 +274,73 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import { Loading } from "quasar";
-import { firestoreDB } from "boot/firebase";
+import { mapState, mapActions, mapGetters } from "vuex"
+import { Loading } from "quasar"
+import { firestoreDB } from "boot/firebase"
 export default {
-  data () {
+  data() {
     return {
       dialogApprove: false,
       dialogRejected: false,
       drawer: false,
       tab: "bio",
       company: { status: "approved" },
-    };
+    }
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapGetters("settings", ["getFont"]),
-    ...mapGetters("auth", ["userData"])
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
+    ...mapGetters("auth", ["userData"]),
   },
   methods: {
-    changeCompany () {
-      const vm = this;
+    changeCompany() {
+      const vm = this
       this.$root.$on("companyToEvaluation", (val) => {
-        vm.company = val;
-        vm.drawer = true;
-      });
+        vm.company = val
+        vm.drawer = true
+      })
     },
-    approveCompony () {
-      Loading.show();
-      const ref = firestoreDB.collection("users").doc(this.company.id);
-      var company = this.company;
-      const vm = this;
-      delete company.id;
-      company["status"] = "approved";
+    approveCompony() {
+      Loading.show()
+      const ref = firestoreDB.collection("users").doc(this.company.id)
+      var company = this.company
+      const vm = this
+      delete company.id
+      company["status"] = "approved"
       ref
         .set(company)
         .then(() => {
-          Loading.hide();
-          vm.dialogApprove = false;
+          Loading.hide()
+          vm.dialogApprove = false
         })
         .catch((error) => {
-          Loading.hide();
-          console.log(error);
-        });
+          Loading.hide()
+          console.log(error)
+        })
     },
-    rejectCompony () {
-      Loading.show();
-      const ref = firestoreDB.collection("users").doc(this.company.id);
-      var company = this.company;
-      const vm = this;
-      delete company.id;
-      company["status"] = "rejected";
+    rejectCompony() {
+      Loading.show()
+      const ref = firestoreDB.collection("users").doc(this.company.id)
+      var company = this.company
+      const vm = this
+      delete company.id
+      company["status"] = "rejected"
       ref
         .set(company)
         .then(() => {
-          Loading.hide();
-          vm.dialogRejected = false;
+          Loading.hide()
+          vm.dialogRejected = false
         })
         .catch((error) => {
-          Loading.hide();
-          console.log(error);
-        });
+          Loading.hide()
+          console.log(error)
+        })
     },
   },
-  mounted () {
-    this.changeCompany();
+  mounted() {
+    this.changeCompany()
   },
-};
+}
 </script>
 
 <style>

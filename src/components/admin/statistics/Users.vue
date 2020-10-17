@@ -135,6 +135,9 @@
       </div>
       <div v-if="users.length" class="col-9 q-pa-sm">
         <div class="row">
+          <div class="col-12">
+            <UsersPerDeficiency :data="users" />
+          </div>
           <div class="col-8">
             <TimeLine :data="users" />
           </div>
@@ -167,6 +170,7 @@ import TimeLine from "./graphs/users/TimeLine"
 import Gender from "./graphs/users/Gender"
 import Business from "./graphs/users/Business"
 import Vacancies from "./graphs/users/Vacancies"
+import UsersPerDeficiency from "./graphs/users/UsersPerDeficiency.vue"
 import { firestoreDB } from "boot/firebase"
 export default {
   data() {
@@ -201,7 +205,7 @@ export default {
       businessUsersLen: 0,
     }
   },
-  components: { TimeLine, Gender, Business, Vacancies },
+  components: { TimeLine, Gender, Business, Vacancies, UsersPerDeficiency },
   methods: {
     getUsers() {
       const vm = this

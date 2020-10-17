@@ -245,7 +245,7 @@ export default {
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
     ...mapGetters("auth", ["user", "userData"]),
     ...mapGetters("user", ["getUser"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
   },
 
   methods: {
@@ -652,12 +652,13 @@ export default {
   watch: {
     getUser() {
       if (this.getUser.displayName) {
-        this.$root.$emit(
-          "textToSpeechRouter",
-          "Página de conversa com" +
-            this.getUser.displayName +
-            ".\n Pressione a tela até vibrar para poder falar.\n Para parar a gravação pressione a tela novamente."
-        )
+        if (this.vibrateState === 1 && this.getVibrate)
+          this.$root.$emit(
+            "textToSpeechRouter",
+            "Página de conversa com" +
+              this.getUser.displayName +
+              ".\n Pode enviar mensagem de texto e mensagem de áudio."
+          )
       }
     },
   },

@@ -64,8 +64,8 @@ export default {
     }
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
     ...mapGetters("auth", ["user", "userData"]),
   },
   methods: {
@@ -151,7 +151,8 @@ export default {
   mounted() {
     // this.listStoreMy(this.user.email)
 
-    this.$root.$emit("textToSpeechRouter", "Seus produtos e serviços")
+    if (this.vibrateState === 1 && this.getVibrate)
+      this.$root.$emit("textToSpeechRouter", "Seus produtos e serviços")
   },
 }
 </script>

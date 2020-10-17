@@ -229,7 +229,9 @@
               </q-tab-panel>
               <q-tab-panel
                 v-else-if="
-                  userData.profileType && userData.profileType == 'organization'
+                  userData.profileType &&
+                  userData.profileType == 'organization' &&
+                  userData.status == 'approved'
                 "
                 name="ocupacao"
               >
@@ -720,7 +722,7 @@ export default {
       "vacancyDetail",
     ]),
     ...mapGetters("auth", ["user", "userData"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
     // player() {
     //   return this.$refs.videoPlayer.player
     // }
@@ -1134,7 +1136,8 @@ export default {
 
     // console.log(this.userData)
 
-    this.$root.$emit("textToSpeechRouter", "Página do seu perfil.")
+    if (this.vibrateState === 1 && this.getVibrate)
+      this.$root.$emit("textToSpeechRouter", "Página do seu perfil.")
   },
 }
 </script>

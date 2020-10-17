@@ -39,9 +39,7 @@
         </q-btn>
         <div class="q-mt-md text-center text-white q-gutter-y-sm" role="group">
           <div class="text-h4">Superativo</div>
-          <div class="text-h6">
-            Bem-vindo a plataforma mais inclusiva de Moçambique.
-          </div>
+          <div class="text-h6">Bem-vindo a plataforma Superativo.</div>
         </div>
       </q-carousel-slide>
       <q-carousel-slide name="segundo" class="column no-wrap flex-center">

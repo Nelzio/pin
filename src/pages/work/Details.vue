@@ -10,46 +10,32 @@
       label="Ouvir descrição"
       role="button"
       @click="listenDetails()"
-      style="left: -800px;"
+      style="left: -800px"
     />
     <!-- content -->
-    <div
-      class="row justify-center"
-      role="row"
-    >
+    <div class="row justify-center" role="row">
       <div class="q-gutter-y-md col-12 col-md-8">
         <div>
-          <q-card
-            class="my-card col-12"
-            style="padding: 0;"
-          >
+          <q-card class="my-card col-12" style="padding: 0">
             <!-- <q-video style="padding: 0;height: 300px" src="https://www.youtube.com/embed/Raa0vBXA8OQ" /> -->
             <q-img
               :src="getVacancy.img"
               spinner-color="white"
-              style="min-height: 200px;"
+              style="min-height: 200px"
               alt="img"
               lang="pt-PT"
               aria-label="Imagem da vaga"
             />
-            <q-card-section
-              lang="pt-PT"
-              :aria-label="getVacancy.title"
-            >
+            <q-card-section lang="pt-PT" :aria-label="getVacancy.title">
               <div :class="getFont.title">{{ getVacancy.title }}</div>
             </q-card-section>
             <q-card-section class="row q-pt-none">
               <div class="col text-center">
-                <q-icon
-                  :color="darkModeConf.iconVar"
-                  name="place"
-                  size="lg"
-                />
+                <q-icon :color="darkModeConf.iconVar" name="place" size="lg" />
               </div>
-              <div
-                class="col-10"
-                :class="getFont.text"
-              >{{ getVacancy.place }}</div>
+              <div class="col-10" :class="getFont.text">
+                {{ getVacancy.place }}
+              </div>
             </q-card-section>
             <q-card-section class="row q-pt-none">
               <div class="col text-center">
@@ -59,16 +45,12 @@
                   size="lg"
                 />
               </div>
-              <div
-                class="col-10"
-                :class="getFont.text"
-              >{{ getVacancy.category }}</div>
+              <div class="col-10" :class="getFont.text">
+                {{ getVacancy.category }}
+              </div>
             </q-card-section>
             <q-card-section class="row q-pt-none">
-              <div
-                class="col-12"
-                :class="getFont.text"
-              >
+              <div class="col-12" :class="getFont.text">
                 <div v-html="getVacancy.description"></div>
               </div>
               <!-- <div class="col-12" :class="getFont.text">{{getVacancy.description}}</div> -->
@@ -76,10 +58,7 @@
           </q-card>
         </div>
 
-        <div
-          class="row justify-end q-gutter-x-md"
-          v-if="user && isUserAuth"
-        >
+        <div class="row justify-end q-gutter-x-md" v-if="user && isUserAuth">
           <q-btn
             v-if="!vacancyDone"
             rounded
@@ -101,10 +80,7 @@
             role="button"
           />
         </div>
-        <div
-          class="row justify-end q-gutter-x-md"
-          v-else
-        >
+        <div class="row justify-end q-gutter-x-md" v-else>
           <q-btn
             v-if="!vacancyDone"
             rounded
@@ -124,9 +100,13 @@
         v-model="applyDialog"
         role="dialog"
         lang="pt-PT"
-        :aria-label="!vacancyDone ? 'Confirmar Candidatura' : 'Confirmar cancelamento de candidatura'"
+        :aria-label="
+          !vacancyDone
+            ? 'Confirmar Candidatura'
+            : 'Confirmar cancelamento de candidatura'
+        "
       >
-        <q-card style="width: 700px; max-width: 80vw;">
+        <q-card style="width: 700px; max-width: 80vw">
           <q-card-section>
             <div :class="getFont.title">Confirmar</div>
           </q-card-section>
@@ -135,12 +115,11 @@
             v-if="!vacancyDone"
             class="q-pt-none"
             :class="getFont.title"
-          >Candidatar-se a vaga?</q-card-section>
-          <q-card-section
-            v-else
-            class="q-pt-none"
-            :class="getFont.title"
-          >Retirar candidatura?</q-card-section>
+            >Candidatar-se a vaga?</q-card-section
+          >
+          <q-card-section v-else class="q-pt-none" :class="getFont.title"
+            >Retirar candidatura?</q-card-section
+          >
 
           <q-card-actions align="right">
             <q-btn
@@ -161,18 +140,13 @@
               @click="deleteCandidate()"
               role="button"
             />
-            <q-btn
-              rounded
-              outline
-              label="Cancelar"
-              v-close-popup
-            />
+            <q-btn rounded outline label="Cancelar" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
 
       <q-dialog v-model="applyDialogDone">
-        <q-card style="width: 700px; max-width: 80vw;">
+        <q-card style="width: 700px; max-width: 80vw">
           <q-card-section>
             <div :class="getFont.title">Confirmar</div>
           </q-card-section>
@@ -181,12 +155,11 @@
             v-if="vacancyDone"
             class="q-pt-none"
             :class="getFont.title"
-          >Candidatura feita com sucesso</q-card-section>
-          <q-card-section
-            v-else
-            class="q-pt-none"
-            :class="getFont.title"
-          >Candidatura cancelada com sucesso</q-card-section>
+            >Candidatura feita com sucesso</q-card-section
+          >
+          <q-card-section v-else class="q-pt-none" :class="getFont.title"
+            >Candidatura cancelada com sucesso</q-card-section
+          >
 
           <q-card-actions align="right">
             <q-btn
@@ -205,14 +178,14 @@
 
 
 <script>
-import { Loading, Notify } from "quasar";
-import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDB } from "boot/firebase";
-import { LocalStorage } from "quasar";
-import offline from "v-offline";
+import { Loading, Notify } from "quasar"
+import { mapState, mapActions, mapGetters } from "vuex"
+import { firestoreDB } from "boot/firebase"
+import { LocalStorage } from "quasar"
+import offline from "v-offline"
 export default {
   // name: 'PageName',
-  data () {
+  data() {
     return {
       tab: "details",
       socialNet: false,
@@ -223,85 +196,82 @@ export default {
       rate: 0.8,
       synth: window.speechSynthesis,
       touchNums: 0,
-      submitGo: false
-    };
+      submitGo: false,
+    }
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
     ...mapState("vacancy", ["vacancies", "vacancyDtl"]),
     ...mapGetters("vacancy", ["getVacancies", "getVacancy"]),
-    ...mapGetters("settings", ["getFont"]),
-    ...mapGetters("auth", ["user", "userData", "isUserAuth"])
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
+    ...mapGetters("auth", ["user", "userData", "isUserAuth"]),
   },
   methods: {
     ...mapActions("vacancy", ["listVacancy", "detailVacancy"]),
 
-    routeToAccount () {
+    routeToAccount() {
       LocalStorage.set("routeBack", this.$route.fullPath)
       this.$router.push("/account")
-
     },
 
-    speak (userInput) {
+    speak(userInput) {
       if (this.synth.speaking) {
         // console.error('speechSynthesis.speaking');
-        return;
+        return
       }
       if (userInput !== "") {
-        let sInstance = new SpeechSynthesisUtterance(userInput);
-        sInstance.lang = 'pt-PT';
+        let sInstance = new SpeechSynthesisUtterance(userInput)
+        sInstance.lang = "pt-PT"
         sInstance.onend = function (event) {
           // console.log('SpeechSynthesisUtterance.onend');
-        };
+        }
         sInstance.onerror = function (event) {
           // console.error('SpeechSynthesisUtterance.onerror');
-        };
+        }
 
         // vibrate antes de falar
-        window.navigator.vibrate(200);
+        window.navigator.vibrate(200)
         // speak
-        sInstance.pitch = this.pitch;
-        sInstance.rate = this.rate;
-        this.synth.speak(sInstance);
+        sInstance.pitch = this.pitch
+        sInstance.rate = this.rate
+        this.synth.speak(sInstance)
       } else {
-        let sInstance = new SpeechSynthesisUtterance(
-          "Nenhum texto nesta área."
-        );
+        let sInstance = new SpeechSynthesisUtterance("Nenhum texto nesta área.")
         sInstance.onend = function (event) {
           // console.log('SpeechSynthesisUtterance.onend');
-        };
+        }
         sInstance.onerror = function (event) {
           // console.error('SpeechSynthesisUtterance.onerror');
-        };
+        }
 
         // vibrate antes de falar
-        window.navigator.vibrate(200);
+        window.navigator.vibrate(200)
         // speak
-        sInstance.pitch = this.pitch;
-        sInstance.rate = this.rate;
-        this.synth.speak(sInstance);
+        sInstance.pitch = this.pitch
+        sInstance.rate = this.rate
+        this.synth.speak(sInstance)
       }
     },
 
-    speakCordova (userInput) {
-      navigator.vibrate(200);
+    speakCordova(userInput) {
+      navigator.vibrate(200)
       TTS.speak(
         {
           text: userInput,
           locale: "pt-PT",
           pitch: this.pitch,
-          rate: this.rate
+          rate: this.rate,
         },
         function () {
-          console.log("Text succesfully spoken");
+          console.log("Text succesfully spoken")
         },
         function (reason) {
-          console.log(reason);
+          console.log(reason)
         }
-      );
+      )
     },
 
-    handleHold ({ evt, ...info }) {
+    handleHold({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
       if (this.vibrateState) {
@@ -313,17 +283,17 @@ export default {
           ". Categoría: " +
           this.getVacancy.category +
           ". Descrição: " +
-          this.convertToPlain(this.getVacancy.description);
+          this.convertToPlain(this.getVacancy.description)
         if (window.hasOwnProperty("cordova")) {
-          this.speakCordova(text);
+          this.speakCordova(text)
         } else {
-          this.speak(text);
+          this.speak(text)
         }
       }
       // console.log(this.vacancy)
     },
 
-    listenDetails () {
+    listenDetails() {
       // console.log(info)
       // console.log(evt)
       var text =
@@ -334,142 +304,141 @@ export default {
         ". Categoría: " +
         this.getVacancy.category +
         ". Descrição: " +
-        this.convertToPlain(this.getVacancy.description);
+        this.convertToPlain(this.getVacancy.description)
       if (window.hasOwnProperty("cordova")) {
-        this.speakCordova(text);
+        this.speakCordova(text)
       } else {
-        this.speak(text);
+        this.speak(text)
       }
       // console.log(this.vacancy)
     },
 
-    handleSwipe (val) {
+    handleSwipe(val) {
       if (val.direction === "right") {
-        this.$router.go(-1);
+        this.$router.go(-1)
       }
     },
 
-    handleRepeat () {
+    handleRepeat() {
       if (this.vibrateState) {
-        var vm = this;
+        var vm = this
 
-        this.touchNums += 1;
+        this.touchNums += 1
         console.log(vm.touchNums)
 
         if (this.touchNums === 5) {
-          Loading.show();
-          this.touchNums = -80;
-          navigator.vibrate(200);
-          window.navigator.vibrate(200);
+          Loading.show()
+          this.touchNums = -80
+          navigator.vibrate(200)
+          window.navigator.vibrate(200)
           if (!this.user || !this.isUserAuth) {
-            var text = "Usuário não autenticado.";
+            var text = "Usuário não autenticado."
             if (window.hasOwnProperty("cordova")) {
-              this.speakCordova(text);
+              this.speakCordova(text)
             } else {
-              this.speak(text);
+              this.speak(text)
             }
             setTimeout(() => {
               vm.$router.push("/account")
-            }, 5000);
+            }, 5000)
           } else {
             if (this.vacancyDone) {
-              Loading.hide();
-              this.deleteCandidate();
-              this.submitGo = true;
+              Loading.hide()
+              this.deleteCandidate()
+              this.submitGo = true
             } else {
               // this.aply();
-              Loading.hide();
-              this.submitGo = true;
+              Loading.hide()
+              this.submitGo = true
               this.userData["evaluators"] = []
               this.userData["submittedDate"] = new Date()
-              this.aplyVacancyMethod({ id: this.$route.params.id, data: this.userData });
+              this.aplyVacancyMethod({
+                id: this.$route.params.id,
+                data: this.userData,
+              })
             }
           }
         }
 
         setTimeout(() => {
-          vm.touchNums = 0;
+          vm.touchNums = 0
           console.log(vm.touchNums)
-        }, 10000);
+        }, 10000)
       }
     },
 
-    getAply () {
+    getAply() {
       const ref = firestoreDB
         .collection("vacancies")
         .doc(this.$route.params.id)
         .collection("candidates")
-        .doc(this.user.email);
-      ref.get().then(doc => {
+        .doc(this.user.email)
+      ref.get().then((doc) => {
         if (doc.exists) {
-          this.vacancyDone = true;
+          this.vacancyDone = true
         } else {
-          this.vacancyDone = false;
-          console.log("No such document!");
+          this.vacancyDone = false
+          console.log("No such document!")
         }
-      });
+      })
     },
 
-    aply () {
+    aply() {
       this.userData["evaluators"] = []
       this.userData["submittedDate"] = new Date()
-      this.aplyVacancyMethod({ id: this.$route.params.id, data: this.userData });
+      this.aplyVacancyMethod({ id: this.$route.params.id, data: this.userData })
     },
 
-    convertToPlain (text) {
-      if ((text === null) || (text === ''))
-        return false;
-      else
-        var str = text.toString();
-      return str.replace(/(<([^>]+)>)/ig, '').replace(/([A-Z])/g, '\n $1');
+    convertToPlain(text) {
+      if (text === null || text === "") return false
+      else var str = text.toString()
+      return str.replace(/(<([^>]+)>)/gi, "").replace(/([A-Z])/g, "\n $1")
     },
 
-
-
-    aplyVacancyMethod (payload) {
-      const vm = this;
+    aplyVacancyMethod(payload) {
+      const vm = this
       if (!offline.data().isOnline) {
-        return alert("Está sem internet");
+        return alert("Está sem internet")
       }
-      Loading.show();
+      Loading.show()
       const ref = firestoreDB
         .collection("vacancies")
         .doc(payload.id)
         .collection("candidates")
-        .doc(payload.data.email); // email is the key
+        .doc(payload.data.email) // email is the key
       ref
         .set(payload.data)
-        .then(docRef => {
-          console.log("aply success" + docRef);
+        .then((docRef) => {
+          console.log("aply success" + docRef)
           if (this.vibrateState) {
             console.log("hehehehehehehe")
             if (window.hasOwnProperty("cordova")) {
-              this.speakCordova("Candidatura feita com sucesso.");
+              this.speakCordova("Candidatura feita com sucesso.")
             } else {
-              this.speak("Candidatura feita com sucesso.");
+              this.speak("Candidatura feita com sucesso.")
             }
           }
-          this.applyDialog = false;
-          this.getAply();
+          this.applyDialog = false
+          this.getAply()
           if (!this.vibrateState) {
             setTimeout(() => {
-              vm.applyDialogDone = true;
-            }, 2000);
+              vm.applyDialogDone = true
+            }, 2000)
           }
-          Loading.hide();
+          Loading.hide()
         })
-        .catch(error => {
-          Loading.hide();
-          alert("Error aplying document: ", error);
-        });
+        .catch((error) => {
+          Loading.hide()
+          alert("Error aplying document: ", error)
+        })
     },
 
-    deleteCandidate () {
-      const vm = this;
+    deleteCandidate() {
+      const vm = this
       if (!offline.data().isOnline) {
-        return alert("Está sem internet");
+        return alert("Está sem internet")
       }
-      Loading.show();
+      Loading.show()
       firestoreDB
         .collection("vacancies")
         .doc(this.$route.params.id)
@@ -477,56 +446,54 @@ export default {
         .doc(this.user.email)
         .delete()
         .then(() => {
-          this.applyDialog = false;
+          this.applyDialog = false
           if (this.vibrateState) {
             if (window.hasOwnProperty("cordova")) {
-              this.speakCordova("Candidatura removida com sucesso.");
+              this.speakCordova("Candidatura removida com sucesso.")
             } else {
-              this.speak("Candidatura removida com sucesso.");
+              this.speak("Candidatura removida com sucesso.")
             }
           }
-          this.getAply();
+          this.getAply()
           if (!this.vibrateState) {
             setTimeout(() => {
-              vm.applyDialogDone = true;
-            }, 2000);
+              vm.applyDialogDone = true
+            }, 2000)
           }
-          Loading.hide();
+          Loading.hide()
         })
-        .catch(error => {
-          Loading.hide();
-          alert("Error removing document: ", error);
-        });
-    }
+        .catch((error) => {
+          Loading.hide()
+          alert("Error removing document: ", error)
+        })
+    },
   },
-  created () {
+  created() {
     // this.listVacancy()
-    this.detailVacancy(this.$route.params.id);
+    this.detailVacancy(this.$route.params.id)
   },
-  mounted () {
+  mounted() {
     if (this.user && this.isUserAuth) {
-      this.getAply();
+      this.getAply()
     }
 
-    this.$root.$emit(
-      "textToSpeechRouter",
-      "Detalhes da vaga."
-    );
+    if (this.vibrateState === 1 && this.getVibrate)
+      this.$root.$emit("textToSpeechRouter", "Detalhes da vaga.")
   },
 
   watch: {
-    vacancyDone () {
+    vacancyDone() {
       if (this.vibrateState && this.submitGo) {
-        this.submitGo = false;
+        this.submitGo = false
         if (this.vacancyDone) {
-          var text = "A sua candidatura foi submetida com sucesso.";
-          this.speak(text);
+          var text = "A sua candidatura foi submetida com sucesso."
+          this.speak(text)
         } else {
-          var text = "A sua candidatura foi retirada.";
-          this.speak(text);
+          var text = "A sua candidatura foi retirada."
+          this.speak(text)
         }
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>

@@ -126,7 +126,7 @@ export default {
   // name: 'PageName',
   computed: {
     ...mapState("settings", ["vibrateState", "homeSpeak"]),
-    ...mapGetters("settings", ["getFont", "getStart"]),
+    ...mapGetters("settings", ["getFont", "getStart", "getVibrate"]),
   },
   mounted() {
     // console.log(this.$q.screen.lt);

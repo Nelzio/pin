@@ -193,8 +193,8 @@ export default {
             vm.announcementExpired += 1
           }
           // count vacancies Per User
-          console.log(vacancy.numVacancies)
-          console.log(vacancy)
+          // console.log(vacancy.numVacancies)
+          // console.log(vacancy)
           if (vacancy.numVacancies)
             vm.vacanciesPerUser += parseInt(vacancy.numVacancies)
         })

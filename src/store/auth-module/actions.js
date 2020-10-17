@@ -12,7 +12,7 @@ import { deleteVideo } from "../../functions/usermanager/deleteVideo"
 
 import offline from 'v-offline'
 
-export function uploadAuxFunc ({ commit }, payload) {
+export function uploadAuxFunc({ commit }, payload) {
     // Upload file and metadata to the object
     var storageRef = fireStorage.ref();
     var uploadTask = storageRef.child('users/' + payload.email).put(payload.img);
@@ -87,6 +87,7 @@ export function uploadAuxFunc ({ commit }, payload) {
                                 displayName: doc.data().displayName,
                                 email: doc.data().email,
                                 access: doc.data().access,
+                                status: doc.data().status,
                                 gender: doc.data().gender,
                                 association: doc.data().association,
                                 registrationDate: doc.data().registrationDate,
@@ -129,6 +130,7 @@ export function uploadAuxFunc ({ commit }, payload) {
                                 photoURL: downloadURL,
                                 gender: "",
                                 access: "",
+                                status: "",
                                 association: "",
                                 deficiency: "",
                                 phoneNumber: payload.phoneNumber,
@@ -136,7 +138,7 @@ export function uploadAuxFunc ({ commit }, payload) {
                                 place: "",
                                 profession: "",
                                 education: "",
-                                profileType: "",
+                                profileType: LocalStorage.getItem("profileType") ? LocalStorage.getItem("profileType") : "",
                                 description: "",
                                 date: "",
                                 registrationDate: String(today)
@@ -170,7 +172,7 @@ export function uploadAuxFunc ({ commit }, payload) {
 }
 
 
-export function registerUser ({ commit, dispatch }, payload) {
+export function registerUser({ commit, dispatch }, payload) {
     Loading.show()
     const vm = this
     payload.vm = this
@@ -215,6 +217,7 @@ export function registerUser ({ commit, dispatch }, payload) {
                                 gender: "",
                                 deficiency: "",
                                 access: "",
+                                status: "",
                                 association: "",
                                 photoURL: "",
                                 phoneNumber: payload.phoneNumber,
@@ -222,16 +225,27 @@ export function registerUser ({ commit, dispatch }, payload) {
                                 place: "",
                                 profession: "",
                                 education: "",
-                                profileType: "",
+                                profileType: LocalStorage.getItem("profileType") ? LocalStorage.getItem("profileType") : "",
                                 description: "",
                                 date: "",
                                 registrationDate: String(today)
                             }
-
+                            const userAuthData = {
+                                displayName: user.displayName,
+                                email: user.email,
+                                emailVerified: user.emailVerified,
+                                phoneNumber: user.phoneNumber,
+                                photoURL: user.photoURL,
+                                refreshToken: user.refreshToken,
+                                uid: user.uid
+                            }
                             ref.set(dataUser).then((docRef) => {
                                 // console.log("Updated")
                                 commit('SET_AUTH_USER', true)
-                                commit('AUTH_USER', dataUser)
+                                commit('AUTH_USER', userAuthData)
+                                commit('SET_USER_DATA', dataUser);
+
+
                                 Notify.create('A sua conta foi criada com sucesso!')
                                 if (LocalStorage.getItem("routeBack")) {
                                     vm.$router.push("/")
@@ -264,7 +278,7 @@ export function registerUser ({ commit, dispatch }, payload) {
 }
 
 
-export function googleSignInCordova ({ commit }) {
+export function googleSignInCordova({ commit }) {
     Loading.show();
     const vm = this;
     var provider = new firebase.auth.GoogleAuthProvider();
@@ -302,6 +316,7 @@ export function googleSignInCordova ({ commit }) {
                         const data = {
                             id: doc.id,
                             access: doc.data().access,
+                            status: doc.data().status,
                             association: doc.data().association,
                             registrationDate: doc.data().registrationDate,
                             deficiency: doc.data().deficiency,
@@ -341,6 +356,7 @@ export function googleSignInCordova ({ commit }) {
                             photoURL: result.user.photoURL,
                             gender: "",
                             access: "",
+                            status: "",
                             association: "",
                             deficiency: "",
                             phoneNumber: "",
@@ -348,7 +364,7 @@ export function googleSignInCordova ({ commit }) {
                             place: "",
                             profession: "",
                             education: "",
-                            profileType: "",
+                            profileType: LocalStorage.getItem("profileType") ? LocalStorage.getItem("profileType") : "",
                             description: "",
                             date: "",
                             registrationDate: String(today)
@@ -395,7 +411,7 @@ export function googleSignInCordova ({ commit }) {
 }
 
 
-export function googleSignIn ({ commit }) {
+export function googleSignIn({ commit }) {
     Loading.show()
     const provider = new firebase.auth.GoogleAuthProvider()
     // if(window.hasOwnProperty("cordova")){
@@ -427,6 +443,7 @@ export function googleSignIn ({ commit }) {
                 const data = {
                     id: doc.id,
                     access: doc.data().access,
+                    status: doc.data().status,
                     association: doc.data().association,
                     registrationDate: doc.data().registrationDate,
                     deficiency: doc.data().deficiency,
@@ -464,6 +481,7 @@ export function googleSignIn ({ commit }) {
                     photoURL: result.user.photoURL,
                     gender: "",
                     access: "",
+                    status: "",
                     association: "",
                     deficiency: "",
                     phoneNumber: "",
@@ -471,7 +489,7 @@ export function googleSignIn ({ commit }) {
                     place: "",
                     profession: "",
                     education: "",
-                    profileType: "",
+                    profileType: LocalStorage.getItem("profileType") ? LocalStorage.getItem("profileType") : "",
                     description: "",
                     date: "",
                     registrationDate: String(today)
@@ -504,7 +522,7 @@ export function googleSignIn ({ commit }) {
 }
 
 
-export function facebookSignInCordova ({ commit }) {
+export function facebookSignInCordova({ commit }) {
     Loading.show();
     const vm = this;
     var provider = new firebase.auth.FacebookAuthProvider();
@@ -544,6 +562,7 @@ export function facebookSignInCordova ({ commit }) {
                         data = {
                             id: doc.id,
                             access: doc.data().access,
+                            status: doc.data().status,
                             association: doc.data().association,
                             registrationDate: doc.data().registrationDate,
                             deficiency: doc.data().deficiency,
@@ -579,6 +598,7 @@ export function facebookSignInCordova ({ commit }) {
                             gender: "",
                             photoURL: result.user.photoURL,
                             access: "",
+                            status: "",
                             association: "",
                             deficiency: "",
                             phoneNumber: "",
@@ -586,7 +606,7 @@ export function facebookSignInCordova ({ commit }) {
                             place: "",
                             profession: "",
                             education: "",
-                            profileType: "",
+                            profileType: LocalStorage.getItem("profileType") ? LocalStorage.getItem("profileType") : "",
                             description: "",
                             date: "",
                             registrationDate: String(today)
@@ -628,7 +648,7 @@ export function facebookSignInCordova ({ commit }) {
 }
 
 
-export function facebookSignIn ({ commit }) {
+export function facebookSignIn({ commit }) {
     Loading.show()
     var provider = new firebase.auth.FacebookAuthProvider();
     const vm = this;
@@ -665,6 +685,7 @@ export function facebookSignIn ({ commit }) {
                 data = {
                     id: doc.id,
                     access: doc.data().access,
+                    status: doc.data().status,
                     association: doc.data().association,
                     registrationDate: doc.data().registrationDate,
                     deficiency: doc.data().deficiency,
@@ -700,6 +721,7 @@ export function facebookSignIn ({ commit }) {
                     photoURL: result.user.photoURL,
                     gender: "",
                     access: "",
+                    status: "",
                     association: "",
                     deficiency: "",
                     phoneNumber: "",
@@ -707,7 +729,7 @@ export function facebookSignIn ({ commit }) {
                     place: "",
                     profession: "",
                     education: "",
-                    profileType: "",
+                    profileType: LocalStorage.getItem("profileType") ? LocalStorage.getItem("profileType") : "",
                     description: "",
                     date: "",
                     registrationDate: String(today)
@@ -786,7 +808,7 @@ export function facebookSignIn ({ commit }) {
 
 // }
 
-export function editUser ({ commit, dispatch }, payload) {
+export function editUser({ commit, dispatch }, payload) {
     // Edit or add a user
     Loading.show()
     const ref = firestoreDB.collection('users').doc(payload.id) // email is the key
@@ -833,7 +855,7 @@ export function editUser ({ commit, dispatch }, payload) {
         })
 }
 
-export function updateUser ({ commit, dispatch }, payload) {
+export function updateUser({ commit, dispatch }, payload) {
     const vm = this;
     if (payload.img) {
         const data = {
@@ -875,7 +897,7 @@ export function updateUser ({ commit, dispatch }, payload) {
     }
 }
 
-export function detailUser ({ commit }, id) {
+export function detailUser({ commit }, id) {
     // Details of a user
     const ref = firestoreDB.collection('users').doc(id)
     let data = {}
@@ -884,6 +906,7 @@ export function detailUser ({ commit }, id) {
             data = {
                 id: doc.id,
                 access: doc.data().access,
+                status: doc.data().status,
                 association: doc.data().association,
                 registrationDate: doc.data().registrationDate,
                 deficiency: doc.data().deficiency,
@@ -906,6 +929,7 @@ export function detailUser ({ commit }, id) {
             data = {
                 id: null,
                 access: "",
+                status: "",
                 association: "",
                 registrationDate: "",
                 gender: "",
@@ -918,7 +942,7 @@ export function detailUser ({ commit }, id) {
                 place: "",
                 profession: "",
                 education: "",
-                profileType: "",
+                profileType: LocalStorage.getItem("profileType") ? LocalStorage.getItem("profileType") : "",
                 description: "",
                 date: ""
             }
@@ -927,7 +951,7 @@ export function detailUser ({ commit }, id) {
     })
 }
 
-export function loginUser ({ commit }, payload) {
+export function loginUser({ commit }, payload) {
     let vm = this;
     Loading.show()
     firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
@@ -939,6 +963,7 @@ export function loginUser ({ commit }, payload) {
                     var data = {
                         id: doc.id,
                         access: doc.data().access,
+                        status: doc.data().status,
                         association: doc.data().association,
                         deficiency: doc.data().deficiency,
                         registrationDate: doc.data().registrationDate,
@@ -985,7 +1010,7 @@ export function loginUser ({ commit }, payload) {
         })
 }
 
-export function loginUserr ({ commit }, payload) {
+export function loginUserr({ commit }, payload) {
     Loading.show()
     firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
         .then((user) => {
@@ -1035,7 +1060,7 @@ export function loginUserr ({ commit }, payload) {
         })
 }
 
-export function checkAuthUser ({ commit }, route) {
+export function checkAuthUser({ commit }, route) {
     if (!offline.data().isOnline) {
         // this.$router.go(-1)
         return showErrorMessage("Está sem internet")
@@ -1056,15 +1081,15 @@ export function checkAuthUser ({ commit }, route) {
     })
 }
 
-export function signOut ({ commit }) {
+export function signOut({ commit }) {
     Loading.show()
     const vm = this;
     firebaseAuth.signOut()
         .then(() => {
+            vm.$router.push('/')
             commit('SET_AUTH_USER', false)
             commit('AUTH_USER', null)
             commit('SET_USER_DATA', null)
-            vm.$router.push('/')
             Loading.hide()
         })
 }
@@ -1081,7 +1106,7 @@ export function signOut ({ commit }) {
 
 
 
-export function deleteUserr ({ commit }, payload) {
+export function deleteUserr({ commit }, payload) {
     Loading.show()
     var docRef = firestoreDB.collection("users").doc("nelziositoe@gmail.com");
 
@@ -1099,7 +1124,7 @@ export function deleteUserr ({ commit }, payload) {
     });
 }
 
-export function deleteUser ({ commit }, payload) {
+export function deleteUser({ commit }, payload) {
     Loading.show()
     const vm = this;
     var user = firebase.auth().currentUser;
@@ -1331,6 +1356,6 @@ export function deleteUser ({ commit }, payload) {
     }
 }
 
-export function deleteVideoUser (id) {
+export function deleteVideoUser(id) {
     deleteVideo(id, true)
 }

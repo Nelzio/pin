@@ -125,8 +125,7 @@ export default {
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
-    ...mapGetters("settings", ["getVibrate"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
   },
   methods: {
     ...mapActions("user", ["detailUser"]),

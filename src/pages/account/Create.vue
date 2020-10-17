@@ -159,7 +159,7 @@
               class="full-width"
             />
           </div>
-          <div>
+          <!-- <div>
             <q-btn
               class="full-width"
               :color="darkModeConf.iconVar"
@@ -167,10 +167,10 @@
               outline
               label="Entrar na conta existente"
               icon="arrow_back"
-              to="/account/login"
+              to="/account"
               role="button"
             />
-          </div>
+          </div> -->
         </q-form>
       </div>
     </div>
@@ -178,7 +178,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapState, mapActions, mapGetters } from "vuex"
 export default {
   name: "RegisterFormComponent",
   data() {
@@ -199,7 +199,8 @@ export default {
     }
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"]),
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
+    ...mapGetters("settings", ["getVibrate"]),
   },
   methods: {
     ...mapActions("auth", ["loginUser", "registerUser"]),
@@ -251,7 +252,8 @@ export default {
   },
 
   mounted() {
-    this.$root.$emit("textToSpeechRouter", "Criar conta")
+    if (this.vibrateState === 1 && this.getVibrate)
+      this.$root.$emit("textToSpeechRouter", "Criar conta")
   },
 
   filters: {

@@ -283,9 +283,14 @@ export default {
     }
   },
   computed: {
-    ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
+    ...mapState("settings", [
+      "settings",
+      "appMode",
+      "darkModeConf",
+      "vibrateState",
+    ]),
     ...mapState("vacancy", ["vacancyDtl"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
     ...mapGetters("auth", ["user"]),
   },
   methods: {
@@ -321,6 +326,10 @@ export default {
       fileReader.readAsDataURL(files[0])
       this.vacancy.img = files[0]
     },
+  },
+  mounted() {
+    if (this.vibrateState === 1 && this.getVibrate)
+      this.$root.$emit("textToSpeechRouter", "Página de adição de vaga")
   },
   watch: {
     vacancyDtl() {

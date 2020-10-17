@@ -63,6 +63,7 @@ const routes = [
       { path: 'ui', component: () => import('pages/account/LoginUI.vue') },
       { path: 'login', component: () => import('pages/account/LoginEmail.vue') },
       { path: 'create', component: () => import('pages/account/Create.vue') },
+      { path: 'createnew', component: () => import('pages/account/CreateProfile.vue') },
       { path: 'resetpwd', component: () => import('pages/account/ResetPassWD.vue') },
       { path: 'resetpwd2', component: () => import('pages/account/ResetPassWDStep2.vue') },
       { path: 'edit', component: () => import('pages/account/ResetProfile.vue') },

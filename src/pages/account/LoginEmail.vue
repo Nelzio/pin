@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapState, mapActions, mapGetters } from "vuex"
 export default {
   name: "LoginFormsComponent",
   data() {
@@ -125,7 +125,8 @@ export default {
     }
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"]),
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
+    ...mapGetters("settings", ["getVibrate"]),
   },
   methods: {
     ...mapActions("auth", ["loginUser"]),
@@ -164,7 +165,8 @@ export default {
   },
 
   mounted() {
-    this.$root.$emit("textToSpeechRouter", "Entrar com email")
+    if (this.vibrateState === 1 && this.getVibrate)
+      this.$root.$emit("textToSpeechRouter", "Entrar com email")
   },
 
   filters: {

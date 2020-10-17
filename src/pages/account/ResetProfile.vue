@@ -354,7 +354,8 @@ export default {
     }
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"]),
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
+    ...mapGetters("settings", ["getVibrate"]),
     ...mapGetters("auth", ["user", "userData"]),
   },
 
@@ -490,7 +491,8 @@ export default {
   mounted() {
     this.getAssociations()
     this.getUser()
-    this.$root.$emit("textToSpeechRouter", "Editar perfil")
+    if (this.vibrateState === 1 && this.getVibrate)
+      this.$root.$emit("textToSpeechRouter", "Editar perfil")
     if (LocalStorage.getItem("profileType"))
       this.profileType = LocalStorage.getItem("profileType")
     this.imageUrl = this.user.photoURL

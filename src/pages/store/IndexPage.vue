@@ -59,7 +59,7 @@
               <q-item-label
                 class="text-center text-bold"
                 :color="darkModeConf.iconVar"
-                >End Page</q-item-label
+                >Fim da página</q-item-label
               >
             </q-item-section>
           </q-item>
@@ -95,7 +95,7 @@
     <q-page-sticky
       position="bottom-right"
       :offset="[18, 18]"
-      v-if="user && isUserAuth"
+      v-if="user && isUserAuth && userData.profileType == 'person'"
     >
       <q-btn
         fab
@@ -152,7 +152,8 @@ export default {
     ]),
     ...mapState("store", ["stories", "store"]),
     ...mapGetters("store", ["getStories", "getStore"]),
-    ...mapGetters("auth", ["user", "isUserAuth"]),
+    ...mapGetters("auth", ["user", "isUserAuth", "userData"]),
+    ...mapGetters("settings", ["getVibrate"]),
   },
   methods: {
     ...mapActions("settings", ["setSettings", "playSound"]),
@@ -396,10 +397,11 @@ export default {
 
     // this.$on("valueSearch")
 
-    this.$root.$emit(
-      "textToSpeechRouter",
-      "Página de produtos e serviços.\n Ao rolar, o telefone vai vibrar quando um item estiver no centro."
-    )
+    if (this.vibrateState === 1 && this.getVibrate)
+      this.$root.$emit(
+        "textToSpeechRouter",
+        "Página de produtos e serviços.\n Ao rolar, o telefone vai vibrar quando um item estiver no centro."
+      )
   },
   watch: {
     val_search(val) {

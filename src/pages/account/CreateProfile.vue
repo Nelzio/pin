@@ -6,92 +6,63 @@
     aria-label="Página de autenticação"
   >
     <!-- content -->
-    <div>
-      <div
-        class="row q-gutter-y-lg q-pa-md text-center"
-        lang="pt-PT"
-        aria-label="Escolher método de autenticação"
-      >
-        <div class="justify-center col-12">
-          <div>
-            <q-icon
-              name="account_circle"
-              :color="darkModeConf.iconVar"
-              size="150px"
-            />
-          </div>
-          <div class="text-h5">Entrar na conta</div>
-        </div>
-        <q-btn
-          align="between"
-          rounded
-          size="lg"
-          class="full-width btn-fixed-width"
-          label="Google"
-          icon="img:https://imagepng.org/wp-content/uploads/2019/08/google-icon-1.png"
-          @click="login('google')"
-          role="button"
-          lang="pt-PT"
-          aria-label="Entrar com conta Google"
-        />
-        <q-btn
-          align="between"
-          rounded
-          size="lg"
-          class="full-width btn-fixed-width"
-          left-icon
-          @click="login('facebook')"
-          role="button"
-          lang="pt-PT"
-          aria-label="Entrar com conta Facebook"
-        >
-          <q-icon color="blue" name="ion-logo-facebook" />
-          <div>Facebook</div>
-        </q-btn>
 
-        <q-btn
-          align="between"
-          rounded
-          size="lg"
-          class="full-width btn-fixed-width"
-          to="/account/login"
-          role="button"
-          lang="pt-PT"
-          aria-label="Entrar com Email"
-        >
-          <q-icon name="email" :color="darkModeConf.iconVar" />
-          <div>Email</div>
-        </q-btn>
+    <div
+      class="row q-gutter-y-lg q-pa-md"
+      lang="pt-PT"
+      aria-label="Escolher método de autenticação"
+    >
+      <div v-if="profileType == 'person'" class="text-center col-12">
+        <q-icon
+          name="account_circle"
+          :color="darkModeConf.iconVar"
+          size="150px"
+        />
+        <div class="text-h5">Criar conta normal</div>
       </div>
-      <div class="text-h6 col-12 text-center">Ou criar conta</div>
-      <div
-        class="row justify-between q-gutter-y-md q-pa-md"
-        role="group"
-        aria-label="Criar conta"
+      <div v-else class="text-center col-12">
+        <q-icon name="business" :color="darkModeConf.iconVar" size="150px" />
+        <div class="text-h5">Criar conta empresarial</div>
+      </div>
+      <q-btn
+        align="between"
+        rounded
+        size="lg"
+        class="full-width btn-fixed-width"
+        label="Google"
+        icon="img:https://imagepng.org/wp-content/uploads/2019/08/google-icon-1.png"
+        @click="login('google')"
+        role="button"
+        lang="pt-PT"
+        aria-label="Entrar com conta Google"
+      />
+      <q-btn
+        align="between"
+        rounded
+        size="lg"
+        class="full-width btn-fixed-width"
+        left-icon
+        @click="login('facebook')"
+        role="button"
+        lang="pt-PT"
+        aria-label="Entrar com conta Facebook"
       >
-        <q-btn
-          rounded
-          align="between"
-          size="lg"
-          :class="$q.platform.is.desktop ? '' : 'full-width'"
-          left-icon
-          @click="setStoreProfileType('person')"
-        >
-          <q-icon :color="darkModeConf.iconVar" name="person" />
-          <div>Criar conta normal</div>
-        </q-btn>
-        <q-btn
-          rounded
-          align="between"
-          size="lg"
-          :class="$q.platform.is.desktop ? '' : 'full-width'"
-          left-icon
-          @click="setStoreProfileType('organization')"
-        >
-          <q-icon :color="darkModeConf.iconVar" name="business" />
-          <div>Criar conta empresa</div>
-        </q-btn>
-      </div>
+        <q-icon color="blue" name="ion-logo-facebook" />
+        <div>Facebook</div>
+      </q-btn>
+
+      <q-btn
+        align="between"
+        rounded
+        size="lg"
+        class="full-width btn-fixed-width"
+        label="Email"
+        icon="email"
+        to="/account/create"
+        role="button"
+        lang="pt-PT"
+        aria-label="Entrar com Email"
+      />
     </div>
     <!-- <div class="row justify-center">
       <div class="col-12 q-pa-lg">
@@ -121,6 +92,7 @@ export default {
   name: "LoginFormsComponent",
   data() {
     return {
+      profileType: "",
       authObject: {
         name: "",
         email: "",
@@ -142,11 +114,6 @@ export default {
       "facebookSignIn",
       "facebookSignInCordova",
     ]),
-
-    setStoreProfileType(type) {
-      LocalStorage.set("profileType", type)
-      this.$router.push("/account/createnew")
-    },
 
     loginTest() {
       var provider = new firebase.auth.GoogleAuthProvider()
@@ -236,6 +203,7 @@ export default {
   },
 
   mounted() {
+    this.profileType = LocalStorage.getItem("profileType")
     Loading.hide()
     if (this.vibrateState === 1 && this.getVibrate)
       this.$root.$emit(

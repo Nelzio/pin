@@ -95,7 +95,7 @@ export default {
   },
   computed: {
     ...mapState("settings", ["vibrateState", "homeSpeak"]),
-    ...mapGetters("settings", ["getFont", "getStart"]),
+    ...mapGetters("settings", ["getFont", "getStart", "getVibrate"]),
   },
   methods: {
     ...mapActions("settings", ["playSound", "vibrate", "setStart"]),
@@ -105,10 +105,11 @@ export default {
         this.$refs.testAudio.play()
         this.setStart(false)
       } else {
-        this.$root.$emit(
-          "textToSpeechRouter",
-          "Página Inicial.\n Para navegar entre as páginas use a guia de navegação no rodapé."
-        )
+        if (this.vibrateState === 1 && this.getVibrate)
+          this.$root.$emit(
+            "textToSpeechRouter",
+            "Página Inicial.\n Para navegar entre as páginas use a guia de navegação."
+          )
       }
     },
 

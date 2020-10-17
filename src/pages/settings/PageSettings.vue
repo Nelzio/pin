@@ -298,7 +298,7 @@
                 icon="logout"
                 :color="darkModeConf.iconVar"
                 :class="darkModeConf.textBtn"
-                @click="signOut()"
+                @click="signOutFunc()"
                 role="button"
               />
               <q-btn
@@ -386,7 +386,7 @@ export default {
       "vibrateState",
       "fontConfig",
     ]),
-    ...mapGetters("settings", ["getMode", "getFont"]),
+    ...mapGetters("settings", ["getMode", "getFont", "getVibrate"]),
     ...mapGetters("auth", ["user", "userData", "isUserAuth"]),
 
     // ...mapGetters('settings', [
@@ -401,6 +401,10 @@ export default {
       "setAppMode",
     ]),
     ...mapActions("auth", ["detailUser", "deleteUser", "signOut"]),
+    signOutFunc() {
+      this.logOutDialog = false
+      this.signOut()
+    },
 
     handleSwipe(val) {
       if (val.direction === "right") {
@@ -481,7 +485,8 @@ export default {
       }
     }
 
-    this.$root.$emit("textToSpeechRouter", "Página de configurações.")
+    if (this.vibrateState === 1 && this.getVibrate)
+      this.$root.$emit("textToSpeechRouter", "Página de configurações.")
   },
   watch: {
     snap(val) {

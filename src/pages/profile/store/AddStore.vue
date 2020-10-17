@@ -235,9 +235,14 @@ export default {
     }
   },
   computed: {
-    ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
+    ...mapState("settings", [
+      "settings",
+      "appMode",
+      "darkModeConf",
+      "vibrateState",
+    ]),
     ...mapState("store", ["storeDtl"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
     ...mapGetters("auth", ["user"]),
   },
   methods: {
@@ -272,7 +277,11 @@ export default {
       this.store.img = files[0]
     },
     mounted() {
-      this.$root.$emit("textToSpeechRouter", "Adiciona produto ou serviço")
+      if (this.vibrateState === 1 && this.getVibrate)
+        this.$root.$emit(
+          "textToSpeechRouter",
+          "Página adição de produto ou serviço"
+        )
     },
   },
   watch: {

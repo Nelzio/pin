@@ -54,8 +54,8 @@ export default {
     }
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
     ...mapGetters("auth", ["user", "userData"]),
   },
   methods: {
@@ -96,6 +96,8 @@ export default {
   created() {},
   mounted() {
     this.listCandidatures(this.user.email)
+    if (this.vibrateState === 1 && this.getVibrate)
+      this.$root.$emit("textToSpeechRouter", "Página de suas candidaturas")
   },
 }
 </script>

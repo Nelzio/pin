@@ -41,7 +41,7 @@ export default {
   },
   computed: {
     ...mapState("settings", ["vibrateState", "homeSpeak"]),
-    ...mapGetters("settings", ["getFont", "getStart"]),
+    ...mapGetters("settings", ["getFont", "getStart", "getVibrate"]),
   },
 }
 </script>

@@ -190,7 +190,7 @@ export default {
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
     ...mapGetters("settings", ["getFont"]),
-    ...mapGetters("auth", ["userData"]),
+    ...mapGetters("auth", ["userData", "getVibrate"]),
   },
   methods: {
     openDialog() {

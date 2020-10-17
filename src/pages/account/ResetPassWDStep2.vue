@@ -8,11 +8,7 @@
       aria-label="Criar uma nova senha."
     >
       <div class="col-12 text-center">
-        <q-icon
-          :color="darkModeConf.iconVar"
-          size="100px"
-          name="person_add"
-        />
+        <q-icon :color="darkModeConf.iconVar" size="100px" name="person_add" />
       </div>
       <!-- <div class="col-12">
           Entrar ou se Inscrever
@@ -38,7 +34,10 @@
             v-model="authObject.password"
             :type="isPwd ? 'password' : 'text'"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Por favor, insira uma senha válida']"
+            :rules="[
+              (val) =>
+                (val && val.length > 0) || 'Por favor, insira uma senha válida',
+            ]"
           >
             <template v-slot:append>
               <q-icon
@@ -61,7 +60,11 @@
             v-model="authObject.password2"
             :type="isPwd ? 'password' : 'text'"
             lazy-rules
-            :rules="[ val => val && val.length > 0 && val == authObject.password || 'Senha diferente']"
+            :rules="[
+              (val) =>
+                (val && val.length > 0 && val == authObject.password) ||
+                'Senha diferente',
+            ]"
           >
             <template v-slot:append>
               <q-icon
@@ -91,44 +94,45 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex"
 export default {
   name: "RegisterFormComponent",
-  data () {
+  data() {
     return {
       authObject: {
         name: "",
         email: "",
-        password: ""
+        password: "",
       },
-      isPwd: true
-    };
+      isPwd: true,
+    }
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"])
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
+    ...mapGetters("settings", ["getVibrate"]),
   },
   methods: {
     ...mapActions("auth", ["loginUser", "registerUser"]),
 
-    isEmailValid (email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(String(email));
+    isEmailValid(email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return re.test(String(email))
     },
 
-    onReset () {
-      alert("must reset form.");
+    onReset() {
+      alert("must reset form.")
     },
-    onSubmit () {
-      this.$refs.email.validate();
-      this.$refs.password.validate();
+    onSubmit() {
+      this.$refs.email.validate()
+      this.$refs.password.validate()
 
       if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
-        this.$emit("loginUser", this.authObject);
+        this.$emit("loginUser", this.authObject)
       }
     },
-    accountSwipe (val) {
+    accountSwipe(val) {
       if (val.direction === "right") {
-        this.$router.push("/account");
+        this.$router.push("/account")
       }
 
       // if (val.direction === 'left') {
@@ -136,17 +140,17 @@ export default {
       // }
 
       if (val.direction === "down") {
-        this.$router.push("/");
+        this.$router.push("/")
       }
-    }
+    },
   },
 
   filters: {
-    captalizeFirstLetter (val) {
-      return val.charAt(0).toUpperCase() + "" + val.slice(1);
-    }
-  }
-};
+    captalizeFirstLetter(val) {
+      return val.charAt(0).toUpperCase() + "" + val.slice(1)
+    },
+  },
+}
 </script>
 
 <style lang="sass">

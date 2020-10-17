@@ -237,10 +237,15 @@ export default {
     }
   },
   computed: {
-    ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
+    ...mapState("settings", [
+      "settings",
+      "appMode",
+      "darkModeConf",
+      "vibrateState",
+    ]),
     ...mapState("store", ["storeDtl", "storeUploaded"]),
     ...mapGetters("store", ["getSore"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
   },
   methods: {
     confirmIsertFunc() {
@@ -313,10 +318,11 @@ export default {
   mounted() {
     this.detailStoreLocal(this.$route.params.idEditStore)
 
-    this.$root.$emit(
-      "textToSpeechRouter",
-      "Editar " + this.storeData.category + " " + this.storeData.title
-    )
+    if (this.vibrateState === 1 && this.getVibrate)
+      this.$root.$emit(
+        "textToSpeechRouter",
+        "Editar " + this.storeData.category + " " + this.storeData.title
+      )
   },
   watch: {
     storeUploaded() {

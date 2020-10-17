@@ -100,7 +100,7 @@ export default {
   computed: {
     ...mapState("settings", ["settings", "appMode", "darkModeConf"]),
     ...mapGetters("auth", ["isUserAuth", "userData"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
   },
   methods: {
     onSubmit() {

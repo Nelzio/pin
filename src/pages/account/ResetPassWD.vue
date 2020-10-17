@@ -29,7 +29,11 @@
             label="Email do usuário"
             type="email"
             lazy-rules
-            :rules="[ val => val && val.length > 0 && isEmailValid(val) || 'Introduza o seu email']"
+            :rules="[
+              (val) =>
+                (val && val.length > 0 && isEmailValid(val)) ||
+                'Introduza o seu email',
+            ]"
           />
 
           <div>
@@ -85,53 +89,53 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import { Loading } from 'quasar';
-import { firebaseAuth } from "../../boot/firebase";
+import { mapState, mapActions, mapGetters } from "vuex"
+import { Loading } from "quasar"
+import { firebaseAuth } from "../../boot/firebase"
 export default {
   name: "LoginFormsComponent",
-  data () {
+  data() {
     return {
       authObject: {
         name: "",
         email: "",
-        password: ""
+        password: "",
       },
       email: "",
       isPwd: true,
       message: "",
       error: false,
-      doneDialog: false
-    };
+      doneDialog: false,
+    }
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapGetters("settings", ["getMode", "getFont"]),
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
+    ...mapGetters("settings", ["getMode", "getFont", "getVibrate"]),
   },
   methods: {
     ...mapActions("auth", ["loginUser", "registerUser"]),
 
-    isEmailValid (email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(String(email));
+    isEmailValid(email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return re.test(String(email))
     },
 
-    closeDialog () {
-      this.error = false;
-      this.doneDialog = false;
+    closeDialog() {
+      this.error = false
+      this.doneDialog = false
     },
 
-    sendEmaiPassReset () {
-      Loading.show();
-      let vm = this;
-      var auth = firebaseAuth;
+    sendEmaiPassReset() {
+      Loading.show()
+      let vm = this
+      var auth = firebaseAuth
 
       auth
         .sendPasswordResetEmail(this.email)
         .then(function () {
           // Email sent.
           // console.log("email enviado");
-          Loading.hide();
+          Loading.hide()
           vm.message = "Verifique a sua caixa de email!"
           vm.doneDialog = true
         })
@@ -139,47 +143,48 @@ export default {
           // An error happened.
 
           vm.message = "Email incorrecto"
-          Loading.hide();
+          Loading.hide()
           vm.error = true
           vm.doneDialog = true
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
 
-    onReset () {
-      alert("must reset form.");
+    onReset() {
+      alert("must reset form.")
     },
-    onSubmit () {
-      this.$refs.email.validate();
+    onSubmit() {
+      this.$refs.email.validate()
 
       if (!this.$refs.email.hasError) {
-        this.sendEmaiPassReset();
+        this.sendEmaiPassReset()
       }
     },
-    accountSwipe (val) {
+    accountSwipe(val) {
       if (val.direction === "left") {
-        this.$router.push("/account/create");
+        this.$router.push("/account/create")
       }
 
       if (val.direction === "right") {
-        this.$router.push("/");
+        this.$router.push("/")
       }
       // if (val.direction === "down") {
       //   this.$router.push("/");
       // }
-    }
+    },
   },
 
-  mounted () {
-    this.$root.$emit("textToSpeechRouter", "Editar senha do usuário");
+  mounted() {
+    if (this.vibrateState === 1 && this.getVibrate)
+      this.$root.$emit("textToSpeechRouter", "Editar senha do usuário")
   },
 
   filters: {
-    captalizeFirstLetter (val) {
-      return val.charAt(0).toUpperCase() + "" + val.slice(1);
-    }
-  }
-};
+    captalizeFirstLetter(val) {
+      return val.charAt(0).toUpperCase() + "" + val.slice(1)
+    },
+  },
+}
 </script>
 
 <style lang="sass">

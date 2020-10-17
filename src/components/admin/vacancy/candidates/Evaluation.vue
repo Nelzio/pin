@@ -32,10 +32,7 @@
               <!-- sec1 -->
               <div class="text-center">
                 <q-avatar size="100px">
-                  <q-img
-                    :src="user.photoURL"
-                    spinner-color="white"
-                  />
+                  <q-img :src="user.photoURL" spinner-color="white" />
                 </q-avatar>
 
                 <div :class="getFont.title">{{ user.displayName }}</div>
@@ -71,23 +68,11 @@
 
                   <q-separator />
 
-                  <q-tab-panels
-                    v-model="tab"
-                    animated
-                  >
-                    <q-tab-panel
-                      name="bio"
-                      role="tabpanel"
-                    >
+                  <q-tab-panels v-model="tab" animated>
+                    <q-tab-panel name="bio" role="tabpanel">
                       <q-list role="list">
-                        <q-item
-                          class="text-left"
-                          role="listitem"
-                        >
-                          <q-item-section
-                            top
-                            avatar
-                          >
+                        <q-item class="text-left" role="listitem">
+                          <q-item-section top avatar>
                             <q-icon
                               :color="darkModeConf.iconVar"
                               name="phone"
@@ -95,24 +80,19 @@
                           </q-item-section>
 
                           <q-item-section>
-                            <q-item-label :class="getFont.title">Telefone</q-item-label>
-                            <q-item-label :class="getFont.text">{{user.phoneNumber}}</q-item-label>
+                            <q-item-label :class="getFont.title"
+                              >Telefone</q-item-label
+                            >
+                            <q-item-label :class="getFont.text">{{
+                              user.phoneNumber
+                            }}</q-item-label>
                           </q-item-section>
                         </q-item>
 
-                        <q-separator
-                          spaced
-                          inset="item"
-                        />
+                        <q-separator spaced inset="item" />
 
-                        <q-item
-                          class="text-left"
-                          role="listitem"
-                        >
-                          <q-item-section
-                            top
-                            avatar
-                          >
+                        <q-item class="text-left" role="listitem">
+                          <q-item-section top avatar>
                             <q-icon
                               :color="darkModeConf.iconVar"
                               name="email"
@@ -120,50 +100,40 @@
                           </q-item-section>
 
                           <q-item-section>
-                            <q-item-label :class="getFont.title">Email</q-item-label>
-                            <q-item-label :class="getFont.text">{{user.email}}</q-item-label>
+                            <q-item-label :class="getFont.title"
+                              >Email</q-item-label
+                            >
+                            <q-item-label :class="getFont.text">{{
+                              user.email
+                            }}</q-item-label>
                           </q-item-section>
                         </q-item>
 
-                        <q-separator
-                          spaced
-                          inset="item"
-                        />
+                        <q-separator spaced inset="item" />
 
-                        <q-item
-                          class="text-left"
-                          role="listitem"
-                        >
-                          <q-item-section
-                            avatar
-                            top
-                          >
+                        <q-item class="text-left" role="listitem">
+                          <q-item-section avatar top>
                             <q-icon
                               :color="darkModeConf.iconVar"
                               name="place"
                             />
                           </q-item-section>
                           <q-item-section>
-                            <q-item-label :class="getFont.title">Endereço</q-item-label>
-                            <q-item-label :class="getFont.text">{{user.address}}</q-item-label>
+                            <q-item-label :class="getFont.title"
+                              >Endereço</q-item-label
+                            >
+                            <q-item-label :class="getFont.text">{{
+                              user.address
+                            }}</q-item-label>
                           </q-item-section>
                         </q-item>
                       </q-list>
                     </q-tab-panel>
 
-                    <q-tab-panel
-                      name="ocupacao"
-                      role="tabpanel"
-                    >
+                    <q-tab-panel name="ocupacao" role="tabpanel">
                       <q-list role="list">
-                        <q-item
-                          class="text-left"
-                          role="listitem"
-                        >
-                          <q-item-section
-                            top
-                            avatar
-                          >
+                        <q-item class="text-left" role="listitem">
+                          <q-item-section top avatar>
                             <q-icon
                               :color="darkModeConf.iconVar"
                               name="calendar_today"
@@ -171,28 +141,27 @@
                           </q-item-section>
 
                           <q-item-section>
-                            <q-item-label :class="getFont.title">Data de nascimento</q-item-label>
-                            <q-item-label :class="getFont.text">{{user.date}}</q-item-label>
+                            <q-item-label :class="getFont.title"
+                              >Data de nascimento</q-item-label
+                            >
+                            <q-item-label :class="getFont.text">{{
+                              user.date
+                            }}</q-item-label>
                           </q-item-section>
                         </q-item>
 
-                        <q-item
-                          class="text-left"
-                          role="listitem"
-                        >
-                          <q-item-section
-                            top
-                            avatar
-                          >
-                            <q-icon
-                              :color="darkModeConf.iconVar"
-                              name="work"
-                            />
+                        <q-item class="text-left" role="listitem">
+                          <q-item-section top avatar>
+                            <q-icon :color="darkModeConf.iconVar" name="work" />
                           </q-item-section>
 
                           <q-item-section>
-                            <q-item-label :class="getFont.title">Profissão</q-item-label>
-                            <q-item-label :class="getFont.text">{{user.profession}}</q-item-label>
+                            <q-item-label :class="getFont.title"
+                              >Profissão</q-item-label
+                            >
+                            <q-item-label :class="getFont.text">{{
+                              user.profession
+                            }}</q-item-label>
                           </q-item-section>
                         </q-item>
                       </q-list>
@@ -202,15 +171,8 @@
               </div>
             </div>
           </div>
-          <div
-            class="col-12"
-            v-if="userData.access[1] == 'w'"
-          >
-            <q-btn-group
-              class="full-width"
-              spread
-              rounded
-            >
+          <div class="col-12" v-if="userData.access[1] == 'w'">
+            <q-btn-group class="full-width" spread rounded>
               <q-btn
                 push
                 color="primary"
@@ -229,18 +191,16 @@
               />
             </q-btn-group>
           </div>
-          <div
-            class="row"
-            role="group"
-            v-if="userData.access[1] == 'w'"
-          >
+          <div class="row" role="group" v-if="userData.access[1] == 'w'">
             <q-card
               class="my-card col-12"
               v-for="(evaluator, index) in evaluators"
               :key="index"
             >
               <q-card-section horizontal>
-                <q-card-section class="text-h5">Júri {{ index + 1 }}</q-card-section>
+                <q-card-section class="text-h5"
+                  >Júri {{ index + 1 }}</q-card-section
+                >
                 <q-card-section>
                   <q-rating
                     v-model="evaluator.punctuation"
@@ -254,13 +214,12 @@
                 </q-card-section>
               </q-card-section>
             </q-card>
-            <q-card
-              v-if="evaluators.length"
-              class="my-card col-12"
-            >
+            <q-card v-if="evaluators.length" class="my-card col-12">
               <q-card-section horizontal>
                 <q-card-section class="text-h5">Pontuação</q-card-section>
-                <q-card-section class="text-h4">{{ punctuation }}</q-card-section>
+                <q-card-section class="text-h4">{{
+                  punctuation
+                }}</q-card-section>
               </q-card-section>
             </q-card>
           </div>
@@ -284,89 +243,103 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex"
 import { Loading } from "quasar"
-import { firestoreDB } from "boot/firebase";
+import { firestoreDB } from "boot/firebase"
 export default {
-  data () {
+  data() {
     return {
       drawer: false,
       tab: "bio",
       ratingModel: 0,
       evaluators: [],
       punctuation: 0,
-      user: {}
-    };
+      user: {},
+    }
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf"]),
-    ...mapGetters("settings", ["getFont"]),
+    ...mapGetters("settings", ["getFont", "getVibrate"]),
     ...mapGetters("admin", ["vacancy"]),
-    ...mapGetters("auth", ["userData"])
+    ...mapGetters("auth", ["userData"]),
   },
   methods: {
-    getCandidate (candidateId) {
-      const vm = this;
-      Loading.show();
-      const ref = firestoreDB.collection("vacancies").doc(this.vacancy.id).collection("candidates").doc(candidateId);
-      ref.get().then(doc => {
-        if (doc.exists) {
-          vm.user = doc.data()
-          vm.user["id"] = doc.id
-          vm.evaluators = doc.data().evaluators
-          vm.drawer = true;
-        }
-        Loading.hide();
-      }).catch(error => {
-        Loading.hide();
-        console.log(error)
+    getCandidate(candidateId) {
+      const vm = this
+      Loading.show()
+      const ref = firestoreDB
+        .collection("vacancies")
+        .doc(this.vacancy.id)
+        .collection("candidates")
+        .doc(candidateId)
+      ref
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            vm.user = doc.data()
+            vm.user["id"] = doc.id
+            vm.evaluators = doc.data().evaluators
+            vm.drawer = true
+          }
+          Loading.hide()
+        })
+        .catch((error) => {
+          Loading.hide()
+          console.log(error)
+        })
+    },
+    changeUser() {
+      const vm = this
+      this.$root.$on("userCandidature", (id) => {
+        console.log(id)
+        vm.getCandidate(id)
       })
     },
-    changeUser () {
-      const vm = this;
-      this.$root.$on("userCandidature", (id) => {
-        console.log(id);
-        vm.getCandidate(id)
-      });
-    },
-    addRemoveEvaluators (val) {
+    addRemoveEvaluators(val) {
       if (val == "add") {
-        this.evaluators.push({ punctuation: 0 });
+        this.evaluators.push({ punctuation: 0 })
       } else if (this.evaluators.length > 0) {
-        this.evaluators.pop();
+        this.evaluators.pop()
       }
     },
-    givePunctuation () {
-      let punctuation = 0;
+    givePunctuation() {
+      let punctuation = 0
       this.evaluators.forEach((element) => {
-        punctuation += element.punctuation;
-      });
-      var result = (punctuation / this.evaluators.length)
-      this.punctuation = Number.isInteger(result) ? result : result.toFixed(2);
+        punctuation += element.punctuation
+      })
+      var result = punctuation / this.evaluators.length
+      this.punctuation = Number.isInteger(result) ? result : result.toFixed(2)
     },
-    updateCandidate (val) {
+    updateCandidate(val) {
       Loading.show()
       let candidate = val
-      candidate.evaluators = this.evaluators;
-      const ref = firestoreDB.collection("vacancies").doc(this.vacancy.id).collection("candidates").doc(candidate.id);
-      ref.set(candidate).then(() => {
-        Loading.hide()
-        console.log("done")
-      }).catch(error => {
-        Loading.hide()
-        console.log(error)
-      })
-    }
+      candidate.evaluators = this.evaluators
+      const ref = firestoreDB
+        .collection("vacancies")
+        .doc(this.vacancy.id)
+        .collection("candidates")
+        .doc(candidate.id)
+      ref
+        .set(candidate)
+        .then(() => {
+          Loading.hide()
+          console.log("done")
+        })
+        .catch((error) => {
+          Loading.hide()
+          console.log(error)
+        })
+    },
   },
-  mounted () {
-    this.changeUser();
+  mounted() {
+    this.changeUser()
   },
   watch: {
-    evaluators () {
+    evaluators() {
       this.givePunctuation()
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style>
