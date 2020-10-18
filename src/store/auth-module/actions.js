@@ -148,7 +148,7 @@ export function uploadAuxFunc({ commit }, payload) {
                                 // console.log("Updated")
                                 if (LocalStorage.getItem("routeBack")) {
                                     payload.vm.$router.push("/")
-                                    payload.vm.$router.push(LocalStorage.getItem("routeBack"))
+                                    // payload.vm.$router.push(LocalStorage.getItem("routeBack"))
                                     Loading.hide()
                                 } else {
                                     payload.vm.$router.push('/')
@@ -201,7 +201,7 @@ export function registerUser({ commit, dispatch }, payload) {
                         if (doc.exists) {
                             if (LocalStorage.getItem("routeBack")) {
                                 vm.$router.push("/")
-                                vm.$router.push(LocalStorage.getItem("routeBack"))
+                                // vm.$router.push(LocalStorage.getItem("routeBack"))
                                 LocalStorage.set("routeBack", "")
                                 Loading.hide()
                             } else {
@@ -249,7 +249,7 @@ export function registerUser({ commit, dispatch }, payload) {
                                 Notify.create('A sua conta foi criada com sucesso!')
                                 if (LocalStorage.getItem("routeBack")) {
                                     vm.$router.push("/")
-                                    vm.$router.push(LocalStorage.getItem("routeBack"))
+                                    // vm.$router.push(LocalStorage.getItem("routeBack"))
                                     Loading.hide()
                                 } else {
                                     vm.$router.push('/')
@@ -337,8 +337,8 @@ export function googleSignInCordova({ commit }) {
                         // // alert("2Problem here");
                         if (LocalStorage.getItem("routeBack")) {
                             // // alert("Problem here");
-                            vm.$router.go(-1);
-                            // vm.$router.push("/")
+                            // vm.$router.go(-1);
+                            vm.$router.push("/")
                             // vm.$router.push(LocalStorage.getItem("routeBack"))
                             LocalStorage.set("routeBack", "")
                             Loading.hide()
@@ -375,8 +375,8 @@ export function googleSignInCordova({ commit }) {
                             // // alert("3Problem here");
                             if (LocalStorage.getItem("routeBack")) {
                                 // // alert("4Problem here");
-                                vm.$router.go(-1);
-                                // vm.$router.push("/")
+                                // vm.$router.go(-1);
+                                vm.$router.push("/")
                                 // vm.$router.push(LocalStorage.getItem("routeBack"))
                                 LocalStorage.set("routeBack", "")
                                 Loading.hide()
@@ -582,7 +582,7 @@ export function facebookSignInCordova({ commit }) {
                         commit('SET_USER_DATA', data)
                         if (LocalStorage.getItem("routeBack")) {
                             vm.$router.push("/")
-                            vm.$router.push(LocalStorage.getItem("routeBack"))
+                            // vm.$router.push(LocalStorage.getItem("routeBack"))
                             LocalStorage.set("routeBack", "")
                             Loading.hide()
                         } else {
@@ -617,7 +617,7 @@ export function facebookSignInCordova({ commit }) {
                             commit('SET_USER_DATA', dataUser);
                             if (LocalStorage.getItem("routeBack")) {
                                 vm.$router.push("/")
-                                vm.$router.push(LocalStorage.getItem("routeBack"))
+                                // vm.$router.push(LocalStorage.getItem("routeBack"))
                                 LocalStorage.set("routeBack", "")
                                 Loading.hide()
                             } else {
@@ -705,7 +705,7 @@ export function facebookSignIn({ commit }) {
                 commit('SET_USER_DATA', data)
                 if (LocalStorage.getItem("routeBack")) {
                     vm.$router.push("/")
-                    vm.$router.push(LocalStorage.getItem("routeBack"))
+                    // vm.$router.push(LocalStorage.getItem("routeBack"))
                     LocalStorage.set("routeBack", "")
                     Loading.hide()
                 } else {
@@ -740,7 +740,7 @@ export function facebookSignIn({ commit }) {
                     commit('SET_USER_DATA', dataUser);
                     if (LocalStorage.getItem("routeBack")) {
                         vm.$router.push("/")
-                        vm.$router.push(LocalStorage.getItem("routeBack"))
+                        // vm.$router.push(LocalStorage.getItem("routeBack"))
                         LocalStorage.set("routeBack", "")
                         Loading.hide()
                     } else {
@@ -989,7 +989,7 @@ export function loginUser({ commit }, payload) {
                     Notify.create('Sessão iniciada com sucesso!')
                     if (LocalStorage.getItem("routeBack")) {
                         vm.$router.push("/")
-                        vm.$router.push(LocalStorage.getItem("routeBack"))
+                        // vm.$router.push(LocalStorage.getItem("routeBack"))
                         LocalStorage.set("routeBack", "")
                         Loading.hide()
                     } else {

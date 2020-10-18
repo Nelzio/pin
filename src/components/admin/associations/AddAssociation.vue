@@ -72,25 +72,18 @@
                   'Adicione o endereço da associação',
               ]"
             />
-            <q-select
+            <q-input
               outlined
               rounded
               v-model="data.types"
-              multiple
-              :options="optionsType"
-              use-chips
-              use-input
-              stack-label
-              @filter="filterFn"
-              label="Tipo de deficiências"
-              role="combobox"
-            >
-              <template v-slot:no-option>
-                <q-item>
-                  <q-item-section class="text-grey">No results</q-item-section>
-                </q-item>
-              </template>
-            </q-select>
+              role="text"
+              label="Tipos de deficiências"
+              lazy-rules
+              :rules="[
+                (val) =>
+                  (val && val.length > 0) || 'Adicione tipos de deficiências',
+              ]"
+            />
           </q-form>
         </q-card-section>
         <q-card-actions align="right">
@@ -270,7 +263,7 @@ export default {
   mounted() {
     // Loading.hide()
     this.openDialog()
-    if (!this.userData.access[1] == "w") {
+    if (this.userData.access[1] !== "w") {
       this.$router.go(-1)
     }
   },

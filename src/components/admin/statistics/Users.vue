@@ -216,6 +216,7 @@ export default {
         mans: 0,
       }
       ref
+        .where("profileType", "==", "person")
         .get()
         .then(function (docs) {
           docs.forEach((doc) => {

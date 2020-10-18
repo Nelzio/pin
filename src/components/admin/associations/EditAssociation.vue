@@ -66,25 +66,18 @@
                   'Adicione o endereço da associação',
               ]"
             />
-            <q-select
+            <q-input
               outlined
               rounded
               v-model="data.types"
-              multiple
-              :options="optionsType"
-              use-chips
-              use-input
-              stack-label
-              @filter="filterFn"
-              label="Tipos de deficiência"
-              role="combobox"
-            >
-              <template v-slot:no-option>
-                <q-item>
-                  <q-item-section class="text-grey">No results</q-item-section>
-                </q-item>
-              </template>
-            </q-select>
+              role="text"
+              label="Tipos de deficiências"
+              lazy-rules
+              :rules="[
+                (val) =>
+                  (val && val.length > 0) || 'Adicione tipos de deficiências',
+              ]"
+            />
           </q-form>
         </q-card-section>
         <q-card-actions align="right">
@@ -199,6 +192,21 @@ export default {
 
       return re.test(String(email))
     },
+    processDeficiencies(val) {
+      let listDeficiencies = []
+      if (typeof val == "string") {
+        const deficiencies = val.split(",")
+        for (let index = 0; index < deficiencies.length; index++) {
+          const element = deficiencies[index]
+          listDeficiencies.push(
+            element[0] === " " ? element.split(" ")[1] : element
+          )
+        }
+      } else {
+        listDeficiencies = val
+      }
+      return listDeficiencies
+    },
     openDialog() {
       const vm = this
       this.$root.$on("editAssociation", function (val) {
@@ -224,6 +232,7 @@ export default {
         if (success) {
           // yay, models are correct
           Loading.show()
+          this.data.types = this.processDeficiencies(this.data.types)
           ref
             .set(this.data)
             .then(() => {
@@ -282,7 +291,7 @@ export default {
   mounted() {
     // Loading.hide()
     this.openDialog()
-    if (!this.userData.access[1] == "w") {
+    if (this.userData.access[1] !== "w") {
       this.$router.go(-1)
     }
   },

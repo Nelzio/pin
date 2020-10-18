@@ -2,16 +2,14 @@
   <div>
     <div class="q-pl-xl">Usuário por deficiência</div>
     <!-- Graph here -->
-    <!-- <q-list bordered separator>
-      <q-item clickable v-ripple v-for="user in usersData" :key="user.id">
-        <q-item-section>{{ user[0] }}</q-item-section>
-        <q-item-section
-          >{{ user[1] }} / mans {{ user[2] }} / womans {{ user[3] }} / undefined
-          {{ user[4] }}</q-item-section
-        >
-      </q-item>
-    </q-list> -->
-    <GChart type="ColumnChart" :data="chartData" :options="chartOptions" />
+    <div class="row">
+      <GChart
+        class="col-12"
+        type="ColumnChart"
+        :data="chartData"
+        :options="chartOptions"
+      />
+    </div>
   </div>
 </template>
 
@@ -21,6 +19,21 @@ export default {
   props: ["data"],
   data() {
     return {
+      thumbStyle: {
+        right: "4px",
+        borderRadius: "5px",
+        backgroundColor: "#027be3",
+        width: "5px",
+        opacity: 0.75,
+      },
+
+      barStyle: {
+        right: "2px",
+        borderRadius: "9px",
+        backgroundColor: "#027be3",
+        width: "9px",
+        opacity: 0.2,
+      },
       users: [],
       usersData: [],
       deficiencies: [],
