@@ -23,13 +23,17 @@
               Acessibilidade
             </div>
             <div :class="getFont.text">
-              O aplicativo é acessível para todo tipo de pessoas e com todo tipo
-              de deficiência.
-              <br />Apelamos para que os usuário do aplicativo introduzam
-              conteúdo claro, como imagens auto explicativas para facilitar a
-              compreensão de todos o usuários. Para ativar a principal função de
-              acessibilidade do aplicativo, o usuário precisa ativar o modo de
-              narração e vibração na página do configurações.
+              <p>
+                O aplicativo é acessível para todo tipo de pessoas e com todo
+                tipo de deficiência.
+              </p>
+              <p>
+                Apelamos para que os usuário do aplicativo introduzam conteúdo
+                claro, como imagens auto explicativas para facilitar a
+                compreensão de todos o usuários. Para ativar a principal função
+                de acessibilidade do aplicativo, o usuário precisa ativar o modo
+                de narração e vibração na página do configurações.
+              </p>
             </div>
           </q-card-section>
         </q-card-section>
@@ -78,8 +82,8 @@
               Narração e Vibração
             </div>
             <div :class="getFont.text">
-              Quando o modo de narração e vibração estiverem ativas, o telefone
-              vibra e/ou emite so no início e no fim de uma determinada ação do
+              Quando o modo de acessibilidade estiver ativo, o telefone vibra
+              e/ou emite som no início e no fim de uma determinada ação do
               usuário, como candidaturas, navegação entre páginas e etc.
             </div>
           </q-card-section>

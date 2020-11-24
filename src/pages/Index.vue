@@ -16,9 +16,9 @@
               Vagas de emprego
             </div>
             <div :class="getFont.text">
-              Publique e encontre vagas de emprego na plataforma. Os usuários da
-              plataforma pode se candidatar a vagas de emprego disponibilizadas
-              por organizações credíveis.
+              Encontre as melhores vagas de emprego na plataforma si. Usuários
+              da plataforma com deficiência podem se candidatar a vagas de
+              emprego disponibilizadas por organizações credíveis.
             </div>
           </q-card-section>
 
@@ -43,9 +43,10 @@
           <q-card-section class="q-pt-xs">
             <div :class="getFont.title" class="q-mt-sm q-mb-xs">Negócio</div>
             <div :class="getFont.text">
-              Exponha os seus produtos e serviços e também encontre produtos e
-              serviços de outros utilizadores da plataforma. Alcance mais fácil
-              os seu clientes e encontre rápido o que deseja.
+              Exponha e econtre os seus produtos e serviços na plataforma.
+              Usuários com alguma deficiência tem aqui um espaço em que podem
+              expor seus produtos e serviços, assim podem alcançar com
+              facilidade clientes para o seu negócio.
             </div>
           </q-card-section>
         </q-card-section>
@@ -55,10 +56,10 @@
           <q-card-section class="q-pt-xs">
             <div :class="getFont.title" class="q-mt-sm q-mb-xs">Inclusão</div>
             <div :class="getFont.text">
-              A plataforma é inclusiva e tem recurso de acessibilidade
-              indispensável. Pessoas com e sem deficiência podem usar a
-              plataforma de igual forma, assim todos interagem e as diferenças
-              são eliminadas.
+              A plataforma é inclusiva e tem recursos de acessibilidade
+              indispensáveis. Pessoas com e sem deficiência podem usar a
+              plataforma de igual forma, porem, algumas componentes da
+              plataforma são exclusivas a pessoas com deficiência.
             </div>
           </q-card-section>
           <q-card-section class="col-5 flex flex-center">

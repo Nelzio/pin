@@ -86,7 +86,7 @@
                     v-if="
                       userData.email.split('@')[
                         userData.email.split('@').length - 1
-                      ] !== 'superactive.com'
+                      ] !== 'empregoiclusivo.co.mz'
                     "
                     spaced
                     inset="item"
@@ -96,7 +96,7 @@
                     v-if="
                       userData.email.split('@')[
                         userData.email.split('@').length - 1
-                      ] !== 'superactive.com'
+                      ] !== 'empregoiclusivo.co.mz'
                     "
                     class="text-left"
                   >
@@ -357,7 +357,7 @@
                       v-if="
                         candidate.user.split('@')[
                           candidate.user.split('@').length - 1
-                        ] !== 'superactive.com'
+                        ] !== 'empregoiclusivo.co.mz'
                       "
                       :class="getFont.text"
                     >

@@ -103,20 +103,26 @@
                 usuário deve fornecer algumas informações sobre a vaga:
               </p>
               <div>
-                <b>Imagem da vaga:</b> A imagem sobre a vaga deve ser auto
-                explicativa sobre a vaga para facilitar a compreensão dos
-                usuários que tenham alguma dificuldade de leitura.
-                <br />
-                <b>Título:</b> Título da vaga;
-                <br />
-                <b>Categoria:</b> Categoria da vaga em termos de profissões ou
-                áreas;
-                <br />
-                <b>Província:</b> Província em que a vaga está disponível;
-                <br />
-                <b>Data de validade:</b> O dia em que as candidaturas terminam;
-                <br />
-                <b>Descrição:</b> Descrição completa e clara sobre a vaga.
+                <p>
+                  <b>Imagem da vaga:</b> A imagem sobre a vaga deve ser auto
+                  explicativa sobre a vaga para facilitar a compreensão dos
+                  usuários que tenham alguma dificuldade de leitura.
+                </p>
+                <p><b>Título:</b> Título da vaga;</p>
+                <p>
+                  <b>Categoria:</b> Categoria da vaga em termos de profissões ou
+                  áreas;
+                </p>
+                <p>
+                  <b>Província:</b> Província em que a vaga está disponível;
+                </p>
+                <p>
+                  <b>Data de validade:</b> O dia em que as candidaturas
+                  terminam;
+                </p>
+                <p>
+                  <b>Descrição:</b> Descrição completa e clara sobre a vaga.
+                </p>
               </div>
             </div>
           </q-card-section>
@@ -157,21 +163,29 @@
                 idêntico ao de publicar vaga.
               </p>
               <div>
-                <b>Apagar vagas:</b> Clicando em delete vaga, aparecerá uma
-                dialog de confirmação onde o usuário pode confirmar ou cancelar.
-                <br />
-                <b>Ocultar vaga:</b> Clicando no ícone de um olho é possível
-                deixar a vaga pública ou restrita para apenas o usuário que
-                publica.
-                <br />
-                <b>Detalhes das vagas:</b> Clicando no botão de detalhes da vaga
-                o usuário será redirecionado para a página de detalhes de sua
-                vaga onde podem para além de ver a descrição da vaga, vê também
-                os candidatos a vaga por si publicada e contactá-los.
-                <br />
-                <b>Data de validade:</b> O dia em que as candidaturas terminam;
-                <br />
-                <b>Descrição:</b> Descrição completa e clara sobre a vaga.
+                <p>
+                  <b>Apagar vagas:</b> Clicando em delete vaga, aparecerá uma
+                  dialog de confirmação onde o usuário pode confirmar ou
+                  cancelar.
+                </p>
+                <p>
+                  <b>Ocultar vaga:</b> Clicando no ícone de um olho é possível
+                  deixar a vaga pública ou restrita para apenas o usuário que
+                  publica.
+                </p>
+                <p>
+                  <b>Detalhes das vagas:</b> Clicando no botão de detalhes da
+                  vaga o usuário será redirecionado para a página de detalhes de
+                  sua vaga onde podem para além de ver a descrição da vaga, vê
+                  também os candidatos a vaga por si publicada e contactá-los.
+                </p>
+                <p>
+                  <b>Data de validade:</b> O dia em que as candidaturas
+                  terminam;
+                </p>
+                <p>
+                  <b>Descrição:</b> Descrição completa e clara sobre a vaga.
+                </p>
               </div>
             </div>
           </q-card-section>

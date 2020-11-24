@@ -472,7 +472,11 @@ export function googleSignIn({ commit }) {
                 }
                 commit('SET_USER_DATA', data)
                 if (LocalStorage.getItem("routeBack")) {
-                    this.$router.go(-1);
+                    if (LocalStorage.getItem("routeBack") == "back2times") {
+                        this.$router.go(-2);
+                    } else {
+                        this.$router.go(-1);
+                    }
                     // this.$router.push("/")
                     // this.$router.push(LocalStorage.getItem("routeBack"))
                     LocalStorage.set("routeBack", "")
@@ -549,12 +553,12 @@ export function facebookSignInCordova({ commit }) {
                 var data = {};
 
 
-                const ref = firestoreDB.collection('users').doc(result.user.uid + "@superactive.com") // email is the key
+                const ref = firestoreDB.collection('users').doc(result.user.uid + "@empregoiclusivo.co.mz") // email is the key
                 //   this.user = result.user
                 const userData = {
                     displayName: result.user.displayName,
                     // email: result.user.email,
-                    email: result.user.uid + "@superactive.com",
+                    email: result.user.uid + "@empregoiclusivo.co.mz",
                     emailVerified: result.user.emailVerified,
                     phoneNumber: result.user.phoneNumber,
                     photoURL: result.user.photoURL,
@@ -579,7 +583,7 @@ export function facebookSignInCordova({ commit }) {
                             deficiency: doc.data().deficiency,
                             displayName: doc.data().displayName,
                             gender: doc.data().gender,
-                            email: result.user.uid + "@superactive.com",
+                            email: result.user.uid + "@empregoiclusivo.co.mz",
                             photoURL: doc.data().photoURL,
                             phoneNumber: doc.data().phoneNumber,
                             address: doc.data().address,
@@ -605,7 +609,7 @@ export function facebookSignInCordova({ commit }) {
                         var today = new Date();
                         const dataUser = {
                             displayName: result.user.displayName,
-                            email: result.user.uid + "@superactive.com",
+                            email: result.user.uid + "@empregoiclusivo.co.mz",
                             gender: "",
                             photoURL: result.user.photoURL,
                             access: "",
@@ -674,12 +678,12 @@ export function facebookSignIn({ commit }) {
         var data = {};
 
 
-        const ref = firestoreDB.collection('users').doc(result.user.uid + "@superactive.com") // email is the key
+        const ref = firestoreDB.collection('users').doc(result.user.uid + "@empregoiclusivo.co.mz") // email is the key
         //   this.user = result.user
         const userData = {
             displayName: result.user.displayName,
             // email: result.user.email,
-            email: result.user.uid + "@superactive.com",
+            email: result.user.uid + "@empregoiclusivo.co.mz",
             emailVerified: result.user.emailVerified,
             phoneNumber: result.user.phoneNumber,
             photoURL: result.user.photoURL,
@@ -704,7 +708,7 @@ export function facebookSignIn({ commit }) {
                     deficiency: doc.data().deficiency,
                     displayName: doc.data().displayName,
                     gender: doc.data().gender,
-                    email: result.user.uid + "@superactive.com",
+                    email: result.user.uid + "@empregoiclusivo.co.mz",
                     photoURL: doc.data().photoURL,
                     phoneNumber: doc.data().phoneNumber,
                     address: doc.data().address,
@@ -730,7 +734,7 @@ export function facebookSignIn({ commit }) {
                 var today = new Date();
                 const dataUser = {
                     displayName: result.user.displayName,
-                    email: result.user.uid + "@superactive.com",
+                    email: result.user.uid + "@empregoiclusivo.co.mz",
                     photoURL: result.user.photoURL,
                     gender: "",
                     access: "",

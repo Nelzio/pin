@@ -32,28 +32,28 @@ const state = {
 
 const mutations = {
 
-    SET_AUTH_USER (state, val) {
+    SET_AUTH_USER(state, val) {
         LocalStorage.set('isUserAuth', val)
         state.isUserAuth = LocalStorage.getItem('isUserAuth')
     },
-    AUTH_USER (state, val) {
+    AUTH_USER(state, val) {
         LocalStorage.set('authUser', val)
         state.authUser = LocalStorage.getItem('authUser')
     },
-    SET_USER_DATA (state, val) {
+    SET_USER_DATA(state, val) {
         LocalStorage.set('userData', val)
         state.userData = LocalStorage.getItem('userData')
     }
 }
 
 const getters = {
-    user (state) {
+    user(state) {
         return state.authUser
     },
-    userData (state) {
+    userData(state) {
         return state.userData
     },
-    isUserAuth (state) {
+    isUserAuth(state) {
         return state.isUserAuth
     }
 }
@@ -204,7 +204,7 @@ const actions = {
     },
 
 
-    registerUser ({ commit, dispatch }, payload) {
+    registerUser({ commit, dispatch }, payload) {
         Loading.show()
         const vm = this
         payload.vm = this
@@ -293,7 +293,7 @@ const actions = {
     },
 
 
-    googleSignInCordova ({ commit }) {
+    googleSignInCordova({ commit }) {
         Loading.show();
         const vm = this;
         var provider = new firebase.auth.GoogleAuthProvider();
@@ -414,7 +414,7 @@ const actions = {
     },
 
 
-    googleSignIn ({ commit }) {
+    googleSignIn({ commit }) {
         Loading.show()
         const provider = new firebase.auth.GoogleAuthProvider()
         // if(window.hasOwnProperty("cordova")){
@@ -513,7 +513,7 @@ const actions = {
     },
 
 
-    facebookSignInCordova ({ commit }) {
+    facebookSignInCordova({ commit }) {
         Loading.show();
         const vm = this;
         var provider = new firebase.auth.FacebookAuthProvider();
@@ -529,12 +529,12 @@ const actions = {
                     var data = {};
 
 
-                    const ref = firestoreDB.collection('users').doc(result.user.uid + "@superactive.com") // email is the key
+                    const ref = firestoreDB.collection('users').doc(result.user.uid + "@empregoiclusivo.co.mz") // email is the key
                     //   this.user = result.user
                     const userData = {
                         displayName: result.user.displayName,
                         // email: result.user.email,
-                        email: result.user.uid + "@superactive.com",
+                        email: result.user.uid + "@empregoiclusivo.co.mz",
                         emailVerified: result.user.emailVerified,
                         phoneNumber: result.user.phoneNumber,
                         photoURL: result.user.photoURL,
@@ -555,7 +555,7 @@ const actions = {
                                 access: doc.data().access,
                                 association: doc.data().association,
                                 displayName: doc.data().displayName,
-                                email: result.user.uid + "@superactive.com",
+                                email: result.user.uid + "@empregoiclusivo.co.mz",
                                 photoURL: doc.data().photoURL,
                                 phoneNumber: doc.data().phoneNumber,
                                 address: doc.data().address,
@@ -579,7 +579,7 @@ const actions = {
                             // If user desen't exist
                             const dataUser = {
                                 displayName: result.user.displayName,
-                                email: result.user.uid + "@superactive.com",
+                                email: result.user.uid + "@empregoiclusivo.co.mz",
                                 photoURL: result.user.photoURL,
                                 access: "",
                                 association: "",
@@ -627,7 +627,7 @@ const actions = {
     },
 
 
-    facebookSignIn ({ commit }) {
+    facebookSignIn({ commit }) {
         Loading.show()
         var provider = new firebase.auth.FacebookAuthProvider();
         const vm = this;
@@ -640,12 +640,12 @@ const actions = {
             var data = {};
 
 
-            const ref = firestoreDB.collection('users').doc(result.user.uid + "@superactive.com") // email is the key
+            const ref = firestoreDB.collection('users').doc(result.user.uid + "@empregoiclusivo.co.mz") // email is the key
             //   this.user = result.user
             const userData = {
                 displayName: result.user.displayName,
                 // email: result.user.email,
-                email: result.user.uid + "@superactive.com",
+                email: result.user.uid + "@empregoiclusivo.co.mz",
                 emailVerified: result.user.emailVerified,
                 phoneNumber: result.user.phoneNumber,
                 photoURL: result.user.photoURL,
@@ -666,7 +666,7 @@ const actions = {
                         access: doc.data().access,
                         association: doc.data().association,
                         displayName: doc.data().displayName,
-                        email: result.user.uid + "@superactive.com",
+                        email: result.user.uid + "@empregoiclusivo.co.mz",
                         photoURL: doc.data().photoURL,
                         phoneNumber: doc.data().phoneNumber,
                         address: doc.data().address,
@@ -690,7 +690,7 @@ const actions = {
                     // If user desen't exist
                     const dataUser = {
                         displayName: result.user.displayName,
-                        email: result.user.uid + "@superactive.com",
+                        email: result.user.uid + "@empregoiclusivo.co.mz",
                         photoURL: result.user.photoURL,
                         access: "",
                         association: "",
@@ -774,7 +774,7 @@ const actions = {
 
     // },
 
-    editUser ({ commit, dispatch }, payload) {
+    editUser({ commit, dispatch }, payload) {
         // Edit or add a user
         Loading.show()
         const ref = firestoreDB.collection('users').doc(payload.id) // email is the key
@@ -817,7 +817,7 @@ const actions = {
             })
     },
 
-    updateUser ({ commit, dispatch }, payload) {
+    updateUser({ commit, dispatch }, payload) {
         const vm = this;
         if (payload.img) {
             const data = {
@@ -858,7 +858,7 @@ const actions = {
         }
     },
 
-    detailUser ({ commit }, id) {
+    detailUser({ commit }, id) {
         // Details of a user
         const ref = firestoreDB.collection('users').doc(id)
         let data = {}
@@ -902,7 +902,7 @@ const actions = {
         })
     },
 
-    loginUser ({ commit }, payload) {
+    loginUser({ commit }, payload) {
         let vm = this;
         Loading.show()
         firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
@@ -956,7 +956,7 @@ const actions = {
             })
     },
 
-    loginUserr ({ commit }, payload) {
+    loginUserr({ commit }, payload) {
         Loading.show()
         firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
             .then((user) => {
@@ -1005,7 +1005,7 @@ const actions = {
             })
     },
 
-    checkAuthUser ({ commit }, route) {
+    checkAuthUser({ commit }, route) {
         if (!offline.data().isOnline) {
             // this.$router.go(-1)
             return showErrorMessage("Está sem internet")
@@ -1026,7 +1026,7 @@ const actions = {
         })
     },
 
-    signOut ({ commit }) {
+    signOut({ commit }) {
         Loading.show()
         const vm = this;
         firebaseAuth.signOut()
@@ -1051,7 +1051,7 @@ const actions = {
 
 
 
-    deleteUserr ({ commit }, payload) {
+    deleteUserr({ commit }, payload) {
         Loading.show()
         var docRef = firestoreDB.collection("users").doc("nelziositoe@gmail.com");
 
@@ -1069,7 +1069,7 @@ const actions = {
         });
     },
 
-    deleteUser ({ commit }, payload) {
+    deleteUser({ commit }, payload) {
         Loading.show()
         const vm = this;
         var user = firebase.auth().currentUser;
@@ -1304,7 +1304,7 @@ const actions = {
         }
     },
 
-    deleteVideoUser (id) {
+    deleteVideoUser(id) {
         deleteVideo(id, true)
     }
 

@@ -11,7 +11,9 @@
       <q-item
         role="group"
         lang="pt-PT"
-        :aria-label="'Anunciante do. ' + store.category + ': ' + user.displayName"
+        :aria-label="
+          'Anunciante do. ' + store.category + ': ' + user.displayName
+        "
       >
         <q-item-section avatar>
           <q-btn
@@ -36,24 +38,24 @@
         <q-item-section>
           <q-item-label>{{ user.displayName }}</q-item-label>
           <q-item-label
-            v-if="user.email.split('@')[user.email.split('@').length - 1] !== 'superactive.com'"
+            v-if="
+              user.email.split('@')[user.email.split('@').length - 1] !==
+              'empregoiclusivo.co.mz'
+            "
             caption
-          >{{ user.email }}</q-item-label>
+            >{{ user.email }}</q-item-label
+          >
         </q-item-section>
       </q-item>
 
       <!-- :src="store.img" -->
-      <q-skeleton
-        v-if="!imgLoaded"
-        height="230px"
-        square
-      />
+      <q-skeleton v-if="!imgLoaded" height="230px" square />
       <q-img
         v-ripple
         v-else-if="store.img && imgLoaded"
         :src="store.img"
-        style="min-height: 200px;"
-        @click="$router.push('/store/details/'+store.key)"
+        style="min-height: 200px"
+        @click="$router.push('/store/details/' + store.key)"
         role="img"
         :alt="'Imagem do ' + store.category"
         lang="pt-PT"
@@ -63,35 +65,33 @@
         v-ripple
         v-else
         src="statics/img/nophoto.png"
-        style="min-height: 200px;"
-        @click="$router.push('/store/details/'+store.key)"
+        style="min-height: 200px"
+        @click="$router.push('/store/details/' + store.key)"
         role="img"
-        :alt="'Imagem do '  + store.category"
+        :alt="'Imagem do ' + store.category"
         lang="pt-PT"
-        :aria-label="'Clicar para ir a página de detalhes do '  + store.category"
+        :aria-label="'Clicar para ir a página de detalhes do ' + store.category"
       />
 
       <q-card-section class="q-pb-none">
         <div :class="getFont.title">{{ store.title }}</div>
-        <div
-          v-if="store.price"
-          :class="getFont.title"
-        >{{ store.price }} MZN</div>
+        <div v-if="store.price" :class="getFont.title">
+          {{ store.price }} MZN
+        </div>
       </q-card-section>
 
-      <q-card-actions
-        align="right"
-        :title="store.key"
-      >
+      <q-card-actions align="right" :title="store.key">
         <q-btn
           rounded
           outline
           :color="darkModeConf.iconVar"
           icon="details"
           label="Detalhes"
-          :to="'/store/details/'+store.key"
+          :to="'/store/details/' + store.key"
           lang="pt-PT"
-          :aria-label="'Clicar para ir a página de detalhes do '  + store.category"
+          :aria-label="
+            'Clicar para ir a página de detalhes do ' + store.category
+          "
         />
       </q-card-actions>
     </q-card>
@@ -99,12 +99,12 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDB } from "../../boot/firebase";
+import { mapState, mapActions, mapGetters } from "vuex"
+import { firestoreDB } from "../../boot/firebase"
 export default {
   name: "StoreComponent",
   props: ["lorem", "store"],
-  data () {
+  data() {
     return {
       user: {
         displayName: "",
@@ -114,11 +114,11 @@ export default {
         address: "",
         profession: "",
         education: "",
-        date: ""
+        date: "",
       },
       lazyImages: [],
-      imgLoaded: false
-    };
+      imgLoaded: false,
+    }
   },
   computed: {
     ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
@@ -127,11 +127,11 @@ export default {
   methods: {
     ...mapActions("user", ["detailUser"]),
 
-    detailStoreUser (id) {
+    detailStoreUser(id) {
       // Details of a user
-      const ref = firestoreDB.collection("users").doc(id);
-      let data = {};
-      ref.get().then(doc => {
+      const ref = firestoreDB.collection("users").doc(id)
+      let data = {}
+      ref.get().then((doc) => {
         if (doc.exists) {
           this.user = {
             id: doc.id,
@@ -142,8 +142,8 @@ export default {
             address: doc.data().address,
             profession: doc.data().profession,
             education: doc.data().education,
-            date: doc.data().date
-          };
+            date: doc.data().date,
+          }
         } else {
           // If user desen't exist
           data = {
@@ -157,28 +157,28 @@ export default {
             place: "",
             subCategory: "",
             price: "",
-            priceVariable: false
-          };
+            priceVariable: false,
+          }
         }
-      });
+      })
     },
 
-    handleHold ({ evt, ...info }) {
+    handleHold({ evt, ...info }) {
       // console.log(info)
       // console.log(evt)
       if (this.vibrateState && this.getVibrate) {
         this.$root.$emit("textToSpeechStore", {
           store: this.store,
-          user: this.user.displayName
-        });
+          user: this.user.displayName,
+        })
       }
       // console.log(this.store)
     },
 
-    layzeImg () {
+    layzeImg() {
       if (!this.imgLoaded) {
         if (!(this.lazyImages == this.$refs.imgProduct)) {
-          this.lazyImages = this.$refs.imgProduct;
+          this.lazyImages = this.$refs.imgProduct
         }
 
         if (this.lazyImages) {
@@ -188,34 +188,34 @@ export default {
             getComputedStyle(this.lazyImages).display !== "none"
           ) {
             setTimeout(() => {
-              this.imgLoaded = true;
-            }, 1000);
+              this.imgLoaded = true
+            }, 1000)
           }
         }
       }
-    }
+    },
   },
 
-  mounted () {
+  mounted() {
     setTimeout(() => {
-      this.layzeImg();
-    }, 1000);
-    window.addEventListener("scroll", this.layzeImg);
-    window.addEventListener("resize", this.layzeImg);
-    window.addEventListener("orientationchange", this.layzeImg);
+      this.layzeImg()
+    }, 1000)
+    window.addEventListener("scroll", this.layzeImg)
+    window.addEventListener("resize", this.layzeImg)
+    window.addEventListener("orientationchange", this.layzeImg)
 
-    this.detailStoreUser(this.store.user);
+    this.detailStoreUser(this.store.user)
   },
 
   watch: {
-    store () {
-      this.layzeImg();
-      window.addEventListener("scroll", this.layzeImg);
-      window.addEventListener("resize", this.layzeImg);
-      window.addEventListener("orientationchange", this.layzeImg);
-    }
-  }
-};
+    store() {
+      this.layzeImg()
+      window.addEventListener("scroll", this.layzeImg)
+      window.addEventListener("resize", this.layzeImg)
+      window.addEventListener("orientationchange", this.layzeImg)
+    },
+  },
+}
 </script>
 
 <style scoped>

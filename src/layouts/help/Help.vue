@@ -24,7 +24,7 @@
           </q-btn> -->
           <router-link to="/">
             <img
-              src="statics/logo.png"
+              :src="appMode ? 'statics/logo.png' : 'statics/logodark.png'"
               style="width: 150px"
               alt="Logótipo"
               role="img"

@@ -4,7 +4,7 @@
     <q-header elevated height-hint="64">
       <q-toolbar
         :class="[darkModeConf.bgColor, darkModeConf.textColor]"
-        class="GPL__toolbar"
+        class="GPL__toolbar bg-primary"
         style="height: 64px"
       >
         <q-btn
@@ -85,7 +85,7 @@
             style="text-decoration: none"
           >
             <img
-              src="statics/logo.png"
+              :src="appMode ? 'statics/logo.png' : 'statics/logodark.png'"
               style="height: 50px"
               alt="Logótipo"
               role="img"
@@ -121,7 +121,7 @@
             style="text-decoration: none"
           >
             <img
-              src="statics/logo.png"
+              :src="appMode ? 'statics/logo.png' : 'statics/logodark.png'"
               style="height: 50px"
               alt="Logótipo"
               role="img"
@@ -518,7 +518,7 @@
             flat
             stack
             no-caps
-            size="35px"
+            size="30px"
             class="GPL__side-btn"
             to="/"
             :class="
@@ -541,7 +541,7 @@
             flat
             stack
             no-caps
-            size="35px"
+            size="30px"
             class="GPL__side-btn"
             :class="
               $route.path.split('/')[1] == 'vacancies'
@@ -564,7 +564,7 @@
             flat
             stack
             no-caps
-            size="35px"
+            size="30px"
             class="GPL__side-btn"
             :class="
               $route.path.split('/')[1] == 'store'
@@ -590,7 +590,7 @@
             flat
             stack
             no-caps
-            size="35px"
+            size="30px"
             class="GPL__side-btn"
             :class="
               $route.path.split('/')[1] == 'profile'
@@ -613,7 +613,7 @@
             flat
             stack
             no-caps
-            size="35px"
+            size="30px"
             class="GPL__side-btn"
             :class="
               $route.path.split('/')[1] == 'account'
@@ -635,7 +635,7 @@
             flat
             stack
             no-caps
-            size="35px"
+            size="30px"
             class="GPL__side-btn"
             :class="
               $route.path.split('/')[1] == 'settings'
@@ -658,7 +658,7 @@
             flat
             stack
             no-caps
-            size="35px"
+            size="30px"
             class="GPL__side-btn"
             :class="
               $route.path.split('/')[1] == 'admin'
@@ -1022,9 +1022,14 @@ export default {
 
     if (this.$route.path == "/store" || this.$route.path == "/vacancies")
       this.toSearch = true
+
+    console.log(this.$store.state.settings.appMode + "asas")
   },
 
   watch: {
+    appMode(val) {
+      console.log(val)
+    },
     $route(to, from) {
       // react to route changes...
       this.toSearch = false

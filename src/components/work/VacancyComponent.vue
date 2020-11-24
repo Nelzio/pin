@@ -39,7 +39,7 @@
           <q-item-label
             v-if="
               user.email.split('@')[user.email.split('@').length - 1] !==
-              'superactive.com'
+              'empregoiclusivo.co.mz'
             "
             caption
             >{{ user.email }}</q-item-label

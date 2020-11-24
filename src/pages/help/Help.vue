@@ -18,14 +18,23 @@
               Emprego Inclusivo
             </div>
             <div :class="getFont.text" class="text-justify">
-              Emprego Inclusivo é um aplicativo de oferta de emprego e de auto
-              empregabilidade.
-              <br />Os usuários podem encontrar e disponibilizar ofertas de
-              emprego e publicar seus produtos e serviços. <br />Existem dois
-              tipos de usuários no aplicativo, nomeadamente, usuários
-              particulares e entidades ou empresas ou organizações legais.
-              <br />O aplicativo foi feito especialmente para pessoas com
-              deficiência, não para pessoas com uma deficiência específica.
+              <p>
+                Emprego Inclusivo é um aplicativo de oferta de emprego e de auto
+                empregabilidade.
+              </p>
+              <p>
+                Os usuários podem encontrar e disponibilizar ofertas de emprego
+                e publicar seus produtos e serviços.
+              </p>
+              <p>
+                Existem dois tipos de usuários no aplicativo, nomeadamente,
+                usuários particulares e entidades ou empresas ou organizações
+                legais.
+              </p>
+              <p>
+                O aplicativo foi feito especialmente para pessoas com
+                deficiência no geral.
+              </p>
             </div>
           </q-card-section>
 
@@ -54,11 +63,11 @@
             </div>
             <div :class="getFont.text">
               Empresas podem publicar vagas de emprego e os usuários podem
-              facilmente encontre na plataforma. Apenas empresas autorizadas
+              facilmente encontrar na plataforma. Apenas empresas autorizadas
               podem divulgar vagas de emprego e elas serão aprovadas pela gestão
-              do aplicativo, a FAMOD. Todos os usuários podem se candidatar a
-              qualquer vaga disponível na plataforma e posteriormente serão
-              contactado para uma avaliação ou entrevista.
+              do aplicativo, o FAMOD. Todos os usuários com deficiência podem se
+              candidatar a qualquer vaga disponível na plataforma e
+              posteriormente serão contactado para uma avaliação ou entrevista.
             </div>
           </q-card-section>
         </q-card-section>
@@ -76,9 +85,9 @@
             </div>
             <div :class="getFont.text">
               Os usuários podem expor seus produtos e serviços e também
-              encontrar produtos e serviços de outros utilizadores da
-              plataforma. Pessoas sem deficiência podem usar o aplicativo para
-              poder requisitar produtos ou serviços de pessoas com deficiência.
+              encontrar produtos e serviços de outros usuários da plataforma.
+              Pessoas sem deficiência podem usar o aplicativo para poder
+              requisitar produtos e serviços de pessoas com deficiência.
             </div>
           </q-card-section>
           <q-card-section v-if="$q.screen.gt.sm" class="col-5 flex flex-center">
@@ -110,8 +119,8 @@
               A plataforma é inclusiva e tem recursos de acessibilidade
               indispensáveis. Pessoas com e sem deficiência podem usar a
               plataforma de igual forma, assim todos interagem e as diferenças
-              são eliminadas. Mas, somente pessoas com deficiência é que podem
-              fazer candidaturas a vagas, publicação de produtos e serviços.
+              são eliminadas. Mas, somente pessoas com deficiência podem fazer
+              candidaturas a vagas e podem publicar produtos e serviços.
             </div>
           </q-card-section>
         </q-card-section>

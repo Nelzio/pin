@@ -24,14 +24,14 @@
             </div>
             <div :class="getFont.text">
               A página de produtos e serviços lista todos os produtos e serviços
-              publicados pelos usuários da plataforma. É possível ver detalhes
-              dos produtos e serviços e na página de descrição do produto ou
-              serviço é possível contactar o provedor do produto ou serviço. Em
-              cada produto e serviço, aparece o seu provedor, os usuários podem
-              ver detalhes do perfil dos provedores clicando na sua imagem ou no
-              nome. Na página de perfil do provedor da vaga é possível contactar
-              e ver os produtos e serviços publicadas por um determinado
-              usuário.
+              publicados pelos usuários com deficiência da plataforma. É
+              possível ver detalhes dos produtos e serviços e na página de
+              descrição do produto ou serviço é possível contactar o provedor do
+              produto ou serviço. Em cada produto e serviço, aparece o seu
+              provedor, os usuários podem ver detalhes do perfil dos provedores
+              clicando na sua imagem ou no nome. Na página de perfil do provedor
+              da vaga é possível contactar e ver os produtos e serviços
+              publicadas por um determinado usuário.
             </div>
           </q-card-section>
         </q-card-section>
@@ -73,26 +73,27 @@
                 Na página de adição de vaga o usuário deve fornecer dados sobre
                 a vaga:
               </p>
-              <br />
-              <b>Imagem da vaga:</b> A imagem deve ser auto explicativa sobre a
-              o produto ou serviço para facilitar a compreensão dos usuários que
-              tenham alguma dificuldade de leitura.
+              <p>
+                <b>Imagem da vaga:</b> A imagem deve ser auto explicativa sobre
+                a o produto ou serviço para facilitar a compreensão dos usuários
+                que tenham alguma dificuldade de leitura.
+              </p>
 
-              <br />
-              <b>Título:</b> Título do produto ou serviço;
-              <br />
-              <b>Categoria:</b> Indica se é um produto ou serviço;
-              <br />
-              <b>Província:</b> Província em que o produto ou serviço está
-              disponível;
-              <br />
-              <b>Subcategoria:</b> Categoria do produto ou serviço;
-              <br />
-              <b>Preço:</b> O produto ou serviço pode ter um preço ou não e ser
-              negociável.
-              <br />
-              <b>Descrição:</b>
-              Descrição completa e clara sobre o produto ou serviço.
+              <p><b>Título:</b> Título do produto ou serviço;</p>
+              <p><b>Categoria:</b> Indica se é um produto ou serviço;</p>
+              <p>
+                <b>Província:</b> Província em que o produto ou serviço está
+                disponível;
+              </p>
+              <p><b>Subcategoria:</b> Categoria do produto ou serviço;</p>
+              <p>
+                <b>Preço:</b> O produto ou serviço pode ter um preço ou não e
+                ser negociável.
+              </p>
+              <p>
+                <b>Descrição:</b>
+                Descrição completa e clara sobre o produto ou serviço.
+              </p>
             </div>
           </q-card-section>
           <q-card-section v-if="$q.screen.gt.sm" class="col-5 flex flex-center">

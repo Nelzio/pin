@@ -21,8 +21,8 @@
           <q-card-section class="q-pt-xs text-justify">
             <div :class="getFont.title" class="q-mt-sm q-mb-xs">Perfil</div>
             <div :class="getFont.text">
-              No perfil é possível encontrar informações sobre o usuário como
-              dados pessoas e algumas actividades do usuário dentro da
+              No perfil é possível encontrar informações sobre o usuário, tais
+              como, dados pessoas e algumas actividades do usuário dentro da
               aplicação. Também é possível fazer a edição de perfil, adicionar
               vídeo e Curriculum vitae.
             </div>
@@ -106,8 +106,8 @@
               Adição, troca e remoção de curriculum vitae
             </div>
             <div :class="getFont.text">
-              Para adicionar CV basta clicar na aba Sobre logo depois depois do
-              nome e clicar no botão com três pontinhos no item
+              Para adicionar CV basta clicar na aba Sobre, depois do nome e
+              clicar no botão com três pontinhos no item
               <b>Curriculum</b> e escolher a opção desejada(Ver, Carregar ou
               Apagar.
             </div>

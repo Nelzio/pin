@@ -27,7 +27,7 @@
               na barra superior de navegação, ao lado de sua foto de perfil, um
               botão com o icon de mensagem
               <q-icon color="primary" size="md" name="chat" />. Clicando nele
-              será redirecionado a página que contem lista de conversa. O
+              será redirecionado a página que contem lista de conversas. O
               Usuário pode escolher uma das conversas e interagir com o outro
               usuário.
             </div>

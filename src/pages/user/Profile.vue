@@ -96,7 +96,7 @@
                     v-if="
                       getUser.email.split('@')[
                         getUser.email.split('@').length - 1
-                      ] !== 'superactive.com'
+                      ] !== 'empregoiclusivo.co.mz'
                     "
                     spaced
                     inset="item"
@@ -106,7 +106,7 @@
                     v-if="
                       getUser.email.split('@')[
                         getUser.email.split('@').length - 1
-                      ] !== 'superactive.com'
+                      ] !== 'empregoiclusivo.co.mz'
                     "
                     class="text-left"
                   >

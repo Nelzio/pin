@@ -44,7 +44,7 @@
       </q-carousel-slide>
       <q-carousel-slide name="segundo" class="column no-wrap flex-center">
         <q-btn round color="white" size="39px">
-          <q-icon color="primary" name="work" size="96px" />
+          <q-icon color="secondary" name="work" size="96px" />
         </q-btn>
         <div class="q-mt-md text-center text-white q-gutter-y-sm">
           <div class="text-h4">Emprego</div>
@@ -53,7 +53,7 @@
       </q-carousel-slide>
       <q-carousel-slide name="terceiro" class="column no-wrap flex-center">
         <q-btn round color="white" size="39px">
-          <q-icon color="primary" name="store" size="96px" />
+          <q-icon color="secondary" name="store" size="96px" />
         </q-btn>
         <div class="q-mt-md text-center text-white q-gutter-y-sm">
           <div class="text-h4">Negócio</div>

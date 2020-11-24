@@ -145,6 +145,7 @@ export default {
 
     setStoreProfileType(type) {
       LocalStorage.set("profileType", type)
+      LocalStorage.set("routeBack", "back2times")
       this.$router.push("/account/createnew")
     },
 

@@ -35,7 +35,7 @@
           <!-- <q-btn flat round to="/" style="margin: 0">
             <img src="statics/img/home/appLogo.png" style="height: 35px" />
           </q-btn> -->
-          <span class="q-ml-sm">
+          <!-- <span class="q-ml-sm">
             <q-icon
               color="primary"
               name="img:statics/app-icon.png"
@@ -45,7 +45,13 @@
               aria-label="Imagem"
             />
             Emprego Inclusivo | Ajuda Admin</span
-          >
+          > -->
+          <img
+            :src="appMode ? 'statics/logo.png' : 'statics/logodark.png'"
+            style="width: 150px"
+            alt="Logótipo"
+            role="img"
+          />
         </q-toolbar-title>
 
         <q-space />
