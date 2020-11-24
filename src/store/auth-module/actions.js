@@ -148,10 +148,14 @@ export function uploadAuxFunc({ commit }, payload) {
                                 // console.log("Updated")
                                 if (LocalStorage.getItem("routeBack")) {
                                     payload.vm.$router.push("/")
+                                    LocalStorage.set("newUser", 1)
+                                    payload.vm.$router.push("/profile")
                                     // payload.vm.$router.push(LocalStorage.getItem("routeBack"))
                                     Loading.hide()
                                 } else {
                                     payload.vm.$router.push('/')
+                                    LocalStorage.set("newUser", 1)
+                                    payload.vm.$router.push("/profile")
                                     Loading.hide()
                                 }
                             })
@@ -248,11 +252,13 @@ export function registerUser({ commit, dispatch }, payload) {
 
                                 Notify.create('A sua conta foi criada com sucesso!')
                                 if (LocalStorage.getItem("routeBack")) {
-                                    vm.$router.push("/")
+                                    LocalStorage.set("newUser", 1)
+                                    vm.$router.push("/profile")
                                     // vm.$router.push(LocalStorage.getItem("routeBack"))
                                     Loading.hide()
                                 } else {
-                                    vm.$router.push('/')
+                                    LocalStorage.set("newUser", 1)
+                                    vm.$router.push("/profile")
                                     Loading.hide()
                                 }
                             })
@@ -376,12 +382,14 @@ export function googleSignInCordova({ commit }) {
                             if (LocalStorage.getItem("routeBack")) {
                                 // // alert("4Problem here");
                                 // vm.$router.go(-1);
-                                vm.$router.push("/")
+                                LocalStorage.set("newUser", 1)
+                                vm.$router.push("/profile")
                                 // vm.$router.push(LocalStorage.getItem("routeBack"))
                                 LocalStorage.set("routeBack", "")
                                 Loading.hide()
                             } else {
-                                vm.$router.push("/")
+                                LocalStorage.set("newUser", 1)
+                                vm.$router.push("/profile")
                                 Loading.hide()
                             }
                         })
@@ -413,6 +421,7 @@ export function googleSignInCordova({ commit }) {
 
 export function googleSignIn({ commit }) {
     Loading.show()
+    const vm = this
     const provider = new firebase.auth.GoogleAuthProvider()
     // if(window.hasOwnProperty("cordova")){
     //     var signInMethod = firebase.auth().signInWithRedirect
@@ -498,13 +507,15 @@ export function googleSignIn({ commit }) {
                 ref.set(dataUser).then((docRef) => {
                     console.log("Updated")
                     if (LocalStorage.getItem("routeBack")) {
-                        this.$router.go(-1);
+                        LocalStorage.set("newUser", 1)
+                        vm.$router.push("/profile")
                         // this.$router.push("/")
                         // this.$router.push(LocalStorage.getItem("routeBack"))
                         LocalStorage.set("routeBack", "")
                         Loading.hide()
                     } else {
-                        this.$router.push("/")
+                        LocalStorage.set("newUser", 1)
+                        vm.$router.push("/profile")
                         Loading.hide()
                     }
                 })
@@ -616,12 +627,14 @@ export function facebookSignInCordova({ commit }) {
                             // console.log("Updated")
                             commit('SET_USER_DATA', dataUser);
                             if (LocalStorage.getItem("routeBack")) {
-                                vm.$router.push("/")
+                                LocalStorage.set("newUser", 1)
+                                vm.$router.push("/profile")
                                 // vm.$router.push(LocalStorage.getItem("routeBack"))
                                 LocalStorage.set("routeBack", "")
                                 Loading.hide()
                             } else {
-                                vm.$router.push("/")
+                                LocalStorage.set("newUser", 1)
+                                vm.$router.push("/profile")
                                 Loading.hide()
                             }
                         })
@@ -739,12 +752,14 @@ export function facebookSignIn({ commit }) {
                     // console.log("Updated")
                     commit('SET_USER_DATA', dataUser);
                     if (LocalStorage.getItem("routeBack")) {
-                        vm.$router.push("/")
+                        LocalStorage.set("newUser", 1)
+                        vm.$router.push("/profile")
                         // vm.$router.push(LocalStorage.getItem("routeBack"))
                         LocalStorage.set("routeBack", "")
                         Loading.hide()
                     } else {
-                        vm.$router.push("/")
+                        LocalStorage.set("newUser", 1)
+                        vm.$router.push("/profile")
                         Loading.hide()
                     }
                 })
@@ -1084,12 +1099,13 @@ export function checkAuthUser({ commit }, route) {
 export function signOut({ commit }) {
     Loading.show()
     const vm = this;
+    commit('SET_AUTH_USER', false)
+    commit('AUTH_USER', null)
+    commit('SET_USER_DATA', null)
+    vm.$router.push('/')
     firebaseAuth.signOut()
         .then(() => {
             vm.$router.push('/')
-            commit('SET_AUTH_USER', false)
-            commit('AUTH_USER', null)
-            commit('SET_USER_DATA', null)
             Loading.hide()
         })
 }

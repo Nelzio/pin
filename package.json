@@ -1,8 +1,8 @@
 {
-  "name": "Superativo",
+  "name": "emprego_enclusivo",
   "version": "0.0.1",
   "description": "App de inclusão no mercado de oportunidades",
-  "productName": "Superativo",
+  "productName": "Emprego Inclusivo",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
   "author": "Nélzio Sitoe <nelziositoe@gmail.com>",

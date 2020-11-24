@@ -30,16 +30,16 @@
         <q-btn round color="white" size="39px">
           <q-icon
             color="primary"
-            name="img:statics/img/home/appLogoHome.png"
-            size="96px"
+            name="img:statics/app-icon.png"
+            size="80px"
             role="img"
             lang="pt-PT"
             aria-label="Imagem"
           />
         </q-btn>
         <div class="q-mt-md text-center text-white q-gutter-y-sm" role="group">
-          <div class="text-h4">Superativo</div>
-          <div class="text-h6">Bem-vindo a plataforma Superativo.</div>
+          <div class="text-h4">Emprego Inclusivo</div>
+          <div class="text-h6">Bem-vindo a plataforma Emprego Inclusivo.</div>
         </div>
       </q-carousel-slide>
       <q-carousel-slide name="segundo" class="column no-wrap flex-center">
@@ -164,7 +164,7 @@ export default {
       lorem:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       textToSpeechRouter:
-        "Bem-vindo a plataforma Superativo. Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Para desativar o modo de narração e vibração, vai até a página de preferências ou clique no botão de audio no canto inferior direito da tela e desabilite o.\n Para repetir o áudio, clique no botão Ouvir Audio.",
+        "Bem-vindo a plataforma Emprego Inclusivo. Encontre vagas de emprego, divulgue seus produtos e serviços nesta plataforma mais inclusiva de Moçambique.\n Para desativar o modo de narração e vibração, vai até a página de preferências ou clique no botão de audio no canto inferior direito da tela e desabilite o.\n Para repetir o áudio, clique no botão Ouvir Audio.",
     }
   },
   computed: {

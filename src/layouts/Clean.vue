@@ -15,7 +15,9 @@
           lang="pt-PT"
           aria-label="Voltar a página anterior"
         />
-        <q-toolbar-title class="text-center text-primary text-h6">Superativo | Conta</q-toolbar-title>
+        <q-toolbar-title class="text-center text-primary text-h6"
+          >Emprego Inclusivo | Conta</q-toolbar-title
+        >
         <!-- <q-btn
           flat
           round
@@ -34,40 +36,40 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex"
 export default {
   // name: 'LayoutName',
 
-  data () {
+  data() {
     return {
       backPage: false,
       bgColor: "bg-white",
       textColor: "text-black",
-      color: "black"
-    };
+      color: "black",
+    }
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"])
+    ...mapState("settings", ["appMode", "darkModeConf"]),
   },
   methods: {
-    darkMode () {
+    darkMode() {
       if (this.appMode) {
-        this.$q.dark.set(false);
+        this.$q.dark.set(false)
       } else {
-        this.$q.dark.set(true);
+        this.$q.dark.set(true)
       }
-    }
+    },
   },
-  mounted () {
-    if (this.$route.path !== "/account") this.backPage = true;
-    this.darkMode();
+  mounted() {
+    if (this.$route.path !== "/account") this.backPage = true
+    this.darkMode()
   },
   watch: {
-    $route (to, from) {
+    $route(to, from) {
       // react to route changes...
-      this.backPage = false;
-      if (to.path !== "/account") this.backPage = true;
-    }
-  }
-};
+      this.backPage = false
+      if (to.path !== "/account") this.backPage = true
+    },
+  },
+}
 </script>

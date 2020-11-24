@@ -12,7 +12,14 @@
         <div class="text-center">
           <q-avatar size="100px">
             <q-img
+              v-if="getUser.photoURL"
               :src="getUser.photoURL"
+              spinner-color="white"
+              alt="Imagem de perfil"
+              role="img"
+            />
+            <q-img
+              src="statics/img/avataruser.png"
               spinner-color="white"
               alt="Imagem de perfil"
               role="img"

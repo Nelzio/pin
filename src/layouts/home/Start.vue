@@ -10,7 +10,7 @@
         <q-btn color="white" round>
           <q-img src="statics/app-logo-128x128.png" style="height: 50px" alt="">
         </q-btn>
-        Superativo</q-toolbar-title>
+        Emprego Inclusivo</q-toolbar-title>
       </q-toolbar>
     </q-header>-->
     <!-- <q-header height-hint="64">
@@ -18,7 +18,7 @@
         <q-toolbar-title class="text-center">
           <q-avatar class="bg-white">
             <q-img src="statics/app-logo-128x128.png" />
-          </q-avatar>Superativo
+          </q-avatar>Emprego Inclusivo
         </q-toolbar-title>
       </q-toolbar>
     </q-header> -->
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { LocalStorage } from "quasar";
+import { LocalStorage } from "quasar"
 export default {
   // name: 'LayoutName',
 
@@ -47,10 +47,10 @@ export default {
       backIcon: false,
       tab: "home",
       navtab: "list",
-      isHome: "Início"
-    };
-  }
-};
+      isHome: "Início",
+    }
+  },
+}
 </script>
 
 <style lang="sass">

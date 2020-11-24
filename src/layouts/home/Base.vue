@@ -8,8 +8,8 @@
         style="height: 64px"
       >
         <q-btn
-          @click="$router.go(-1)"
-          v-if="backIcon"
+          @click="redirectNewUser()"
+          v-if="newUser == 1"
           :color="darkModeConf.iconVar"
           flat
           dense
@@ -20,6 +20,20 @@
           lang="pt-PT"
           aria-label="Voltar a página anterior"
         />
+        <q-btn
+          @click="$router.go(-1)"
+          v-else-if="backIcon"
+          :color="darkModeConf.iconVar"
+          flat
+          dense
+          round
+          icon="arrow_back"
+          size="lg"
+          role="button"
+          lang="pt-PT"
+          aria-label="Voltar a página anterior"
+        />
+
         <!-- <q-btn
           to="/"
           v-if="$route.path == '/' && !$q.screen.gt.sm"
@@ -62,35 +76,28 @@
           shrink
           class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font"
         >
-          <q-btn
-            flat
-            round
-            to="/"
-            role="link"
-            lang="pt-PT"
-            aria-label="página inicial"
-          >
-            <q-img
-              src="statics/img/home/appLogo.png"
-              style="height: 50px"
-              alt="Logótipo"
-              role="img"
-            />
-          </q-btn>
           <router-link
             class="text-primary"
             to="/"
             role="link"
+            lang="pt-PT"
+            aria-label="Link para a página inicial"
             style="text-decoration: none"
-            >Superativo</router-link
           >
+            <img
+              src="statics/logo.png"
+              style="height: 50px"
+              alt="Logótipo"
+              role="img"
+            />
+          </router-link>
         </q-toolbar-title>
         <q-toolbar-title
           shrink
           class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font"
           v-else
         >
-          <q-btn
+          <!-- <q-btn
             flat
             round
             to="/"
@@ -99,12 +106,12 @@
             aria-label="Link para a página inicial"
           >
             <q-img
-              src="statics/img/home/appLogo.png"
+              src="statics/logo.png"
               style="height: 50px"
               alt="Logótipo"
               role="img"
             />
-          </q-btn>
+          </q-btn> -->
           <router-link
             class="text-primary"
             to="/"
@@ -112,8 +119,14 @@
             lang="pt-PT"
             aria-label="Link para a página inicial"
             style="text-decoration: none"
-            >Superativo</router-link
           >
+            <img
+              src="statics/logo.png"
+              style="height: 50px"
+              alt="Logótipo"
+              role="img"
+            />
+          </router-link>
         </q-toolbar-title>
 
         <q-space />
@@ -170,7 +183,8 @@
             aria-label="Ver Perfil"
           >
             <q-avatar>
-              <q-img :src="user.photoURL" />
+              <q-img v-if="user.photoURL" :src="user.photoURL" />
+              <q-img src="statics/img/avataruser.png" />
             </q-avatar>
           </q-btn>
           <q-btn
@@ -237,50 +251,6 @@
     <q-footer
       elevated
       :class="[darkModeConf.bgColor, darkModeConf.textColor]"
-      v-if="!$q.screen.gt.sm && !backIcon && false"
-    >
-      <q-tabs
-        :active-color="darkModeConf.iconVar"
-        align="justify"
-        indicator-color="transparent"
-        class="text-grey"
-        role="navigation"
-      >
-        <q-route-tab
-          name="home"
-          icon="home"
-          to="/"
-          lang="pt-PT"
-          aria-label="Home page"
-        />
-        <q-route-tab
-          name="trabalho"
-          icon="work"
-          to="/vacancies"
-          lang="pt-PT"
-          aria-label="Botão para página de vagas"
-        />
-        <q-route-tab
-          name="store"
-          icon="store"
-          to="/store"
-          lang="pt-PT"
-          aria-label="Botão para página de negócio"
-        />
-        <q-route-tab
-          name="settings"
-          icon="settings"
-          to="/settings"
-          lang="pt-PT"
-          aria-label="Botão para página de configurações"
-        />
-        <!--<q-route-tab name="profile" icon="person" to="/profile" />-->
-      </q-tabs>
-    </q-footer>
-
-    <q-footer
-      elevated
-      :class="[darkModeConf.bgColor, darkModeConf.textColor]"
       v-if="!$q.screen.gt.sm && !backIcon"
       class="q-pt-xs q-pb-xs"
     >
@@ -292,7 +262,7 @@
           "
           class="col-3 text-center"
           lang="pt-PT"
-          aria-label="Home page"
+          aria-label="Botão para página inicial"
         >
           <q-icon name="home" size="md" />
         </router-link>
@@ -725,6 +695,7 @@ export default {
 
   data() {
     return {
+      newUser: 0,
       readed: false,
       textColor: "text-black",
       numStatusVibrate: 0,
@@ -842,6 +813,20 @@ export default {
   methods: {
     ...mapActions("auth", ["signOut"]),
     ...mapActions("settings", ["setAppMode"]),
+
+    isNewUser() {
+      if (LocalStorage.getItem("newUser")) {
+        this.newUser = LocalStorage.getItem("newUser")
+        this.backIcon = false
+      }
+    },
+
+    redirectNewUser() {
+      console.log("Este")
+      LocalStorage.set("newUser", 0)
+      this.newUser = 0
+      this.$router.push("/")
+    },
 
     backIconFunc(to) {
       // active/ deactivate icon
@@ -1015,6 +1000,8 @@ export default {
     if (this.user && this.isUserAuth) {
       this.getChat(vm)
     }
+
+    this.isNewUser()
 
     // // // // // this.$root.$on("countMessages", val => {
     // // // // //   // this.getChat(vm);

@@ -20,7 +20,10 @@
               socialShare(
                 'https://hack-a2a7b.firebaseapp.com/store/details/' +
                   getStore.key,
-                { title: 'Superativo Store', description: getStore.title }
+                {
+                  title: 'Emprego Inclusivo Store',
+                  description: getStore.title,
+                }
               )
             "
             outline
@@ -41,8 +44,8 @@
                 'https://hack-a2a7b.firebaseapp.com/store/details/' +
                 getStore.key
               "
-              title="Superativo Store"
-              description="Superativo Store"
+              title="Emprego Inclusivo Store"
+              description="Emprego Inclusivo Store"
               :quote="getStore.title"
               inline-template
             >

@@ -333,7 +333,6 @@ export default {
     this.listVacancy()
   },
   mounted() {
-    console.log(this.userData)
     // this.lazeItems();
     this.first = true
     // this.firstLoad();

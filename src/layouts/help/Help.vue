@@ -19,10 +19,16 @@
         />
 
         <q-toolbar-title shrink class="row items-center no-wrap">
-          <q-btn flat round to="/" style="margin: 0">
+          <!-- <q-btn flat round to="/" style="margin: 0">
             <img src="statics/img/home/appLogo.png" style="height: 35px" />
-          </q-btn>
-          <span class="q-ml-sm">Superativo | Ajuda</span>
+          </q-btn> -->
+          <router-link to="/">
+            <img
+              src="statics/logo.png"
+              style="width: 150px"
+              alt="Logótipo"
+              role="img"
+          /></router-link>
         </q-toolbar-title>
 
         <q-space />
@@ -147,7 +153,7 @@ export default {
           icon: "web",
           text: "Overview",
           to: "/help",
-          img: "statics/img/home/appLogo.png",
+          img: "statics/app-icon.png",
         },
         { icon: "home", text: "Página Inicial", to: "/help/home" },
         { icon: "work", text: "Vagas", to: "/help/vacancies" },

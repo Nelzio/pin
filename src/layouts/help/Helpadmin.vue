@@ -32,10 +32,20 @@
         />
 
         <q-toolbar-title shrink class="row items-center no-wrap">
-          <q-btn flat round to="/" style="margin: 0">
+          <!-- <q-btn flat round to="/" style="margin: 0">
             <img src="statics/img/home/appLogo.png" style="height: 35px" />
-          </q-btn>
-          <span class="q-ml-sm">Superativo | Ajuda Admin</span>
+          </q-btn> -->
+          <span class="q-ml-sm">
+            <q-icon
+              color="primary"
+              name="img:statics/app-icon.png"
+              size="80px"
+              role="img"
+              lang="pt-PT"
+              aria-label="Imagem"
+            />
+            Emprego Inclusivo | Ajuda Admin</span
+          >
         </q-toolbar-title>
 
         <q-space />

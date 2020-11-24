@@ -15,10 +15,10 @@
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs">
             <div :class="getFont.title" class="q-mt-sm q-pt-xs text-justify">
-              Superativo
+              Emprego Inclusivo
             </div>
             <div :class="getFont.text" class="text-justify">
-              Superativo é um aplicativo de oferta de emprego e de auto
+              Emprego Inclusivo é um aplicativo de oferta de emprego e de auto
               empregabilidade.
               <br />Os usuários podem encontrar e disponibilizar ofertas de
               emprego e publicar seus produtos e serviços. <br />Existem dois

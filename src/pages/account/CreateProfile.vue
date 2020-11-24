@@ -56,13 +56,14 @@
         rounded
         size="lg"
         class="full-width btn-fixed-width"
-        label="Email"
-        icon="email"
         to="/account/create"
         role="button"
         lang="pt-PT"
         aria-label="Entrar com Email"
-      />
+      >
+        <q-icon :color="darkModeConf.iconVar" name="email" />
+        <div>Email</div>
+      </q-btn>
     </div>
     <!-- <div class="row justify-center">
       <div class="col-12 q-pa-lg">
