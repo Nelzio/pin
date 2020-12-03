@@ -49,6 +49,7 @@
 
                   <q-item-section side>
                     <q-toggle
+                      @input="soundOnStart = vibrateMode"
                       :color="darkModeConf.icon"
                       v-model="vibrateMode"
                       lang="pt-PT"
@@ -364,6 +365,7 @@ export default {
     return {
       mode: true,
       dialogAddProfile: false,
+      soundOnStart: false,
       vibrateMode: false,
       deletDialog: false,
       logOutDialog: false,
@@ -464,6 +466,7 @@ export default {
     }
     if (this.vibrateState == 1) {
       this.vibrateMode = true
+      this.soundOnStart = false
     } else {
       this.vibrateMode = false
     }
@@ -496,9 +499,20 @@ export default {
     mode() {
       this.darkMode()
     },
-
-    vibrateMode() {
+    vibrateMode(val) {
+      const vm = this
       this.vibrateApp()
+
+      if (val && this.soundOnStart) {
+        setTimeout(() => {
+          if (window.hasOwnProperty("cordova")) {
+            navigator.vibrate(200)
+          } else {
+            window.navigator.vibrate(200)
+          }
+          vm.$root.$emit("textToSpeechRouter", "Modo acessibilidade ativado.")
+        }, 100)
+      }
     },
 
     fontConfig() {

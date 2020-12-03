@@ -4,14 +4,10 @@
       <q-card class="my-card" flat>
         <!-- <q-video
           v-if="!$q.screen.gt.sm"
-          src="https://www.youtube.com/embed/h9ll1gwwahQ"
+          :src="videoUrl"
           :ratio="16/9"
         /> -->
-        <q-video
-          v-if="!$q.screen.gt.sm"
-          src="https://www.youtube.com/embed/6mKt3z4ysuA"
-          :ratio="16 / 9"
-        />
+        <q-video v-if="!$q.screen.gt.sm" :src="videoUrl" :ratio="16 / 9" />
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs">
             <div :class="getFont.title" class="q-mt-sm q-pt-xs text-justify">
@@ -39,11 +35,8 @@
           </q-card-section>
 
           <q-card-section v-if="$q.screen.gt.sm" class="col-7">
-            <!-- <q-video src="https://www.youtube.com/embed/h9ll1gwwahQ" :ratio="16/9" /> -->
-            <q-video
-              src="https://www.youtube.com/embed/6mKt3z4ysuA"
-              :ratio="16 / 9"
-            />
+            <!-- <q-video :src="videoUrl" :ratio="16/9" /> -->
+            <q-video :src="videoUrl" :ratio="16 / 9" />
           </q-card-section>
         </q-card-section>
       </q-card>
@@ -131,14 +124,31 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex"
+import { firestoreDB } from "boot/firebase"
 export default {
   // name: 'PageName',
+  data() {
+    return {
+      videoUrl: "",
+    }
+  },
   computed: {
     ...mapState("settings", ["vibrateState", "homeSpeak"]),
     ...mapGetters("settings", ["getFont", "getStart", "getVibrate"]),
   },
+  methods: {
+    getVideo() {
+      const ref = firestoreDB.collection("videos").doc("docvideo")
+      ref.get().then((doc) => {
+        if (doc.exists) {
+          this.videoUrl = doc.data().videolink
+        }
+      })
+    },
+  },
   mounted() {
     // console.log(this.$q.screen.lt);
+    this.getVideo()
   },
 }
 </script>

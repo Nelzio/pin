@@ -1,43 +1,39 @@
 <template>
   <div v-if="chartData.length">
-    <div class="q-pl-xl">
-      Candidaturas
-    </div>
-    <GChart
-      type="AreaChart"
-      :data="chartData"
-      :options="chartOptions"
-    />
+    <div class="q-pl-xl">Candidaturas</div>
+    <GChart type="AreaChart" :data="chartData" :options="chartOptions" />
   </div>
 </template>
 
 <script>
-import { GChart } from 'vue-google-charts'
+import { GChart } from "vue-google-charts"
 export default {
   props: ["vacancies"],
-  data () {
+  data() {
     return {
       // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [],
       chartOptions: {
-        hAxis: { title: 'Year', titleTextStyle: { color: '#008080' } },
-        vAxis: { minValue: 0 }
-      }
+        hAxis: { title: "Year", titleTextStyle: { color: "#008080" } },
+        vAxis: { minValue: 0 },
+      },
     }
   },
   components: {
-    GChart
+    GChart,
   },
   methods: {
-    getDatesApplies () {
-      let dates = [['Year', 'Cadastros']]
+    getDatesApplies() {
+      let dates = [["Year", "Cadastros"]]
       let datesAux = []
       for (let index = 0; index < this.vacancies.length; index++) {
-        const vacancy = this.vacancies[index];
+        const vacancy = this.vacancies[index]
         for (let index = 0; index < vacancy.candidates.length; index++) {
-          const candidate = vacancy.candidates[index];
-          const date = new Date(candidate.submittedDate)
-          const formatDate = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear()
+          const candidate = vacancy.candidates[index]
+          const date = new Date(candidate.submittedDate.seconds * 1000) // timestamp to date
+          const formatDate =
+            date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear()
+
           if (datesAux.includes(formatDate)) {
             // console.log(datesAux.indexOf(formatDate))
             // console.log(dates[datesAux.indexOf(formatDate)])
@@ -49,21 +45,20 @@ export default {
         }
       }
       if (dates.length > 1) this.chartData = dates
-    }
+    },
   },
-  mounted () {
+  mounted() {
     if (this.vacancies) this.getDatesApplies()
   },
   watch: {
-    vacancies (val) {
+    vacancies(val) {
       if (val.length) {
         this.getDatesApplies()
       } else {
         this.chartData = []
       }
     },
-
-  }
+  },
 }
 </script>
 

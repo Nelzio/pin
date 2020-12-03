@@ -435,7 +435,7 @@ export default {
           this.zoomVal.width = window.innerWidth
         }
         this.numForZoo = 0
-        console.log(this.zoomVal)
+        // console.log(this.zoomVal)
       }
       setTimeout(() => {
         vm.numForZoo = 0
@@ -489,9 +489,9 @@ export default {
             user: doc.data().user,
             from: doc.data().from,
           }
-          console.log(doc.data().from)
+          // console.log(doc.data().from)                                       
 
-          console.log(vm.videoDownload)
+          // console.log(vm.videoDownload)                                        
           // vm.video.sources[0].src = doc.data().videoUrl
           // Loading.hide()
         } else {

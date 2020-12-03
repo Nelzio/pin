@@ -6,56 +6,50 @@
 </template>
 
 <script>
-import { LocalStorage } from "quasar";
-import offline from "v-offline";
-import { mapState, mapActions } from "vuex";
+import { LocalStorage } from "quasar"
+import offline from "v-offline"
+import { mapState, mapActions } from "vuex"
 export default {
   name: "App",
   components: {
-    offline
+    offline,
   },
-  data () {
-    return {
-    };
+  data() {
+    return {}
   },
   computed: {
-    ...mapState("settings", ["appMode", "darkModeConf"])
+    ...mapState("settings", ["appMode", "darkModeConf"]),
   },
   methods: {
     ...mapActions("settings", ["setSettings", "setIsConected", "setVibrate"]),
     ...mapActions("auth", ["checkAuthUser"]),
   },
-  created () {
+  created() {
     // Verificando se o utilizador tem configurações no LocalStorage
     // // let settings = this.$q.localStorage.getItem("stgs");
     // // let appMode = this.$q.localStorage.getItem("appMode");
 
-
-
     if (this.darkModeConf.bgColor == "bg-white") {
-
       if (window.hasOwnProperty("cordova")) {
-        StatusBar.backgroundColorByHexString("#075e54");
-        StatusBar.styleBlackOpaque();
+        StatusBar.backgroundColorByHexString("#001f28")
+        StatusBar.styleBlackOpaque()
       } else {
-        this.$q.addressbarColor.set("#075e54");
+        this.$q.addressbarColor.set("#001f28")
       }
     } else {
-
       if (window.hasOwnProperty("cordova")) {
-        StatusBar.backgroundColorByHexString("#000");
-        StatusBar.styleBlackOpaque();
+        StatusBar.backgroundColorByHexString("#000")
+        StatusBar.styleBlackOpaque()
       } else {
-        this.$q.addressbarColor.set("#000");
+        this.$q.addressbarColor.set("#000")
       }
     }
 
-
     // this.checkAuthUser ()
   },
-  mounted () {
+  mounted() {
     if (this.$route.path == "/welcome") {
-      this.$q.addressbarColor.set("#075e54");
+      this.$q.addressbarColor.set("#001f28")
     }
 
     if (LocalStorage.getItem("vibrate") !== null) {
@@ -70,35 +64,35 @@ export default {
     // }
   },
   watch: {
-    darkModeConf (val) {
+    darkModeConf(val) {
       if (this.$route.path == "/welcome") {
-        this.$q.addressbarColor.set("#075e54");
+        this.$q.addressbarColor.set("#001f28")
       } else {
         if (val.bgColor == "bg-white") {
           if (window.hasOwnProperty("cordova")) {
-            StatusBar.backgroundColorByHexString("#075e54");
-            StatusBar.styleBlackOpaque();
+            StatusBar.backgroundColorByHexString("#001f28")
+            StatusBar.styleBlackOpaque()
           } else {
-            this.$q.addressbarColor.set("#075e54");
+            this.$q.addressbarColor.set("#001f28")
           }
         } else {
           if (window.hasOwnProperty("cordova")) {
-            StatusBar.backgroundColorByHexString("#000000");
-            StatusBar.styleBlackOpaque();
+            StatusBar.backgroundColorByHexString("#000000")
+            StatusBar.styleBlackOpaque()
           } else {
-            this.$q.addressbarColor.set("#000000");
+            this.$q.addressbarColor.set("#000000")
           }
         }
       }
-    }
+    },
   },
 
-  $route (to, from) {
+  $route(to, from) {
     if (this.$route.path == "/welcome") {
-      this.$q.addressbarColor.set("#075e54");
+      this.$q.addressbarColor.set("#001f28")
     }
   },
-};
+}
 </script>
 
 <style scoped>

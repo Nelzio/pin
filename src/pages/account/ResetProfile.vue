@@ -96,6 +96,20 @@
               role="combobox"
             />
           </div>
+          <div v-if="userEdit.association.value == 'other'">
+            <q-input
+              rounded
+              outlined
+              v-model="userAssociation"
+              type="text"
+              label="Associação"
+              lazy-rules
+              :rules="[
+                (val) =>
+                  (val && val.length > 0) || 'Introduza a sua associação',
+              ]"
+            />
+          </div>
           <div>
             <q-input
               rounded
@@ -318,6 +332,7 @@ export default {
       prof: "Pedreiro",
       gender: "",
       profession: "Pedreiro",
+      userAssociation: "",
       userEdit: {
         displayName: "",
         email: "",
@@ -366,32 +381,55 @@ export default {
       this.$refs.bar.start()
       const ref = firestoreDB.collection("associations")
       let associations = []
+      associations.push({ label: "Nenhuma", value: "neither" })
       ref.get().then((docs) => {
         docs.forEach((doc) => {
           associations.push({ label: doc.data().name, value: doc.id })
         })
+        associations.push({ label: "Outra", value: "other" })
         vm.associations = associations
         vm.$refs.bar.stop()
       })
     },
     getUser() {
       // first get user
-      this.userEdit.profession = this.userData.profession
-      this.userEdit.displayName = this.userData.displayName
-      this.userEdit.email = this.userData.email
+      // this.userEdit.profession = this.userData.profession
+      // this.userEdit.displayName = this.userData.displayName
+      // this.userEdit.email = this.userData.email
+      // this.userEdit.access = this.userData.access
+      // this.userEdit.gender = this.userData.gender
+      // this.userEdit.association = this.userData.association
+      // this.userEdit.registrationDate = this.userData.registrationDate
+      // this.userEdit.deficiency = this.userData.deficiency
+      // this.userEdit.photoURL = this.userData.photoURL
+      // this.userEdit.phoneNumber = this.userData.phoneNumber
+      // this.userEdit.address = this.userData.address
+      // this.userEdit.place = this.userData.place
+      // this.userEdit.education = this.userData.education
+      // this.userEdit.profileType = this.userData.profileType
+      // this.userEdit.description = this.userData.description
+      // this.userEdit.date = this.userData.date
+
       this.userEdit.access = this.userData.access
-      this.userEdit.gender = this.userData.gender
+      this.userEdit.status = this.userData.status
       this.userEdit.association = this.userData.association
       this.userEdit.registrationDate = this.userData.registrationDate
       this.userEdit.deficiency = this.userData.deficiency
+      this.userEdit.displayName = this.userData.displayName
+      this.userEdit.gender = this.userData.gender
+      this.userEdit.email = this.userData.email
       this.userEdit.photoURL = this.userData.photoURL
       this.userEdit.phoneNumber = this.userData.phoneNumber
       this.userEdit.address = this.userData.address
       this.userEdit.place = this.userData.place
+      this.userEdit.profession = this.userData.profession
       this.userEdit.education = this.userData.education
       this.userEdit.profileType = this.userData.profileType
       this.userEdit.description = this.userData.description
+      this.userEdit.education = this.userData.education
       this.userEdit.date = this.userData.date
+
+      this.userAssociation = this.userData.association.label
 
       // this.prof = this.userData.profession
       // alert(this.userEdit.profession)
@@ -447,6 +485,10 @@ export default {
         } else {
           this.userEdit.profileType = this.profileType
           LocalStorage.set("profileType", "")
+        }
+
+        if (this.userEdit.association.value == "other") {
+          this.userEdit.association.label = this.userAssociation
         }
 
         this.editUser({

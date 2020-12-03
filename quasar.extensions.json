@@ -1,42 +1,4 @@
 {
-  "@quasar/icon-genie": {
-    "minify_dev": "pngquant",
-    "minify_build": "zopfli",
-    "cordova": {
-      "background_color": "#ffffff",
-      "splashscreen_type": "generate"
-    },
-    "build_always": false,
-    "__internal": {
-      "dev": {
-        "spa": {
-          "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d"
-        },
-        "pwa": {
-          "iconHash": "092db99ed60892f3cc32aea3b955da85"
-        },
-        "cordova": {
-          "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d",
-          "splashscreenHash": false,
-          "splashscreenType": "generate",
-          "backgroundColor": "#ffffff"
-        }
-      },
-      "build": {
-        "cordova": {
-          "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d",
-          "splashscreenHash": false,
-          "splashscreenType": "generate",
-          "backgroundColor": "#ffffff"
-        },
-        "pwa": {
-          "iconHash": "092db99ed60892f3cc32aea3b955da85"
-        },
-        "spa": {
-          "iconHash": "fbd6a23acf0d98f9fe20d9629da8005d"
-        }
-      }
-    }
-  },
-  "@quasar/qpdfviewer": {}
+  "@quasar/qpdfviewer": {},
+  "@quasar/qmediaplayer": {}
 }

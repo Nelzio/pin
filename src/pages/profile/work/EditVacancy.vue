@@ -228,6 +228,7 @@ export default {
         "Auditoria e Consultoria",
         "Comercial e Vendas",
         "Comunicação Social",
+        "Construção Civil",
         "Design e Multimédia",
         "Engenheiro Electrotécnico",
         "Engenheiro Mecânico",

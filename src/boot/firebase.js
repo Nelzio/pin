@@ -15,15 +15,27 @@ import "firebase/database";
 //     appId: "1:147221850544:web:c9c96cfe62f0665df28e75",
 // };
 
+// const firebaseConfig = {
+//   apiKey: "AIzaSyDAHfnJHuKcTBc7x9VARFcoLH1xFbA1_uM",
+//   authDomain: "superactive-app.firebaseapp.com",
+//   databaseURL: "https://superactive-app.firebaseio.com",
+//   projectId: "superactive-app",
+//   storageBucket: "superactive-app.appspot.com",
+//   messagingSenderId: "199039594724",
+//   appId: "1:199039594724:web:15c0d946bbc3bfc5723cf1",
+//   measurementId: "G-XXBNZNEM7G"
+// };
+
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDAHfnJHuKcTBc7x9VARFcoLH1xFbA1_uM",
-  authDomain: "superactive-app.firebaseapp.com",
-  databaseURL: "https://superactive-app.firebaseio.com",
-  projectId: "superactive-app",
-  storageBucket: "superactive-app.appspot.com",
-  messagingSenderId: "199039594724",
-  appId: "1:199039594724:web:15c0d946bbc3bfc5723cf1",
-  measurementId: "G-XXBNZNEM7G"
+  apiKey: "AIzaSyBPt3E9nlOxP-lpJsZu0exEptI5ukKY1-o",
+  authDomain: "empregoinclusivo-ei.firebaseapp.com",
+  databaseURL: "https://empregoinclusivo-ei.firebaseio.com",
+  projectId: "empregoinclusivo-ei",
+  storageBucket: "empregoinclusivo-ei.appspot.com",
+  messagingSenderId: "900580702829",
+  appId: "1:900580702829:web:a5e2b2e2a2770e9514dd64",
+  measurementId: "G-SD1VMTGYKN"
 };
 
 // const firebaseConfig = {

@@ -145,7 +145,7 @@ module.exports = function (ctx) {
 
     // https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
     cordova: {
-      id: 'org.superactive.app',
+      id: 'org.empregoinclusivo.app',
       noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
     },
 

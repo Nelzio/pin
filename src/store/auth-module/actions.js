@@ -245,9 +245,9 @@ export function registerUser({ commit, dispatch }, payload) {
                             }
                             ref.set(dataUser).then((docRef) => {
                                 // console.log("Updated")
+                                commit('SET_USER_DATA', dataUser)
                                 commit('SET_AUTH_USER', true)
                                 commit('AUTH_USER', userAuthData)
-                                commit('SET_USER_DATA', dataUser);
 
 
                                 Notify.create('A sua conta foi criada com sucesso!')
@@ -379,6 +379,7 @@ export function googleSignInCordova({ commit }) {
                         ref.set(dataUser).then((docRef) => {
                             // console.log("Updated")
                             // // alert("3Problem here");
+                            commit('SET_USER_DATA', dataUser)
                             if (LocalStorage.getItem("routeBack")) {
                                 // // alert("4Problem here");
                                 // vm.$router.go(-1);
@@ -509,7 +510,7 @@ export function googleSignIn({ commit }) {
                 }
 
                 ref.set(dataUser).then((docRef) => {
-                    console.log("Updated")
+                    commit('SET_USER_DATA', dataUser)
                     if (LocalStorage.getItem("routeBack")) {
                         LocalStorage.set("newUser", 1)
                         vm.$router.push("/profile")
@@ -627,9 +628,9 @@ export function facebookSignInCordova({ commit }) {
                             registrationDate: String(today)
                         }
 
+                        commit('SET_USER_DATA', dataUser)
                         ref.set(dataUser).then((docRef) => {
                             // console.log("Updated")
-                            commit('SET_USER_DATA', dataUser);
                             if (LocalStorage.getItem("routeBack")) {
                                 LocalStorage.set("newUser", 1)
                                 vm.$router.push("/profile")
@@ -752,9 +753,9 @@ export function facebookSignIn({ commit }) {
                     registrationDate: String(today)
                 }
 
+                commit('SET_USER_DATA', dataUser)
                 ref.set(dataUser).then((docRef) => {
                     // console.log("Updated")
-                    commit('SET_USER_DATA', dataUser);
                     if (LocalStorage.getItem("routeBack")) {
                         LocalStorage.set("newUser", 1)
                         vm.$router.push("/profile")
@@ -835,11 +836,12 @@ export function editUser({ commit, dispatch }, payload) {
         const data = {
             id: payload.data.id,
             access: payload.data.access,
+            status: payload.data.status,
             association: payload.data.association,
             registrationDate: payload.data.registrationDate,
             deficiency: payload.data.deficiency,
-            gender: payload.data.gender,
             displayName: payload.data.displayName,
+            gender: payload.data.gender,
             email: payload.data.email,
             photoURL: payload.data.photoURL,
             phoneNumber: payload.data.phoneNumber,
@@ -851,6 +853,7 @@ export function editUser({ commit, dispatch }, payload) {
             description: payload.data.description,
             education: payload.data.education,
             date: payload.data.date
+
         }
         commit('SET_USER_DATA', data)
 

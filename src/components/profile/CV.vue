@@ -188,15 +188,12 @@ export default {
 
     onChangeDoc(event) {
       if (!event.target.files) {
-        console.log("Nao Foi")
         return
       }
-      console.log("Foi")
       const files = event.target.files
       let filename = files[0].name
       let file = files[0]
-      console.log("Foi2")
-      console.log(file["type"].split(".")[file["type"].split(".").length - 1])
+      // console.log(file["type"].split(".")[file["type"].split(".").length - 1])
       if (
         !(
           file &&
@@ -206,7 +203,6 @@ export default {
       ) {
         return this.$emit("dialog")
       }
-      console.log("Foiee")
       const fileReader = new FileReader()
       fileReader.readAsDataURL(files[0])
       this.docUpload.doc = files[0]
@@ -214,7 +210,6 @@ export default {
     },
 
     uploadFile(payload, type) {
-      console.log("Hiiiiiiii")
       console.log(payload)
       Loading.show()
       const vm = this
@@ -324,7 +319,7 @@ export default {
     this.$root.$on("uploadCV", function () {
       // vm.dialogCV = val;
       // vm.dialogCVHere = val;
-      console.log(vm.$refs.fileDoc)
+      // console.log(vm.$refs.fileDoc)
       vm.$refs.fileDoc.click()
     })
     // this.$root.$on("cvDialog", function(val) {

@@ -738,6 +738,7 @@ export default {
         "Auditoria e Consultoria",
         "Comercial e Vendas",
         "Comunicação Social",
+        "Construção Civil",
         "Design e Multimédia",
         "Engenheiro Electrotécnico",
         "Engenheiro Mecânico",
@@ -822,7 +823,6 @@ export default {
     },
 
     redirectNewUser() {
-      console.log("Este")
       LocalStorage.set("newUser", 0)
       this.newUser = 0
       this.$router.push("/")
@@ -845,7 +845,6 @@ export default {
       if (this.vibrateState === 1 && this.getVibrate) {
         if (this.synth.speaking) {
           // console.error('speechSynthesis.speaking');
-          // console.log("Teste")
           this.synth.cancel()
           // return;
         }
@@ -1022,14 +1021,9 @@ export default {
 
     if (this.$route.path == "/store" || this.$route.path == "/vacancies")
       this.toSearch = true
-
-    console.log(this.$store.state.settings.appMode + "asas")
   },
 
   watch: {
-    appMode(val) {
-      console.log(val)
-    },
     $route(to, from) {
       // react to route changes...
       this.toSearch = false

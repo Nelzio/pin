@@ -1,13 +1,13 @@
-export function someAction (/* context */) {
+export function someAction(/* context */) {
 }
 
-export function setStart ({ commit }, val) {
+export function setStart({ commit }, val) {
     commit('IS_START', val)
 }
-export function setFont ({ commit }, val) {
+export function setFont({ commit }, val) {
     commit('SET_FONT_SIZE', val)
 }
-export function setAppMode ({ commit, dispatch }, val) {
+export function setAppMode({ commit, dispatch }, val) {
     commit('setAppMode', val)
     let payload
     if (val) {
@@ -34,7 +34,7 @@ export function setAppMode ({ commit, dispatch }, val) {
     // dispatch('appModeSave', val)
 }
 
-export function setVibrate ({ commit }, val) {
+export function setVibrate({ commit }, val) {
     commit('SET_VIBRATE', val)
 }
 
@@ -64,7 +64,7 @@ export function setVibrate ({ commit }, val) {
     //         state.appMode.textColorOptional = 'text-white'
     //     } else {
     //         state.appMode.modeName  = 'light'
-    //         state.appMode.modeColor = '#075e54'
+    //         state.appMode.modeColor = '#001f28'
     //         state.appMode.bgColor    = 'bg-white'
     //         state.appMode.textColor =  'text-teal'
     //         state.appMode.textColorOptional =  'text-black'

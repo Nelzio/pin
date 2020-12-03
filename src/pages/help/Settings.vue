@@ -39,8 +39,8 @@
               Definições de luz
             </div>
             <div :class="getFont.text">
-              Para trocar o modo de claro para escuro ou o contrario para deixar
-              a visão do usuário confortável deve trocar o estado do toggle.
+              Para trocar o modo de claro para escuro e vice versa para deixar a
+              visão do usuário confortável deve trocar o estado do toggle.
             </div>
           </q-card-section>
           <q-card-section v-if="$q.screen.gt.sm" class="col-6 flex flex-center">
@@ -63,12 +63,15 @@
               Definições de acessibilidade
             </div>
             <div :class="getFont.text">
-              A principal configuração de acessibilidade do aplicativo é o modo
-              acessibilidade que conduz o usuário entre as páginas do aplicativo
-              emitindo som e vibrando.
-              <br />Para desativar e ativar o modo acessibilidade do aplicativo
-              deve mudar o status do modo acessibilidade na página de
-              definições.
+              <p>
+                A principal configuração de acessibilidade do aplicativo é o
+                modo acessibilidade que conduz o usuário entre as páginas do
+                aplicativo emitindo som e vibrando.
+              </p>
+              <p>
+                Para desativar e ativar o modo acessibilidade do aplicativo deve
+                mudar o status do modo acessibilidade na página de definições.
+              </p>
             </div>
           </q-card-section>
           <q-card-section v-if="$q.screen.gt.sm" class="col-6 flex flex-center">
@@ -91,11 +94,15 @@
               Definições de texto
             </div>
             <div :class="getFont.text">
-              O tamanho do texto pode ser alterado para deixar o usuário mais
-              confortável na leitura.
-              <br />Para Trocar a tamanho do texto das páginas do aplicativo
-              toque/clique em tamanho de texto e no popup que abrir, selecione o
-              tamanho de texto desejado.
+              <p>
+                O tamanho do texto pode ser alterado para deixar o usuário mais
+                confortável na leitura.
+              </p>
+              <p>
+                Para Trocar a tamanho do texto das páginas do aplicativo
+                toque/clique em tamanho de texto e no popup que abrir, selecione
+                o tamanho de texto desejado.
+              </p>
             </div>
           </q-card-section>
           <q-card-section v-if="$q.screen.gt.sm" class="col-6 flex flex-center">

@@ -1,13 +1,10 @@
 <template>
   <div>
-    <VideoPlayer
-      v-if="playerOptions.sources.length"
-      class="vjs-custom-skin"
-      :options="playerOptions"
-      :playsinline="true"
-      role="video"
-      lang="pt-PT"
-      aria-label="Video de perfil"
+    <q-media-player
+      v-if="videoUrl"
+      type="video"
+      :sources="sources"
+      mobile-mode
     />
   </div>
 </template>
@@ -27,33 +24,25 @@ export default {
   props: ["videoUrl"],
   data() {
     return {
-      playerOptions: {
-        autoplay: false, // 自动播放，false
-        controls: true, // 控制条
-        preload: "auto", // 预加载
-        language: "zh-CN",
-        fluid: true,
-        notSupportedMessage: "Video nao suportado",
-        // hls直播
-        sources: [],
-        controlBar: {
-          timeDivider: false,
-          remainingTimeDisplay: false,
-          currentTimeDisplay: false,
-          durationDisplay: false,
-        },
-      },
+      poster: "media/TearsOfSteel/TearsOfSteel.jpeg",
+      sources: null,
     }
   },
   computed() {},
+  methods: {
+    getStorageFileType(file) {
+      const name = file.split("%2F")[1].split("?")[0]
+      const type = "video/" + name.split(".")[name.split(".").length - 1]
+      return type
+    },
+  },
   mounted() {
     // console.log(this.videoUrl);
     // console.log(this.playerOptions.sources);
-    this.playerOptions.sources = [
+    this.sources = [
       {
-        withCredentials: false,
-        type: "video/mp4",
         src: this.videoUrl,
+        type: this.getStorageFileType(this.videoUrl),
       },
     ]
   },

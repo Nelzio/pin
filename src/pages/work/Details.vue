@@ -128,7 +128,7 @@
               outline
               color="green"
               label="Candidatar"
-              @click="aply()"
+              @click="apply()"
               role="button"
             />
             <q-btn
@@ -347,7 +347,7 @@ export default {
               this.deleteCandidate()
               this.submitGo = true
             } else {
-              // this.aply();
+              // this.apply();
               Loading.hide()
               this.submitGo = true
               this.userData["evaluators"] = []
@@ -367,7 +367,7 @@ export default {
       }
     },
 
-    getAply() {
+    getapply() {
       const ref = firestoreDB
         .collection("vacancies")
         .doc(this.$route.params.id)
@@ -383,7 +383,7 @@ export default {
       })
     },
 
-    aply() {
+    apply() {
       this.userData["evaluators"] = []
       this.userData["submittedDate"] = new Date()
       this.aplyVacancyMethod({ id: this.$route.params.id, data: this.userData })
@@ -419,7 +419,7 @@ export default {
             }
           }
           this.applyDialog = false
-          this.getAply()
+          this.getapply()
           if (!this.vibrateState) {
             setTimeout(() => {
               vm.applyDialogDone = true
@@ -454,7 +454,7 @@ export default {
               this.speak("Candidatura removida com sucesso.")
             }
           }
-          this.getAply()
+          this.getapply()
           if (!this.vibrateState) {
             setTimeout(() => {
               vm.applyDialogDone = true
@@ -474,7 +474,7 @@ export default {
   },
   mounted() {
     if (this.user && this.isUserAuth) {
-      this.getAply()
+      this.getapply()
     }
 
     if (this.vibrateState === 1 && this.getVibrate)

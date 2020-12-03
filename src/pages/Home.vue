@@ -292,7 +292,12 @@ export default {
     vibrateMode(val) {
       this.vibrateApp()
       if (val) {
-        var textToSpeechRouter = "Modo acessibilidade ativo"
+        var textToSpeechRouter = "Modo acessibilidade ativado"
+        if (window.hasOwnProperty("cordova")) {
+          navigator.vibrate(200)
+        } else {
+          window.navigator.vibrate(200)
+        }
       } else {
         var textToSpeechRouter = "Modo acessibilidade desativado"
       }

@@ -1,7 +1,7 @@
 {
   "projects": {
-    "main": "superativo-app",
-    "default": "superativo-app",
-    "host": "superactive-app"
+    "main": "empregoinclusivo-ei",
+    "default": "empregoinclusivo-ei",
+    "host": "empregoinclusivo-ei"
   }
 }
