@@ -65,7 +65,8 @@ export default {
                 var refSender = firestoreDB
                   .collection("chat")
                   .doc(this.user.email.split("@")[0])
-                  .collection(element)
+                  .collection(element.split("@")[0])
+                // console.log(element)
                 refSender.onSnapshot(function (querySnapshot) {
                   chatData = []
                   querySnapshot.forEach(function (doc) {

@@ -27,127 +27,129 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import { firestoreDB } from "boot/firebase";
+import { mapState, mapActions, mapGetters } from "vuex"
+import { firestoreDB } from "boot/firebase"
 export default {
   // props: ["readed"],
-  data () {
+  data() {
     return {
       numMessage: 0,
       haveMessage: false,
       notification: false,
-      readed: false
-    };
+      readed: false,
+    }
   },
   computed: {
     ...mapGetters("auth", ["isUserAuth", "user", "userData"]),
-    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"])
+    ...mapState("settings", ["appMode", "darkModeConf", "vibrateState"]),
   },
   methods: {
-    getChat () {
-      const vm = this;
+    getChat() {
+      const vm = this
       const ref = firestoreDB
         .collection("chat")
-        .doc(vm.userData.email.split("@")[0]);
-      var chatDataObj = {};
-      var arrayToCountMessage = [];
+        .doc(vm.userData.email.split("@")[0])
+      var chatDataObj = {}
+      var arrayToCountMessage = []
 
       ref.onSnapshot(function (doc) {
         if (doc.exists) {
-          vm.haveMessage = true;
-          doc.data().peopleChat.forEach(element => {
-            // console.log(element);
-            vm.countVal(element);
-          });
+          vm.haveMessage = true
+          doc.data().peopleChat.forEach((element) => {
+            console.log(element)
+            vm.countVal(element)
+          })
+        } else {
+          console.log("Nao deu")
         }
-      });
+      })
     },
-    getChatRead () {
-      const vm = this;
+    getChatRead() {
+      const vm = this
       const ref = firestoreDB
         .collection("chat")
-        .doc(vm.userData.email.split("@")[0]);
-      var chatDataObj = {};
-      var arrayToCountMessage = [];
+        .doc(vm.userData.email.split("@")[0])
+      var chatDataObj = {}
+      var arrayToCountMessage = []
 
       ref.get().then(function (doc) {
         if (doc.exists) {
-          vm.haveMessage = true;
-          doc.data().peopleChat.forEach(element => {
-            console.log(element);
-            vm.countVal(element);
-          });
+          vm.haveMessage = true
+          doc.data().peopleChat.forEach((element) => {
+            console.log(element)
+            vm.countVal(element)
+          })
         }
-      });
+      })
     },
 
-    countValToRead (val) {
-      const vm = this;
-      let time = 1000;
+    countValToRead(val) {
+      const vm = this
+      let time = 1000
       var refToCount = firestoreDB
         .collection("chat")
         .doc(vm.userData.email.split("@")[0])
-        .collection(val);
+        .collection(val)
       refToCount
         .where("readed", "==", false)
         .get()
         .then(function (querySnap) {
-          vm.numMessage = querySnap.length;
-          vm.notification = false;
+          vm.numMessage = querySnap.length
+          vm.notification = false
           // console.log(querySnap.length)
-          querySnap.forEach(doc => {
+          querySnap.forEach((doc) => {
             if (!doc.data().readed && doc.data().sender !== vm.userData.email) {
               setTimeout(() => {
-                vm.notification = true;
-                console.log(doc.data());
-                console.log(vm.notification);
-              }, time);
-              console.log("Antes");
-              return;
-              console.log("Depois");
+                vm.notification = true
+                console.log(doc.data())
+                console.log(vm.notification)
+              }, time)
+              console.log("Antes")
+              return
+              console.log("Depois")
             }
-            time += 100;
-          });
-        });
+            time += 100
+          })
+        })
     },
 
-    countVal (val) {
-      const vm = this;
-      let time = 1000;
-      let notification = false;
+    countVal(val) {
+      const vm = this
+      let time = 1000
+      let notification = false
       var refToCount = firestoreDB
         .collection("chat")
         .doc(vm.userData.email.split("@")[0])
-        .collection(val);
+        .collection(val)
       refToCount.where("readed", "==", false).onSnapshot(function (querySnap) {
-        vm.numMessage = querySnap.length;
-        vm.notification = false;
-        notification = false;
+        vm.numMessage = querySnap.length
+        vm.notification = false
+        notification = false
         // console.log(querySnap.length)
-        querySnap.forEach(doc => {
+        querySnap.forEach((doc) => {
           if (!doc.data().readed && doc.data().sender !== vm.userData.email) {
-            vm.notification = true;
-            notification = true;
+            vm.notification = true
+            notification = true
             // console.log(doc.data());
             // console.log(vm.notification);
             // console.log("Antes");
-            return;
+            return
             // console.log("Depois");
           }
-          time += 100;
-        });
+          time += 100
+        })
         setTimeout(() => {
           // console.log(vm.notification)
           // console.log(notification)
           if (notification) {
-            vm.notification = true;
-            notification = false;
+            vm.notification = true
+            notification = false
             return
           }
           // console.log(vm.notification)
-        }, 5000);
-      });
-    }
+        }, 5000)
+      })
+    },
 
     // countValOnRead(val) {
     //   const vm = this;
@@ -191,24 +193,24 @@ export default {
     //     });
     // }
   },
-  mounted () {
-    let vm = this;
-    if (this.isUserAuth) this.getChat();
-    this.$root.$on("countMessages", val => {
-      this.readed = true;
-      // console.log("heyyyyy");
-    });
+  mounted() {
+    let vm = this
+    if (this.isUserAuth) this.getChat()
+    // this.$root.$on("countMessages", (val) => {
+    //   this.readed = true
+    //   // console.log("heyyyyy");
+    // })
   },
   watch: {
-    readed (val) {
+    readed(val) {
       if (val) {
         // this.getChat()
-        this.getChatRead();
-        this.readed = false;
+        this.getChatRead()
+        this.readed = false
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style lang="stylus">

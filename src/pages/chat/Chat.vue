@@ -301,7 +301,7 @@ export default {
         const audioBlob = new Blob(this.audioChunks)
         // this.audioUrl = {audio: URL.createObjectURL(audioBlob), time: vm.timer.ss}
         // // this.audioUrl = {audio: audioBlob, time: vm.timer.ss}
-        console.log(this.audioUrl)
+        // console.log(this.audioUrl)
         // this.sendMessageVoice(this.audioUrl)
         this.uploadFile(audioBlob)
       })
@@ -557,7 +557,7 @@ export default {
 
               const refDocRecep = firestoreDB
                 .collection("chat")
-                .doc(vm.$route.params.idReceptor)
+                .doc(vm.$route.params.idReceptor.split("@")[0])
               refDocRecep.get().then((docRecep) => {
                 if (docRecep.exists) {
                   if (!docRecep.data().peopleChat) {
@@ -627,7 +627,7 @@ export default {
         function () {
           // Upload completed successfully, now we can get the download URL
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-            console.log("File available at", downloadURL)
+            // console.log("File available at", downloadURL)
             vm.sendMessageVoice({
               audioUrl: downloadURL,
               time: vm.timer.ss,

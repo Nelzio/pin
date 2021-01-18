@@ -1,5 +1,33 @@
 <template>
-  <div>
+  <div class="q-pb-md q-pt-md">
+    <!-- <q-item v-if="showCV" clickable @click="getCV()">
+      <q-item-section top avatar>
+        <q-icon :color="darkModeConf.iconVar" name="visibility" />
+      </q-item-section>
+      <q-item-section>Ver</q-item-section>
+    </q-item>
+    <q-item clickable @click="selectFile()">
+      <q-item-section top avatar>
+        <q-icon :color="darkModeConf.iconVar" name="upload_file" />
+      </q-item-section>
+      <q-item-section>Carregar</q-item-section>
+    </q-item> -->
+    <q-card class="my-card shadow-8">
+      <q-item
+        class="text-left"
+        @click="optionsDialog = !optionsDialog"
+        clickable
+        v-ripple
+      >
+        <q-item-section avatar top>
+          <q-icon :color="darkModeConf.iconVar" name="school" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label :class="getFont.title">Curriculum</q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-card>
+
     <q-form class="q-gutter-md" ref="storeForm" role="form">
       <input
         id="fileInput"
@@ -93,7 +121,7 @@
 
             <q-toolbar-title
               shrink
-              class="row items-center no-wrap text-primary text-h5 text-weight-bolder title-font"
+              class="row items-center no-wrap text-h5 text-weight-bolder title-font"
               >Curriculum</q-toolbar-title
             >
 
@@ -110,7 +138,7 @@
               aria-label="Trocar CV"
               role="button"
               size="lg"
-              @click="processFile('doc')"
+              @click="selectFile()"
             />
           </q-toolbar>
           <q-card-section class="container">
@@ -122,6 +150,53 @@
               inner-content-class="fit container"
             />
           </q-card-section>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog
+        v-model="optionsDialog"
+        lang="pt-PT"
+        aria-label="Opções de Curriculum"
+        role="dialog"
+      >
+        <q-card style="width: 80vw">
+          <q-card-section class="row items-center q-pb-none">
+            <div class="text-h6">Curriculum Vitae</div>
+            <q-space />
+            <q-btn icon="close" flat round dense v-close-popup />
+          </q-card-section>
+          <q-list separator class="q-pa-sm q-gutter-y-md">
+            <q-card class="my-card" v-if="showCV">
+              <q-item
+                clickable
+                v-ripple
+                @click="getCV()"
+                lang="pt-PT"
+                aria-label="Ver CV"
+                role="button"
+              >
+                <q-item-section avatar>
+                  <q-icon :color="darkModeConf.iconVar" name="visibility" />
+                </q-item-section>
+                <q-item-section>Abrir</q-item-section>
+              </q-item>
+            </q-card>
+            <q-card class="my-card">
+              <q-item
+                clickable
+                v-ripple
+                @click="selectFile()"
+                lang="pt-PT"
+                aria-label="Carregar CV"
+                role="button"
+              >
+                <q-item-section avatar>
+                  <q-icon :color="darkModeConf.iconVar" name="upload_file" />
+                </q-item-section>
+                <q-item-section>Carregar</q-item-section>
+              </q-item>
+            </q-card>
+          </q-list>
         </q-card>
       </q-dialog>
     </div>
@@ -141,6 +216,7 @@ export default {
   props: ["dialogCV"],
   data() {
     return {
+      optionsDialog: false,
       show: true,
       curriculumDownload: {
         key: "",
@@ -153,6 +229,7 @@ export default {
         doc: null,
         user: "",
       },
+      showCV: false,
     }
   },
   components: { pdf },
@@ -162,6 +239,20 @@ export default {
     ...mapGetters("settings", ["getFont", "getVibrate"]),
   },
   methods: {
+    selectFile() {
+      this.$refs.fileDoc.click()
+    },
+
+    verifyCV() {
+      const cvRef = firestoreDB.collection("curriculum").doc(this.user.email)
+
+      cvRef.onSnapshot((doc) => {
+        if (doc.exists) {
+          this.showCV = true
+        }
+      })
+    },
+
     curriculumDB(payload) {
       Loading.show()
       const vm = this
@@ -267,6 +358,7 @@ export default {
                   docUrl: downloadURL,
                   user: vm.userData.email,
                 })
+                vm.optionsDialog = false
               })
           })
         }
@@ -292,9 +384,9 @@ export default {
               user: doc.data().user,
             }
 
-            console.log(vm.curriculumDownload.docUrl)
+            // console.log(vm.curriculumDownload.docUrl)
             // vm.curriculumDownload.docUrl = "https://cdn.mozilla.net/pdfjs/tracemonkey.pdf";
-
+            vm.optionsDialog = false
             vm.dialogCVHere = true
             Loading.hide()
           } else {
@@ -311,17 +403,18 @@ export default {
   mounted() {
     const vm = this
     this.docUpload.user = this.userData.email
-    this.$root.$on("cvDialog", function (val) {
-      // vm.dialogCV = val;
-      // vm.dialogCVHere = val;
-      vm.getCV()
-    })
-    this.$root.$on("uploadCV", function () {
-      // vm.dialogCV = val;
-      // vm.dialogCVHere = val;
-      // console.log(vm.$refs.fileDoc)
-      vm.$refs.fileDoc.click()
-    })
+    this.verifyCV()
+    // this.$root.$on("cvDialog", function (val) {
+    //   // vm.dialogCV = val;
+    //   // vm.dialogCVHere = val;
+    //   vm.getCV()
+    // })
+    // this.$root.$on("uploadCV", function () {
+    //   // vm.dialogCV = val;
+    //   // vm.dialogCVHere = val;
+    //   // console.log(vm.$refs.fileDoc)
+    //   vm.$refs.fileDoc.click()
+    // })
     // this.$root.$on("cvDialog", function(val) {
     // 	// vm.dialogCV = val;
     // 	vm.dialogCVHere = val;

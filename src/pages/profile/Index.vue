@@ -177,61 +177,9 @@
                     </q-item-section>
                   </q-item>
 
-                  <q-separator spaced inset="item" />
+                  <!-- <q-separator spaced inset="item" /> -->
 
-                  <q-item class="text-left">
-                    <q-item-section avatar top>
-                      <q-icon :color="darkModeConf.iconVar" name="school" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label :class="getFont.title"
-                        >Curiculum</q-item-label
-                      >
-                    </q-item-section>
-                    <q-item-section top side>
-                      <div class="text-grey-8 q-gutter-xs">
-                        <q-btn flat dense round icon="more_vert">
-                          <q-menu persistent auto-close>
-                            <q-list style="min-width: 100px">
-                              <q-item
-                                clickable
-                                @click="$root.$emit('cvDialog', true)"
-                              >
-                                <q-item-section top avatar>
-                                  <q-icon
-                                    :color="darkModeConf.iconVar"
-                                    name="visibility"
-                                  />
-                                </q-item-section>
-                                <q-item-section>Ver</q-item-section>
-                              </q-item>
-                              <q-item
-                                clickable
-                                @click="$root.$emit('uploadCV')"
-                              >
-                                <q-item-section top avatar>
-                                  <q-icon
-                                    :color="darkModeConf.iconVar"
-                                    name="upload_file"
-                                  />
-                                </q-item-section>
-                                <q-item-section>Carregar</q-item-section>
-                              </q-item>
-                              <q-item clickable>
-                                <q-item-section top avatar>
-                                  <q-icon
-                                    :color="darkModeConf.iconVar"
-                                    name="delete"
-                                  />
-                                </q-item-section>
-                                <q-item-section>Apagar</q-item-section>
-                              </q-item>
-                            </q-list>
-                          </q-menu>
-                        </q-btn>
-                      </div>
-                    </q-item-section>
-                  </q-item>
+                  <CV @dialog="errorDocumentUpload" />
                 </q-list>
               </q-tab-panel>
               <q-tab-panel
@@ -442,9 +390,9 @@
       </div>
     </div>
     <!-- div para pdf component -->
-    <div>
+    <!-- <div>
       <CV @dialog="errorDocumentUpload" />
-    </div>
+    </div> -->
     <div>
       <q-dialog
         v-model="dialogAddProfile"

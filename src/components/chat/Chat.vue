@@ -30,7 +30,7 @@
         role="audio"
       >
         <q-card class="q-pt-none q-pb-none voice">
-          <q-card-section
+          <!-- <q-card-section
             class="row items-center no-wrap q-pt-none q-pl-none q-pb-none"
           >
             <q-btn
@@ -44,7 +44,20 @@
               role="button"
             />
             <q-linear-progress :value="progress" color="primary" />
-          </q-card-section>
+          </q-card-section> -->
+          <q-media-player
+            type="audio"
+            :sources="[
+              {
+                src: message.audio.audioUrl,
+                type: 'audio/mp3',
+              },
+            ]"
+            color="white"
+            background-color="primary"
+            dense
+            hide-volume-slider
+          />
         </q-card>
       </q-chat-message>
     </div>
@@ -77,7 +90,7 @@
         role="audio"
       >
         <q-card class="q-pt-none q-pb-none voice">
-          <q-card-section
+          <!-- <q-card-section
             class="row items-center no-wrap q-pt-none q-pl-none q-pb-none"
           >
             <q-btn
@@ -91,7 +104,20 @@
               role="button"
             />
             <q-linear-progress :value="progress" color="primary" />
-          </q-card-section>
+          </q-card-section> -->
+          <q-media-player
+            type="audio"
+            :sources="[
+              {
+                src: message.audio.audioUrl,
+                type: 'audio/mp3',
+              },
+            ]"
+            color="white"
+            background-color="primary"
+            dense
+            hide-volume-slider
+          />
         </q-card>
       </q-chat-message>
     </div>
@@ -141,11 +167,11 @@ export default {
       const vm = this
       if (pausedTime > 0) i = pausedTime
       var inte = 100 / (100 * val)
-      console.log("Nigga")
+      // console.log("Nigga")
       this.counter = setInterval(() => {
         i += inte
         if (i >= 1) {
-          console.log("done")
+          // console.log("done")
           stopInter()
           this.progress = 0
           this.pausedTime = 0
@@ -153,7 +179,7 @@ export default {
           return
         }
         this.progress = i
-        console.log(i)
+        // console.log(i)
       }, 1000)
 
       function stopInter() {
